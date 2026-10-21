@@ -99,7 +99,8 @@ the rest of Overtalk.
 ## Native workspace integrations
 
 Optional screen capture uses CapSoftware's `scap` 0.0.8 under MIT. Credential
-storage uses `keyring` 3.6.3 under MIT or Apache-2.0. Their notices are retained in
+storage uses `keyring` 4.2.0 with keyring-core and its platform credential stores, all
+under MIT or Apache-2.0 from the keyring developers. Their notices are retained in
 `native/assets/LICENSE.scap`, `LICENSE.keyring-MIT` and
 `LICENSE.keyring-Apache-2.0`, and the native Linux installer includes them.
 
