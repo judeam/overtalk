@@ -505,15 +505,20 @@ fn word_filename(title: &str) -> Result<String, String> {
         format!("{name}.docx")
     })
 }
+/// The Graph path of a `drive/item` target. `normalize` only accepts Microsoft
+/// targets in that form, but a target without an item is refused here too.
+fn graph_item(target: &str) -> Result<String, String> {
+    let mut parts = target.split('/');
+    match (parts.next(), parts.next()) {
+        (Some(drive), Some(item)) => Ok(format!("drives/{drive}/items/{item}")),
+        _ => Err("Choose a OneDrive or SharePoint document".into()),
+    }
+}
 async fn graph_metadata(c: &Connection, target: &str) -> Result<Value, String> {
     api(
         c,
         Method::GET,
-        &format!(
-            "drives/{}/items/{}",
-            target.split('/').next().unwrap(),
-            target.split('/').nth(1).unwrap()
-        ),
+        &graph_item(target)?,
         &[("$select", "id,name,eTag,webUrl,file,folder,size".into())],
         None,
     )
@@ -553,11 +558,7 @@ async fn graph_download(c: &Connection, target: &str) -> Result<Vec<u8>, String>
     let mut response = request(
         c,
         Method::GET,
-        &format!(
-            "drives/{}/items/{}/content",
-            target.split('/').next().unwrap(),
-            target.split('/').nth(1).unwrap()
-        ),
+        &format!("{}/content", graph_item(target)?),
         &[],
         None,
     )
@@ -808,6 +809,11 @@ mod tests {
                 .unwrap(),
             "2026-10-17T12:00:00+00:00"
         );
+    }
+    #[test]
+    fn microsoft_targets_without_an_item_are_refused() {
+        assert_eq!(graph_item("drive/item").unwrap(), "drives/drive/items/item");
+        assert!(graph_item("drive").is_err());
     }
     #[test]
     fn word_titles_cannot_be_paths() {
