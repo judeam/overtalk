@@ -129,9 +129,15 @@ jobs:
         run: python scripts/generate-native-dispatch.py --check
       - name: UI, protocol, document and idle-render regressions
         run: cargo test --locked -p overtalk-native -p overtalk-protocol -p overtalk-documents -p overtalk-voice-memory -p overtalk-capture -p overtalk-browser-bridge -p overtalk-worker-sandbox -p overtalk-cli -p overtalk-library-reads
-      - name: Show sandbox denials after a macOS failure
+      - name: Show sandbox denials and crash reports after a macOS failure
         if: failure() && runner.os == 'macOS'
-        run: log show --last 20m --style compact --predicate 'sender == "Sandbox" OR eventMessage CONTAINS "deny("' | tail -80
+        run: |
+          log show --last 20m --style compact --predicate 'sender == "Sandbox" OR eventMessage CONTAINS "deny("' | grep -v 'System Policy' | tail -40 || true
+          for report in $(ls -t ~/Library/Logs/DiagnosticReports/*.ips /Library/Logs/DiagnosticReports/*.ips 2>/dev/null | head -3); do
+            echo "== $report"
+            head -c 12000 "$report"
+            echo
+          done
       - run: cargo clippy --locked --release --workspace --all-targets -- -D warnings
       - name: Build native application and engine
         run: cargo build --locked --release -p overtalk-native -p sonefold -p overtalk-capture -p overtalk-browser-bridge -p overtalk-worker-sandbox --bin overtalk --bin sonefold-service --bin overtalk-capture --bin overtalk-browser-bridge --bin overtalk-worker --example verify_workflows --example verify_playback --example visual_review --example benchmark_ui

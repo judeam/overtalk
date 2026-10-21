@@ -485,13 +485,20 @@ fn close_inherited_descriptors() -> io::Result<()> {
 fn safe_environment(command: &mut Command, policy: &Policy) {
     command.env_clear();
     for (name, value) in std::env::vars_os() {
-        let key = name.to_string_lossy();
+        let mut key = name.to_string_lossy().into_owned();
+        // Windows names ignore case and arrive as `SystemRoot` and `windir`.
+        if cfg!(windows) {
+            key.make_ascii_uppercase();
+        }
+        // Windows points LOCALAPPDATA at the AppContainer's own folder and
+        // refuses to start an AppContainer process without it.
         if matches!(
-            key.as_ref(),
+            key.as_str(),
             "LD_LIBRARY_PATH"
                 | "DYLD_LIBRARY_PATH"
                 | "SYSTEMROOT"
                 | "WINDIR"
+                | "LOCALAPPDATA"
                 | "CUDA_VISIBLE_DEVICES"
                 | "CUDA_MPS_PIPE_DIRECTORY"
                 | "CUDA_MPS_LOG_DIRECTORY"
