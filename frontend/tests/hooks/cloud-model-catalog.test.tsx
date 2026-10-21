@@ -1,5 +1,4 @@
 import { afterEach, beforeEach, expect, mock, test } from 'bun:test';
-import React from 'react';
 import { act, create } from 'react-test-renderer';
 
 type Reply = { id: string }[];

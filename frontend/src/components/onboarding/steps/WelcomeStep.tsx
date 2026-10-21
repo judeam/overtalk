@@ -1,4 +1,3 @@
-import React from 'react';
 import { OnboardingContainer } from '../OnboardingContainer';
 import { useOnboarding } from '@/contexts/OnboardingContext';
 import { BrandMark } from '@/components/brand/BrandMark';

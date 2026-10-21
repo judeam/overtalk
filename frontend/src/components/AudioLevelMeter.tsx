@@ -1,4 +1,3 @@
-import React from 'react';
 
 interface AudioLevelMeterProps {
   rmsLevel: number;    // 0.0 to 1.0

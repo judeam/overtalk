@@ -39,7 +39,7 @@ interface SummaryPanelProps {
   };
   meetingTitle: string;
   isSummaryDirty: boolean;
-  summaryRef: RefObject<BlockNoteSummaryViewRef>;
+  summaryRef: RefObject<BlockNoteSummaryViewRef | null>;
   isSaving: boolean;
   onSaveAll: () => Promise<void>;
   onCopySummary: () => Promise<void>;

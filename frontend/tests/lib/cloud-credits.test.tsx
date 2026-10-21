@@ -1,5 +1,4 @@
 import { afterEach, expect, mock, test } from 'bun:test';
-import React from 'react';
 import { act, create } from 'react-test-renderer';
 
 const calls: { command: string; args: any; resolve: (value: any) => void }[] = [];

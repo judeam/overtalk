@@ -36,7 +36,7 @@ export const BlockNoteSummaryView = forwardRef<BlockNoteSummaryViewRef, Props>(f
   const initialized = useRef(false);
   const savedSignature = useRef('');
   const alive = useRef(true);
-  const saveTimer = useRef<ReturnType<typeof setTimeout>>();
+  const saveTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const persist = useRef(props.onSave); persist.current = props.onSave;
 
   const flush = useCallback(async () => {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { SettingsSection, SettingsRow, SettingsLoading } from '@/components/settings/SettingsSection';
 import { Switch } from '@/components/ui/switch';

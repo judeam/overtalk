@@ -267,7 +267,7 @@ export default function PageContent({
 
   // The playhead glides to a chosen moment; during playback it follows the audio frame by frame.
   const [gliding, setGliding] = useState(false);
-  const glideTimer = useRef<number>();
+  const glideTimer = useRef<number | undefined>(undefined);
   const select = (id: string, seconds: number) => {
     settledRef.current = true;
     setSelectedId(id);

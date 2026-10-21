@@ -1,5 +1,4 @@
 import { expect, test } from 'bun:test';
-import React from 'react';
 import { act, create } from 'react-test-renderer';
 import { useWorkspacePreference } from '../../src/hooks/useWorkspacePreference';
 

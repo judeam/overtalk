@@ -1,5 +1,4 @@
 import { expect, mock, test } from 'bun:test';
-import React from 'react';
 import { act, create } from 'react-test-renderer';
 import type { MeetingTimeline } from '../../src/lib/session';
 
