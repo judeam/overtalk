@@ -16,7 +16,7 @@ use super::capture::CoreAudioCapture;
 /// Stream backend implementation
 pub enum StreamBackend {
     /// CPAL-based stream (ScreenCaptureKit or default)
-    Cpal(Stream),
+    Cpal(CpalStreamThread),
     #[cfg(target_os = "linux")]
     Pulse(super::devices::platform::linux::PulseCapture),
     /// Core Audio direct implementation (macOS only)
@@ -26,18 +26,93 @@ pub enum StreamBackend {
     },
 }
 
-// SAFETY: While Stream doesn't implement Send, we ensure it's only accessed
-// from the same thread context by using spawn_blocking for operations that cross thread boundaries
-unsafe impl Send for StreamBackend {}
+/// A cpal input stream confined to the thread that created it.
+///
+/// cpal makes `Stream` `!Send` on every platform, so portable code may not move
+/// one between threads. Recording moves its streams between tokio workers and
+/// the global recording manager, so the stream itself stays on one dedicated
+/// thread that builds, plays, pauses and drops it. This handle only carries the
+/// stop signal; stopping or dropping it waits for that thread, so the callbacks
+/// and everything they captured are released when it returns.
+pub struct CpalStreamThread {
+    stop_signal: Option<std::sync::mpsc::Sender<()>>,
+    thread: Option<std::thread::JoinHandle<()>>,
+}
+
+impl CpalStreamThread {
+    /// Builds and plays the stream on its own thread; returns once it is playing.
+    async fn start(
+        device: Device,
+        config: SupportedStreamConfig,
+        capture: AudioCapture,
+        device_name: String,
+    ) -> Result<Self> {
+        let (started_tx, started_rx) = tokio::sync::oneshot::channel::<Result<()>>();
+        let (stop_tx, stop_rx) = std::sync::mpsc::channel::<()>();
+        let thread = std::thread::Builder::new()
+            .name("sonefold-audio-input".into())
+            .spawn(move || {
+                let stream = match AudioStream::build_stream(&device, &config, capture) {
+                    Ok(stream) => stream,
+                    Err(error) => {
+                        let _ = started_tx.send(Err(error));
+                        return;
+                    }
+                };
+                if let Err(error) = stream.play() {
+                    let _ = started_tx.send(Err(error.into()));
+                    return;
+                }
+                info!("CPAL stream started for device: {}", device_name);
+                if started_tx.send(Ok(())).is_ok() {
+                    // Returns on stop() or when the handle is dropped.
+                    let _ = stop_rx.recv();
+                }
+                // CRITICAL: Pause the stream first to stop callbacks immediately
+                // This ensures closures stop executing before we drop the stream,
+                // allowing Arc references captured in callbacks to be released
+                if let Err(e) = stream.pause() {
+                    warn!("Failed to pause stream before drop: {}", e);
+                }
+                info!("Stream paused, now dropping to release callbacks");
+                drop(stream);
+            })?;
+        let handle = Self {
+            stop_signal: Some(stop_tx),
+            thread: Some(thread),
+        };
+        match started_rx.await {
+            Ok(Ok(())) => Ok(handle),
+            Ok(Err(error)) => Err(error),
+            Err(_) => Err(anyhow::anyhow!(
+                "Audio input thread stopped before the stream started"
+            )),
+        }
+    }
+
+    /// Signals the owning thread and waits until it has paused and dropped the stream.
+    fn stop(&mut self) {
+        // Closing the channel wakes the thread whether or not it is waiting yet.
+        self.stop_signal.take();
+        if let Some(thread) = self.thread.take() {
+            if thread.join().is_err() {
+                error!("Audio input thread panicked while stopping its stream");
+            }
+        }
+    }
+}
+
+impl Drop for CpalStreamThread {
+    fn drop(&mut self) {
+        self.stop();
+    }
+}
 
 /// Simplified audio stream wrapper with multi-backend support
 pub struct AudioStream {
     device: Arc<AudioDevice>,
     backend: StreamBackend,
 }
-
-// SAFETY: AudioStream contains StreamBackend which we've marked as Send
-unsafe impl Send for AudioStream {}
 
 impl AudioStream {
     /// Create a new audio stream for the given device
@@ -162,12 +237,9 @@ impl AudioStream {
             recording_sender,
         );
 
-        // Build the appropriate stream based on sample format
-        let stream = Self::build_stream(&cpal_device, &config, capture.clone())?;
-
-        // Start the stream
-        stream.play()?;
-        info!("CPAL stream started for device: {}", device.name);
+        // Build and start the stream on the thread that will own it
+        let stream =
+            CpalStreamThread::start(cpal_device, config, capture, device.name.clone()).await?;
 
         Ok(Self {
             device,
@@ -375,16 +447,7 @@ impl AudioStream {
         match self.backend {
             #[cfg(target_os = "linux")]
             StreamBackend::Pulse(stream) => drop(stream),
-            StreamBackend::Cpal(stream) => {
-                // CRITICAL: Pause the stream first to stop callbacks immediately
-                // This ensures closures stop executing before we drop the stream,
-                // allowing Arc references captured in callbacks to be released
-                if let Err(e) = stream.pause() {
-                    warn!("Failed to pause stream before drop: {}", e);
-                }
-                info!("Stream paused, now dropping to release callbacks");
-                drop(stream);
-            }
+            StreamBackend::Cpal(mut stream) => stream.stop(),
             #[cfg(target_os = "macos")]
             StreamBackend::CoreAudio { task } => {
                 // Abort the processing task and wait briefly for cleanup
@@ -412,9 +475,6 @@ pub struct AudioStreamManager {
     system_stream: Option<AudioStream>,
     state: Arc<RecordingState>,
 }
-
-// SAFETY: AudioStreamManager contains AudioStream which we've marked as Send
-unsafe impl Send for AudioStreamManager {}
 
 impl AudioStreamManager {
     pub fn new(state: Arc<RecordingState>) -> Self {
@@ -565,5 +625,49 @@ impl Drop for AudioStreamManager {
         if let Err(e) = self.stop_streams() {
             error!("Error stopping streams during drop: {}", e);
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::time::Duration;
+
+    /// Needs a real capture device, so it is opt-in. On Linux, pin cpal's ALSA
+    /// `pipewire` device to a private virtual source rather than a microphone:
+    /// `PIPEWIRE_NODE=<source node> OVERTALK_TEST_CAPTURE_DEVICE=pipewire cargo test
+    /// -p sonefold --lib cpal_stream -- --ignored`.
+    #[tokio::test(flavor = "multi_thread")]
+    #[ignore = "needs OVERTALK_TEST_CAPTURE_DEVICE naming a cpal input device"]
+    async fn cpal_stream_stops_from_another_thread_and_releases_its_callbacks() {
+        let name = std::env::var("OVERTALK_TEST_CAPTURE_DEVICE")
+            .expect("set OVERTALK_TEST_CAPTURE_DEVICE to a cpal input device name");
+        let state = RecordingState::new();
+        state.start_recording().unwrap();
+        let (sender, mut chunks) = mpsc::unbounded_channel();
+        state.set_audio_sender(sender);
+        let device = Arc::new(AudioDevice::new(name, super::super::DeviceType::Input));
+
+        let stream = AudioStream::create(device, state.clone(), DeviceType::Microphone, None)
+            .await
+            .unwrap();
+        tokio::time::timeout(Duration::from_secs(5), chunks.recv())
+            .await
+            .expect("no audio arrived from the capture device")
+            .unwrap();
+
+        // The handle crosses threads; the cpal stream itself never does.
+        std::thread::spawn(move || stream.stop())
+            .join()
+            .unwrap()
+            .unwrap();
+        assert_eq!(
+            Arc::strong_count(&state),
+            1,
+            "stopped stream still holds its callbacks"
+        );
+        while chunks.try_recv().is_ok() {}
+        tokio::time::sleep(Duration::from_millis(200)).await;
+        assert!(chunks.try_recv().is_err(), "audio arrived after stop");
     }
 }
