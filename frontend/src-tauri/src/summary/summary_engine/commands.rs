@@ -8,19 +8,6 @@ use super::model_manager::{DownloadProgress, ModelInfo};
 
 const QWEN35_4B_RECOMMENDED_RAM_GB: u64 = 14;
 
-pub(crate) fn summary_model_priority(model_name: &str) -> u8 {
-    match model_name {
-        "qwen3.8:27b" => 7,
-        "qwen3.5:4b" => 6,
-        "gemma4:e4b" => 5,
-        "gemma4:e2b" => 4,
-        "qwen3.5:2b" => 3,
-        "gemma3:4b" => 2,
-        "gemma3:1b" => 1,
-        _ => 0,
-    }
-}
-
 pub(crate) fn recommend_summary_model(_is_macos: bool, system_ram_gb: u64) -> &'static str {
     if system_ram_gb >= QWEN35_4B_RECOMMENDED_RAM_GB {
         "qwen3.5:4b"
@@ -50,19 +37,6 @@ pub async fn builtin_ai_list_models<R: Runtime>(
 
     let models = manager.list_models().await;
     Ok(models)
-}
-
-/// Get information about a specific model
-#[tauri::command]
-pub async fn builtin_ai_get_model_info<R: Runtime>(
-    app: AppHandle<R>,
-    state: State<'_, ModelManagerState>,
-    model_name: String,
-) -> Result<Option<ModelInfo>, String> {
-    let manager = state.get_or_initialize(&app).await?;
-
-    let info = manager.get_model_info(&model_name).await;
-    Ok(info)
 }
 
 /// Download a built-in AI model with progress updates
@@ -198,40 +172,6 @@ pub async fn builtin_ai_is_model_ready<R: Runtime>(
     Ok(ready)
 }
 
-/// Check if any summary model is available (for onboarding)
-/// Returns the first available model name by priority, or None if no models exist
-#[tauri::command]
-pub async fn builtin_ai_get_available_summary_model<R: Runtime>(
-    app: AppHandle<R>,
-    state: State<'_, ModelManagerState>,
-) -> Result<Option<String>, String> {
-    let manager = state.get_or_initialize(&app).await?;
-
-    // Force fresh scan to ensure accurate state
-    manager
-        .scan_models()
-        .await
-        .map_err(|e| format!("Failed to scan models: {}", e))?;
-
-    // Get all available models
-    let all_models = manager.list_models().await;
-
-    // Find first available summary model
-    let available = all_models
-        .iter()
-        .filter(|m| {
-            matches!(
-                m.status,
-                crate::summary::summary_engine::model_manager::ModelStatus::Available
-            )
-        })
-        .max_by_key(|m| summary_model_priority(&m.name))
-        .map(|m| m.name.clone());
-
-    log::info!("Available summary model check: {:?}", available);
-    Ok(available)
-}
-
 // ============================================================================
 // Startup Initialization & Utility Commands
 // ============================================================================
@@ -266,14 +206,5 @@ mod tests {
     fn recommended_summary_model_uses_qwen4b_at_effective_16gb_floor() {
         assert_eq!(recommend_summary_model(true, 14), "qwen3.5:4b");
         assert_eq!(recommend_summary_model(false, 14), "qwen3.5:4b");
-    }
-
-    #[test]
-    fn available_summary_model_priority_prefers_qwen_over_gemma() {
-        assert!(summary_model_priority("qwen3.5:4b") > summary_model_priority("gemma4:e4b"));
-        assert!(summary_model_priority("gemma4:e4b") > summary_model_priority("gemma4:e2b"));
-        assert!(summary_model_priority("gemma4:e2b") > summary_model_priority("qwen3.5:2b"));
-        assert!(summary_model_priority("qwen3.5:2b") > summary_model_priority("gemma3:4b"));
-        assert!(summary_model_priority("gemma3:4b") > summary_model_priority("gemma3:1b"));
     }
 }

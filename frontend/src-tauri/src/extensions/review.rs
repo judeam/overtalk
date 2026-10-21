@@ -326,22 +326,6 @@ pub async fn apply(pool: &SqlitePool, action: ReviewAction) -> Result<Value, Str
     }
 }
 #[tauri::command]
-pub async fn workspace_note_revision(
-    state: State<'_, AppState>,
-    meeting_id: String,
-) -> Result<String, String> {
-    let current: Option<String> =
-        sqlx::query_scalar("SELECT result FROM summary_processes WHERE meeting_id=?")
-            .bind(meeting_id)
-            .fetch_optional(state.db_manager.pool())
-            .await
-            .map_err(err)?
-            .flatten();
-    Ok(super::projects::fingerprint(
-        current.as_deref().unwrap_or(""),
-    ))
-}
-#[tauri::command]
 pub async fn workspace_review(
     app: AppHandle,
     state: State<'_, AppState>,

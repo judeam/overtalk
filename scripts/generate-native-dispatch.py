@@ -16,11 +16,11 @@ root = Path(__file__).resolve().parents[1] / "frontend/src-tauri/src"
 library = (root / "lib.rs").read_text()
 registered = library.split("tauri::generate_handler![", 1)[1].split("])", 1)[0]
 commands = re.findall(r"^\s*([a-z_][a-z_0-9]*(?:::[a-z_][a-z_0-9]*)*)\s*,", registered, re.M)
-# The native UI has no telemetry, JavaScript diagnostics, browser audio transport,
-# or legacy connection/debug controls. These commands are deliberately not exposed.
-excluded = {"read_audio_file", "workspace_audio_source", "workspace_release_audio", "ui_log_diagnostics"}
+# The native UI has no JavaScript diagnostics or browser audio transport.
+# These commands are deliberately not exposed to it.
+excluded = {"workspace_audio_source", "workspace_release_audio", "ui_log_diagnostics"}
 web_commands = commands.copy()
-commands = [name for name in commands if not name.startswith(("console_utils::", "whisper_engine::parallel_commands::")) and name.split("::")[-1] not in excluded]
+commands = [name for name in commands if name.split("::")[-1] not in excluded]
 
 
 def split_parameters(text):

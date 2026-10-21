@@ -1184,7 +1184,6 @@ pub async fn resume_recording<R: Runtime>(app: AppHandle<R>) -> Result<(), Strin
 }
 
 /// Check if recording is currently paused
-#[tauri::command]
 pub async fn is_recording_paused() -> bool {
     let manager_guard = RECORDING_MANAGER.lock().unwrap();
     if let Some(manager) = manager_guard.as_ref() {
@@ -1267,15 +1266,6 @@ pub async fn get_recording_meeting_name() -> Result<Option<String>, String> {
 // ============================================================================
 // DEVICE MONITORING COMMANDS (AirPods/Bluetooth disconnect/reconnect support)
 // ============================================================================
-
-/// Get information about the active audio output device
-/// Used to warn users about Bluetooth playback issues
-#[tauri::command]
-pub async fn get_active_audio_output() -> Result<super::playback_monitor::AudioOutputInfo, String> {
-    super::playback_monitor::get_active_audio_output()
-        .await
-        .map_err(|e| format!("Failed to get audio output info: {}", e))
-}
 
 // ============================================================================
 // MIC HOT-SWAP (disconnect recovery)

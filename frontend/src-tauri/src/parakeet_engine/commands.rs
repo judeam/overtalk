@@ -71,91 +71,6 @@ pub async fn parakeet_get_available_models() -> Result<Vec<ModelInfo>, String> {
 }
 
 #[command]
-pub async fn parakeet_load_model<R: Runtime>(
-    app_handle: AppHandle<R>,
-    model_name: String,
-) -> Result<(), String> {
-    let engine = {
-        let guard = PARAKEET_ENGINE.lock().unwrap();
-        guard.as_ref().cloned()
-    };
-
-    if let Some(engine) = engine {
-        // Emit model loading started event
-        if let Err(e) = app_handle.emit(
-            "parakeet-model-loading-started",
-            serde_json::json!({
-                "modelName": model_name
-            }),
-        ) {
-            log::error!("Failed to emit parakeet-model-loading-started event: {}", e);
-        }
-
-        let result = engine
-            .load_model(&model_name)
-            .await
-            .map_err(|e| format!("Failed to load Parakeet model: {}", e));
-
-        // Emit model loading completed/failed event
-        if result.is_ok() {
-            if let Err(e) = app_handle.emit(
-                "parakeet-model-loading-completed",
-                serde_json::json!({
-                    "modelName": model_name
-                }),
-            ) {
-                log::error!(
-                    "Failed to emit parakeet-model-loading-completed event: {}",
-                    e
-                );
-            }
-        } else if let Err(ref error) = result {
-            if let Err(e) = app_handle.emit(
-                "parakeet-model-loading-failed",
-                serde_json::json!({
-                    "modelName": model_name,
-                    "error": error
-                }),
-            ) {
-                log::error!("Failed to emit parakeet-model-loading-failed event: {}", e);
-            }
-        }
-
-        result
-    } else {
-        Err("Parakeet engine not initialized".to_string())
-    }
-}
-
-#[command]
-pub async fn parakeet_get_current_model() -> Result<Option<String>, String> {
-    let engine = {
-        let guard = PARAKEET_ENGINE.lock().unwrap();
-        guard.as_ref().cloned()
-    };
-
-    if let Some(engine) = engine {
-        Ok(engine.get_current_model().await)
-    } else {
-        Err("Parakeet engine not initialized".to_string())
-    }
-}
-
-#[command]
-pub async fn parakeet_is_model_loaded() -> Result<bool, String> {
-    let engine = {
-        let guard = PARAKEET_ENGINE.lock().unwrap();
-        guard.as_ref().cloned()
-    };
-
-    if let Some(engine) = engine {
-        Ok(engine.is_model_loaded().await)
-    } else {
-        Err("Parakeet engine not initialized".to_string())
-    }
-}
-
-#[command]
 pub async fn parakeet_has_available_models() -> Result<bool, String> {
     let engine = {
         let guard = PARAKEET_ENGINE.lock().unwrap();
@@ -180,58 +95,7 @@ pub async fn parakeet_has_available_models() -> Result<bool, String> {
     }
 }
 
-#[command]
-pub async fn parakeet_validate_model_ready() -> Result<String, String> {
-    let engine = {
-        let guard = PARAKEET_ENGINE.lock().unwrap();
-        guard.as_ref().cloned()
-    };
-
-    if let Some(engine) = engine {
-        // Check if a model is currently loaded
-        if engine.is_model_loaded().await {
-            if let Some(current_model) = engine.get_current_model().await {
-                return Ok(current_model);
-            }
-        }
-
-        // No model loaded, check if any models are available to load
-        let models = engine
-            .discover_models()
-            .await
-            .map_err(|e| format!("Failed to discover Parakeet models: {}", e))?;
-
-        let available_models: Vec<_> = models
-            .iter()
-            .filter(|model| matches!(model.status, crate::parakeet_engine::ModelStatus::Available))
-            .collect();
-
-        if available_models.is_empty() {
-            return Err(
-                "No Parakeet models are available. Please download a model to enable fast transcription."
-                    .to_string(),
-            );
-        }
-
-        // Try to load the first available model (prefer int8 for speed)
-        let first_model = available_models
-            .iter()
-            .find(|m| m.quantization == crate::parakeet_engine::QuantizationType::Int8)
-            .or_else(|| available_models.first())
-            .unwrap();
-
-        engine
-            .load_model(&first_model.name)
-            .await
-            .map_err(|e| format!("Failed to load Parakeet model {}: {}", first_model.name, e))?;
-
-        Ok(first_model.name.clone())
-    } else {
-        Err("Parakeet engine not initialized".to_string())
-    }
-}
-
-/// Internal version of parakeet_validate_model_ready that respects user's transcript config
+/// Ensures a Parakeet model is loaded, preferring the one in the user's transcript config.
 /// This matches whisper_validate_model_ready_with_config for consistency
 pub async fn parakeet_validate_model_ready_with_config<R: tauri::Runtime>(
     app: &tauri::AppHandle<R>,
@@ -347,23 +211,6 @@ pub async fn parakeet_validate_model_ready_with_config<R: tauri::Runtime>(
             .map_err(|e| format!("Failed to load Parakeet model {}: {}", model_name, e))?;
 
         Ok(model_name)
-    } else {
-        Err("Parakeet engine not initialized".to_string())
-    }
-}
-
-#[command]
-pub async fn parakeet_transcribe_audio(audio_data: Vec<f32>) -> Result<String, String> {
-    let engine = {
-        let guard = PARAKEET_ENGINE.lock().unwrap();
-        guard.as_ref().cloned()
-    };
-
-    if let Some(engine) = engine {
-        engine
-            .transcribe_audio(audio_data)
-            .await
-            .map_err(|e| format!("Parakeet transcription failed: {}", e))
     } else {
         Err("Parakeet engine not initialized".to_string())
     }
@@ -541,25 +388,4 @@ pub async fn parakeet_delete_corrupted_model(model_name: String) -> Result<Strin
     } else {
         Err("Parakeet engine not initialized".to_string())
     }
-}
-
-/// Open the Parakeet models folder in the system file explorer
-#[command]
-pub async fn open_parakeet_models_folder() -> Result<(), String> {
-    let models_dir = get_models_directory()
-        .ok_or_else(|| "Parakeet models directory not initialized".to_string())?
-        .join("parakeet");
-
-    // Ensure directory exists before trying to open it
-    if !models_dir.exists() {
-        std::fs::create_dir_all(&models_dir)
-            .map_err(|e| format!("Failed to create directory: {}", e))?;
-    }
-
-    let folder_path = models_dir.to_string_lossy().to_string();
-
-    crate::utils::open_folder(&models_dir)?;
-
-    log::info!("Opened Parakeet models folder: {}", folder_path);
-    Ok(())
 }

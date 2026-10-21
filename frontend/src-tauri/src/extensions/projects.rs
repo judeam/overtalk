@@ -832,20 +832,6 @@ struct Proposal {
 struct Proposals {
     facts: Vec<Proposal>,
 }
-#[tauri::command]
-pub async fn workspace_project_learn(
-    app: AppHandle,
-    state: State<'_, AppState>,
-    meeting_id: String,
-) -> Result<usize, String> {
-    learn(
-        &app,
-        state.db_manager.pool(),
-        &meeting_id,
-        &tokio_util::sync::CancellationToken::new(),
-    )
-    .await
-}
 pub async fn learn(
     app: &AppHandle,
     pool: &SqlitePool,

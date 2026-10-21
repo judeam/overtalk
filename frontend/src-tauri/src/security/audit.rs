@@ -186,15 +186,9 @@ pub fn sensitive(command: &str) -> bool {
         command,
         "native_audio"
             | "is_recording"
-            | "get_transcription_status"
-            | "is_retranscription_in_progress_command"
             | "is_import_in_progress_command"
             | "workspace_recording_health"
             | "workspace_release_audio"
-            | "get_parallel_processing_status"
-            | "get_system_resources"
-            | "check_resource_constraints"
-            | "calculate_optimal_workers"
             | "ui_log_diagnostics"
     )
 }
@@ -209,11 +203,11 @@ mod tests {
             "workspace_project",
             "workspace_privacy",
             "future_command",
-            "read_audio_file",
+            "workspace_audio_source",
         ] {
             assert!(sensitive(command));
         }
-        assert!(!sensitive("get_transcription_status"));
+        assert!(!sensitive("is_recording"));
         assert_eq!(
             object_id(&serde_json::json!({"meetingId":"private text or token"})),
             ""

@@ -596,7 +596,7 @@ pub async fn workspace_sync_calendar(
         .map_err(|_| "Could not load calendar connection")?
         .ok_or("Calendar connection no longer exists")?;
     if c.provider == "google" {
-        return super::connections::workspace_sync_google_calendar(state, id).await;
+        return super::connections::sync_google_calendar(state, id).await;
     }
     if c.provider != "microsoft" {
         return Err("Choose a Google or Microsoft calendar account".into());

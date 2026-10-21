@@ -241,22 +241,6 @@ pub async fn select_recording_folder<R: Runtime>(
 
 // Backend selection commands
 
-/// Get available audio capture backends for the current platform
-#[tauri::command]
-pub async fn get_available_audio_backends() -> Result<Vec<String>, String> {
-    #[cfg(target_os = "macos")]
-    {
-        let backends = crate::audio::capture::get_available_backends();
-        Ok(backends.iter().map(|b| b.to_string()).collect())
-    }
-
-    #[cfg(not(target_os = "macos"))]
-    {
-        // Only ScreenCaptureKit available on non-macOS
-        Ok(vec!["screencapturekit".to_string()])
-    }
-}
-
 /// Get current audio capture backend
 #[tauri::command]
 pub async fn get_current_audio_backend() -> Result<String, String> {

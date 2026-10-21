@@ -117,35 +117,6 @@ pub(super) async fn response(response: reqwest::Response) -> Result<Value, Strin
     }
     serde_json::from_slice(&bytes).map_err(|_| "Provider returned invalid JSON".into())
 }
-#[tauri::command]
-pub async fn workspace_google_connect(
-    app: AppHandle,
-    state: State<'_, AppState>,
-    client_id: String,
-    client_secret: String,
-    name: String,
-) -> Result<Value, String> {
-    let attempt = uuid::Uuid::new_v4().to_string();
-    super::connection_oauth::workspace_account_auth(
-        state.clone(),
-        super::connection_oauth::AccountAction::Start {
-            attempt: attempt.clone(),
-            provider: "google".into(),
-            name,
-            project_id: None,
-            connection_id: None,
-            client_id,
-            client_secret,
-        },
-    )
-    .await?;
-    let _ = app;
-    super::connection_oauth::workspace_account_auth(
-        state,
-        super::connection_oauth::AccountAction::Wait { attempt },
-    )
-    .await
-}
 
 async fn token(connection: &Connection) -> Result<String, String> {
     super::connection_oauth::access_token(connection).await
@@ -806,40 +777,7 @@ pub async fn workspace_connections(
     }
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-    #[test]
-    fn endpoints_do_not_leak_credentials() {
-        for url in [
-            "http://team.atlassian.net",
-            "https://team.atlassian.net.evil.test",
-            "https://u:p@team.atlassian.net",
-            "https://team.atlassian.net/path",
-            "https://127.0.0.1",
-        ] {
-            assert!(validate_base("jira", url).is_err());
-        }
-        assert_eq!(
-            validate_base("jira", "https://team.atlassian.net/").unwrap(),
-            "https://team.atlassian.net"
-        );
-    }
-    #[test]
-    fn resource_ids_are_not_paths() {
-        for id in ["../secret", "abc?x=1", "https://test", "a/b"] {
-            assert!(target(id, false).is_err());
-        }
-        assert!(target("TEAM-4", false).is_ok());
-    }
-    #[test]
-    fn confluence_content_is_escaped() {
-        assert_eq!(html("<script>&"), "<p>&lt;script&gt;&amp;</p>");
-    }
-}
-
-#[tauri::command]
-pub async fn workspace_sync_google_calendar(
+pub(super) async fn sync_google_calendar(
     state: State<'_, AppState>,
     id: String,
 ) -> Result<usize, String> {
@@ -999,4 +937,36 @@ pub async fn workspace_sync_google_calendar(
     }
     tx.commit().await.map_err(err)?;
     Ok(count)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn endpoints_do_not_leak_credentials() {
+        for url in [
+            "http://team.atlassian.net",
+            "https://team.atlassian.net.evil.test",
+            "https://u:p@team.atlassian.net",
+            "https://team.atlassian.net/path",
+            "https://127.0.0.1",
+        ] {
+            assert!(validate_base("jira", url).is_err());
+        }
+        assert_eq!(
+            validate_base("jira", "https://team.atlassian.net/").unwrap(),
+            "https://team.atlassian.net"
+        );
+    }
+    #[test]
+    fn resource_ids_are_not_paths() {
+        for id in ["../secret", "abc?x=1", "https://test", "a/b"] {
+            assert!(target(id, false).is_err());
+        }
+        assert!(target("TEAM-4", false).is_ok());
+    }
+    #[test]
+    fn confluence_content_is_escaped() {
+        assert_eq!(html("<script>&"), "<p>&lt;script&gt;&amp;</p>");
+    }
 }

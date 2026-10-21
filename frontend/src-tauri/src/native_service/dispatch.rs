@@ -5,9 +5,7 @@ use tauri::{AppHandle, Manager};
 
 pub(super) const COMMANDS: &[&str] = &[
     "workspace_project",
-    "workspace_project_learn",
     "workspace_review",
-    "workspace_note_revision",
     "workspace_jobs",
     "usage_report",
     "usage_record",
@@ -18,10 +16,8 @@ pub(super) const COMMANDS: &[&str] = &[
     "workspace_backup_key",
     "workspace_schedule_restore",
     "workspace_connections",
-    "workspace_google_connect",
     "workspace_account_auth",
     "cloud_account",
-    "workspace_sync_google_calendar",
     "workspace_sync_calendar",
     "workspace_join_event",
     "workspace_recording_health",
@@ -68,7 +64,6 @@ pub(super) const COMMANDS: &[&str] = &[
     "workspace_tasks",
     "workspace_save_task",
     "workspace_task_status",
-    "workspace_delete_task",
     "workspace_set_tags",
     "workspace_tags",
     "workspace_meeting_tags",
@@ -98,48 +93,32 @@ pub(super) const COMMANDS: &[&str] = &[
     "start_recording",
     "stop_recording",
     "is_recording",
-    "get_transcription_status",
     "whisper_init",
     "whisper_get_available_models",
-    "whisper_load_model",
-    "whisper_get_current_model",
-    "whisper_is_model_loaded",
     "whisper_has_available_models",
-    "whisper_validate_model_ready",
-    "whisper_transcribe_audio",
     "whisper_get_models_directory",
     "whisper_download_model",
     "whisper_cancel_download",
     "whisper_delete_corrupted_model",
     "parakeet_init",
     "parakeet_get_available_models",
-    "parakeet_load_model",
-    "parakeet_get_current_model",
-    "parakeet_is_model_loaded",
     "parakeet_has_available_models",
-    "parakeet_validate_model_ready",
-    "parakeet_transcribe_audio",
     "parakeet_get_models_directory",
     "parakeet_download_model",
     "parakeet_retry_download",
     "parakeet_cancel_download",
     "parakeet_delete_corrupted_model",
-    "open_parakeet_models_folder",
     "get_audio_devices",
     "trigger_microphone_permission",
-    "start_recording_with_devices",
     "start_recording_with_devices_and_meeting",
     "start_audio_level_monitoring",
     "stop_audio_level_monitoring",
-    "is_audio_level_monitoring",
     "pause_recording",
     "resume_recording",
-    "is_recording_paused",
     "get_recording_state",
     "get_meeting_folder_path",
     "get_transcript_history",
     "get_recording_meeting_name",
-    "get_active_audio_output",
     "recover_audio_from_checkpoints",
     "cleanup_checkpoints",
     "has_audio_checkpoints",
@@ -160,7 +139,6 @@ pub(super) const COMMANDS: &[&str] = &[
     "api_save_transcript_config",
     "api_get_transcript_api_key",
     "api_delete_meeting",
-    "api_get_meeting",
     "api_get_meeting_metadata",
     "api_get_meeting_transcripts",
     "api_save_meeting_title",
@@ -180,15 +158,12 @@ pub(super) const COMMANDS: &[&str] = &[
     "api_detect_transcript_summary_language",
     "api_cancel_summary",
     "api_list_templates",
-    "api_get_template_details",
     "api_validate_template",
     "builtin_ai_list_models",
-    "builtin_ai_get_model_info",
     "builtin_ai_download_model",
     "builtin_ai_cancel_download",
     "builtin_ai_delete_model",
     "builtin_ai_is_model_ready",
-    "builtin_ai_get_available_summary_model",
     "builtin_ai_get_recommended_model",
     "get_openrouter_models",
     "get_recording_preferences",
@@ -196,7 +171,6 @@ pub(super) const COMMANDS: &[&str] = &[
     "get_default_recordings_folder_path",
     "open_recordings_folder",
     "select_recording_folder",
-    "get_available_audio_backends",
     "get_current_audio_backend",
     "set_audio_backend",
     "get_audio_backend_info",
@@ -204,29 +178,8 @@ pub(super) const COMMANDS: &[&str] = &[
     "get_notification_settings",
     "set_notification_settings",
     "request_notification_permission",
-    "show_notification",
-    "show_test_notification",
-    "is_dnd_active",
-    "get_system_dnd_status",
-    "set_manual_dnd",
-    "set_notification_consent",
-    "clear_notifications",
-    "is_notification_system_ready",
-    "initialize_notification_manager_manual",
-    "test_notification_with_auto_consent",
-    "get_notification_stats",
-    "start_system_audio_capture_command",
-    "list_system_audio_devices_command",
-    "check_system_audio_permissions_command",
-    "start_system_audio_monitoring",
-    "stop_system_audio_monitoring",
-    "get_system_audio_monitoring_status",
-    "check_screen_recording_permission_command",
-    "request_screen_recording_permission_command",
     "trigger_system_audio_permission_command",
     "check_first_launch",
-    "select_legacy_database_path",
-    "detect_legacy_database",
     "check_default_legacy_database",
     "import_and_initialize_database",
     "initialize_fresh_database",
@@ -235,12 +188,10 @@ pub(super) const COMMANDS: &[&str] = &[
     "open_models_folder",
     "get_onboarding_status",
     "save_onboarding_status_cmd",
-    "reset_onboarding_status_cmd",
     "complete_onboarding",
     "open_system_settings",
     "start_retranscription_command",
     "cancel_retranscription_command",
-    "is_retranscription_in_progress_command",
     "select_and_validate_audio_command",
     "validate_audio_file_command",
     "start_import_audio_command",
@@ -264,30 +215,11 @@ pub(super) async fn dispatch(
             .map_err(|error| error.to_string())?,
         )
         .map_err(|error| error.to_string()),
-        "workspace_project_learn" => serde_json::to_value(
-            crate::extensions::projects::workspace_project_learn(
-                app.clone(),
-                app.state(),
-                argument(args, "meetingId")?,
-            )
-            .await
-            .map_err(|error| error.to_string())?,
-        )
-        .map_err(|error| error.to_string()),
         "workspace_review" => serde_json::to_value(
             crate::extensions::review::workspace_review(
                 app.clone(),
                 app.state(),
                 argument(args, "action")?,
-            )
-            .await
-            .map_err(|error| error.to_string())?,
-        )
-        .map_err(|error| error.to_string()),
-        "workspace_note_revision" => serde_json::to_value(
-            crate::extensions::review::workspace_note_revision(
-                app.state(),
-                argument(args, "meetingId")?,
             )
             .await
             .map_err(|error| error.to_string())?,
@@ -377,18 +309,6 @@ pub(super) async fn dispatch(
             .map_err(|error| error.to_string())?,
         )
         .map_err(|error| error.to_string()),
-        "workspace_google_connect" => serde_json::to_value(
-            crate::extensions::connections::workspace_google_connect(
-                app.clone(),
-                app.state(),
-                argument(args, "clientId")?,
-                argument(args, "clientSecret")?,
-                argument(args, "name")?,
-            )
-            .await
-            .map_err(|error| error.to_string())?,
-        )
-        .map_err(|error| error.to_string()),
         "workspace_account_auth" => serde_json::to_value(
             crate::extensions::connection_oauth::workspace_account_auth(
                 app.state(),
@@ -402,15 +322,6 @@ pub(super) async fn dispatch(
             crate::cloud::cloud_account(argument(args, "action")?)
                 .await
                 .map_err(|error| error.to_string())?,
-        )
-        .map_err(|error| error.to_string()),
-        "workspace_sync_google_calendar" => serde_json::to_value(
-            crate::extensions::connections::workspace_sync_google_calendar(
-                app.state(),
-                argument(args, "id")?,
-            )
-            .await
-            .map_err(|error| error.to_string())?,
         )
         .map_err(|error| error.to_string()),
         "workspace_sync_calendar" => serde_json::to_value(
@@ -787,12 +698,6 @@ pub(super) async fn dispatch(
             .map_err(|error| error.to_string())?;
             Ok(Value::Null)
         }
-        "workspace_delete_task" => {
-            crate::extensions::knowledge::workspace_delete_task(argument(args, "id")?, app.state())
-                .await
-                .map_err(|error| error.to_string())?;
-            Ok(Value::Null)
-        }
         "workspace_set_tags" => {
             crate::extensions::knowledge::workspace_set_tags(
                 argument(args, "meetingId")?,
@@ -1024,8 +929,6 @@ pub(super) async fn dispatch(
         "is_recording" => {
             serde_json::to_value(crate::is_recording().await).map_err(|error| error.to_string())
         }
-        "get_transcription_status" => serde_json::to_value(crate::get_transcription_status())
-            .map_err(|error| error.to_string()),
         "whisper_init" => {
             crate::whisper_engine::commands::whisper_init()
                 .await
@@ -1038,41 +941,8 @@ pub(super) async fn dispatch(
                 .map_err(|error| error.to_string())?,
         )
         .map_err(|error| error.to_string()),
-        "whisper_load_model" => {
-            crate::whisper_engine::commands::whisper_load_model(
-                app.clone(),
-                argument(args, "modelName")?,
-            )
-            .await
-            .map_err(|error| error.to_string())?;
-            Ok(Value::Null)
-        }
-        "whisper_get_current_model" => serde_json::to_value(
-            crate::whisper_engine::commands::whisper_get_current_model()
-                .await
-                .map_err(|error| error.to_string())?,
-        )
-        .map_err(|error| error.to_string()),
-        "whisper_is_model_loaded" => serde_json::to_value(
-            crate::whisper_engine::commands::whisper_is_model_loaded()
-                .await
-                .map_err(|error| error.to_string())?,
-        )
-        .map_err(|error| error.to_string()),
         "whisper_has_available_models" => serde_json::to_value(
             crate::whisper_engine::commands::whisper_has_available_models()
-                .await
-                .map_err(|error| error.to_string())?,
-        )
-        .map_err(|error| error.to_string()),
-        "whisper_validate_model_ready" => serde_json::to_value(
-            crate::whisper_engine::commands::whisper_validate_model_ready()
-                .await
-                .map_err(|error| error.to_string())?,
-        )
-        .map_err(|error| error.to_string()),
-        "whisper_transcribe_audio" => serde_json::to_value(
-            crate::whisper_engine::commands::whisper_transcribe_audio(argument(args, "audioData")?)
                 .await
                 .map_err(|error| error.to_string())?,
         )
@@ -1119,46 +989,10 @@ pub(super) async fn dispatch(
                 .map_err(|error| error.to_string())?,
         )
         .map_err(|error| error.to_string()),
-        "parakeet_load_model" => {
-            crate::parakeet_engine::commands::parakeet_load_model(
-                app.clone(),
-                argument(args, "modelName")?,
-            )
-            .await
-            .map_err(|error| error.to_string())?;
-            Ok(Value::Null)
-        }
-        "parakeet_get_current_model" => serde_json::to_value(
-            crate::parakeet_engine::commands::parakeet_get_current_model()
-                .await
-                .map_err(|error| error.to_string())?,
-        )
-        .map_err(|error| error.to_string()),
-        "parakeet_is_model_loaded" => serde_json::to_value(
-            crate::parakeet_engine::commands::parakeet_is_model_loaded()
-                .await
-                .map_err(|error| error.to_string())?,
-        )
-        .map_err(|error| error.to_string()),
         "parakeet_has_available_models" => serde_json::to_value(
             crate::parakeet_engine::commands::parakeet_has_available_models()
                 .await
                 .map_err(|error| error.to_string())?,
-        )
-        .map_err(|error| error.to_string()),
-        "parakeet_validate_model_ready" => serde_json::to_value(
-            crate::parakeet_engine::commands::parakeet_validate_model_ready()
-                .await
-                .map_err(|error| error.to_string())?,
-        )
-        .map_err(|error| error.to_string()),
-        "parakeet_transcribe_audio" => serde_json::to_value(
-            crate::parakeet_engine::commands::parakeet_transcribe_audio(argument(
-                args,
-                "audioData",
-            )?)
-            .await
-            .map_err(|error| error.to_string())?,
         )
         .map_err(|error| error.to_string()),
         "parakeet_get_models_directory" => serde_json::to_value(
@@ -1203,12 +1037,6 @@ pub(super) async fn dispatch(
             .map_err(|error| error.to_string())?,
         )
         .map_err(|error| error.to_string()),
-        "open_parakeet_models_folder" => {
-            crate::parakeet_engine::commands::open_parakeet_models_folder()
-                .await
-                .map_err(|error| error.to_string())?;
-            Ok(Value::Null)
-        }
         "get_audio_devices" => serde_json::to_value(
             crate::get_audio_devices()
                 .await
@@ -1221,16 +1049,6 @@ pub(super) async fn dispatch(
                 .map_err(|error| error.to_string())?,
         )
         .map_err(|error| error.to_string()),
-        "start_recording_with_devices" => {
-            crate::start_recording_with_devices(
-                app.clone(),
-                argument(args, "micDeviceName")?,
-                argument(args, "systemDeviceName")?,
-            )
-            .await
-            .map_err(|error| error.to_string())?;
-            Ok(Value::Null)
-        }
         "start_recording_with_devices_and_meeting" => {
             crate::start_recording_with_devices_and_meeting(
                 app.clone(),
@@ -1254,10 +1072,6 @@ pub(super) async fn dispatch(
                 .map_err(|error| error.to_string())?;
             Ok(Value::Null)
         }
-        "is_audio_level_monitoring" => {
-            serde_json::to_value(crate::is_audio_level_monitoring().await)
-                .map_err(|error| error.to_string())
-        }
         "pause_recording" => {
             crate::audio::recording_commands::pause_recording(app.clone())
                 .await
@@ -1269,10 +1083,6 @@ pub(super) async fn dispatch(
                 .await
                 .map_err(|error| error.to_string())?;
             Ok(Value::Null)
-        }
-        "is_recording_paused" => {
-            serde_json::to_value(crate::audio::recording_commands::is_recording_paused().await)
-                .map_err(|error| error.to_string())
         }
         "get_recording_state" => {
             serde_json::to_value(crate::audio::recording_commands::get_recording_state().await)
@@ -1292,12 +1102,6 @@ pub(super) async fn dispatch(
         .map_err(|error| error.to_string()),
         "get_recording_meeting_name" => serde_json::to_value(
             crate::audio::recording_commands::get_recording_meeting_name()
-                .await
-                .map_err(|error| error.to_string())?,
-        )
-        .map_err(|error| error.to_string()),
-        "get_active_audio_output" => serde_json::to_value(
-            crate::audio::recording_commands::get_active_audio_output()
                 .await
                 .map_err(|error| error.to_string())?,
         )
@@ -1480,17 +1284,6 @@ pub(super) async fn dispatch(
                 app.clone(),
                 app.state(),
                 argument(args, "meetingId")?,
-                argument(args, "authToken")?,
-            )
-            .await
-            .map_err(|error| error.to_string())?,
-        )
-        .map_err(|error| error.to_string()),
-        "api_get_meeting" => serde_json::to_value(
-            crate::api::api_get_meeting(
-                app.clone(),
-                argument(args, "meetingId")?,
-                app.state(),
                 argument(args, "authToken")?,
             )
             .await
@@ -1699,15 +1492,6 @@ pub(super) async fn dispatch(
                 .map_err(|error| error.to_string())?,
         )
         .map_err(|error| error.to_string()),
-        "api_get_template_details" => serde_json::to_value(
-            crate::summary::template_commands::api_get_template_details(
-                app.clone(),
-                argument(args, "templateId")?,
-            )
-            .await
-            .map_err(|error| error.to_string())?,
-        )
-        .map_err(|error| error.to_string()),
         "api_validate_template" => serde_json::to_value(
             crate::summary::template_commands::api_validate_template(
                 app.clone(),
@@ -1721,16 +1505,6 @@ pub(super) async fn dispatch(
             crate::summary::summary_engine::commands::builtin_ai_list_models(
                 app.clone(),
                 app.state(),
-            )
-            .await
-            .map_err(|error| error.to_string())?,
-        )
-        .map_err(|error| error.to_string()),
-        "builtin_ai_get_model_info" => serde_json::to_value(
-            crate::summary::summary_engine::commands::builtin_ai_get_model_info(
-                app.clone(),
-                app.state(),
-                argument(args, "modelName")?,
             )
             .await
             .map_err(|error| error.to_string())?,
@@ -1776,15 +1550,6 @@ pub(super) async fn dispatch(
             .map_err(|error| error.to_string())?,
         )
         .map_err(|error| error.to_string()),
-        "builtin_ai_get_available_summary_model" => serde_json::to_value(
-            crate::summary::summary_engine::commands::builtin_ai_get_available_summary_model(
-                app.clone(),
-                app.state(),
-            )
-            .await
-            .map_err(|error| error.to_string())?,
-        )
-        .map_err(|error| error.to_string()),
         "builtin_ai_get_recommended_model" => serde_json::to_value(
             crate::summary::summary_engine::commands::builtin_ai_get_recommended_model()
                 .await
@@ -1824,12 +1589,6 @@ pub(super) async fn dispatch(
         }
         "select_recording_folder" => serde_json::to_value(
             crate::audio::recording_preferences::select_recording_folder(app.clone())
-                .await
-                .map_err(|error| error.to_string())?,
-        )
-        .map_err(|error| error.to_string()),
-        "get_available_audio_backends" => serde_json::to_value(
-            crate::audio::recording_preferences::get_available_audio_backends()
                 .await
                 .map_err(|error| error.to_string())?,
         )
@@ -1879,131 +1638,6 @@ pub(super) async fn dispatch(
                 .map_err(|error| error.to_string())?,
         )
         .map_err(|error| error.to_string()),
-        "show_notification" => {
-            crate::notifications::commands::show_notification(
-                argument(args, "notification")?,
-                app.state(),
-            )
-            .await
-            .map_err(|error| error.to_string())?;
-            Ok(Value::Null)
-        }
-        "show_test_notification" => {
-            crate::notifications::commands::show_test_notification(app.state())
-                .await
-                .map_err(|error| error.to_string())?;
-            Ok(Value::Null)
-        }
-        "is_dnd_active" => serde_json::to_value(
-            crate::notifications::commands::is_dnd_active(app.state())
-                .await
-                .map_err(|error| error.to_string())?,
-        )
-        .map_err(|error| error.to_string()),
-        "get_system_dnd_status" => serde_json::to_value(
-            crate::notifications::commands::get_system_dnd_status(app.state())
-                .await
-                .map_err(|error| error.to_string())?,
-        )
-        .map_err(|error| error.to_string()),
-        "set_manual_dnd" => {
-            crate::notifications::commands::set_manual_dnd(argument(args, "enabled")?, app.state())
-                .await
-                .map_err(|error| error.to_string())?;
-            Ok(Value::Null)
-        }
-        "set_notification_consent" => {
-            crate::notifications::commands::set_notification_consent(
-                argument(args, "consent")?,
-                app.state(),
-            )
-            .await
-            .map_err(|error| error.to_string())?;
-            Ok(Value::Null)
-        }
-        "clear_notifications" => {
-            crate::notifications::commands::clear_notifications(app.state())
-                .await
-                .map_err(|error| error.to_string())?;
-            Ok(Value::Null)
-        }
-        "is_notification_system_ready" => serde_json::to_value(
-            crate::notifications::commands::is_notification_system_ready(app.state())
-                .await
-                .map_err(|error| error.to_string())?,
-        )
-        .map_err(|error| error.to_string()),
-        "initialize_notification_manager_manual" => {
-            crate::notifications::commands::initialize_notification_manager_manual(
-                app.clone(),
-                app.state(),
-            )
-            .await
-            .map_err(|error| error.to_string())?;
-            Ok(Value::Null)
-        }
-        "test_notification_with_auto_consent" => {
-            crate::notifications::commands::test_notification_with_auto_consent(
-                app.clone(),
-                app.state(),
-            )
-            .await
-            .map_err(|error| error.to_string())?;
-            Ok(Value::Null)
-        }
-        "get_notification_stats" => serde_json::to_value(
-            crate::notifications::commands::get_notification_stats(app.state())
-                .await
-                .map_err(|error| error.to_string())?,
-        )
-        .map_err(|error| error.to_string()),
-        "start_system_audio_capture_command" => serde_json::to_value(
-            crate::audio::system_audio_commands::start_system_audio_capture_command()
-                .await
-                .map_err(|error| error.to_string())?,
-        )
-        .map_err(|error| error.to_string()),
-        "list_system_audio_devices_command" => serde_json::to_value(
-            crate::audio::system_audio_commands::list_system_audio_devices_command()
-                .await
-                .map_err(|error| error.to_string())?,
-        )
-        .map_err(|error| error.to_string()),
-        "check_system_audio_permissions_command" => serde_json::to_value(
-            crate::audio::system_audio_commands::check_system_audio_permissions_command().await,
-        )
-        .map_err(|error| error.to_string()),
-        "start_system_audio_monitoring" => {
-            crate::audio::system_audio_commands::start_system_audio_monitoring(
-                app.clone(),
-                app.state(),
-            )
-            .await
-            .map_err(|error| error.to_string())?;
-            Ok(Value::Null)
-        }
-        "stop_system_audio_monitoring" => {
-            crate::audio::system_audio_commands::stop_system_audio_monitoring(app.state())
-                .await
-                .map_err(|error| error.to_string())?;
-            Ok(Value::Null)
-        }
-        "get_system_audio_monitoring_status" => serde_json::to_value(
-            crate::audio::system_audio_commands::get_system_audio_monitoring_status(app.state())
-                .await
-                .map_err(|error| error.to_string())?,
-        )
-        .map_err(|error| error.to_string()),
-        "check_screen_recording_permission_command" => serde_json::to_value(
-            crate::audio::permissions::check_screen_recording_permission_command().await,
-        )
-        .map_err(|error| error.to_string()),
-        "request_screen_recording_permission_command" => {
-            crate::audio::permissions::request_screen_recording_permission_command()
-                .await
-                .map_err(|error| error.to_string())?;
-            Ok(Value::Null)
-        }
         "trigger_system_audio_permission_command" => serde_json::to_value(
             crate::audio::permissions::trigger_system_audio_permission_command()
                 .await
@@ -2012,18 +1646,6 @@ pub(super) async fn dispatch(
         .map_err(|error| error.to_string()),
         "check_first_launch" => serde_json::to_value(
             crate::database::commands::check_first_launch(app.clone())
-                .await
-                .map_err(|error| error.to_string())?,
-        )
-        .map_err(|error| error.to_string()),
-        "select_legacy_database_path" => serde_json::to_value(
-            crate::database::commands::select_legacy_database_path(app.clone())
-                .await
-                .map_err(|error| error.to_string())?,
-        )
-        .map_err(|error| error.to_string()),
-        "detect_legacy_database" => serde_json::to_value(
-            crate::database::commands::detect_legacy_database(argument(args, "selectedPath")?)
                 .await
                 .map_err(|error| error.to_string())?,
         )
@@ -2079,12 +1701,6 @@ pub(super) async fn dispatch(
                 .map_err(|error| error.to_string())?;
             Ok(Value::Null)
         }
-        "reset_onboarding_status_cmd" => {
-            crate::onboarding::reset_onboarding_status_cmd(app.clone())
-                .await
-                .map_err(|error| error.to_string())?;
-            Ok(Value::Null)
-        }
         "complete_onboarding" => {
             crate::onboarding::complete_onboarding(
                 app.clone(),
@@ -2121,10 +1737,6 @@ pub(super) async fn dispatch(
                 .map_err(|error| error.to_string())?;
             Ok(Value::Null)
         }
-        "is_retranscription_in_progress_command" => serde_json::to_value(
-            crate::audio::retranscription::is_retranscription_in_progress_command().await,
-        )
-        .map_err(|error| error.to_string()),
         "select_and_validate_audio_command" => serde_json::to_value(
             crate::audio::import::select_and_validate_audio_command(app.clone())
                 .await
@@ -2185,18 +1797,12 @@ pub(super) const EVENTS: &[&str] = &[
     "model-download-complete",
     "model-download-error",
     "model-download-progress",
-    "model-loading-completed",
-    "model-loading-failed",
-    "model-loading-started",
     "ollama-model-download-complete",
     "ollama-model-download-error",
     "ollama-model-download-progress",
     "parakeet-model-download-complete",
     "parakeet-model-download-error",
     "parakeet-model-download-progress",
-    "parakeet-model-loading-completed",
-    "parakeet-model-loading-failed",
-    "parakeet-model-loading-started",
     "recording-error",
     "recording-levels",
     "recording-paused",
@@ -2213,8 +1819,6 @@ pub(super) const EVENTS: &[&str] = &[
     "retranscription-progress",
     "speech-analysis-finished",
     "speech-detected",
-    "system-audio-started",
-    "system-audio-stopped",
     "transcript-chunk-loss-detected",
     "transcript-snapshot",
     "transcript-update",

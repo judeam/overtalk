@@ -919,11 +919,6 @@ pub async fn cancel_retranscription_command() -> Result<(), String> {
     Ok(())
 }
 
-#[tauri::command]
-pub async fn is_retranscription_in_progress_command() -> bool {
-    is_retranscription_in_progress()
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;

@@ -170,9 +170,7 @@ pub(crate) fn start(app: AppHandle) {
                         "native_template_file" => {
                             documents::template_file(&app, request.args).await
                         }
-                        "start_recording"
-                        | "start_recording_with_devices"
-                        | "start_recording_with_devices_and_meeting" => {
+                        "start_recording" | "start_recording_with_devices_and_meeting" => {
                             if !recording::prepare(&app) {
                                 Err("A recording is already starting or active".into())
                             } else {
@@ -446,7 +444,7 @@ mod watcher_tests {
         sqlx::migrate!("./migrations").run(&pool).await.unwrap();
         sqlx::query("INSERT INTO meetings(id,title,created_at,updated_at) VALUES('m','Before',datetime('now'),datetime('now'))").execute(&pool).await.unwrap();
         let before = super::library_fingerprint(&pool).await.unwrap();
-        crate::security::audit::append(&pool, "api_get_meeting", "m", true)
+        crate::security::audit::append(&pool, "api_get_meeting_metadata", "m", true)
             .await
             .unwrap();
         assert_eq!(super::library_fingerprint(&pool).await.unwrap(), before);

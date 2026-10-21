@@ -646,15 +646,6 @@ pub async fn workspace_task_status(
 }
 
 #[tauri::command]
-pub async fn workspace_delete_task(id: String, state: State<'_, AppState>) -> Result<(), String> {
-    sqlx::query("DELETE FROM workspace_tasks WHERE id=?")
-        .bind(id)
-        .execute(state.db_manager.pool())
-        .await
-        .map_err(|e| e.to_string())?;
-    Ok(())
-}
-#[tauri::command]
 pub async fn workspace_set_tags(
     meeting_id: String,
     tags: Vec<String>,

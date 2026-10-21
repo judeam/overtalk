@@ -76,18 +76,6 @@ pub fn ensure_screen_recording_permission() -> bool {
     false // Permission will be granted after restart
 }
 
-/// Tauri command to check Screen Recording permission
-#[tauri::command]
-pub async fn check_screen_recording_permission_command() -> bool {
-    check_screen_recording_permission()
-}
-
-/// Tauri command to request Screen Recording permission
-#[tauri::command]
-pub async fn request_screen_recording_permission_command() -> Result<(), String> {
-    request_screen_recording_permission().map_err(|e| e.to_string())
-}
-
 /// Trigger system audio permission request and verify it was granted
 /// Returns Ok(true) if permission granted (tap created successfully), Ok(false) if denied
 #[cfg(target_os = "macos")]

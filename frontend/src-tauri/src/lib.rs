@@ -1,7 +1,7 @@
 #[cfg(test)]
 mod test_support;
 
-use serde::{Deserialize, Serialize};
+use serde::Deserialize;
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::Mutex as StdMutex;
 // Removed unused import
@@ -41,7 +41,6 @@ pub mod api;
 pub mod audio;
 pub mod cloud;
 pub mod config;
-pub mod console_utils;
 pub mod database;
 pub mod groq;
 mod model_catalog;
@@ -133,13 +132,6 @@ static LANGUAGE_PREFERENCE: std::sync::LazyLock<StdMutex<String>> =
 #[derive(Debug, Deserialize)]
 struct RecordingArgs {
     save_path: String,
-}
-
-#[derive(Debug, Serialize, Clone)]
-struct TranscriptionStatus {
-    chunks_in_queue: usize,
-    is_processing: bool,
-    last_activity_ms: u64,
 }
 
 #[tauri::command]
@@ -266,69 +258,6 @@ async fn is_recording() -> bool {
     audio::recording_commands::is_recording().await
 }
 
-#[tauri::command]
-fn get_transcription_status() -> TranscriptionStatus {
-    TranscriptionStatus {
-        chunks_in_queue: 0,
-        is_processing: false,
-        last_activity_ms: 0,
-    }
-}
-
-#[tauri::command]
-async fn read_audio_file(
-    file_path: String,
-    state: tauri::State<'_, crate::state::AppState>,
-) -> Result<Vec<u8>, String> {
-    use tokio::io::AsyncReadExt;
-    let requested = std::path::PathBuf::from(file_path)
-        .canonicalize()
-        .map_err(|_| "Recording unavailable")?;
-    let folders: Vec<String> =
-        sqlx::query_scalar("SELECT folder_path FROM meetings WHERE folder_path IS NOT NULL")
-            .fetch_all(state.db_manager.pool())
-            .await
-            .map_err(|_| "Could not check recording access")?;
-    let owned = folders
-        .iter()
-        .filter_map(|p| std::path::Path::new(p).canonicalize().ok())
-        .any(|folder| {
-            requested.starts_with(&folder)
-                && audio::retranscription::find_audio_file(&folder)
-                    .ok()
-                    .and_then(|p| p.canonicalize().ok())
-                    .as_ref()
-                    == Some(&requested)
-        });
-    if !owned {
-        return Err("Only a saved meeting recording can be read".into());
-    }
-    crate::security::audit::append(state.db_manager.pool(), "audio_read", "", true).await?;
-    const LIMIT: u64 = 128 * 1024 * 1024;
-    let file = tokio::fs::File::from_std(
-        overtalk_worker_sandbox::open_regular(&requested, false, false)
-            .map_err(|_| "Recording unavailable")?,
-    );
-    if file
-        .metadata()
-        .await
-        .map_err(|_| "Recording unavailable")?
-        .len()
-        > LIMIT
-    {
-        return Err("Use streaming playback for recordings larger than 128 MiB".into());
-    }
-    let mut data = Vec::new();
-    file.take(LIMIT + 1)
-        .read_to_end(&mut data)
-        .await
-        .map_err(|_| "Could not read recording")?;
-    if data.len() as u64 > LIMIT {
-        return Err("Use streaming playback for recordings larger than 128 MiB".into());
-    }
-    Ok(data)
-}
-
 // Audio level monitoring commands
 #[tauri::command]
 async fn start_audio_level_monitoring<R: Runtime>(
@@ -354,11 +283,6 @@ async fn stop_audio_level_monitoring() -> Result<(), String> {
         .map_err(|e| format!("Failed to stop audio level monitoring: {}", e))
 }
 
-#[tauri::command]
-async fn is_audio_level_monitoring() -> bool {
-    audio::simple_level_monitor::is_monitoring()
-}
-
 // Whisper commands are now handled by whisper_engine::commands module
 
 #[tauri::command]
@@ -372,15 +296,6 @@ async fn get_audio_devices() -> Result<Vec<AudioDevice>, String> {
 async fn trigger_microphone_permission() -> Result<bool, String> {
     trigger_audio_permission()
         .map_err(|e| format!("Failed to trigger microphone permission: {}", e))
-}
-
-#[tauri::command]
-async fn start_recording_with_devices<R: Runtime>(
-    app: AppHandle<R>,
-    mic_device_name: Option<String>,
-    system_device_name: Option<String>,
-) -> Result<(), String> {
-    start_recording_with_devices_and_meeting(app, mic_device_name, system_device_name, None).await
 }
 
 #[tauri::command]
@@ -557,11 +472,9 @@ fn run_with_context(mut context: tauri::Context<tauri::Wry>, native: bool) {
         .plugin(tauri_plugin_store::Builder::default().build())
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_process::init())
-        .manage(whisper_engine::parallel_commands::ParallelProcessorState::new())
         .manage(Arc::new(RwLock::new(
             None::<notifications::manager::NotificationManager<tauri::Wry>>,
         )) as NotificationManagerState<tauri::Wry>)
-        .manage(audio::init_system_audio_state())
         .manage(summary::summary_engine::ModelManagerState::default())
         .setup(move |_app| {
             // On macOS the native engine is a private child of Overtalk.app: it
@@ -747,9 +660,7 @@ fn run_with_context(mut context: tauri::Context<tauri::Wry>, native: bool) {
         })
         .invoke_handler(security::ipc::handler(tauri::generate_handler![
             extensions::projects::workspace_project,
-            extensions::projects::workspace_project_learn,
             extensions::review::workspace_review,
-            extensions::review::workspace_note_revision,
             extensions::jobs::workspace_jobs,
             extensions::usage::usage_report,
             extensions::usage::usage_record,
@@ -760,10 +671,8 @@ fn run_with_context(mut context: tauri::Context<tauri::Wry>, native: bool) {
             extensions::backup_schedule::workspace_backup_key,
             extensions::backup_schedule::workspace_schedule_restore,
             extensions::connections::workspace_connections,
-            extensions::connections::workspace_google_connect,
             extensions::connection_oauth::workspace_account_auth,
             cloud::cloud_account,
-            extensions::connections::workspace_sync_google_calendar,
             extensions::connection_services::workspace_sync_calendar,
             extensions::calendar::workspace_join_event,
             extensions::recording_health::workspace_recording_health,
@@ -813,7 +722,6 @@ fn run_with_context(mut context: tauri::Context<tauri::Wry>, native: bool) {
             extensions::knowledge::workspace_tasks,
             extensions::knowledge::workspace_save_task,
             extensions::knowledge::workspace_task_status,
-            extensions::knowledge::workspace_delete_task,
             extensions::knowledge::workspace_set_tags,
             extensions::knowledge::workspace_tags,
             extensions::knowledge::workspace_meeting_tags,
@@ -843,16 +751,9 @@ fn run_with_context(mut context: tauri::Context<tauri::Wry>, native: bool) {
             start_recording,
             stop_recording,
             is_recording,
-            get_transcription_status,
-            read_audio_file,
             whisper_engine::commands::whisper_init,
             whisper_engine::commands::whisper_get_available_models,
-            whisper_engine::commands::whisper_load_model,
-            whisper_engine::commands::whisper_get_current_model,
-            whisper_engine::commands::whisper_is_model_loaded,
             whisper_engine::commands::whisper_has_available_models,
-            whisper_engine::commands::whisper_validate_model_ready,
-            whisper_engine::commands::whisper_transcribe_audio,
             whisper_engine::commands::whisper_get_models_directory,
             whisper_engine::commands::whisper_download_model,
             whisper_engine::commands::whisper_cancel_download,
@@ -860,55 +761,29 @@ fn run_with_context(mut context: tauri::Context<tauri::Wry>, native: bool) {
             // Parakeet engine commands
             parakeet_engine::commands::parakeet_init,
             parakeet_engine::commands::parakeet_get_available_models,
-            parakeet_engine::commands::parakeet_load_model,
-            parakeet_engine::commands::parakeet_get_current_model,
-            parakeet_engine::commands::parakeet_is_model_loaded,
             parakeet_engine::commands::parakeet_has_available_models,
-            parakeet_engine::commands::parakeet_validate_model_ready,
-            parakeet_engine::commands::parakeet_transcribe_audio,
             parakeet_engine::commands::parakeet_get_models_directory,
             parakeet_engine::commands::parakeet_download_model,
             parakeet_engine::commands::parakeet_retry_download,
             parakeet_engine::commands::parakeet_cancel_download,
             parakeet_engine::commands::parakeet_delete_corrupted_model,
-            parakeet_engine::commands::open_parakeet_models_folder,
-            // Parallel processing commands
-            whisper_engine::parallel_commands::initialize_parallel_processor,
-            whisper_engine::parallel_commands::start_parallel_processing,
-            whisper_engine::parallel_commands::pause_parallel_processing,
-            whisper_engine::parallel_commands::resume_parallel_processing,
-            whisper_engine::parallel_commands::stop_parallel_processing,
-            whisper_engine::parallel_commands::get_parallel_processing_status,
-            whisper_engine::parallel_commands::get_system_resources,
-            whisper_engine::parallel_commands::check_resource_constraints,
-            whisper_engine::parallel_commands::calculate_optimal_workers,
-            whisper_engine::parallel_commands::prepare_audio_chunks,
-            whisper_engine::parallel_commands::test_parallel_processing_setup,
             get_audio_devices,
             trigger_microphone_permission,
-            start_recording_with_devices,
             start_recording_with_devices_and_meeting,
             start_audio_level_monitoring,
             stop_audio_level_monitoring,
-            is_audio_level_monitoring,
             // Recording pause/resume commands
             audio::recording_commands::pause_recording,
             audio::recording_commands::resume_recording,
-            audio::recording_commands::is_recording_paused,
             audio::recording_commands::get_recording_state,
             audio::recording_commands::get_meeting_folder_path,
             // Reload sync commands (retrieve transcript history and meeting name)
             audio::recording_commands::get_transcript_history,
             audio::recording_commands::get_recording_meeting_name,
-            // Playback device detection (Bluetooth warning)
-            audio::recording_commands::get_active_audio_output,
             // Audio recovery commands (for transcript recovery feature)
             audio::incremental_saver::recover_audio_from_checkpoints,
             audio::incremental_saver::cleanup_checkpoints,
             audio::incremental_saver::has_audio_checkpoints,
-            console_utils::show_console,
-            console_utils::hide_console,
-            console_utils::toggle_console,
             ollama::get_ollama_models,
             ollama::pull_ollama_model,
             ollama::delete_ollama_model,
@@ -928,7 +803,6 @@ fn run_with_context(mut context: tauri::Context<tauri::Wry>, native: bool) {
             api::api_save_transcript_config,
             api::api_get_transcript_api_key,
             api::api_delete_meeting,
-            api::api_get_meeting,
             api::api_get_meeting_metadata,
             api::api_get_meeting_transcripts,
             api::api_save_meeting_title,
@@ -951,16 +825,13 @@ fn run_with_context(mut context: tauri::Context<tauri::Wry>, native: bool) {
             summary::commands::api_cancel_summary,
             // Template commands
             summary::template_commands::api_list_templates,
-            summary::template_commands::api_get_template_details,
             summary::template_commands::api_validate_template,
             // Built-in AI commands
             summary::summary_engine::commands::builtin_ai_list_models,
-            summary::summary_engine::commands::builtin_ai_get_model_info,
             summary::summary_engine::commands::builtin_ai_download_model,
             summary::summary_engine::commands::builtin_ai_cancel_download,
             summary::summary_engine::commands::builtin_ai_delete_model,
             summary::summary_engine::commands::builtin_ai_is_model_ready,
-            summary::summary_engine::commands::builtin_ai_get_available_summary_model,
             summary::summary_engine::commands::builtin_ai_get_recommended_model,
             openrouter::get_openrouter_models,
             audio::recording_preferences::get_recording_preferences,
@@ -968,7 +839,6 @@ fn run_with_context(mut context: tauri::Context<tauri::Wry>, native: bool) {
             audio::recording_preferences::get_default_recordings_folder_path,
             audio::recording_preferences::open_recordings_folder,
             audio::recording_preferences::select_recording_folder,
-            audio::recording_preferences::get_available_audio_backends,
             audio::recording_preferences::get_current_audio_backend,
             audio::recording_preferences::set_audio_backend,
             audio::recording_preferences::get_audio_backend_info,
@@ -978,32 +848,10 @@ fn run_with_context(mut context: tauri::Context<tauri::Wry>, native: bool) {
             notifications::commands::get_notification_settings,
             notifications::commands::set_notification_settings,
             notifications::commands::request_notification_permission,
-            notifications::commands::show_notification,
-            notifications::commands::show_test_notification,
-            notifications::commands::is_dnd_active,
-            notifications::commands::get_system_dnd_status,
-            notifications::commands::set_manual_dnd,
-            notifications::commands::set_notification_consent,
-            notifications::commands::clear_notifications,
-            notifications::commands::is_notification_system_ready,
-            notifications::commands::initialize_notification_manager_manual,
-            notifications::commands::test_notification_with_auto_consent,
-            notifications::commands::get_notification_stats,
-            // System audio capture commands
-            audio::system_audio_commands::start_system_audio_capture_command,
-            audio::system_audio_commands::list_system_audio_devices_command,
-            audio::system_audio_commands::check_system_audio_permissions_command,
-            audio::system_audio_commands::start_system_audio_monitoring,
-            audio::system_audio_commands::stop_system_audio_monitoring,
-            audio::system_audio_commands::get_system_audio_monitoring_status,
-            // Screen Recording permission commands
-            audio::permissions::check_screen_recording_permission_command,
-            audio::permissions::request_screen_recording_permission_command,
+            // System audio permission
             audio::permissions::trigger_system_audio_permission_command,
             // Database import commands
             database::commands::check_first_launch,
-            database::commands::select_legacy_database_path,
-            database::commands::detect_legacy_database,
             database::commands::check_default_legacy_database,
             database::commands::import_and_initialize_database,
             database::commands::initialize_fresh_database,
@@ -1014,7 +862,6 @@ fn run_with_context(mut context: tauri::Context<tauri::Wry>, native: bool) {
             // Onboarding commands
             onboarding::get_onboarding_status,
             onboarding::save_onboarding_status_cmd,
-            onboarding::reset_onboarding_status_cmd,
             onboarding::complete_onboarding,
             // System settings commands
             #[cfg(target_os = "macos")]
@@ -1022,7 +869,6 @@ fn run_with_context(mut context: tauri::Context<tauri::Wry>, native: bool) {
             // Retranscription commands
             audio::retranscription::start_retranscription_command,
             audio::retranscription::cancel_retranscription_command,
-            audio::retranscription::is_retranscription_in_progress_command,
             // Import audio commands
             audio::import::select_and_validate_audio_command,
             audio::import::validate_audio_file_command,

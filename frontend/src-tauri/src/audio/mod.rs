@@ -31,7 +31,6 @@ pub mod recording_saver;
 pub mod recording_state;
 pub mod simple_level_monitor;
 pub mod stream;
-pub mod system_audio_commands;
 pub mod system_detector; // NEW: Playback device detection for BT warnings
 
 // Transcription module (provider abstraction, engine management, worker pool)
@@ -66,13 +65,6 @@ pub use system_detector::{
     new_system_audio_callback, SystemAudioCallback, SystemAudioDetector, SystemAudioEvent,
 };
 
-// Export system audio commands
-pub use system_audio_commands::{
-    check_system_audio_permissions_command, get_system_audio_monitoring_status,
-    init_system_audio_state, list_system_audio_devices_command, start_system_audio_capture_command,
-    start_system_audio_monitoring, stop_system_audio_monitoring,
-};
-
 // Export new simplified components
 pub use device_monitor::{AudioDeviceMonitor, DeviceEvent, DeviceMonitorType};
 pub use encode::{encode_single_audio, AudioInput};
@@ -81,8 +73,8 @@ pub use level_monitor::{AudioLevelData, AudioLevelMonitor, AudioLevelUpdate};
 pub use pipeline::AudioPipelineManager;
 pub use post_processor::{PostProcessRequest, PostProcessResponse, PostProcessor};
 pub use recording_commands::{
-    get_transcription_status, is_recording, start_recording, start_recording_with_devices,
-    stop_recording, RecordingArgs, TranscriptUpdate, TranscriptionStatus,
+    get_transcription_status, is_recording, start_recording, stop_recording, RecordingArgs,
+    TranscriptUpdate, TranscriptionStatus,
 };
 pub use recording_manager::RecordingManager;
 pub use recording_preferences::{get_default_recordings_folder, RecordingPreferences};

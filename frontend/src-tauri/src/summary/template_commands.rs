@@ -53,22 +53,6 @@ pub async fn api_delete_template(template_id: String) -> Result<(), String> {
     templates::delete_custom_template(&template_id)
 }
 
-/// Detailed template structure for preview/debugging
-#[derive(Debug, Serialize, Deserialize)]
-pub struct TemplateDetails {
-    /// Template identifier
-    pub id: String,
-
-    /// Display name
-    pub name: String,
-
-    /// Description
-    pub description: String,
-
-    /// List of section titles in order
-    pub sections: Vec<String>,
-}
-
 /// Lists all available templates
 ///
 /// Returns templates from both built-in (embedded) and custom (user data directory) sources.
@@ -97,43 +81,6 @@ pub async fn api_list_templates<R: Runtime>(
     info!("Found {} available templates", template_infos.len());
 
     Ok(template_infos)
-}
-
-/// Gets detailed information about a specific template
-///
-/// # Arguments
-/// * `template_id` - Template identifier (e.g., "daily_standup")
-///
-/// # Returns
-/// TemplateDetails with full template structure
-#[tauri::command]
-pub async fn api_get_template_details<R: Runtime>(
-    _app: tauri::AppHandle<R>,
-    template_id: String,
-) -> Result<TemplateDetails, String> {
-    info!(
-        "api_get_template_details called for template_id: {}",
-        template_id
-    );
-
-    let template = templates::get_template(&template_id)?;
-
-    let section_titles: Vec<String> = template
-        .sections
-        .iter()
-        .map(|section| section.title.clone())
-        .collect();
-
-    let details = TemplateDetails {
-        id: template_id,
-        name: template.name,
-        description: template.description,
-        sections: section_titles,
-    };
-
-    info!("Retrieved template details for '{}'", details.name);
-
-    Ok(details)
 }
 
 /// Validates a custom template JSON string
