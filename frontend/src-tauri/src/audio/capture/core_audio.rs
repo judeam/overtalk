@@ -175,7 +175,11 @@ impl CoreAudioCapture {
             _output_time: &cat::AudioTimeStamp,
             ctx: Option<&mut AudioContext>,
         ) -> os::Status {
-            let ctx = ctx.unwrap();
+            // A panic cannot unwind out of this C callback; it would abort the app.
+            let Some(ctx) = ctx else {
+                // kAudioHardwareUnspecifiedError ('what')
+                return os::Status(i32::from_be_bytes(*b"what"));
+            };
 
             // Check for sample rate changes
             let after = device
