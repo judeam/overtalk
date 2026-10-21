@@ -13,20 +13,16 @@ either reachable makes the gate fail. Informational upstream maintenance and
 soundness warnings are reported separately, including the GTK binding warning;
 this gate does not mean every upstream warning has been eliminated.
 
-The retained web UI has two narrowly scoped, tested advisory exceptions:
+The retained web UI currently has no advisory exceptions. Tailwind CSS 4 and
+BlockNote 0.56 (TipTap 3) removed the earlier `braces 3.0.3` and
+`@tiptap/core 2.27.3` exceptions, together with the pnpm patch for braces.
+`.github/verify-dependency-security.cjs` still exercises the installed TipTap
+`mergeAttributes` against GHSA-cp6q-959q-f8rh.
 
-- `@tiptap/core 2.27.3`, GHSA-cp6q-959q-f8rh: this release already defines JSON
-  `__proto__` as an own property rather than changing the attribute object's
-  prototype. The scanner only recognizes the later 3.x release. The regression
-  exercises the installed editor dependency and rejects inherited executable
-  attributes.
-- `braces 3.0.3`, GHSA-vfj7-8cjw-p6xm: the committed pnpm patch limits parse
-  nesting before recursive traversal. Tests exercise both brace and parenthesis
-  attacks through normal and expanded patterns, as well as normal glob behavior.
-
-Both exceptions require the exact package/version/advisory tuple and successful
-exploit regression tests. They do not suppress other findings. Remove them when
-the compatible upstream packages incorporate recognized fixes.
+An exception requires the exact package/version/advisory tuple in
+`scripts/audit-dependencies.py` and a successful exploit regression test against
+the installed dependency. It does not suppress other findings. Remove it when the
+compatible upstream package incorporates a recognized fix.
 
 Python worker dependencies are resolved and checked with pip-audit. The external
 AI frameworks remain optional, separately installed runtimes; users should keep

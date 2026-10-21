@@ -91,7 +91,7 @@ export const BlockNoteSummaryView = forwardRef<BlockNoteSummaryViewRef, Props>(f
     clearTimeout(saveTimer.current);
     saveTimer.current = setTimeout(() => void flush().catch(() => {}), 800);
   };
-  useImperativeHandle(ref, () => ({ saveSummary: flush, getMarkdown: () => editor.blocksToMarkdownLossy(editor.document), isDirty: dirty }), [flush, editor, dirty]);
+  useImperativeHandle(ref, () => ({ saveSummary: flush, getMarkdown: async () => editor.blocksToMarkdownLossy(editor.document), isDirty: dirty }), [flush, editor, dirty]);
   return <div className="ot-note-editor" onClickCapture={event => {
     const anchor = (event.target as HTMLElement).closest('a[href]');
     if (!anchor || !props.onSource) return;

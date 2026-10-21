@@ -24,12 +24,11 @@ const nextConfig = {
         os: false,
       };
 
-      // Keep ProseMirror single-instanced for BlockNote/Tiptap.
+      // Keep ProseMirror single-instanced for BlockNote/Tiptap. BlockNote itself
+      // resolves normally: its CommonJS entry cannot load its ESM-only
+      // dependencies, and its subpath exports must share the main entry's modules.
       config.resolve.alias = {
         ...config.resolve.alias,
-        '@blocknote/core$': require.resolve('@blocknote/core'),
-        '@blocknote/react$': require.resolve('@blocknote/react'),
-        '@blocknote/shadcn$': require.resolve('@blocknote/shadcn'),
         'prosemirror-model': resolveFromTiptapPm('prosemirror-model'),
         'prosemirror-state': resolveFromTiptapPm('prosemirror-state'),
         'prosemirror-view': resolveFromTiptapPm('prosemirror-view'),

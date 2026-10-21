@@ -10,8 +10,8 @@ function object(value: unknown): SummaryObject | null {
 
 async function convertSavedBlocks(blocks: PartialBlock[]): Promise<string> {
   const { BlockNoteEditor } = await import('@blocknote/core');
-  // Conversion uses the same schema as the editor without mounting a second UI.
-  const editor = BlockNoteEditor.create({ _headless: true });
+  // Conversion uses the same schema as the editor; an editor that is never mounted stays headless.
+  const editor = BlockNoteEditor.create();
   return editor.blocksToMarkdownLossy(blocks);
 }
 

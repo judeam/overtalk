@@ -11,6 +11,8 @@
 @source '../app';
 @source '../components';
 @source '../features';
+/* BlockNote's shadcn components use this app's Tailwind utilities and theme. */
+@source '../../node_modules/@blocknote/shadcn/dist/blocknote-shadcn.js';
 @plugin '@tailwindcss/typography';
 
 @custom-variant dark (&:is(.dark *));
@@ -536,7 +538,8 @@ th {
 .meeting-notes-document {--meeting-paper:hsl(var(--background));--meeting-ink:hsl(var(--foreground));--meeting-muted:hsl(var(--muted));max-width:58rem;width:100%;margin-inline:auto;padding:2.5rem clamp(1.5rem,3vw,3.5rem) 2rem;}
 .meeting-notes-document .bn-container {--bn-colors-editor-background:var(--meeting-paper);--bn-colors-editor-text:var(--meeting-ink);--bn-font-family:var(--font-instrument), "Segoe UI", sans-serif;font-family:var(--font-instrument), "Segoe UI", sans-serif;}
 .meeting-notes-document .bn-container.bn-shadcn .bn-editor {font-family:var(--font-instrument), "Segoe UI", sans-serif;background:var(--meeting-paper);color:var(--meeting-ink);padding-inline:0;font-size:1rem;line-height:1.75;}
-.meeting-notes-document .bn-block-content[data-content-type="heading"] {font-weight:600;letter-spacing:-.02em;line-height:1.35;}
+/* BlockNote 0.56 adds 18px above headings; the margins below already space them. */
+.meeting-notes-document .bn-block-content[data-content-type="heading"] {font-weight:600;letter-spacing:-.02em;line-height:1.35;padding-top:3px;}
 .meeting-notes-document .bn-block-outer:has(>.bn-block>.bn-block-content[data-content-type="heading"]) {margin-top:1.5rem;margin-bottom:.6rem;}
 .meeting-notes-document .bn-block-content[data-content-type="table"] {font-size:.875rem;line-height:1.5;overflow-x:auto;}
 .meeting-notes-document .bn-block-content[data-content-type="table"] th {background:var(--meeting-muted);}

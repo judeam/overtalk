@@ -50,10 +50,7 @@ def node():
     report = json.loads(result.stdout)
     if "advisories" not in report:
         raise RuntimeError("pnpm audit did not return advisory results")
-    verified = {
-        ("GHSA-cp6q-959q-f8rh", "@tiptap/core", "2.27.3"),
-        ("GHSA-vfj7-8cjw-p6xm", "braces", "3.0.3"),
-    }
+    verified = set()
     failures = []
     for advisory in report["advisories"].values():
         ghsa = advisory.get("github_advisory_id", "")
