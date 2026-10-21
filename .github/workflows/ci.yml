@@ -92,10 +92,15 @@ jobs:
         with:
           toolchain: '1.94.0'
           components: rustfmt, clippy
+      # ort-sys links the ONNX Runtime it downloaded into its own cache folder; a
+      # restored target folder without that folder points the link at nothing.
       - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
         with:
-          key: native-v1-${{ matrix.os }}
+          key: native-v2-${{ matrix.os }}
           cache-on-failure: true
+          cache-directories: |
+            ~/.cache/ort.pyke.io
+            ~/Library/Caches/ort.pyke.io
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: '3.12'
