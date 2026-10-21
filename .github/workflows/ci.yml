@@ -106,7 +106,7 @@ jobs:
       - if: runner.os == 'Linux'
         run: |
           sudo apt-get update
-          sudo apt-get install -y libwebkit2gtk-4.1-dev libgtk-3-dev libxdo-dev libssl-dev librsvg2-dev libasound2-dev libpulse-dev libfontconfig1-dev libxkbcommon-dev libwayland-dev libinput10 libgbm1 libudev1 libclang-dev libpipewire-0.3-dev libspa-0.2-dev bubblewrap cmake ninja-build xvfb dbus-x11 ffmpeg espeak-ng pulseaudio strace
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libgtk-3-dev libxdo-dev libssl-dev librsvg2-dev libasound2-dev libpulse-dev libfontconfig1-dev libxkbcommon-dev libwayland-dev libinput10 libgbm1 libudev1 libclang-dev libpipewire-0.3-dev libspa-0.2-dev bubblewrap cmake ninja-build xvfb dbus-x11 gnome-keyring ffmpeg espeak-ng pulseaudio strace
       # Ubuntu 23.10+ restricts unprivileged user namespaces through AppArmor, which stops
       # bubblewrap configuring the worker's network namespace (docs/PLATFORMS.md).
       - name: Allow the worker sandbox's user namespaces
@@ -161,18 +161,18 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           python scripts/stage-native-resources.py target/release
-          APPDIR="$GITHUB_WORKSPACE/target/release" xvfb-run -a dbus-run-session -- python scripts/with-test-audio.py python scripts/verify-native-workflows.py target/release/sonefold-service --ui target/release/examples/verify_workflows
+          APPDIR="$GITHUB_WORKSPACE/target/release" xvfb-run -a dbus-run-session -- python scripts/with-test-keyring.py python scripts/with-test-audio.py python scripts/verify-native-workflows.py target/release/sonefold-service --ui target/release/examples/verify_workflows
       - name: Project, review, jobs and encrypted restore workflows
         if: runner.os == 'Linux'
         run: |
-          APPDIR="$GITHUB_WORKSPACE/target/release" xvfb-run -a dbus-run-session -- python scripts/verify-project-workspace.py target/release/sonefold-service --report artifacts/project-workflows.json
+          APPDIR="$GITHUB_WORKSPACE/target/release" xvfb-run -a dbus-run-session -- python scripts/with-test-keyring.py python scripts/verify-project-workspace.py target/release/sonefold-service --report artifacts/project-workflows.json
           python scripts/verify-browser-bridge.py target/release/overtalk-browser-bridge --strace --report artifacts/browser-bridge/report.json
-          APPDIR="$GITHUB_WORKSPACE/target/release" xvfb-run -a dbus-run-session -- python scripts/verify-native-backpressure.py target/release/sonefold-service --report artifacts/native-backpressure.json
-          APPDIR="$GITHUB_WORKSPACE/target/release" xvfb-run -a dbus-run-session -- python scripts/verify-privacy-workflows.py target/release/sonefold-service --report artifacts/privacy-workflows.json
-          APPDIR="$GITHUB_WORKSPACE/target/release" xvfb-run -a dbus-run-session -- python scripts/verify-security-boundaries.py target/release/sonefold-service --report artifacts/security-boundaries.json
-          APPDIR="$GITHUB_WORKSPACE/target/release" xvfb-run -a dbus-run-session -- python scripts/verify-ollama-boundaries.py target/release/sonefold-service --report artifacts/ollama-boundaries.json
-          APPDIR="$GITHUB_WORKSPACE/target/release" xvfb-run -a dbus-run-session -- python scripts/verify-calendar-document-boundaries.py target/release/sonefold-service --report artifacts/import-boundaries.json
-          APPDIR="$GITHUB_WORKSPACE/target/release" xvfb-run -a dbus-run-session -- python scripts/verify-database-concurrency.py target/release/sonefold-service --report artifacts/database-concurrency.json
+          APPDIR="$GITHUB_WORKSPACE/target/release" xvfb-run -a dbus-run-session -- python scripts/with-test-keyring.py python scripts/verify-native-backpressure.py target/release/sonefold-service --report artifacts/native-backpressure.json
+          APPDIR="$GITHUB_WORKSPACE/target/release" xvfb-run -a dbus-run-session -- python scripts/with-test-keyring.py python scripts/verify-privacy-workflows.py target/release/sonefold-service --report artifacts/privacy-workflows.json
+          APPDIR="$GITHUB_WORKSPACE/target/release" xvfb-run -a dbus-run-session -- python scripts/with-test-keyring.py python scripts/verify-security-boundaries.py target/release/sonefold-service --report artifacts/security-boundaries.json
+          APPDIR="$GITHUB_WORKSPACE/target/release" xvfb-run -a dbus-run-session -- python scripts/with-test-keyring.py python scripts/verify-ollama-boundaries.py target/release/sonefold-service --report artifacts/ollama-boundaries.json
+          APPDIR="$GITHUB_WORKSPACE/target/release" xvfb-run -a dbus-run-session -- python scripts/with-test-keyring.py python scripts/verify-calendar-document-boundaries.py target/release/sonefold-service --report artifacts/import-boundaries.json
+          APPDIR="$GITHUB_WORKSPACE/target/release" xvfb-run -a dbus-run-session -- python scripts/with-test-keyring.py python scripts/verify-database-concurrency.py target/release/sonefold-service --report artifacts/database-concurrency.json
       - name: Playback following and timeline interaction regressions
         if: runner.os == 'Linux'
         run: python scripts/verify-native-playback.py --binary target/release/examples/verify_playback
@@ -184,7 +184,7 @@ jobs:
         run: |
           python scripts/fetch-voice-model.py target/voice-test/campplus.onnx
           espeak-ng -w target/voice-test/speech.wav "This is a voice memory integration test. We need several clear samples of this voice, without any overlapping speech. The recording stays on this machine. It verifies enrollment, recognition and deletion. This final sentence makes the recording long enough for three independent samples."
-          APPDIR="$GITHUB_WORKSPACE/target/release" xvfb-run -a dbus-run-session -- python scripts/verify-voice-memory.py target/release/sonefold-service --model target/voice-test/campplus.onnx --audio target/voice-test/speech.wav
+          APPDIR="$GITHUB_WORKSPACE/target/release" xvfb-run -a dbus-run-session -- python scripts/with-test-keyring.py python scripts/verify-voice-memory.py target/release/sonefold-service --model target/voice-test/campplus.onnx --audio target/voice-test/speech.wav
       - name: Capture responsive layouts
         if: runner.os == 'Linux'
         run: python scripts/capture-native-parity.py --binary target/release/examples/visual_review --output artifacts/native --fixture native/tests/fixtures/visual.json
