@@ -140,7 +140,7 @@ url = "2.5.0"
 
 
 # System monitoring for resource management
-sysinfo = "0.32"
+sysinfo = "0.38.4"
 
 lazy_static = { version = "1.4.0" }
 realfft = "3.4.0"

@@ -90,8 +90,8 @@ pub fn start(app: AppHandle) {
             } else {
                 let app_name = tokio::task::spawn_blocking(|| {
                     let system = sysinfo::System::new_with_specifics(
-                        sysinfo::RefreshKind::new()
-                            .with_processes(sysinfo::ProcessRefreshKind::new()),
+                        sysinfo::RefreshKind::nothing()
+                            .with_processes(sysinfo::ProcessRefreshKind::nothing()),
                     );
                     system.processes().values().find_map(|p| {
                         let n = p.name().to_string_lossy().to_lowercase();
