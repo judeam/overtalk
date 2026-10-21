@@ -2,7 +2,7 @@
 //! a fresh nonce with an HMAC under that token. A program that took the API port while
 //! Overtalk was closed cannot answer, so the token never reaches it. The MAC covers the
 //! port the app listens on, so a program on another port cannot relay the app's answer.
-use hmac::{Hmac, Mac};
+use hmac::{Hmac, KeyInit, Mac};
 use sha2::Sha256;
 
 const CONTEXT: &[u8] = b"overtalk-local-api-proof\n";

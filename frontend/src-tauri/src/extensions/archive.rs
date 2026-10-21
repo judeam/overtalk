@@ -1,4 +1,5 @@
 //! Authenticated streaming age backups, credential-free snapshots, staged restore.
+use crate::security::storage::hex;
 use crate::state::AppState;
 use age::secrecy::ExposeSecret;
 use age::secrecy::SecretString;
@@ -122,7 +123,7 @@ fn describe(name: String, path: &Path) -> Result<Entry, String> {
     Ok(Entry {
         name,
         bytes: meta.len(),
-        sha256: format!("{:x}", hash.finalize()),
+        sha256: hex(&hash.finalize()),
     })
 }
 fn encrypt(
@@ -206,7 +207,7 @@ fn encrypt(
                 hash.update(&buffer[..n]);
                 output.write_all(&buffer[..n]).map_err(|e| e.to_string())?;
             }
-            if size != entry.bytes || format!("{:x}", hash.finalize()) != entry.sha256 {
+            if size != entry.bytes || hex(&hash.finalize()) != entry.sha256 {
                 return Err("A backup file changed while it was copied; retry".into());
             }
         }
@@ -341,7 +342,7 @@ fn decrypt(
             output.write_all(&buffer[..n]).map_err(|e| e.to_string())?;
             remaining -= n as u64;
         }
-        if format!("{:x}", hash.finalize()) != entry.sha256 {
+        if hex(&hash.finalize()) != entry.sha256 {
             return Err("Backup checksum failed; no files were restored".into());
         }
         output.sync_all().map_err(|e| e.to_string())?;
@@ -447,7 +448,7 @@ pub async fn workspace_create_backup(
             continue;
         };
         let folder = PathBuf::from(old);
-        let relative = format!("recordings/{:x}", Sha256::digest(id.as_bytes()));
+        let relative = format!("recordings/{}", hex(&Sha256::digest(id.as_bytes())));
         if include_audio {
             if folder.is_dir() {
                 for entry in fs::read_dir(&folder).map_err(|e| e.to_string())? {

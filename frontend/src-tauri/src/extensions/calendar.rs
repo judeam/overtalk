@@ -353,10 +353,9 @@ fn build(
         .iter()
         .any(|name| prop(event, name).is_some());
     CalendarEvent {
-        id: format!(
-            "{:x}",
-            sha2::Sha256::digest(format!("{source}\0{uid}\0{recurrence_id}"))
-        ),
+        id: crate::security::storage::hex(&sha2::Sha256::digest(format!(
+            "{source}\0{uid}\0{recurrence_id}"
+        ))),
         source: source.into(),
         uid: uid.into(),
         recurrence_id,
@@ -487,10 +486,9 @@ pub fn parse_ics(
                     budget.push(&mut all, build(event, source, &uid, s, e, a, key))?;
                 } else {
                     let mut occurrence = template.clone();
-                    occurrence.id = format!(
-                        "{:x}",
-                        sha2::Sha256::digest(format!("{source}\0{uid}\0{key}"))
-                    );
+                    occurrence.id = crate::security::storage::hex(&sha2::Sha256::digest(format!(
+                        "{source}\0{uid}\0{key}"
+                    )));
                     occurrence.recurrence_id = key;
                     occurrence.starts_at = date.with_timezone(&Utc).to_rfc3339();
                     occurrence.ends_at = (date + duration).with_timezone(&Utc).to_rfc3339();

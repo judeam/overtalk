@@ -9,6 +9,7 @@
 //! field, and audio that only the sandboxed media worker decodes. Nothing in the file
 //! is executed or interpreted as markup.
 use crate::extensions::privacy::{Redactions, Timing, REDACTED_PASSAGE};
+use crate::security::storage::hex;
 use crate::state::AppState;
 use base64::Engine as _;
 use chrono::{DateTime, Utc};
@@ -217,10 +218,6 @@ pub(crate) fn file_name(title: &str, extension: &str) -> String {
 /// At most `max` characters, no NUL, and not blank when `required`.
 fn bounded(value: &str, max: usize, required: bool) -> bool {
     value.chars().count() <= max && !value.contains('\0') && (!required || !value.trim().is_empty())
-}
-
-fn hex(digest: impl std::fmt::LowerHex) -> String {
-    format!("{digest:x}")
 }
 
 fn clock(seconds: f64) -> String {
@@ -984,7 +981,7 @@ fn write_bundle<W: Write + Seek>(
     let mut files = vec![Entry {
         name: "meeting.json".into(),
         bytes: json.len() as u64,
-        sha256: hex(Sha256::digest(&json)),
+        sha256: hex(&Sha256::digest(&json)),
     }];
     zip.start_file("meeting.json", deflated).map_err(error)?;
     zip.write_all(&json).map_err(|e| e.to_string())?;
@@ -1011,7 +1008,7 @@ fn write_bundle<W: Write + Seek>(
         files.push(Entry {
             name,
             bytes,
-            sha256: hex(hash.finalize()),
+            sha256: hex(&hash.finalize()),
         });
     }
     let manifest = Manifest {
@@ -1283,7 +1280,7 @@ fn read_bundle(path: &Path) -> Result<Bundle, String> {
         .find(|f| f.name == "meeting.json")
         .ok_or(DAMAGED)?;
     let bytes = read_entry(&mut zip, "meeting.json", MAX_MEETING)?;
-    if bytes.len() as u64 != listing.bytes || hex(Sha256::digest(&bytes)) != listing.sha256 {
+    if bytes.len() as u64 != listing.bytes || hex(&Sha256::digest(&bytes)) != listing.sha256 {
         return Err(DAMAGED.into());
     }
     let meeting: Meeting = serde_json::from_slice(&bytes)
@@ -1321,7 +1318,7 @@ fn extract_audio(source: &Path, listing: &Entry, folder: &Path) -> Result<PathBu
         hash.update(&buffer[..n]);
         output.write_all(&buffer[..n]).map_err(|e| e.to_string())?;
     }
-    if bytes != listing.bytes || hex(hash.finalize()) != listing.sha256 {
+    if bytes != listing.bytes || hex(&hash.finalize()) != listing.sha256 {
         return Err(DAMAGED.into());
     }
     output.as_file().sync_all().map_err(|e| e.to_string())?;

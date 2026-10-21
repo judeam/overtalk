@@ -521,7 +521,7 @@ fn archive(items: &[Item]) -> tempfile::NamedTempFile {
 }
 
 fn listing(name: &str, bytes: &[u8]) -> Value {
-    json!({"name": name, "bytes": bytes.len(), "sha256": hex(Sha256::digest(bytes))})
+    json!({"name": name, "bytes": bytes.len(), "sha256": hex(&Sha256::digest(bytes))})
 }
 
 fn manifest_of(format: &str, files: &[(&str, &[u8])]) -> Vec<u8> {

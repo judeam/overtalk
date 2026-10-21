@@ -327,7 +327,7 @@ fn verify_file(
         hasher.update(&buffer[..read]);
     }
 
-    let actual_sha256 = format!("{:x}", hasher.finalize());
+    let actual_sha256 = super::hex(&hasher.finalize());
     if actual_sha256 != expected_sha256 {
         return Err(format!(
             "{name} has SHA-256 {actual_sha256}, expected {expected_sha256}"

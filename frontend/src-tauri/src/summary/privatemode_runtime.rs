@@ -63,7 +63,7 @@ struct Running {
 static RUNNING: Mutex<Option<Running>> = Mutex::const_new(None);
 
 fn hex(bytes: &[u8]) -> String {
-    format!("{:x}", Sha256::digest(bytes))
+    crate::security::storage::hex(&Sha256::digest(bytes))
 }
 
 /// The local proxy for `key`, starting Privatemode's proxy when it is not

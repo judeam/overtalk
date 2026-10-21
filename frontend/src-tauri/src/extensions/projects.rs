@@ -1,5 +1,6 @@
 //! Project-scoped organization and evidence-backed memory. Original meeting
 //! records remain the source of truth; proposed knowledge is never a prompt fact.
+use crate::security::storage::hex;
 use crate::state::AppState;
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
@@ -14,7 +15,7 @@ fn now() -> String {
     chrono::Utc::now().to_rfc3339()
 }
 pub fn fingerprint(text: &str) -> String {
-    format!("{:x}", Sha256::digest(text.as_bytes()))
+    hex(&Sha256::digest(text.as_bytes()))
 }
 fn bounded(value: &str, max: usize, required: bool) -> Result<String, String> {
     let value = value.trim();

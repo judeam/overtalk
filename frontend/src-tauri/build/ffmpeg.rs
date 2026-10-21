@@ -23,7 +23,7 @@ fn digest(path: &Path) -> Result<String, String> {
         }
         hash.update(&bytes[..n]);
     }
-    Ok(format!("{:x}", hash.finalize()))
+    Ok(super::hex(&hash.finalize()))
 }
 
 pub(super) fn ensure_ffmpeg_binary() {

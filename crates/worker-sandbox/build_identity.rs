@@ -20,5 +20,9 @@ pub(crate) fn fingerprint(root: &Path) -> io::Result<String> {
         hash.update(std::fs::read(root.join(name))?);
         hash.update(b"\0");
     }
-    Ok(format!("{:x}", hash.finalize()))
+    Ok(hash
+        .finalize()
+        .iter()
+        .map(|byte| format!("{byte:02x}"))
+        .collect())
 }

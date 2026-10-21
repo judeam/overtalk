@@ -3,6 +3,11 @@ mod ffmpeg;
 #[path = "build/onnxruntime.rs"]
 mod onnxruntime;
 
+/// Lowercase hexadecimal for the digests the bundled tools are pinned to.
+fn hex(bytes: &[u8]) -> String {
+    bytes.iter().map(|byte| format!("{byte:02x}")).collect()
+}
+
 fn main() {
     // Tauri copies externalBin seeds into Cargo's output directory. Our worker
     // is a workspace target: copying a bundled seed can silently overwrite the

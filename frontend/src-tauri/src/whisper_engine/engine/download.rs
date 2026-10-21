@@ -378,7 +378,9 @@ impl WhisperEngine {
             .await
             .map_err(|e| anyhow!("Failed to flush file: {}", e))?;
         if let Some((bytes, digest)) = expected {
-            if downloaded != *bytes || format!("{:x}", checksum.finalize()) != *digest {
+            if downloaded != *bytes
+                || crate::security::storage::hex(&checksum.finalize()) != *digest
+            {
                 return Err(anyhow!("Model checkpoint integrity verification failed"));
             }
         }

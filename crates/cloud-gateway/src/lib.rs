@@ -23,7 +23,10 @@ pub fn secret() -> anyhow::Result<String> {
 
 pub fn digest(value: &[u8]) -> String {
     use sha2::{Digest, Sha256};
-    format!("{:x}", Sha256::digest(value))
+    Sha256::digest(value)
+        .iter()
+        .map(|byte| format!("{byte:02x}"))
+        .collect()
 }
 
 /// Midnight UTC of a YYYY-MM-DD date, as Unix seconds.

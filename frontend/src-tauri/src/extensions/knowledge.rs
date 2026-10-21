@@ -1,5 +1,6 @@
 //! Local meeting retrieval and answers whose citations are bound to source content.
 use crate::database::repositories::setting::SettingsRepository;
+use crate::security::storage::hex;
 use crate::state::AppState;
 use crate::summary::llm_client::{generate_summary, LLMProvider};
 use once_cell::sync::Lazy;
@@ -56,7 +57,7 @@ pub fn fingerprint(source: &Source) -> String {
         source.end_time,
     ))
     .unwrap_or_default();
-    format!("{:x}", Sha256::digest(bytes))
+    hex(&Sha256::digest(bytes))
 }
 #[derive(Clone, Debug, Serialize)]
 pub struct SearchResponse {

@@ -46,6 +46,17 @@ pub fn read_limited(path: &Path, limit: usize) -> std::io::Result<Vec<u8>> {
     Ok(bytes)
 }
 
+/// Lowercase hexadecimal, the form that saved digests, pins and derived IDs use.
+pub fn hex(bytes: &[u8]) -> String {
+    use std::fmt::Write;
+    bytes
+        .iter()
+        .fold(String::with_capacity(bytes.len() * 2), |mut text, byte| {
+            let _ = write!(text, "{byte:02x}");
+            text
+        })
+}
+
 /// Hash a regular file with fixed memory, rejecting growth, truncation and
 /// special files. Shared by verification of saved models and resumed downloads.
 pub fn hash_regular_file(path: &Path, limit: u64) -> std::io::Result<(sha2::Sha256, u64)> {
@@ -266,6 +277,12 @@ mod tests {
         assert!(hash_regular_file(&file, 4).is_err());
         assert!(hash_regular_file(&link, 5).is_err());
         assert!(hash_regular_file(&fifo, 5).is_err());
-        assert_eq!(hash_regular_file(&file, 5).unwrap().1, 5);
+        let (digest, size) = hash_regular_file(&file, 5).unwrap();
+        assert_eq!(size, 5);
+        // Saved pins compare against this exact text; "01" checks zero padding.
+        assert_eq!(
+            hex(&sha2::Digest::finalize(digest)),
+            "5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5"
+        );
     }
 }

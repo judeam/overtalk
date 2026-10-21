@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 //! Opt-in, local voice memory. No audio or embeddings are sent to a provider.
+use crate::security::storage::hex;
 use crate::state::AppState;
 use futures_util::StreamExt;
 use overtalk_voice_memory as voice;
@@ -47,7 +48,7 @@ fn model_path<R: Runtime>(app: &AppHandle<R>) -> Result<PathBuf, String> {
 }
 fn verified(path: &Path) -> bool {
     crate::security::storage::hash_regular_file(path, 32 * 1024 * 1024)
-        .is_ok_and(|(digest, _)| format!("{:x}", digest.finalize()) == voice::MODEL_SHA256)
+        .is_ok_and(|(digest, _)| hex(&digest.finalize()) == voice::MODEL_SHA256)
 }
 
 #[tauri::command]
@@ -110,7 +111,7 @@ pub async fn voice_memory_setup<R: Runtime>(app: AppHandle<R>) -> Result<(), Str
             hash.update(&chunk);
             file.write_all(&chunk).await.map_err(|e| e.to_string())?;
         }
-        if format!("{:x}", hash.finalize()) != voice::MODEL_SHA256 {
+        if hex(&hash.finalize()) != voice::MODEL_SHA256 {
             return Err("Voice model checksum mismatch; download rejected".into());
         }
         file.sync_all().await.map_err(|e| e.to_string())?;

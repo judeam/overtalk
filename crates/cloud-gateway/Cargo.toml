@@ -14,7 +14,7 @@ base64 = "0.22"
 hyper = { version = "0.14", features = ["server", "http1", "runtime"] }
 reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
 ring = "0.17"
-sha2 = "0.10"
+sha2 = "0.11"
 sqlx = { version = "0.8", default-features = false, features = ["runtime-tokio", "sqlite"] }
 thiserror = "2"
 url = "2.5"

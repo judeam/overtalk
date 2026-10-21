@@ -64,7 +64,7 @@ openmp = ["whisper-rs/openmp"]     # OpenMP parallel processing
 tauri-build = { version = "2.3.0", features = [] }
 reqwest = { version = "0.12", default-features = false, features = ["blocking", "multipart", "json", "stream", "rustls-tls"] }
 zip = { version = "9.0.0", default-features = false, features = ["deflate"] }           # ZIP extraction (Windows, macOS)
-sha2 = "0.10"
+sha2 = "0.11"
 serde_json = "1.0"
 
 
@@ -76,7 +76,7 @@ overtalk-documents = { path = "../../crates/meeting-documents" }
 overtalk-library-reads = { path = "../../crates/library-reads" }
 rodio = { version = "0.20.1", default-features = false, features = ["symphonia-all"] }
 overtalk-protocol = { path = "../../crates/desktop-protocol" }
-sha2 = "0.10"
+sha2 = "0.11"
 age = { version = "0.12.1", default-features = false }
 ical = { version = "0.11.0", default-features = false, features = ["ical"] }
 rrule = "0.14.0"

@@ -5,6 +5,7 @@ use std::collections::{HashMap, HashSet};
 use std::path::PathBuf;
 use std::sync::Arc;
 
+use crate::security::storage::hex;
 use anyhow::{anyhow, Result};
 use reqwest::Client;
 use serde::{Deserialize, Serialize};
@@ -396,7 +397,7 @@ impl ModelManager {
                             crate::security::storage::hash_regular_file(&check, size_limit)
                         })
                         .await??;
-                        if format!("{:x}", hash.finalize()) != *expected {
+                        if hex(&hash.finalize()) != *expected {
                             let _ = fs::remove_file(&file_path).await;
                             if let Some(info) =
                                 self.available_models.write().await.get_mut(model_name)
@@ -733,7 +734,7 @@ impl ModelManager {
                 })
                 .await??;
             }
-            if format!("{:x}", hash.finalize()) != *expected {
+            if hex(&hash.finalize()) != *expected {
                 let _ = fs::remove_file(&file_path).await;
                 if let Some(info) = self.available_models.write().await.get_mut(model_name) {
                     info.status = ModelStatus::Error(
