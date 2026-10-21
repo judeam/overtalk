@@ -2,7 +2,7 @@ import type { MeetingSummary } from '@/types';
 import { z } from 'zod';
 
 const REASONING_MARKER = /<\/?think(?:ing)?(?:\s+[^>]*)?>/i;
-const SummaryObject = z.record(z.unknown());
+const SummaryObject = z.record(z.string(), z.unknown());
 
 function parseSummaryObject(value: unknown) {
   const parsed = SummaryObject.safeParse(value);
@@ -62,11 +62,11 @@ export function hasVisibleSummaryContent(value: unknown): value is MeetingSummar
     .some(([, section]) => hasLegacySectionText(section));
 }
 
-const SummaryMetadata = z.object({
+const SummaryMetadata = z.looseObject({
   MeetingName: z.string().optional(),
   reasoning_stripped: z.boolean().optional(),
   normalization_fallback: z.boolean().optional(),
-}).passthrough();
+});
 
 export function readSummaryMetadata(value: unknown) {
   const parsed = SummaryMetadata.safeParse(value);
