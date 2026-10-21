@@ -58,7 +58,7 @@ jobs:
       - run: sudo apt-get update && sudo apt-get install -y valgrind libc6-dbg
       - run: cargo build --locked --release -p overtalk-documents --example audit_inputs
       - run: python3 scripts/audit-native-memory.py target/release/examples/audit_inputs --output artifacts/native-memory/report.json
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
         with:
           name: native-memory
@@ -137,7 +137,7 @@ jobs:
           binary=target/release/examples/visual_review
           if [ "$RUNNER_OS" = "Windows" ]; then binary="$binary.exe"; fi
           python scripts/capture-native-parity.py --binary "$binary" --views home,meeting,settings --sizes 1280x720 --output "$SCREENS"
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
         with:
           name: screens-${{ matrix.label }}
@@ -174,7 +174,7 @@ jobs:
       - name: Capture responsive layouts
         if: runner.os == 'Linux'
         run: python scripts/capture-native-parity.py --binary target/release/examples/visual_review --output artifacts/native --fixture native/tests/fixtures/visual.json
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always() && runner.os == 'Linux'
         with:
           name: native-layouts
@@ -280,7 +280,7 @@ jobs:
       - run: python -m pip install pip-audit==2.10.0
       - run: python -m pip_audit -r speech-worker/requirements.txt -r speech-worker/requirements-alignment.txt --format json --output artifacts/security/python.json
         if: '!cancelled()'
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
         with:
           name: dependency-security-reports
