@@ -384,8 +384,11 @@ pub fn run(context: tauri::Context<tauri::Wry>) {
 }
 
 /// The private engine process started by the native UI. A separately built
-/// edition installs its addon (see [`addon::install`]) and then calls this.
-pub fn service_main() {
+/// edition installs its addon (see [`addon::install`]) and then returns this
+/// from its `main`.
+#[must_use = "return the exit code from main"]
+pub fn service_main() -> std::process::ExitCode {
+    use std::process::ExitCode;
     // Automatic filing and briefs are part of the engine; another build may install
     // its own addon first.
     extensions::project_memory::install();
@@ -396,9 +399,9 @@ pub fn service_main() {
     {
         if native_model_worker::run(&args[2..]).is_err() {
             eprintln!("Isolated native inference failed");
-            std::process::exit(1);
+            return ExitCode::FAILURE;
         }
-        return;
+        return ExitCode::SUCCESS;
     }
     if args.len() == 3 && args[1] == "--check-database" {
         let path = std::path::PathBuf::from(&args[2]);
@@ -417,24 +420,29 @@ pub fn service_main() {
             Ok::<_, sqlx::Error>(serde_json::json!({"valid":integrity == ["ok"] && references == 0,
                 "integrity":integrity,"foreign_key_violations":references,"sqlite_version":version}))
         });
-        match result {
+        return match result {
             Ok(report) => {
                 println!("{report}");
-                std::process::exit(if report["valid"] == true { 0 } else { 1 });
+                if report["valid"] == true {
+                    ExitCode::SUCCESS
+                } else {
+                    ExitCode::FAILURE
+                }
             }
             Err(_) => {
                 eprintln!("Could not verify the database using the bundled SQLite engine");
-                std::process::exit(1);
+                ExitCode::FAILURE
             }
-        }
+        };
     }
     // This entry point is a private child process, never a network daemon.
     if !std::env::args().any(|argument| argument == "--stdio") {
         eprintln!("sonefold-service is started privately by Overtalk with --stdio");
-        std::process::exit(2);
+        return ExitCode::from(2);
     }
     security::logging::initialize("warn");
     run_native_service(tauri::generate_context!("tauri-service.conf.json"));
+    ExitCode::SUCCESS
 }
 
 fn run_native_service(context: tauri::Context<tauri::Wry>) {

@@ -3,6 +3,6 @@
     windows_subsystem = "windows"
 )]
 
-fn main() {
-    app_lib::service_main();
+fn main() -> std::process::ExitCode {
+    app_lib::service_main()
 }
