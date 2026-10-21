@@ -6,6 +6,10 @@ const resolveFromTiptapPm = (pkg) =>
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false, // Disabled for BlockNote compatibility
+  // next dev would otherwise write a frontend/AGENTS.md for coding agents; the repository's AGENTS.md applies.
+  agentRules: false,
+  // The browser checks in scripts/ open the dev server at 127.0.0.1; Next 16 blocks other dev origins.
+  allowedDevOrigins: ['127.0.0.1'],
   output: 'export',
   images: {
     unoptimized: true,
