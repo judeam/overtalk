@@ -234,17 +234,12 @@ fn copy_exact<R: Read, W: Write>(
 }
 
 fn is_link_or_reparse_point(metadata: &fs::Metadata) -> bool {
-    if metadata.file_type().is_symlink() {
-        return true;
-    }
-
+    // FILE_ATTRIBUTE_REPARSE_POINT covers junctions as well as symlinks.
     #[cfg(windows)]
-    {
-        return metadata.file_attributes() & 0x0000_0400 != 0;
-    }
-
+    let reparse_point = metadata.file_attributes() & 0x0000_0400 != 0;
     #[cfg(not(windows))]
-    false
+    let reparse_point = false;
+    metadata.file_type().is_symlink() || reparse_point
 }
 
 fn verify_staged_runtime(destination: &Path) -> Result<(), String> {
