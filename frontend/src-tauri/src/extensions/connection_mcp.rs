@@ -18,7 +18,10 @@ struct Session {
     id: Option<String>,
     version: String,
     tools: Vec<Value>,
-    created: Instant,
+    /// When the catalogue was loaded; None until then or after the service
+    /// forgets the session. Never backdate an Instant: it may underflow on a
+    /// machine that started less than that long ago.
+    created: Option<Instant>,
 }
 static SESSIONS: LazyLock<Mutex<HashMap<String, Arc<Mutex<Session>>>>> =
     LazyLock::new(Default::default);
@@ -51,7 +54,7 @@ fn session_cell(
         id: None,
         version: "2025-06-18".into(),
         tools: Vec::new(),
-        created: Instant::now() - Duration::from_secs(3600),
+        created: None,
     }));
     sessions.insert(id.into(), cell.clone());
     Ok(cell)
@@ -209,7 +212,7 @@ async fn read_response(
 ) -> Result<Value, String> {
     if !response.status().is_success() {
         if response.status().as_u16() == 404 {
-            session.created = Instant::now() - Duration::from_secs(3600);
+            session.created = None;
         }
         return Err(format!(
             "Connected service returned HTTP {}. Reconnect if your session expired.",
@@ -270,7 +273,9 @@ async fn session(c: &Connection) -> Result<Arc<Mutex<Session>>, String> {
         session_cell(&mut sessions, &c.id)?
     };
     let mut s = cell.lock().await;
-    if s.created.elapsed() > Duration::from_secs(600) {
+    if s.created
+        .is_none_or(|created| created.elapsed() > Duration::from_secs(600))
+    {
         s.id = None;
         s.tools.clear();
         s.version = "2025-06-18".into();
@@ -303,7 +308,7 @@ async fn session(c: &Connection) -> Result<Arc<Mutex<Session>>, String> {
                     return Err("Connected service repeated a catalogue page".into());
                 }
             } else {
-                s.created = Instant::now();
+                s.created = Some(Instant::now());
                 drop(s);
                 return Ok(cell);
             }
@@ -693,6 +698,19 @@ mod tests {
         assert_eq!(cells.len(), MAX_SESSIONS);
     }
     #[test]
+    fn a_session_that_never_loaded_its_catalogue_is_evicted_first() {
+        let mut cells = HashMap::new();
+        for i in 0..MAX_SESSIONS {
+            let cell = session_cell(&mut cells, &i.to_string()).unwrap();
+            if i != 3 {
+                cell.try_lock().unwrap().created = Some(Instant::now());
+            }
+        }
+        session_cell(&mut cells, "next").unwrap();
+        assert!(!cells.contains_key("3"));
+        assert_eq!(cells.len(), MAX_SESSIONS);
+    }
+    #[test]
     fn catalogue_budget_applies_across_pages() {
         let page = [json!({"name":"large", "description":"x".repeat(MAX_CATALOG_BYTES / 2)})];
         let mut tools = Vec::new();
@@ -819,7 +837,7 @@ mod tests {
                 id: None,
                 version: "2025-06-18".into(),
                 tools: vec![],
-                created: Instant::now(),
+                created: Some(Instant::now()),
             };
             assert_eq!(
                 read_response(response, &mut session, &json!("test"), false)
