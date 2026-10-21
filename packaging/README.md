@@ -57,7 +57,8 @@ checkout at packaging time, so build releases from a clean checkout without `--s
 
 - **.deb:** Ubuntu 24.04 or newer, or Debian 13 or newer. Depends comes from
   `dpkg-shlibdeps` over the shipped binaries (it uses the `t64` library names), plus
-  `bubblewrap` and `ffmpeg`, which the engine runs. It also recommends `pipewire-pulse | pulseaudio`.
+  the display, input and GL libraries the window loads at run time (X11/xcb, Wayland,
+  xkbcommon, EGL/GL), and `bubblewrap` and `ffmpeg`, which the engine runs. It also recommends `pipewire-pulse | pulseaudio`.
 - **AppImage:** glibc 2.39 or newer and libstdc++ from GCC 12 or newer, `/usr/bin/bwrap`, `/usr/bin/ffmpeg`,
   and FUSE (or run it with `--appimage-extract-and-run`). Bundled libraries are found
   through RUNPATH, so nothing leaks into host programs. These come from the host: the C/C++ runtimes,

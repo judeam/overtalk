@@ -46,6 +46,11 @@ OSS_BINARIES = {
     "overtalk-cli": "overtalk-cli",
 }
 ICON_SIZES = [16, 24, 32, 48, 64, 128, 256, 512]
+# Debian packages of the libraries winit and Slint's renderer load with dlopen.
+DISPLAY_DEPENDS = ", ".join([
+    "libegl1", "libgl1", "libwayland-client0", "libwayland-egl1", "libx11-6", "libx11-xcb1", "libxcb1",
+    "libxcursor1", "libxi6", "libxkbcommon0", "libxkbcommon-x11-0", "libxrender1",
+])
 # Libraries the AppImage takes from the host, following the AppImage project's
 # excludelist: the C and C++ runtimes, graphics drivers, display and sound
 # server clients, and font configuration must match the running system.
@@ -276,8 +281,10 @@ def build_deb(args, tree, version, epoch, work):
         " including statically linked ONNX Runtime, whisper.cpp and llama.cpp,\n"
         f" are in /usr/share/doc/{args.package}/licenses/.\n")
     executables = sorted((prefix / "bin").iterdir())
-    # Runtime programs the engine executes: the worker sandbox and the encoder.
-    depends = f"{shlib_depends(executables)}, bubblewrap, ffmpeg"
+    # The window opens its display, input and GL libraries at run time, which
+    # dpkg-shlibdeps cannot see; without libxkbcommon-x11 it panics under X11.
+    # The engine runs the worker sandbox and the encoder as programs.
+    depends = f"{shlib_depends(executables)}, {DISPLAY_DEPENDS}, bubblewrap, ffmpeg"
     size = sum(path.stat().st_size for path in root.rglob("*") if path.is_file() and not path.is_symlink())
     fields = {
         "Package": args.package,
