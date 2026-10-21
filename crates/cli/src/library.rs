@@ -17,7 +17,7 @@ struct Library(Connection);
 impl Store for Library {
     fn rows(
         &mut self,
-        sql: &str,
+        sql: &'static str,
         args: &[Arg],
     ) -> impl Future<Output = Result<Vec<Value>, String>> + Send {
         std::future::ready(rows(&self.0, sql, args))

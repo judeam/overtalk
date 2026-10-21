@@ -71,13 +71,14 @@ impl Own {
         // invited to nearly every event on their calendar; a series counts once,
         // so a weekly one-to-one cannot make a colleague look like the person.
         let appearances = "SELECT lower(json_extract(p.value,'$.email')) AS email,coalesce(nullif(c.series_id,''),c.id) AS invite FROM workspace_calendar c, json_each(c.participants) p UNION SELECT lower(organizer),coalesce(nullif(series_id,''),id) FROM workspace_calendar WHERE organizer<>''";
-        let invites: i64 = sqlx::query_scalar(&format!(
+        // `appearances` is the constant subquery above.
+        let invites: i64 = sqlx::query_scalar(sqlx::AssertSqlSafe(format!(
             "SELECT count(DISTINCT invite) FROM ({appearances})"
-        ))
+        )))
         .fetch_one(pool)
         .await
         .unwrap_or(0);
-        let frequent: Option<(String, i64)> = sqlx::query_as(&format!("SELECT email,count(DISTINCT invite) AS n FROM ({appearances}) WHERE email LIKE '%@%' GROUP BY email ORDER BY n DESC LIMIT 1"))
+        let frequent: Option<(String, i64)> = sqlx::query_as(sqlx::AssertSqlSafe(format!("SELECT email,count(DISTINCT invite) AS n FROM ({appearances}) WHERE email LIKE '%@%' GROUP BY email ORDER BY n DESC LIMIT 1")))
             .fetch_optional(pool).await.unwrap_or(None);
         let inferred = frequent
             .filter(|(_, n)| *n >= 3 && *n * 10 >= invites * 8)

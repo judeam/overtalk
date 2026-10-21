@@ -4,7 +4,7 @@ The default desktop interface is native Slint (`native/`, binary `overtalk`). It
 
 ## Prerequisites
 
-Install Rust 1.92 or newer (CI uses 1.94) and Python 3.11 or newer for the build scripts. Ubuntu's apt `rustc` is older than the 1.92 minimum, so install Rust with rustup:
+Install Rust 1.94 or newer (SQLx 0.9 requires it; CI uses 1.94) and Python 3.11 or newer for the build scripts. Ubuntu's apt `rustc` is older than the 1.94 minimum, so install Rust with rustup:
 
 ```sh
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
@@ -167,5 +167,5 @@ run the worker's file, environment and network denial probes on all three platfo
 
 ## Code quality
 
-The workspace and native UI declare Rust 1.92 or newer; current CI uses Rust 1.94.
+The workspace and native UI declare Rust 1.94 or newer; current CI uses Rust 1.94.
 See [the codebase map](CODEBASE-MAP.md) and [quality tools](QUALITY-TOOLS.md) before changing shared modules. Run web tests with `pnpm test` to preserve process isolation.

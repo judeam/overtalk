@@ -169,7 +169,7 @@ zip = { version = "9.0.0", default-features = false, features = ["deflate"] }
 whatlang = "0.16.4"
 
 
-sqlx = { version = "0.8", default-features = false, features = ["runtime-tokio", "sqlite", "chrono", "macros", "migrate"] }
+sqlx = { version = "0.9", default-features = false, features = ["runtime-tokio", "sqlite", "chrono", "macros", "migrate"] }
 
 # Common Tauri configuration
 tauri = { version = "2.6.2", features = [ "macos-private-api", "protocol-asset", "tray-icon"] }

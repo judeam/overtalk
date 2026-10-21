@@ -155,7 +155,7 @@ See [packaging/README.md](../packaging/README.md).
 ### Windows
 
 Needs Visual Studio 2022 Build Tools with the C++ workload and a Windows SDK,
-Rust 1.92 or newer (MSVC), Python 3.12, CMake, NSIS 3 and FFmpeg:
+Rust 1.94 or newer (MSVC), Python 3.12, CMake, NSIS 3 and FFmpeg:
 
 ```powershell
 choco install ffmpeg --version=9.0.2 -y
@@ -186,7 +186,7 @@ until FFmpeg is installed beside the engine).
 
 ### macOS
 
-Needs Xcode (command-line tools), Rust 1.92 or newer, Python 3.12, CMake and
+Needs Xcode (command-line tools), Rust 1.94 or newer, Python 3.12, CMake and
 `brew install ffmpeg` (the verified build input):
 
 ```sh

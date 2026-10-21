@@ -320,7 +320,8 @@ async fn related_meetings(
          LEFT JOIN meeting_workspace_state s ON s.meeting_id=m.id WHERE s.trashed_at IS NULL \
          AND lower(json_extract(j.value,'$.email')) IN ({marks}) ORDER BY m.created_at DESC LIMIT 5"
     );
-    let mut query = sqlx::query_as::<_, (String, String, String)>(&sql);
+    // Only `?` placeholders are interpolated; every email is bound.
+    let mut query = sqlx::query_as::<_, (String, String, String)>(sqlx::AssertSqlSafe(sql));
     for email in &emails {
         query = query.bind(email);
     }
@@ -493,7 +494,7 @@ pub(crate) async fn facts(
                 String,
                 String,
             ),
-        >(&sql);
+        >(sqlx::AssertSqlSafe(sql)); // Only `?` placeholders are interpolated.
         for id in ids.iter().take(500) {
             query = query.bind(id);
         }
@@ -670,7 +671,7 @@ async fn tickets(pool: &SqlitePool, meetings: &[String]) -> Vec<Item> {
             String,
             String,
         ),
-    >(&sql);
+    >(sqlx::AssertSqlSafe(sql)); // Only `?` placeholders are interpolated.
     for id in meetings.iter().take(500) {
         query = query.bind(id);
     }

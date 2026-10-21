@@ -167,11 +167,14 @@ pub async fn delete(pool: &SqlitePool, id: &str, roots: &[PathBuf]) -> Result<bo
         .await
         .map_err(|e| e.to_string())?;
     for table in ["transcript_chunks", "summary_processes", "transcripts"] {
-        sqlx::query(&format!("DELETE FROM {table} WHERE meeting_id=?"))
-            .bind(id)
-            .execute(&mut *tx)
-            .await
-            .map_err(|e| e.to_string())?;
+        // `table` comes from the fixed list above; the meeting is bound.
+        sqlx::query(sqlx::AssertSqlSafe(format!(
+            "DELETE FROM {table} WHERE meeting_id=?"
+        )))
+        .bind(id)
+        .execute(&mut *tx)
+        .await
+        .map_err(|e| e.to_string())?;
     }
     sqlx::query("DELETE FROM meetings WHERE id=?")
         .bind(id)

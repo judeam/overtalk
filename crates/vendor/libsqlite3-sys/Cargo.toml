@@ -12,10 +12,12 @@
 [package]
 edition = "2021"
 name = "libsqlite3-sys"
-version = "0.30.1"
+version = "0.37.0"
 authors = ["The rusqlite developers"]
 build = "build.rs"
 links = "sqlite3"
+exclude = ["**/*.sh"]
+autolib = false
 autobins = false
 autoexamples = false
 autotests = false
@@ -30,50 +32,6 @@ keywords = [
 categories = ["external-ffi-bindings"]
 license = "MIT"
 repository = "https://github.com/rusqlite/rusqlite"
-
-[lib]
-name = "libsqlite3_sys"
-path = "src/lib.rs"
-
-[dependencies.openssl-sys]
-version = "0.9.103"
-optional = true
-
-[build-dependencies.bindgen]
-version = "0.69"
-features = ["runtime"]
-optional = true
-default-features = false
-
-[build-dependencies.cc]
-version = "1.1.6"
-optional = true
-
-[build-dependencies.pkg-config]
-version = "0.3.19"
-optional = true
-
-[build-dependencies.prettyplease]
-version = "0.2.20"
-optional = true
-
-[build-dependencies.quote]
-version = "1.0.36"
-optional = true
-default-features = false
-
-[build-dependencies.syn]
-version = "2.0.72"
-features = [
-    "full",
-    "extra-traits",
-    "visit-mut",
-]
-optional = true
-
-[build-dependencies.vcpkg]
-version = "0.2.15"
-optional = true
 
 [features]
 buildtime_bindgen = [
@@ -95,14 +53,15 @@ bundled-windows = [
     "bundled_bindings",
 ]
 bundled_bindings = []
-default = ["min_sqlite_version_3_14_0"]
+column_metadata = []
+default = ["min_sqlite_version_3_34_1"]
 in_gecko = []
 loadable_extension = [
     "prettyplease",
     "quote",
     "syn",
 ]
-min_sqlite_version_3_14_0 = [
+min_sqlite_version_3_34_1 = [
     "pkg-config",
     "vcpkg",
 ]
@@ -115,3 +74,47 @@ sqlcipher = []
 unlock_notify = []
 wasm32-wasi-vfs = []
 with-asan = []
+
+[lib]
+name = "libsqlite3_sys"
+path = "src/lib.rs"
+
+[dependencies.openssl-sys]
+version = "0.9.103"
+optional = true
+
+[build-dependencies.bindgen]
+version = "0.72"
+features = ["runtime"]
+optional = true
+default-features = false
+
+[build-dependencies.cc]
+version = "1.2.27"
+optional = true
+
+[build-dependencies.pkg-config]
+version = "0.3.19"
+optional = true
+
+[build-dependencies.prettyplease]
+version = "0.2.20"
+optional = true
+
+[build-dependencies.quote]
+version = "1.0.36"
+optional = true
+default-features = false
+
+[build-dependencies.syn]
+version = "2.0.89"
+features = [
+    "full",
+    "extra-traits",
+    "visit-mut",
+]
+optional = true
+
+[build-dependencies.vcpkg]
+version = "0.2.15"
+optional = true

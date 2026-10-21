@@ -144,9 +144,10 @@ impl From<Option<String>> for Arg {
 /// Read access to the app database.
 pub trait Store {
     /// Runs `sql`, whose only column is a JSON object, and decodes each row.
+    /// The SQL is always one of this crate's constant queries; values are bound.
     fn rows(
         &mut self,
-        sql: &str,
+        sql: &'static str,
         args: &[Arg],
     ) -> impl Future<Output = Result<Vec<Value>, String>> + Send;
 }

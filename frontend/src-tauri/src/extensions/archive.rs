@@ -362,7 +362,8 @@ fn decrypt(
 }
 async fn scrub_snapshot(pool: &SqlitePool) -> Result<(), String> {
     for table in ["settings", "transcript_settings", "licensing"] {
-        sqlx::query(&format!("DELETE FROM {table}"))
+        // `table` comes from the fixed list above.
+        sqlx::query(sqlx::AssertSqlSafe(format!("DELETE FROM {table}")))
             .execute(pool)
             .await
             .map_err(|e| e.to_string())?;

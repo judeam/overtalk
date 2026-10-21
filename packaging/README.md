@@ -9,7 +9,7 @@ Nothing here publishes or uploads anything.
 
 ## Build the .deb and AppImage
 
-Build inputs (Ubuntu 24.04 names): Rust 1.92 or newer, `cmake`, `clang`/`libclang-dev`,
+Build inputs (Ubuntu 24.04 names): Rust 1.94 or newer, `cmake`, `clang`/`libclang-dev`,
 `pkg-config`, `libgtk-3-dev`, `libwebkit2gtk-4.1-dev`, `libsoup-3.0-dev`,
 `libasound2-dev`, `libpulse-dev`, `libpipewire-0.3-dev`, `dpkg-dev`,
 `squashfs-tools`, `patchelf`, and `python3-gi` (or `rsvg-convert`) for icons.

@@ -92,7 +92,8 @@ async fn legacy(
 ) -> Result<Option<String>, sqlx::Error> {
     let (table, column) = location(domain, provider)?;
     let value: Option<String> =
-        sqlx::query_scalar(&format!("SELECT {column} FROM {table} WHERE id='1'"))
+        // `location` returns only fixed table and column names.
+        sqlx::query_scalar(sqlx::AssertSqlSafe(format!("SELECT {column} FROM {table} WHERE id='1'")))
             .fetch_optional(pool)
             .await?
             .flatten();
@@ -116,9 +117,11 @@ async fn clear_legacy(pool: &SqlitePool, domain: &str, provider: &str) -> Result
         sqlx::query("UPDATE settings SET customOpenAIConfig=json_remove(customOpenAIConfig,'$.api_key','$.apiKey') WHERE id='1' AND json_valid(customOpenAIConfig)")
             .execute(pool).await?;
     } else {
-        sqlx::query(&format!("UPDATE {table} SET {column}=NULL WHERE id='1'"))
-            .execute(pool)
-            .await?;
+        sqlx::query(sqlx::AssertSqlSafe(format!(
+            "UPDATE {table} SET {column}=NULL WHERE id='1'"
+        )))
+        .execute(pool)
+        .await?;
     }
     Ok(())
 }

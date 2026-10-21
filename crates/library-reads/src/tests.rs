@@ -8,7 +8,7 @@ struct Database(Connection);
 impl Store for Database {
     fn rows(
         &mut self,
-        sql: &str,
+        sql: &'static str,
         args: &[Arg],
     ) -> impl Future<Output = Result<Vec<Value>, String>> + Send {
         let result = (|| {
@@ -126,6 +126,17 @@ fn all() -> Grants {
 
 fn run(db: &mut Database, grants: Grants, name: &str, args: Value) -> Result<Value, String> {
     complete(call(db, grants, name, &args))
+}
+
+#[test]
+fn queries_run_on_the_vendored_sqlite_engine() {
+    // crates/vendor/libsqlite3-sys bundles SQLite 3.54.1 for rusqlite and SQLx alike.
+    let version: String = Connection::open_in_memory()
+        .unwrap()
+        .query_row("SELECT sqlite_version()", [], |row| row.get(0))
+        .unwrap();
+    assert_eq!(version, rusqlite::version());
+    assert!(rusqlite::version_number() >= 3_054_001, "{version}");
 }
 
 #[test]

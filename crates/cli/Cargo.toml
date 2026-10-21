@@ -13,7 +13,7 @@ path = "src/main.rs"
 overtalk-library-reads = { path = "../library-reads" }
 serde_json = { workspace = true }
 # Same libsqlite3-sys as the engine's sqlx; bundled so no system SQLite is needed.
-rusqlite = { version = "0.32.1", features = ["bundled"] }
+rusqlite = { version = "0.39.0", features = ["bundled"] }
 # A fresh nonce for each proof the app must give before the token is sent.
 getrandom = "0.2"
 

@@ -400,7 +400,7 @@ struct PoolStore<'a>(&'a sqlx::SqlitePool);
 impl overtalk_library_reads::Store for PoolStore<'_> {
     fn rows(
         &mut self,
-        sql: &str,
+        sql: &'static str,
         args: &[overtalk_library_reads::Arg],
     ) -> impl std::future::Future<Output = Result<Vec<Value>, String>> + Send {
         let pool = self.0;
