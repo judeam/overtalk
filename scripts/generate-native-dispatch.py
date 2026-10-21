@@ -20,7 +20,7 @@ commands = re.findall(r"^\s*([a-z_][a-z_0-9]*(?:::[a-z_][a-z_0-9]*)*)\s*,", regi
 # or legacy connection/debug controls. These commands are deliberately not exposed.
 excluded = {"read_audio_file", "workspace_audio_source", "workspace_release_audio", "ui_log_diagnostics"}
 web_commands = commands.copy()
-commands = [name for name in commands if not name.startswith(("analytics::", "console_utils::", "whisper_engine::parallel_commands::")) and name.split("::")[-1] not in excluded]
+commands = [name for name in commands if not name.startswith(("console_utils::", "whisper_engine::parallel_commands::")) and name.split("::")[-1] not in excluded]
 
 
 def split_parameters(text):

@@ -2,7 +2,6 @@
 
 import { useState, useCallback } from 'react';
 import { Copy, FolderOpen, RefreshCw } from 'lucide-react';
-import Analytics from '@/lib/analytics';
 import { RetranscribeDialog } from './RetranscribeDialog';
 import { useConfig } from '@/contexts/ConfigContext';
 
@@ -38,16 +37,16 @@ export function TranscriptButtonGroup({
   return (
     <div className="ot-tool-row">
       <button type="button" className="ot-tool" disabled={transcriptCount === 0}
-        onClick={() => { Analytics.trackButtonClick('copy_transcript', 'meeting_details'); onCopyTranscript(); }}>
+        onClick={() => { onCopyTranscript(); }}>
         <Copy aria-hidden="true" />Copy transcript
       </button>
       <button type="button" className="ot-tool"
-        onClick={() => { Analytics.trackButtonClick('open_recording_folder', 'meeting_details'); void onOpenMeetingFolder(); }}>
+        onClick={() => { void onOpenMeetingFolder(); }}>
         <FolderOpen aria-hidden="true" />Show recording folder
       </button>
       {betaFeatures.importAndRetranscribe && meetingId && meetingFolderPath && (
         <button type="button" className="ot-tool" title="Transcribe the recording again with the current model"
-          onClick={() => { Analytics.trackButtonClick('enhance_transcript', 'meeting_details'); setShowRetranscribeDialog(true); }}>
+          onClick={() => { setShowRetranscribeDialog(true); }}>
           <RefreshCw aria-hidden="true" />Transcribe again
         </button>
       )}

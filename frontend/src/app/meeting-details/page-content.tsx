@@ -7,7 +7,6 @@ import { sourceUrl } from '@/lib/workspace';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { MeetingSummary, SummaryProcessResponse } from '@/types';
-import Analytics from '@/lib/analytics';
 import { invoke } from '@tauri-apps/api/core';
 import { toast } from 'sonner';
 const SummaryPanel = lazy(() => import('@/components/MeetingDetails/SummaryPanel').then(module => ({ default: module.SummaryPanel })));
@@ -160,11 +159,6 @@ export default function PageContent({
   const meetingOperations = useMeetingOperations({
     meeting,
   });
-
-  // Track page view
-  useEffect(() => {
-    Analytics.trackPageView('meeting_details');
-  }, []);
 
   // Notes open when a generation finishes while the meeting is on screen, not for saved notes.
   const previousSummaryStatusRef = useRef(summaryGeneration.summaryStatus);

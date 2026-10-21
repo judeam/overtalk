@@ -17,7 +17,6 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Sparkles, Settings, Loader2, FileText, Check, Square } from 'lucide-react';
-import Analytics from '@/lib/analytics';
 import { useState, useEffect, ReactNode } from 'react';
 
 interface SummaryGeneratorButtonGroupProps {
@@ -89,7 +88,6 @@ export function SummaryGeneratorButtonGroup({
           size="sm"
           className="text-destructive hover:bg-destructive/10 px-3 gap-2"
           onClick={() => {
-            Analytics.trackButtonClick('stop_summary_generation', 'meeting_details');
             onStopGeneration();
           }}
           title="Stop summary generation"
@@ -103,7 +101,6 @@ export function SummaryGeneratorButtonGroup({
           size="sm"
           className="bg-primary text-primary-foreground hover:bg-primary/90 px-3 gap-2"
           onClick={() => {
-            Analytics.trackButtonClick('generate_summary', 'meeting_details');
             void onGenerateSummary(customPrompt);
           }}
           disabled={isModelConfigLoading}

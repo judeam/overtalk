@@ -9,7 +9,6 @@ import { useRecordingState, RecordingStatus } from '@/contexts/RecordingStateCon
 import { useTranscripts } from '@/contexts/TranscriptContext';
 import { useConfig } from '@/contexts/ConfigContext';
 import { StatusOverlays } from '@/app/_components/StatusOverlays';
-import Analytics from '@/lib/analytics';
 import { SettingsModals } from './_components/SettingsModal';
 import { LiveSession } from '@/components/session/LiveSession';
 import { PermissionWarning } from '@/components/PermissionWarning';
@@ -70,11 +69,6 @@ export default function Home() {
   } = useTranscriptRecovery();
 
   const router = useRouter();
-
-  useEffect(() => {
-    // Track page view
-    Analytics.trackPageView('home');
-  }, []);
 
   // Before a recording, the title field shows the name the recording will get.
   useEffect(() => {

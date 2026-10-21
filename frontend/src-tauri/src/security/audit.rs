@@ -196,8 +196,6 @@ pub fn sensitive(command: &str) -> bool {
             | "check_resource_constraints"
             | "calculate_optimal_workers"
             | "ui_log_diagnostics"
-            | "is_analytics_enabled"
-            | "is_analytics_session_active"
     )
 }
 

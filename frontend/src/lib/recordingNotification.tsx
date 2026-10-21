@@ -1,6 +1,5 @@
 import { Mic } from 'lucide-react';
 import { toast } from 'sonner';
-import Analytics from '@/lib/analytics';
 
 /**
  * Shows the recording notification toast with compliance message.
@@ -46,7 +45,6 @@ export async function showRecordingNotification(): Promise<void> {
                   await store.set('show_recording_notification', false);
                   await store.save();
                 }
-                Analytics.trackButtonClick('recording_notification_acknowledged', 'toast');
                 toast.dismiss(toastId);
               }}
               className="w-full min-h-10 px-3 py-2 bg-primary text-primary-foreground text-sm rounded-md hover:opacity-90 transition-colors font-medium"
