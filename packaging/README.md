@@ -88,7 +88,7 @@ because the engine's build script verifies the FFmpeg it stages for the Tauri bu
 ### What the first run downloads
 
 Launching downloads nothing, and nothing is contacted on start-up. The engine
-has no update check and its analytics are off. Recording, transcription and
+has no update check and no analytics. Recording, transcription and
 notes need two models. The user downloads each from Setup or Settings, and
 every download is pinned to a revision and checksummed:
 

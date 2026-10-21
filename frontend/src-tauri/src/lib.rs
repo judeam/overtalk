@@ -4,7 +4,6 @@ mod test_support;
 use serde::Deserialize;
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::Mutex as StdMutex;
-// Removed unused import
 
 // Performance optimization: Conditional logging macros for hot paths
 #[cfg(debug_assertions)]
@@ -283,8 +282,6 @@ async fn stop_audio_level_monitoring() -> Result<(), String> {
         .await
         .map_err(|e| format!("Failed to stop audio level monitoring: {}", e))
 }
-
-// Whisper commands are now handled by whisper_engine::commands module
 
 #[tauri::command]
 async fn get_audio_devices() -> Result<Vec<AudioDevice>, String> {
@@ -608,16 +605,6 @@ fn run_with_context(mut context: tauri::Context<tauri::Wry>, native: bool) {
                 }
             });
 
-            // Trigger system audio permission request on startup (similar to microphone permission)
-            // #[cfg(target_os = "macos")]
-            // {
-            //     tauri::async_runtime::spawn(async {
-            //         if let Err(e) = audio::permissions::trigger_system_audio_permission() {
-            //             log::warn!("Failed to trigger system audio permission: {}", e);
-            //         }
-            //     });
-            // }
-
             tauri::async_runtime::block_on(database::startup::initialize(_app.handle(), native))
                 .map_err(std::io::Error::other)?;
             let automation_app = _app.handle().clone();
@@ -798,8 +785,6 @@ fn run_with_context(mut context: tauri::Context<tauri::Wry>, native: bool) {
             api::api_save_model_config,
             api::api_get_api_key,
             api::api_get_privatemode_models,
-            // api::api_get_auto_generate_setting,
-            // api::api_save_auto_generate_setting,
             api::api_get_transcript_config,
             api::api_save_transcript_config,
             api::api_get_transcript_api_key,
