@@ -158,7 +158,9 @@ fn native_worker_denies_sibling_files_secrets_and_host_network() {
         .unwrap();
     assert!(
         result.status.success(),
-        "{}",
+        "{}\nstdout: {}\nstderr: {}",
+        result.status,
+        String::from_utf8_lossy(&result.stdout),
         String::from_utf8_lossy(&result.stderr)
     );
     let result: serde_json::Value = serde_json::from_slice(&result.stdout).unwrap();

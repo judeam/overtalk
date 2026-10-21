@@ -107,6 +107,11 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y libwebkit2gtk-4.1-dev libgtk-3-dev libxdo-dev libssl-dev librsvg2-dev libasound2-dev libpulse-dev libfontconfig1-dev libxkbcommon-dev libwayland-dev libinput10 libgbm1 libudev1 libclang-dev libpipewire-0.3-dev libspa-0.2-dev bubblewrap cmake ninja-build xvfb dbus-x11 ffmpeg espeak-ng pulseaudio strace
+      # Ubuntu 23.10+ restricts unprivileged user namespaces through AppArmor, which stops
+      # bubblewrap configuring the worker's network namespace (docs/PLATFORMS.md).
+      - name: Allow the worker sandbox's user namespaces
+        if: runner.os == 'Linux'
+        run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
       - name: Install FFmpeg from the platform package manager
         if: runner.os != 'Linux'
         run: |
@@ -124,6 +129,9 @@ jobs:
         run: python scripts/generate-native-dispatch.py --check
       - name: UI, protocol, document and idle-render regressions
         run: cargo test --locked -p overtalk-native -p overtalk-protocol -p overtalk-documents -p overtalk-voice-memory -p overtalk-capture -p overtalk-browser-bridge -p overtalk-worker-sandbox -p overtalk-cli -p overtalk-library-reads
+      - name: Show sandbox denials after a macOS failure
+        if: failure() && runner.os == 'macOS'
+        run: log show --last 20m --style compact --predicate 'sender == "Sandbox" OR eventMessage CONTAINS "deny("' | tail -80
       - run: cargo clippy --locked --release --workspace --all-targets -- -D warnings
       - name: Build native application and engine
         run: cargo build --locked --release -p overtalk-native -p sonefold -p overtalk-capture -p overtalk-browser-bridge -p overtalk-worker-sandbox --bin overtalk --bin sonefold-service --bin overtalk-capture --bin overtalk-browser-bridge --bin overtalk-worker --example verify_workflows --example verify_playback --example visual_review --example benchmark_ui

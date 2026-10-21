@@ -133,9 +133,11 @@ two fixes:
   `/etc/sysctl.d/` to keep it after a reboot). This turns off a system-wide
   hardening for all programs, so prefer the profile.
 
-Neither fix has been verified on a stock Ubuntu 24.04 install yet. The Linux
-results above come from a system where unprivileged user namespaces were already
-allowed.
+The restriction is confirmed on GitHub's stock Ubuntu 24.04 runner: bubblewrap stops
+with `loopback: Failed RTM_NEWADDR: Operation not permitted`. CI sets the sysctl to
+0 for its test job. The profile has not yet been tried on a stock install, and the
+Linux results above come from a system where unprivileged user namespaces were
+already allowed.
 
 ## Building the packages
 

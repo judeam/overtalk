@@ -11,8 +11,9 @@ from source ([Building](BUILDING.md)).
   and Python test suites pass, Clippy runs with warnings denied, and the pinned
   secret scan finds nothing in the source or its history.
 - **Stock Ubuntu 23.10 and later** restrict unprivileged user namespaces through
-  AppArmor, which can stop the bubblewrap worker sandbox; see
-  [Platforms](PLATFORMS.md). This has not been checked on a stock install yet.
+  AppArmor. On GitHub's stock Ubuntu 24.04 runner this stops the bubblewrap worker
+  sandbox, so local models would not run; see [Platforms](PLATFORMS.md). CI lifts
+  the restriction for its tests.
 - **Windows and macOS** have packaging and CI jobs, but those jobs have not run,
   and recording has not been tried on real Windows or Mac hardware.
 
@@ -28,6 +29,9 @@ from source ([Building](BUILDING.md)).
 4. **Signing.** Sign in a job that builds nothing, so dependency build scripts never
    run with signing keys available. macOS builds need a Developer ID, the hardened
    runtime and notarisation; Windows builds need an Authenticode certificate.
-5. **CI.** Run the three-platform CI and fix what it finds.
+5. **Ubuntu packages.** Ship and test an AppArmor profile (or another supported way)
+   so the worker sandbox runs on a stock Ubuntu 24.04 install.
+6. **CI.** Keep the three-platform CI green; Windows and macOS recording still needs
+   real hardware.
 
 Security problems go through [SECURITY.md](../SECURITY.md), not this page.

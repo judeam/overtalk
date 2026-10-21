@@ -69,8 +69,9 @@ checkout at packaging time, so build releases from a clean checkout without `--s
   (`kernel.apparmor_restrict_unprivileged_userns=1`), which can stop bubblewrap;
   workers then fail closed. The fixes are an AppArmor profile for `/usr/bin/bwrap`
   that allows `userns`, or setting that sysctl to `0`, which weakens a system-wide
-  hardening. Neither has been verified on a stock Ubuntu 24.04 install yet
-  ([Platforms](../docs/PLATFORMS.md#ubuntu-and-apparmor)).
+  hardening. The restriction is confirmed on GitHub's stock Ubuntu 24.04 runner
+  ([Platforms](../docs/PLATFORMS.md#ubuntu-and-apparmor)); packages for Ubuntu need
+  to handle it before release.
 
 ### FFmpeg
 

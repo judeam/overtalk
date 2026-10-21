@@ -180,30 +180,45 @@ mod tests {
         move |name| vars.get(name).cloned()
     }
 
+    /// A path that is absolute on the host running the tests: simulated Unix paths
+    /// need a drive on Windows, where `/home/ada` is not absolute.
+    fn host(path: &str) -> String {
+        if cfg!(windows) {
+            format!("C:{path}")
+        } else {
+            path.to_owned()
+        }
+    }
+
     #[test]
     fn the_settings_file_is_found_where_each_system_keeps_app_data() {
-        let linux = env(&[("HOME", "/home/ada")]);
+        let linux = env(&[("HOME", &host("/home/ada"))]);
         assert_eq!(
             settings_path(None, Os::Linux, &linux).unwrap(),
-            PathBuf::from("/home/ada/.local/share/com.judeam.sonefold/integrations.json")
+            PathBuf::from(host(
+                "/home/ada/.local/share/com.judeam.sonefold/integrations.json"
+            ))
         );
-        let xdg = env(&[("HOME", "/home/ada"), ("XDG_DATA_HOME", "/data")]);
+        let xdg = env(&[
+            ("HOME", &host("/home/ada")),
+            ("XDG_DATA_HOME", &host("/data")),
+        ]);
         assert_eq!(
             settings_path(None, Os::Linux, &xdg).unwrap(),
-            PathBuf::from("/data/com.judeam.sonefold/integrations.json")
+            PathBuf::from(host("/data/com.judeam.sonefold/integrations.json"))
         );
         // A relative XDG_DATA_HOME is invalid by the specification and ignored.
-        let relative = env(&[("HOME", "/home/ada"), ("XDG_DATA_HOME", "data")]);
+        let relative = env(&[("HOME", &host("/home/ada")), ("XDG_DATA_HOME", "data")]);
         assert_eq!(
             app_data_dir(Os::Linux, &relative).unwrap(),
-            PathBuf::from("/home/ada/.local/share/com.judeam.sonefold")
+            PathBuf::from(host("/home/ada/.local/share/com.judeam.sonefold"))
         );
-        let mac = env(&[("HOME", "/Users/ada")]);
+        let mac = env(&[("HOME", &host("/Users/ada"))]);
         assert_eq!(
             settings_path(None, Os::Mac, &mac).unwrap(),
-            PathBuf::from(
+            PathBuf::from(host(
                 "/Users/ada/Library/Application Support/com.judeam.sonefold/integrations.json"
-            )
+            ))
         );
         let appdata = if cfg!(windows) {
             r"C:\Users\ada\AppData\Roaming"

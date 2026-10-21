@@ -656,9 +656,19 @@ mod tests {
         names
     }
 
+    /// A path that is absolute on the host running the tests: simulated Unix paths
+    /// need a drive on Windows, where `/home/ada` is not absolute.
+    fn host(path: &str) -> String {
+        if cfg!(windows) {
+            format!("C:{path}")
+        } else {
+            path.to_owned()
+        }
+    }
+
     #[test]
     fn config_files_are_where_each_app_reads_them() {
-        let linux = env(&[("HOME", "/home/ada")]);
+        let linux = env(&[("HOME", &host("/home/ada"))]);
         let expected = [
             (Client::ClaudeCode, "/home/ada/.claude.json"),
             (
@@ -672,19 +682,22 @@ mod tests {
         for (client, path) in expected {
             assert_eq!(
                 client.config_file(Os::Linux, &linux).unwrap(),
-                PathBuf::from(path)
+                PathBuf::from(host(path))
             );
         }
-        let mac = env(&[("HOME", "/Users/ada"), ("CODEX_HOME", "/codex")]);
+        let mac = env(&[
+            ("HOME", &host("/Users/ada")),
+            ("CODEX_HOME", &host("/codex")),
+        ]);
         assert_eq!(
             Client::ClaudeDesktop.config_file(Os::Mac, &mac).unwrap(),
-            PathBuf::from(
+            PathBuf::from(host(
                 "/Users/ada/Library/Application Support/Claude/claude_desktop_config.json"
-            )
+            ))
         );
         assert_eq!(
             Client::Codex.config_file(Os::Mac, &mac).unwrap(),
-            PathBuf::from("/codex/config.toml")
+            PathBuf::from(host("/codex/config.toml"))
         );
         let roaming = if cfg!(windows) {
             r"C:\Users\ada\AppData\Roaming"
