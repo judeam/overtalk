@@ -19,6 +19,9 @@ updates:
     schedule: { interval: weekly }
     cooldown: { default-days: 7 }
     open-pull-requests-limit: 5
+    # Ranges already admit new releases; raise a floor only when a release
+    # falls outside one. Exact pins are still bumped.
+    versioning-strategy: increase-if-necessary
     # One pull request per ecosystem for routine updates; majors stay separate.
     groups: { routine: { update-types: [minor, patch] } }
   - package-ecosystem: github-actions
