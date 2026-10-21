@@ -234,7 +234,9 @@ async fn index_inner(
             if response["revision"].as_str() != Some(revision) {
                 return Err("Embedding revision changed during indexing".into());
             }
-            let mut tx = pool.begin().await.map_err(|e| e.to_string())?;
+            let mut tx = crate::database::begin_write(pool)
+                .await
+                .map_err(|e| e.to_string())?;
             for (source, vector) in changed.iter().zip(embeddings) {
                 let current: Option<Source> = sqlx::query_as(
                     "SELECT id,meeting_id,source_kind,source_id,title,body,start_time,end_time,\

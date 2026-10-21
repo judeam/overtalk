@@ -558,10 +558,7 @@ pub async fn workspace_import_calendar(
     .await
     .map_err(|e| e.to_string())??;
     let count = events.len();
-    let mut tx = state
-        .db_manager
-        .pool()
-        .begin()
+    let mut tx = crate::database::begin_write(state.db_manager.pool())
         .await
         .map_err(|e| e.to_string())?;
     sqlx::query("DELETE FROM workspace_calendar WHERE source=?")

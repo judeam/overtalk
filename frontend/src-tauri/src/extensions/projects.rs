@@ -892,7 +892,7 @@ pub async fn learn(
     if parsed.facts.len() > 10 {
         return Err("Too many memory proposals; nothing was saved".into());
     }
-    let mut tx = pool.begin().await.map_err(error)?;
+    let mut tx = crate::database::begin_write(pool).await.map_err(error)?;
     let mut count = 0;
     for item in parsed.facts {
         let body = bounded(&item.body, 2000, true)?;

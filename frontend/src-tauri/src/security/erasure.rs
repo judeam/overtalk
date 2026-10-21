@@ -154,7 +154,9 @@ pub async fn delete(pool: &SqlitePool, id: &str, roots: &[PathBuf]) -> Result<bo
             }
         }
     }
-    let mut tx = pool.begin().await.map_err(|e| e.to_string())?;
+    let mut tx = crate::database::begin_write(pool)
+        .await
+        .map_err(|e| e.to_string())?;
     sqlx::query("INSERT INTO privacy_erasures(meeting_id,occurred_at,pending_paths) VALUES(?,?,?) ON CONFLICT(meeting_id) DO UPDATE SET pending_paths=excluded.pending_paths")
         .bind(id).bind(chrono::Utc::now().to_rfc3339()).bind(serde_json::to_string(&paths).unwrap())
         .execute(&mut *tx).await.map_err(|e|e.to_string())?;

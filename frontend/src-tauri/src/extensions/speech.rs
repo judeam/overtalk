@@ -810,7 +810,9 @@ async fn analyze<R: Runtime>(
     };
     crate::speakers::validate_turns(&turns)?;
     crate::speakers::validate_turns(&exclusive_turns)?;
-    let mut transaction = pool.begin().await.map_err(|e| e.to_string())?;
+    let mut transaction = crate::database::begin_write(pool)
+        .await
+        .map_err(|e| e.to_string())?;
     snapshot_transcript(&mut transaction, meeting_id).await?;
     sqlx::query("DELETE FROM transcripts WHERE meeting_id=?")
         .bind(meeting_id)
@@ -922,7 +924,9 @@ pub async fn speech_backup_status(
 }
 
 async fn restore_transcript(pool: &sqlx::SqlitePool, meeting_id: &str) -> Result<(), String> {
-    let mut transaction = pool.begin().await.map_err(|e| e.to_string())?;
+    let mut transaction = crate::database::begin_write(pool)
+        .await
+        .map_err(|e| e.to_string())?;
     let (id, transcripts, speakers, turns): (i64, String, String, String) = sqlx::query_as(
         "SELECT id,transcripts,speakers,turns FROM speech_transcript_backups WHERE meeting_id=? \
          ORDER BY id DESC LIMIT 1",

@@ -477,8 +477,7 @@ async fn save(
     )
     .await?;
     let result = async {
-        let mut tx = pool
-            .begin()
+        let mut tx = crate::database::begin_write(pool)
             .await
             .map_err(|_| "Could not save the connection".to_owned())?;
         if replacing {

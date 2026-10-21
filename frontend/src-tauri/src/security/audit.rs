@@ -125,8 +125,7 @@ pub async fn append(
     }
     let _guard = WRITES.lock().await;
     let key = key(pool).await?;
-    let mut tx = pool
-        .begin()
+    let mut tx = crate::database::begin_write(pool)
         .await
         .map_err(|_| "Audit storage unavailable")?;
     let previous: Option<String> =

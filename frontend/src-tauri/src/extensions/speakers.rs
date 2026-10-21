@@ -245,7 +245,9 @@ pub async fn rename_speaker(
     if name.is_empty() || name.chars().count() > 120 || name.chars().any(char::is_control) {
         return Err("Speaker name must contain 1–120 characters without control characters".into());
     }
-    let mut tx = pool.begin().await.map_err(|e| e.to_string())?;
+    let mut tx = crate::database::begin_write(pool)
+        .await
+        .map_err(|e| e.to_string())?;
     let changed =
         sqlx::query("UPDATE meeting_speakers SET name = ? WHERE meeting_id = ? AND id = ?")
             .bind(name)
@@ -308,7 +310,9 @@ pub async fn merge_speakers(
     if source_id == target_id {
         return Err("Choose two different speakers".into());
     }
-    let mut transaction = pool.begin().await.map_err(|e| e.to_string())?;
+    let mut transaction = crate::database::begin_write(pool)
+        .await
+        .map_err(|e| e.to_string())?;
     let count: i64 = sqlx::query_scalar(
         "SELECT COUNT(*) FROM meeting_speakers WHERE meeting_id = ? AND id IN (?, ?)",
     )

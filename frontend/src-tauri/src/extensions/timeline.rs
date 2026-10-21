@@ -514,7 +514,9 @@ pub async fn add_marks(
     if marks.len() > 500 {
         return Err("Too many marks at once".into());
     }
-    let mut transaction = pool.begin().await.map_err(|e| e.to_string())?;
+    let mut transaction = crate::database::begin_write(pool)
+        .await
+        .map_err(|e| e.to_string())?;
     for mark in marks {
         if !(mark.at.is_finite() && mark.at >= 0.0) {
             return Err("A mark needs a time from the start of the recording".into());

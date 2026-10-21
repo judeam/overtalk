@@ -336,7 +336,9 @@ pub(crate) async fn consolidate<R: Runtime>(
     if merges.is_empty() {
         return Ok(0);
     }
-    let mut tx = pool.begin().await.map_err(|e| e.to_string())?;
+    let mut tx = crate::database::begin_write(pool)
+        .await
+        .map_err(|e| e.to_string())?;
     let current: Vec<(String, f64, f64)> = sqlx::query_as("SELECT speaker_id,start_time,end_time FROM speaker_turns WHERE meeting_id=? ORDER BY start_time LIMIT 100000")
         .bind(meeting).fetch_all(&mut *tx).await.map_err(|e| e.to_string())?;
     let names: Vec<(String, String)> =
@@ -482,7 +484,9 @@ pub async fn remember_speaker<R: Runtime>(
     if !voice::consistent(&vectors) {
         return Err("These samples do not sound like one consistent voice. Check or split this speaker before remembering them.".into());
     }
-    let mut tx = pool.begin().await.map_err(|e| e.to_string())?;
+    let mut tx = crate::database::begin_write(pool)
+        .await
+        .map_err(|e| e.to_string())?;
     let current_turns: Vec<(String,f64,f64)> = sqlx::query_as("SELECT speaker_id,start_time,end_time FROM speaker_turns WHERE meeting_id=? ORDER BY start_time LIMIT 100000")
         .bind(&meeting_id).fetch_all(&mut *tx).await.map_err(|e|e.to_string())?;
     if current_turns != turns {
@@ -601,7 +605,9 @@ pub async fn recognize<R: Runtime>(
             continue;
         };
         let (profile_id, name, _) = &profiles[index];
-        let mut tx = pool.begin().await.map_err(|e| e.to_string())?;
+        let mut tx = crate::database::begin_write(pool)
+            .await
+            .map_err(|e| e.to_string())?;
         let current_project: Option<String> =
             sqlx::query_scalar("SELECT project_id FROM project_meetings WHERE meeting_id=?")
                 .bind(meeting)

@@ -34,7 +34,9 @@ pub struct OrganisationChange {
 }
 
 pub async fn organise(pool: &SqlitePool, change: OrganisationChange) -> Result<(), String> {
-    let mut tx = pool.begin().await.map_err(|e| e.to_string())?;
+    let mut tx = crate::database::begin_write(pool)
+        .await
+        .map_err(|e| e.to_string())?;
     let exists: bool = sqlx::query_scalar("SELECT EXISTS(SELECT 1 FROM meetings WHERE id=?)")
         .bind(&change.meeting_id)
         .fetch_one(&mut *tx)
@@ -83,7 +85,9 @@ pub async fn correct_transcript(
     if change.text.trim().is_empty() || change.text.chars().count() > 20_000 {
         return Err("A transcript line must contain between 1 and 20,000 characters".into());
     }
-    let mut tx = pool.begin().await.map_err(|e| e.to_string())?;
+    let mut tx = crate::database::begin_write(pool)
+        .await
+        .map_err(|e| e.to_string())?;
     type StoredTranscriptRow = (String, Option<String>, Option<f64>, Option<f64>);
     let old: Option<StoredTranscriptRow> = sqlx::query_as(
         "SELECT transcript,speaker_id,audio_start_time,audio_end_time FROM transcripts WHERE meeting_id=? AND id=?")

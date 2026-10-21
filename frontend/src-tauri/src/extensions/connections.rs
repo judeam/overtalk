@@ -827,7 +827,7 @@ pub(super) async fn sync_google_calendar(
         );
     }
     let pool = state.db_manager.pool();
-    let mut tx = pool.begin().await.map_err(err)?;
+    let mut tx = crate::database::begin_write(pool).await.map_err(err)?;
     let source = format!("google:{id}");
     sqlx::query("DELETE FROM workspace_calendar WHERE source=?")
         .bind(&source)

@@ -259,7 +259,7 @@ pub async fn apply(pool: &SqlitePool, action: ReviewAction) -> Result<Value, Str
             version_id,
             expected_hash,
         } => {
-            let mut tx = pool.begin().await.map_err(err)?;
+            let mut tx = crate::database::begin_write(pool).await.map_err(err)?;
             let running:bool=sqlx::query_scalar("SELECT EXISTS(SELECT 1 FROM summary_processes WHERE meeting_id=? AND status IN ('processing','pending','running'))").bind(&meeting_id).fetch_one(&mut *tx).await.map_err(err)?;
             if running {
                 return Err("Finish or cancel notes generation before restoring a version".into());

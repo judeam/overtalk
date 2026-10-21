@@ -1,6 +1,6 @@
 use crate::api::{TranscriptSearchResult, TranscriptSegment};
 use chrono::Utc;
-use sqlx::{Connection, Error as SqlxError, SqlitePool};
+use sqlx::{Error as SqlxError, SqlitePool};
 use tracing::{error, info};
 use uuid::Uuid;
 
@@ -58,8 +58,7 @@ impl TranscriptsRepository {
     ) -> Result<String, SqlxError> {
         crate::speakers::validate_turns(turns).map_err(SqlxError::Protocol)?;
 
-        let mut conn = pool.acquire().await?;
-        let mut transaction = conn.begin().await?;
+        let mut transaction = crate::database::begin_write(pool).await?;
 
         let now = Utc::now();
 
@@ -265,6 +264,55 @@ impl TranscriptsRepository {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// The service's first request often arrives while start-up jobs write.
+    /// Preparing the meetings insert on a new connection makes FTS5 read its
+    /// configuration through the meeting triggers; inside a deferred BEGIN that
+    /// read became a snapshot, and SQLite then refused the write at once
+    /// ("database is locked") instead of waiting out the busy timeout.
+    #[tokio::test]
+    async fn first_save_on_a_new_connection_waits_for_a_concurrent_writer() {
+        let directory = tempfile::tempdir().unwrap();
+        let path = directory.path().join("meeting_minutes.sqlite");
+        let legacy = directory.path().join("meeting_minutes.db");
+        let (path, legacy) = (path.to_str().unwrap(), legacy.to_str().unwrap());
+        // Create and migrate the library, then reopen it as the service does,
+        // so no pooled connection has loaded the full-text index yet.
+        crate::database::manager::DatabaseManager::new(path, legacy)
+            .await
+            .unwrap()
+            .pool()
+            .close()
+            .await;
+        let manager = crate::database::manager::DatabaseManager::new(path, legacy)
+            .await
+            .unwrap();
+        let pool = manager.pool().clone();
+        let mut writer = pool.begin().await.unwrap();
+        sqlx::query(
+            "INSERT INTO usage_counts(event,count,first_at,last_at) VALUES('app_opened',1,'','')",
+        )
+        .execute(&mut *writer)
+        .await
+        .unwrap();
+        let saving = pool.clone();
+        let save = tokio::spawn(async move {
+            TranscriptsRepository::save_transcript_with_id(
+                &saving,
+                "meeting-first",
+                "First",
+                &[],
+                None,
+            )
+            .await
+        });
+        tokio::time::sleep(std::time::Duration::from_millis(300)).await;
+        if save.is_finished() {
+            panic!("The save did not wait for the writer: {:?}", save.await);
+        }
+        writer.commit().await.unwrap();
+        assert_eq!(save.await.unwrap().unwrap(), "meeting-first");
+    }
 
     #[tokio::test]
     async fn importing_timeline_preserves_unassigned_passages_and_validates_before_write() {

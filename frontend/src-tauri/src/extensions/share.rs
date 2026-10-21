@@ -1352,7 +1352,7 @@ async fn store(
         .with_timezone(&Utc);
     let now = Utc::now();
     let error = |e: sqlx::Error| e.to_string();
-    let mut tx = pool.begin().await.map_err(error)?;
+    let mut tx = crate::database::begin_write(pool).await.map_err(error)?;
     sqlx::query(
         "INSERT INTO meetings(id,title,created_at,updated_at,folder_path) VALUES(?,?,?,?,?)",
     )

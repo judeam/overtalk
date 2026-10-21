@@ -648,10 +648,7 @@ pub async fn workspace_sync_calendar(
     let source = format!("microsoft:{id}");
     // Microsoft lists other attendees only; the account is the signed-in user.
     let own = c.username.to_lowercase();
-    let mut tx = state
-        .db_manager
-        .pool()
-        .begin()
+    let mut tx = crate::database::begin_write(state.db_manager.pool())
         .await
         .map_err(|_| "Could not save calendar")?;
     sqlx::query("DELETE FROM workspace_calendar WHERE source=?")

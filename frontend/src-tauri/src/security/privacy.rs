@@ -547,7 +547,9 @@ pub async fn workspace_privacy<R: Runtime>(
                     .fetch_optional(pool)
                     .await
                     .map_err(|e| e.to_string())?;
-            let mut tx = pool.begin().await.map_err(|e| e.to_string())?;
+            let mut tx = crate::database::begin_write(pool)
+                .await
+                .map_err(|e| e.to_string())?;
             sqlx::query("UPDATE privacy_authorizations SET withdrawn_at=? WHERE id=?")
                 .bind(chrono::Utc::now().to_rfc3339())
                 .bind(&id)

@@ -1,6 +1,6 @@
 use crate::database::models::{MeetingModel, Transcript};
 use chrono::Utc;
-use sqlx::{Connection, Error as SqlxError, SqlitePool};
+use sqlx::{Error as SqlxError, SqlitePool};
 
 pub struct MeetingsRepository;
 
@@ -81,8 +81,7 @@ impl MeetingsRepository {
             ));
         }
 
-        let mut conn = pool.acquire().await?;
-        let mut transaction = conn.begin().await?;
+        let mut transaction = crate::database::begin_write(pool).await?;
 
         let now = Utc::now().naive_utc();
 
@@ -106,7 +105,7 @@ impl MeetingsRepository {
         meeting_id: &str,
         new_title: &str,
     ) -> Result<bool, SqlxError> {
-        let mut transaction = pool.begin().await?;
+        let mut transaction = crate::database::begin_write(pool).await?;
         let now = Utc::now();
 
         // Update meetings table

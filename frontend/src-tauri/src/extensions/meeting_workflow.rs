@@ -187,7 +187,9 @@ pub async fn prepare(pool: &SqlitePool, id: &str, options: &Value) -> Result<Val
         }
     };
     let now = chrono::Utc::now().to_rfc3339();
-    let mut tx = pool.begin().await.map_err(|e| e.to_string())?;
+    let mut tx = crate::database::begin_write(pool)
+        .await
+        .map_err(|e| e.to_string())?;
     sqlx::query("INSERT INTO workspace_capture_workflows(meeting_id,event_id,project_id,auto_notes,template_id,language,created_at,project_origin,project_reason) VALUES(?,?,?,?,?,?,?,?,?)")
         .bind(id).bind(&event_id).bind(&project).bind(options["auto_notes"].as_bool().unwrap_or(false))
         .bind(template).bind(language).bind(&now).bind(origin).bind(&reason).execute(&mut *tx).await.map_err(|e|e.to_string())?;
@@ -300,7 +302,9 @@ pub async fn resolve_with_addon(
 }
 
 pub async fn finalize(pool: &SqlitePool, id: &str) -> Result<(), String> {
-    let mut tx = pool.begin().await.map_err(|e| e.to_string())?;
+    let mut tx = crate::database::begin_write(pool)
+        .await
+        .map_err(|e| e.to_string())?;
     let row=sqlx::query("SELECT auto_notes,template_id,language,project_id,project_origin,project_reason FROM workspace_capture_workflows WHERE meeting_id=? AND finalized=0")
         .bind(id).fetch_optional(&mut *tx).await.map_err(|e|e.to_string())?;
     if let Some(row) = row {

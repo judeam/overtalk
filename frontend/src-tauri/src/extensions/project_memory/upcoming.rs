@@ -41,7 +41,7 @@ pub async fn refresh_with(pool: &SqlitePool, mode: &str) {
             .unwrap_or_default()
             .into_iter()
             .collect();
-    let Ok(mut tx) = pool.begin().await else {
+    let Ok(mut tx) = crate::database::begin_write(pool).await else {
         return;
     };
     for row in events {

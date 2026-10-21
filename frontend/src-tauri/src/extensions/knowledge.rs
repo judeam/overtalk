@@ -659,10 +659,7 @@ pub async fn workspace_set_tags(
     {
         return Err("Use up to 20 tags, each below 64 characters".into());
     }
-    let mut tx = state
-        .db_manager
-        .pool()
-        .begin()
+    let mut tx = crate::database::begin_write(state.db_manager.pool())
         .await
         .map_err(|e| e.to_string())?;
     let count: i64 = sqlx::query_scalar("SELECT count(*) FROM meetings WHERE id=?")

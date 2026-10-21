@@ -23,7 +23,7 @@ impl SummaryProcessesRepository {
         meeting_id: &str,
         summary: &Value,
     ) -> Result<bool, sqlx::Error> {
-        let mut transaction = pool.begin().await?;
+        let mut transaction = crate::database::begin_write(pool).await?;
 
         let meeting_exists: bool = sqlx::query("SELECT 1 FROM meetings WHERE id = ?")
             .bind(meeting_id)
@@ -136,7 +136,7 @@ impl SummaryProcessesRepository {
         let result_str = serde_json::to_string(&result)
             .map_err(|e| sqlx::Error::Protocol(format!("Failed to serialize result: {}", e)))?;
 
-        let mut tx = pool.begin().await?;
+        let mut tx = crate::database::begin_write(pool).await?;
         let update = sqlx::query(
             r#"
             UPDATE summary_processes
