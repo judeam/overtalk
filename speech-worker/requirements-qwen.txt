@@ -6,6 +6,6 @@ transformers==5.20.1
 accelerate==1.15.0
 tokenizers>=0.23.1,<0.24
 safetensors>=0.8,<1
-librosa>=0.11,<2
+librosa>=1.0.0,<2
 nagisa==0.2.11
 soynlp==0.0.493
