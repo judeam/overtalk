@@ -1,10 +1,10 @@
 //! Opt-in loopback automation. All mutations call the same native app services.
-use std::{convert::Infallible, net::TcpListener, sync::Arc, time::Duration};
+use std::{net::TcpListener, sync::Arc, time::Duration};
 
+use http_body_util::{BodyExt, Full};
 use hyper::{
-    body::HttpBody,
-    service::{make_service_fn, service_fn},
-    Body, Method, Request, Response, Server, StatusCode,
+    body::{Bytes, Incoming},
+    Method, Request, Response, StatusCode,
 };
 use once_cell::sync::Lazy;
 use serde_json::{json, Value};
@@ -60,49 +60,36 @@ pub(crate) async fn restart<R: Runtime>(app: AppHandle<R>) -> Result<(), String>
     let listener = TcpListener::bind(("127.0.0.1", port))
         .map_err(|e| format!("Cannot listen on local API port {port}: {e}"))?;
     listener.set_nonblocking(true).map_err(|e| e.to_string())?;
+    let listener = tokio::net::TcpListener::from_std(listener).map_err(|e| e.to_string())?;
     let limit = Arc::new(Semaphore::new(8));
-    let connections = Arc::new(Semaphore::new(32));
-    let services = make_service_fn(move |_| {
+    let handler = move |request: Request<Incoming>| {
         let app = app.clone();
         let path = path.clone();
         let limit = limit.clone();
-        // Reserve before HTTP headers are parsed. A request-only limit does
-        // not bound idle sockets or slow clients that never finish headers.
-        let connection = connections.clone().try_acquire_owned();
         async move {
-            let connection = connection
-                .map_err(|_| std::io::Error::other("Local API connection limit reached"))?;
-            Ok::<_, std::io::Error>(service_fn(move |request| {
-                let _keep_alive = &connection;
-                let app = app.clone();
-                let path = path.clone();
-                let limit = limit.clone();
-                async move {
-                    let Ok(_permit) = limit.try_acquire_owned() else {
-                        return Ok::<_, Infallible>(reply(
-                            StatusCode::TOO_MANY_REQUESTS,
-                            json!({"error":"Too many active requests"}),
-                        ));
-                    };
-                    let response = handle(app, path, port, request).await;
-                    Ok::<_, Infallible>(response)
-                }
-            }))
+            let Ok(_permit) = limit.try_acquire_owned() else {
+                return reply(
+                    StatusCode::TOO_MANY_REQUESTS,
+                    json!({"error":"Too many active requests"}),
+                );
+            };
+            handle(app, path, port, request).await
         }
-    });
+    };
     let token = CancellationToken::new();
     let stopped = token.clone();
-    let server = Server::from_tcp(listener)
-        .map_err(|e| e.to_string())?
-        .http1_max_buf_size(64 * 1024)
-        .http1_header_read_timeout(Duration::from_secs(10))
-        .serve(services)
-        .with_graceful_shutdown(async move { stopped.cancelled().await });
-    let task = tokio::spawn(async move {
-        if let Err(error) = server.await {
-            log::warn!("Local automation listener stopped: {error}");
-        }
-    });
+    // At most 32 open connections, counted before headers are parsed: a
+    // request-only limit does not bound idle sockets or slow clients.
+    let limits = super::loopback_http::Limits {
+        connections: 32,
+        max_buf_size: 64 * 1024,
+    };
+    let task = tokio::spawn(super::loopback_http::serve(
+        listener,
+        limits,
+        async move { stopped.cancelled().await },
+        handler,
+    ));
     *SERVER.lock().await = Some(RunningAutomation {
         cancellation: token,
         task,
@@ -150,13 +137,13 @@ fn proof_reply(
     )
 }
 
-fn reply(status: StatusCode, value: Value) -> Response<Body> {
+fn reply(status: StatusCode, value: Value) -> Response<Full<Bytes>> {
     Response::builder()
         .status(status)
         .header("content-type", "application/json")
         .header("cache-control", "no-store")
         .header("x-content-type-options", "nosniff")
-        .body(Body::from(value.to_string()))
+        .body(Full::new(Bytes::from(value.to_string())))
         .expect("fixed response headers")
 }
 
@@ -164,8 +151,8 @@ async fn handle<R: Runtime>(
     app: AppHandle<R>,
     path: std::path::PathBuf,
     port: u16,
-    mut request: Request<Body>,
-) -> Response<Body> {
+    mut request: Request<Incoming>,
+) -> Response<Full<Bytes>> {
     let allowed_host = format!("127.0.0.1:{port}");
     let local_host = format!("localhost:{port}");
     if request.headers().contains_key("origin")
@@ -243,8 +230,11 @@ async fn handle<R: Runtime>(
     }
     let read = async {
         let mut bytes = Vec::new();
-        while let Some(chunk) = request.body_mut().data().await {
-            let chunk = chunk.map_err(|_| "Request body disconnected")?;
+        while let Some(frame) = request.body_mut().frame().await {
+            let frame = frame.map_err(|_| "Request body disconnected")?;
+            let Ok(chunk) = frame.into_data() else {
+                continue;
+            };
             if bytes.len().saturating_add(chunk.len()) > MAX_BODY {
                 return Err("Request body exceeds 1 MiB");
             }

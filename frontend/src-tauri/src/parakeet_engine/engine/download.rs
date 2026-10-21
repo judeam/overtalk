@@ -282,6 +282,7 @@ impl ParakeetEngine {
             .map_err(|error| anyhow!("Failed to create model directory: {}", error))?;
 
         let client = reqwest::Client::builder()
+            .tls_certs_only(crate::security::transport::tls_roots())
             .tcp_nodelay(true)
             .pool_max_idle_per_host(1)
             .timeout(Duration::from_secs(3600))

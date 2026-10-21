@@ -2,6 +2,13 @@ use super::*;
 
 use crate::config::test_config as disabled_config;
 
+/// Requests built here carry a complete body, like the gateway's replies.
+type Body = Full<Bytes>;
+
+async fn bytes(response: Reply) -> Bytes {
+    response.into_body().collect().await.unwrap().to_bytes()
+}
+
 #[tokio::test]
 async fn missing_approval_fails_closed_without_disclosing_server_credentials() {
     let app = App::new(disabled_config(), Ledger::memory().await.unwrap()).unwrap();
@@ -13,7 +20,7 @@ async fn missing_approval_fails_closed_without_disclosing_server_credentials() {
             )
             .await;
         assert_eq!(response.status(), StatusCode::SERVICE_UNAVAILABLE);
-        let body = hyper::body::to_bytes(response).await.unwrap();
+        let body = bytes(response).await;
         let text = std::str::from_utf8(&body).unwrap();
         assert!(!text.contains("test-private"));
     }
@@ -26,26 +33,24 @@ async fn an_account_credential_does_not_grant_credit_or_access_to_others() {
     let app = App::new(config, Ledger::memory().await.unwrap()).unwrap();
     let created = app
         .handle(
-            Request::post("/v1/accounts").body(Body::empty()).unwrap(),
+            Request::post("/v1/accounts").body(Body::default()).unwrap(),
             "127.0.0.1".parse().unwrap(),
         )
         .await;
     assert_eq!(created.status(), StatusCode::CREATED);
     assert_eq!(created.headers()["cache-control"], "no-store");
-    let json: Value =
-        serde_json::from_slice(&hyper::body::to_bytes(created).await.unwrap()).unwrap();
+    let json: Value = serde_json::from_slice(&bytes(created).await).unwrap();
     let token = json["account_token"].as_str().unwrap();
     let request = Request::get("/v1/account")
         .header("authorization", format!("Bearer {token}"))
-        .body(Body::empty())
+        .body(Body::default())
         .unwrap();
     let response = app.handle(request, "127.0.0.1".parse().unwrap()).await;
-    let balance: Value =
-        serde_json::from_slice(&hyper::body::to_bytes(response).await.unwrap()).unwrap();
+    let balance: Value = serde_json::from_slice(&bytes(response).await).unwrap();
     assert_eq!(balance["balance"]["available_micro_usd"], 0);
     let unauthorized = app
         .handle(
-            Request::get("/v1/account").body(Body::empty()).unwrap(),
+            Request::get("/v1/account").body(Body::default()).unwrap(),
             "127.0.0.1".parse().unwrap(),
         )
         .await;
@@ -90,42 +95,29 @@ async fn mock_inference(
     let address = listener.local_addr().unwrap();
     let calls = Arc::new(std::sync::atomic::AtomicUsize::new(0));
     let count = calls.clone();
-    let make = hyper::service::make_service_fn(move |_| {
+    let handler = move |req: Request<Incoming>, _| {
         let count = count.clone();
         async move {
-            Ok::<_, std::convert::Infallible>(hyper::service::service_fn(
-                move |req: Request<Body>| {
-                    let count = count.clone();
-                    async move {
-                        assert_eq!(
-                            req.headers()["authorization"],
-                            "Bearer test-private-provider-key"
-                        );
-                        let value: Value =
-                            serde_json::from_slice(&hyper::body::to_bytes(req).await.unwrap())
-                                .unwrap();
-                        assert_eq!(value["model"], MODEL);
-                        assert_eq!(value["cache_salt"].as_str().unwrap().len(), 43);
-                        count.fetch_add(1, std::sync::atomic::Ordering::SeqCst);
-                        let mut value = json!({"choices":[{"message":{"role":"assistant","content":"Test notes"},"finish_reason":"stop"}]});
-                        if usage {
-                            value["usage"] = json!({"prompt_tokens":20,"completion_tokens":10,"total_tokens":30});
-                        }
-                        Ok::<_, std::convert::Infallible>(Response::new(Body::from(
-                            value.to_string(),
-                        )))
-                    }
-                },
-            ))
+            assert_eq!(
+                req.headers()["authorization"],
+                "Bearer test-private-provider-key"
+            );
+            let body = req.into_body().collect().await.unwrap().to_bytes();
+            let value: Value = serde_json::from_slice(&body).unwrap();
+            assert_eq!(value["model"], MODEL);
+            assert_eq!(value["cache_salt"].as_str().unwrap().len(), 43);
+            count.fetch_add(1, std::sync::atomic::Ordering::SeqCst);
+            let mut value = json!({"choices":[{"message":{"role":"assistant","content":"Test notes"},"finish_reason":"stop"}]});
+            if usage {
+                value["usage"] =
+                    json!({"prompt_tokens":20,"completion_tokens":10,"total_tokens":30});
+            }
+            Response::new(Body::from(value.to_string()))
         }
-    });
-    let task = tokio::spawn(async move {
-        hyper::Server::from_tcp(listener)
-            .unwrap()
-            .serve(make)
-            .await
-            .unwrap();
-    });
+    };
+    listener.set_nonblocking(true).unwrap();
+    let listener = TcpListener::from_std(listener).unwrap();
+    let task = tokio::spawn(serve(listener, std::future::pending(), handler));
     (
         format!("http://{address}/v1/").parse().unwrap(),
         task,
@@ -253,12 +245,11 @@ async fn the_end_to_end_route_gives_subscribers_only_their_own_key_and_never_tak
     for _ in 0..2 {
         let created = app
             .handle(
-                Request::post("/v1/accounts").body(Body::empty()).unwrap(),
+                Request::post("/v1/accounts").body(Body::default()).unwrap(),
                 ip,
             )
             .await;
-        let json: Value =
-            serde_json::from_slice(&hyper::body::to_bytes(created).await.unwrap()).unwrap();
+        let json: Value = serde_json::from_slice(&bytes(created).await).unwrap();
         tokens.push(json["account_token"].as_str().unwrap().to_owned());
     }
     let call = |method: Method, path: &str, token: &str| {
@@ -269,10 +260,9 @@ async fn the_end_to_end_route_gives_subscribers_only_their_own_key_and_never_tak
             .body(Body::from("{}"))
             .unwrap()
     };
-    let read = |response: Response<Body>| async move {
+    let read = |response: Reply| async move {
         let status = response.status();
-        let json: Value =
-            serde_json::from_slice(&hyper::body::to_bytes(response).await.unwrap()).unwrap();
+        let json: Value = serde_json::from_slice(&bytes(response).await).unwrap();
         (status, json)
     };
     // Without a paid period there is no key, and the account says so.
@@ -347,7 +337,7 @@ async fn the_end_to_end_route_gives_subscribers_only_their_own_key_and_never_tak
     .await;
     assert_eq!(status, StatusCode::GONE);
     let (_, health) = read(
-        app.handle(Request::get("/health").body(Body::empty()).unwrap(), ip)
+        app.handle(Request::get("/health").body(Body::default()).unwrap(), ip)
             .await,
     )
     .await;

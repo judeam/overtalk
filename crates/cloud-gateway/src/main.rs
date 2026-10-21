@@ -1,5 +1,5 @@
 use overtalk_cloud_gateway::{config::Config, ledger::Ledger, server::App};
-use std::{convert::Infallible, sync::Arc};
+use std::sync::Arc;
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
@@ -130,24 +130,20 @@ async fn main() -> anyhow::Result<()> {
         app.stripe.validate_prices().await?;
     }
     tokio::spawn(app.clone().billing_worker());
-    let make =
-        hyper::service::make_service_fn(move |connection: &hyper::server::conn::AddrStream| {
-            let app = app.clone();
-            let ip = connection.remote_addr().ip();
-            async move {
-                Ok::<_, Infallible>(hyper::service::service_fn(move |request| {
-                    let app = app.clone();
-                    async move { Ok::<_, Infallible>(app.handle(request, ip).await) }
-                }))
-            }
-        });
+    let listener = std::net::TcpListener::bind(bind)?;
+    listener.set_nonblocking(true)?;
+    let listener = tokio::net::TcpListener::from_std(listener)?;
     println!("Cloud gateway listening on {bind}");
-    hyper::Server::bind(&bind)
-        .http1_header_read_timeout(std::time::Duration::from_secs(10))
-        .serve(make)
-        .with_graceful_shutdown(async {
+    overtalk_cloud_gateway::server::serve(
+        listener,
+        async {
             let _ = tokio::signal::ctrl_c().await;
-        })
-        .await?;
+        },
+        move |request, ip| {
+            let app = app.clone();
+            async move { app.handle(request, ip).await }
+        },
+    )
+    .await;
     Ok(())
 }

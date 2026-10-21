@@ -2,6 +2,7 @@
 
 pub mod automation;
 pub mod integrations;
+pub(crate) mod loopback_http;
 pub mod speakers;
 pub mod speech;
 pub mod speech_stream;

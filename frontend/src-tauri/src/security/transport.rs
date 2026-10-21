@@ -36,6 +36,18 @@ pub fn endpoint(input: &str) -> Result<Url, String> {
     Ok(url)
 }
 
+/// The bundled Mozilla root certificates, the only ones an HTTPS client trusts.
+/// A root added to the OS store, such as a TLS-inspecting proxy's, is not.
+pub fn tls_roots() -> Vec<reqwest::Certificate> {
+    static ROOTS: std::sync::LazyLock<Vec<reqwest::Certificate>> = std::sync::LazyLock::new(|| {
+        webpki_root_certs::TLS_SERVER_ROOT_CERTS
+            .iter()
+            .filter_map(|root| reqwest::Certificate::from_der(root).ok())
+            .collect()
+    });
+    ROOTS.clone()
+}
+
 /// Do not forward a prompt to a redirect destination or a system HTTP proxy.
 pub fn client() -> Result<reqwest::Client, String> {
     static CLIENT: std::sync::OnceLock<Result<reqwest::Client, String>> =
@@ -43,6 +55,7 @@ pub fn client() -> Result<reqwest::Client, String> {
     CLIENT
         .get_or_init(|| {
             reqwest::Client::builder()
+                .tls_certs_only(tls_roots())
                 .no_proxy()
                 .redirect(reqwest::redirect::Policy::none())
                 .connect_timeout(std::time::Duration::from_secs(15))
@@ -79,6 +92,15 @@ pub async fn response_text(
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn https_clients_load_every_bundled_root() {
+        // A root that failed to load would silently fail closed for its sites.
+        assert_eq!(
+            tls_roots().len(),
+            webpki_root_certs::TLS_SERVER_ROOT_CERTS.len()
+        );
+        assert!(tls_roots().len() > 100);
+    }
     #[tokio::test]
     async fn custom_api_key_headers_are_not_forwarded_to_redirects() {
         use tokio::{

@@ -270,6 +270,7 @@ pub async fn summary_completed(pool: &sqlx::SqlitePool, meeting_id: &str, markdo
     let meeting_id = meeting_id.to_owned();
     tokio::spawn(async move {
         let client = match reqwest::Client::builder()
+            .tls_certs_only(crate::security::transport::tls_roots())
             .timeout(Duration::from_secs(15))
             .no_proxy()
             .redirect(reqwest::redirect::Policy::none())

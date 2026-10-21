@@ -77,6 +77,7 @@ pub fn client() -> Result<&'static Client, String> {
     CLIENT
         .get_or_init(|| {
             Client::builder()
+                .tls_certs_only(crate::security::transport::tls_roots())
                 .no_proxy()
                 .redirect(reqwest::redirect::Policy::none())
                 .connect_timeout(Duration::from_secs(5))

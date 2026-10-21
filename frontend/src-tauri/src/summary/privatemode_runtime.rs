@@ -116,6 +116,7 @@ async fn binary(directory: &Path, pin: &Pin) -> Result<PathBuf, String> {
     }
     crate::security::privacy::guard_process_destination(REGISTRY)?;
     let client = reqwest::Client::builder()
+        .tls_certs_only(crate::security::transport::tls_roots())
         .no_proxy()
         .https_only(true)
         .redirect(reqwest::redirect::Policy::limited(3))

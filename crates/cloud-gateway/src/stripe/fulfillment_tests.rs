@@ -1,6 +1,6 @@
 use super::*;
 use serde_json::json;
-use std::{collections::HashMap, convert::Infallible, sync::Mutex};
+use std::{collections::HashMap, sync::Mutex};
 
 struct Fixture {
     stripe: Stripe,
@@ -21,40 +21,31 @@ impl Fixture {
         let address = listener.local_addr().unwrap();
         let responses = Arc::new(Mutex::new(HashMap::<String, Value>::new()));
         let table = responses.clone();
-        let make = hyper::service::make_service_fn(move |_| {
-            let table = table.clone();
+        let handler = move |req: hyper::Request<hyper::body::Incoming>, _| {
+            assert_eq!(req.headers()["stripe-version"], STRIPE_VERSION);
+            assert_eq!(
+                req.headers()["authorization"],
+                "Bearer test-private-stripe-key"
+            );
+            let reply = table.lock().unwrap().get(req.uri().path()).cloned();
             async move {
-                Ok::<_, Infallible>(hyper::service::service_fn(
-                    move |req: hyper::Request<hyper::Body>| {
-                        assert_eq!(req.headers()["stripe-version"], STRIPE_VERSION);
-                        assert_eq!(
-                            req.headers()["authorization"],
-                            "Bearer test-private-stripe-key"
-                        );
-                        let reply = table.lock().unwrap().get(req.uri().path()).cloned();
-                        async move {
-                            Ok::<_, Infallible>(
-                                hyper::Response::builder()
-                                    .status(if reply.is_some() { 200 } else { 404 })
-                                    .body(hyper::Body::from(
-                                        reply
-                                            .unwrap_or(json!({"error":"missing fixture"}))
-                                            .to_string(),
-                                    ))
-                                    .unwrap(),
-                            )
-                        }
-                    },
-                ))
+                hyper::Response::builder()
+                    .status(if reply.is_some() { 200 } else { 404 })
+                    .body(http_body_util::Full::from(
+                        reply
+                            .unwrap_or(json!({"error":"missing fixture"}))
+                            .to_string(),
+                    ))
+                    .unwrap()
             }
-        });
-        let task = tokio::spawn(async move {
-            hyper::Server::from_tcp(listener)
-                .unwrap()
-                .serve(make)
-                .await
-                .unwrap();
-        });
+        };
+        listener.set_nonblocking(true).unwrap();
+        let listener = tokio::net::TcpListener::from_std(listener).unwrap();
+        let task = tokio::spawn(crate::server::serve(
+            listener,
+            std::future::pending(),
+            handler,
+        ));
         let mut stripe = Stripe::new(Arc::new(crate::config::test_config())).unwrap();
         stripe.api_base = format!("http://{address}/v1/").parse().unwrap();
         let db = Ledger::memory().await.unwrap();

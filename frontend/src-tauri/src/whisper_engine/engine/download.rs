@@ -270,6 +270,7 @@ impl WhisperEngine {
         }
 
         let client = Client::builder()
+            .tls_certs_only(crate::security::transport::tls_roots())
             .user_agent(concat!("Overtalk/", env!("CARGO_PKG_VERSION")))
             .no_proxy()
             .https_only(expected.is_some())

@@ -469,6 +469,7 @@ impl ModelManager {
 
         // Download the file with optimized client settings
         let client = Client::builder()
+            .tls_certs_only(crate::security::transport::tls_roots())
             .https_only(true)
             .tcp_nodelay(true) // Disable Nagle's algorithm for faster streaming
             .pool_max_idle_per_host(1) // Keep connection alive

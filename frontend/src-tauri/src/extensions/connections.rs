@@ -86,6 +86,7 @@ pub(super) fn client() -> Result<reqwest::Client, String> {
     static CLIENT: std::sync::LazyLock<Result<reqwest::Client, String>> =
         std::sync::LazyLock::new(|| {
             reqwest::Client::builder()
+                .tls_certs_only(crate::security::transport::tls_roots())
                 .no_proxy()
                 .user_agent("Overtalk/0.1")
                 .https_only(true)

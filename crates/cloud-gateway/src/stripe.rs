@@ -119,6 +119,7 @@ impl Stripe {
             config,
             api_base: url::Url::parse("https://api.stripe.com/v1/")?,
             client: reqwest::Client::builder()
+                .tls_certs_only(crate::tls_roots())
                 .no_proxy()
                 .redirect(reqwest::redirect::Policy::none())
                 .connect_timeout(Duration::from_secs(5))

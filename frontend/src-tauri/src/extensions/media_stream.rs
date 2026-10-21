@@ -1,9 +1,9 @@
 //! Linux WebKit cannot reliably stream media through Tauri's custom file scheme.
 //! Give the player a revocable capability for one already-open meeting recording.
-use hyper::{Body, Method, Request, Response, Server, StatusCode};
+use http_body_util::{channel::Channel, Either, Empty};
+use hyper::{body::Bytes, Method, Request, Response, StatusCode};
 use std::{
     collections::HashMap,
-    convert::Infallible,
     fs::File,
     io,
     net::{Ipv4Addr, SocketAddr},
@@ -29,6 +29,8 @@ struct MediaService {
 }
 const TTL: Duration = Duration::from_secs(24 * 60 * 60);
 const MAX_RECORDINGS: usize = 16;
+/// Headers-only replies, or a recording streamed from a blocking reader.
+type MediaBody = Either<Empty<Bytes>, Channel<Bytes, io::Error>>;
 
 impl MediaService {
     async fn start() -> Result<Self, String> {
@@ -36,35 +38,21 @@ impl MediaService {
             std::net::TcpListener::bind((Ipv4Addr::LOCALHOST, 0)).map_err(|e| e.to_string())?;
         listener.set_nonblocking(true).map_err(|e| e.to_string())?;
         let address = listener.local_addr().map_err(|e| e.to_string())?;
+        let listener = tokio::net::TcpListener::from_std(listener).map_err(|e| e.to_string())?;
         let recordings = Arc::new(Mutex::new(HashMap::new()));
         let streams = Arc::new(Semaphore::new(8));
         let r = recordings.clone();
         let s = streams.clone();
-        let connections = Arc::new(Semaphore::new(32));
-        let make = hyper::service::make_service_fn(move |_| {
-            let r = r.clone();
-            let s = s.clone();
-            let connection = connections.clone().try_acquire_owned();
-            async move {
-                let connection = connection
-                    .map_err(|_| io::Error::other("Playback connection limit reached"))?;
-                Ok::<_, io::Error>(hyper::service::service_fn(move |request| {
-                    let _keep_alive = &connection;
-                    serve(request, address, r.clone(), s.clone())
-                }))
-            }
-        });
-        let server = Server::from_tcp(listener)
-            .map_err(|e| e.to_string())?
-            .http1_only(true)
-            .http1_max_buf_size(8192)
-            .http1_header_read_timeout(Duration::from_secs(10))
-            .serve(make);
-        tokio::spawn(async move {
-            if let Err(e) = server.await {
-                log::warn!("Recording playback service stopped: {e}");
-            }
-        });
+        let limits = super::loopback_http::Limits {
+            connections: 32,
+            max_buf_size: 8192,
+        };
+        tokio::spawn(super::loopback_http::serve(
+            listener,
+            limits,
+            std::future::pending(),
+            move |request| serve(request, address, r.clone(), s.clone()),
+        ));
         Ok(Self {
             address,
             recordings,
@@ -168,11 +156,11 @@ pub(crate) fn release(source: &str) {
         }
     }
 }
-fn empty(status: StatusCode) -> Response<Body> {
+fn empty(status: StatusCode) -> Response<MediaBody> {
     Response::builder()
         .status(status)
         .header("Cache-Control", "no-store")
-        .body(Body::empty())
+        .body(Either::Left(Empty::new()))
         .unwrap()
 }
 fn range(value: Option<&str>, length: u64) -> Result<(u64, u64, bool), ()> {
@@ -214,26 +202,26 @@ fn allowed_origin(origin: &str) -> bool {
             | "http://localhost:3118"
     )
 }
-async fn serve(
-    request: Request<Body>,
+async fn serve<B>(
+    request: Request<B>,
     address: SocketAddr,
     recordings: Arc<Mutex<HashMap<String, Arc<Mutex<Recording>>>>>,
     streams: Arc<Semaphore>,
-) -> Result<Response<Body>, Infallible> {
+) -> Response<MediaBody> {
     if request.headers().get("host").and_then(|v| v.to_str().ok())
         != Some(address.to_string().as_str())
     {
-        return Ok(empty(StatusCode::FORBIDDEN));
+        return empty(StatusCode::FORBIDDEN);
     }
     if request.method() != Method::GET && request.method() != Method::HEAD {
-        return Ok(empty(StatusCode::METHOD_NOT_ALLOWED));
+        return empty(StatusCode::METHOD_NOT_ALLOWED);
     }
     let origin = request
         .headers()
         .get("origin")
         .and_then(|v| v.to_str().ok());
     if origin.is_some_and(|o| !allowed_origin(o)) {
-        return Ok(empty(StatusCode::FORBIDDEN));
+        return empty(StatusCode::FORBIDDEN);
     }
     let key = request
         .uri()
@@ -243,30 +231,30 @@ async fn serve(
         .filter(|k| k.len() == 64 && k.bytes().all(|b| b.is_ascii_hexdigit()));
     let recording = key.and_then(|k| recordings.lock().ok()?.get(k).cloned());
     let Some(recording) = recording else {
-        return Ok(empty(StatusCode::NOT_FOUND));
+        return empty(StatusCode::NOT_FOUND);
     };
     let (length, content_type) = match recording.lock() {
         Ok(mut r) if !r.revoked && r.touched.elapsed() < TTL => {
             r.touched = Instant::now();
             (r.length, r.content_type)
         }
-        _ => return Ok(empty(StatusCode::NOT_FOUND)),
+        _ => return empty(StatusCode::NOT_FOUND),
     };
     let range_header = match request.headers().get("range") {
         Some(v) => match v.to_str() {
             Ok(v) => Some(v),
-            Err(_) => return Ok(empty(StatusCode::RANGE_NOT_SATISFIABLE)),
+            Err(_) => return empty(StatusCode::RANGE_NOT_SATISFIABLE),
         },
         None => None,
     };
     let (start, end, partial) = match range(range_header, length) {
         Ok(r) => r,
         Err(()) => {
-            return Ok(Response::builder()
+            return Response::builder()
                 .status(StatusCode::RANGE_NOT_SATISFIABLE)
                 .header("Content-Range", format!("bytes */{length}"))
-                .body(Body::empty())
-                .unwrap())
+                .body(Either::Left(Empty::new()))
+                .unwrap()
         }
     };
     let mut builder = Response::builder()
@@ -290,12 +278,12 @@ async fn serve(
             .header("Vary", "Origin");
     }
     if request.method() == Method::HEAD {
-        return Ok(builder.body(Body::empty()).unwrap());
+        return builder.body(Either::Left(Empty::new())).unwrap();
     }
     let Ok(permit) = streams.try_acquire_owned() else {
-        return Ok(empty(StatusCode::SERVICE_UNAVAILABLE));
+        return empty(StatusCode::SERVICE_UNAVAILABLE);
     };
-    let (mut sender, body) = Body::channel();
+    let (mut sender, body) = Channel::<Bytes, io::Error>::new(1);
     let runtime = tokio::runtime::Handle::current();
     tokio::task::spawn_blocking(move || {
         let _permit = permit;
@@ -314,7 +302,7 @@ async fn serve(
                 });
             match read {
                 Ok(0) | Err(_) => {
-                    sender.abort();
+                    sender.abort(io::Error::other("Recording stream ended early"));
                     break;
                 }
                 Ok(n) => {
@@ -336,7 +324,7 @@ async fn serve(
             }
         }
     });
-    Ok(builder.body(body).unwrap())
+    builder.body(Either::Right(body)).unwrap()
 }
 #[cfg(test)]
 mod tests {
@@ -362,7 +350,7 @@ mod tests {
     }
     #[tokio::test]
     async fn recording_capability_supports_ranges_revocation_and_origin_checks() {
-        use hyper::body::to_bytes;
+        use http_body_util::BodyExt;
         use std::io::Write;
         let mut file = tempfile::tempfile().unwrap();
         file.write_all(b"0123456789").unwrap();
@@ -376,38 +364,36 @@ mod tests {
         let response = serve(
             build(&url)
                 .header("range", "bytes=3-5")
-                .body(Body::empty())
+                .body(Empty::<Bytes>::new())
                 .unwrap(),
             service.address,
             service.recordings.clone(),
             service.streams.clone(),
         )
-        .await
-        .unwrap();
+        .await;
         assert_eq!(response.status(), StatusCode::PARTIAL_CONTENT);
         assert_eq!(response.headers()["content-range"], "bytes 3-5/10");
-        assert_eq!(&to_bytes(response.into_body()).await.unwrap()[..], b"345");
+        let body = response.into_body().collect().await.unwrap().to_bytes();
+        assert_eq!(&body[..], b"345");
         let denied = serve(
             build(&url)
                 .header("origin", "https://untrusted.example")
-                .body(Body::empty())
+                .body(Empty::<Bytes>::new())
                 .unwrap(),
             service.address,
             service.recordings.clone(),
             service.streams.clone(),
         )
-        .await
-        .unwrap();
+        .await;
         assert_eq!(denied.status(), StatusCode::FORBIDDEN);
         release(&url);
         let revoked = serve(
-            build(&url).body(Body::empty()).unwrap(),
+            build(&url).body(Empty::<Bytes>::new()).unwrap(),
             service.address,
             service.recordings.clone(),
             service.streams.clone(),
         )
-        .await
-        .unwrap();
+        .await;
         assert_eq!(revoked.status(), StatusCode::NOT_FOUND);
         let file = tempfile::tempfile().unwrap();
         file.set_len(10).unwrap();

@@ -11,12 +11,16 @@ serde.workspace = true
 serde_json.workspace = true
 tokio.workspace = true
 base64 = "0.22"
-hyper = { version = "0.14", features = ["server", "http1", "runtime"] }
-reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
+http-body-util = "0.1.3"
+hyper = { version = "1.12", features = ["server", "http1"] }
+hyper-util = { version = "0.1.21", features = ["tokio", "server-graceful", "http1"] }
+reqwest = { version = "0.13", default-features = false, features = ["json", "rustls", "query", "form"] }
 ring = "0.17"
 sha2 = "0.11"
 sqlx = { version = "0.8", default-features = false, features = ["runtime-tokio", "sqlite"] }
 thiserror = "2"
+# Stripe and the inference provider are verified against the bundled Mozilla roots.
+webpki-root-certs = "1.0.10"
 url = "2.5"
 uuid = { version = "1", features = ["v4"] }
 

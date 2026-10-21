@@ -43,6 +43,7 @@ struct OpenRouterResponse {
 pub fn get_openrouter_models() -> Result<Vec<OpenRouterModel>, String> {
     crate::security::privacy::guard_process_destination("https://openrouter.ai/api/v1/models")?;
     let client = Client::builder()
+        .tls_certs_only(crate::security::transport::tls_roots())
         .no_proxy()
         .redirect(reqwest::redirect::Policy::none())
         .timeout(Duration::from_secs(10))

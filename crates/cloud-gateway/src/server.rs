@@ -4,17 +4,83 @@ use crate::{
     stripe::Stripe,
 };
 use anyhow::{ensure, Context};
-use hyper::{body::HttpBody, Body, Method, Request, Response, StatusCode};
+use http_body_util::{BodyExt, Full};
+use hyper::{
+    body::{Body, Bytes, Incoming},
+    server::conn::http1,
+    service::service_fn,
+    Method, Request, Response, StatusCode,
+};
+use hyper_util::{
+    rt::{TokioIo, TokioTimer},
+    server::graceful::GracefulShutdown,
+};
 use serde::Deserialize;
 use serde_json::{json, Value};
 use sqlx::Row;
 use std::{
     collections::HashMap,
+    convert::Infallible,
+    future::Future,
+    io,
     net::IpAddr,
     sync::Arc,
     time::{Duration, Instant},
 };
-use tokio::sync::{Mutex, Semaphore};
+use tokio::{
+    net::TcpListener,
+    sync::{Mutex, Semaphore},
+};
+
+/// Every gateway response carries a complete, in-memory body.
+pub type Reply = Response<Full<Bytes>>;
+
+/// Serve HTTP/1 on `listener` until `shutdown`, then let open requests finish.
+/// `handler` also receives the peer address, for per-address rate limits.
+pub async fn serve<H, F>(listener: TcpListener, shutdown: impl Future<Output = ()>, handler: H)
+where
+    H: Fn(Request<Incoming>, IpAddr) -> F + Clone + Send + Sync + 'static,
+    F: Future<Output = Reply> + Send + 'static,
+{
+    let mut http = http1::Builder::new();
+    http.timer(TokioTimer::new())
+        .header_read_timeout(Duration::from_secs(10));
+    let graceful = GracefulShutdown::new();
+    tokio::pin!(shutdown);
+    loop {
+        let (stream, peer) = tokio::select! {
+            accepted = listener.accept() => match accepted {
+                Ok(connection) => connection,
+                Err(error) => {
+                    // As hyper 0.14 did: retry at once after a failed handshake,
+                    // back off when the process is out of descriptors or memory.
+                    if !matches!(
+                        error.kind(),
+                        io::ErrorKind::ConnectionAborted
+                            | io::ErrorKind::ConnectionRefused
+                            | io::ErrorKind::ConnectionReset
+                    ) {
+                        eprintln!("Accept failed: {error}");
+                        tokio::time::sleep(Duration::from_secs(1)).await;
+                    }
+                    continue;
+                }
+            },
+            () = &mut shutdown => break,
+        };
+        let handler = handler.clone();
+        let ip = peer.ip();
+        let service = service_fn(move |request| {
+            let response = handler(request, ip);
+            async move { Ok::<_, Infallible>(response.await) }
+        });
+        let connection = graceful.watch(http.serve_connection(TokioIo::new(stream), service));
+        tokio::spawn(async move {
+            let _ = connection.await;
+        });
+    }
+    graceful.shutdown().await;
+}
 
 pub struct App {
     pub config: Arc<Config>,
@@ -33,6 +99,7 @@ impl App {
             config,
             db,
             client: reqwest::Client::builder()
+                .tls_certs_only(crate::tls_roots())
                 .no_proxy()
                 .redirect(reqwest::redirect::Policy::none())
                 .connect_timeout(Duration::from_secs(5))
@@ -55,7 +122,11 @@ impl App {
         entry.1 <= limit
     }
 
-    pub async fn handle(&self, mut request: Request<Body>, ip: IpAddr) -> Response<Body> {
+    pub async fn handle<B>(&self, mut request: Request<B>, ip: IpAddr) -> Reply
+    where
+        B: Body<Data = Bytes> + Unpin,
+        B::Error: std::error::Error + Send + Sync + 'static,
+    {
         let Some(_permit) = self.requests.try_acquire().ok() else {
             return reply(
                 StatusCode::TOO_MANY_REQUESTS,
@@ -313,7 +384,7 @@ impl App {
 
     /// The subscriber's own Privatemode key. It leaves this server only to the
     /// account it is assigned to, and only during a paid subscription period.
-    async fn summary_key(&self, account: &str) -> Response<Body> {
+    async fn summary_key(&self, account: &str) -> Reply {
         let now = crate::now();
         match self.db.entitled(account, now).await {
             Ok(true) => {}
@@ -341,7 +412,7 @@ impl App {
         }
     }
 
-    async fn chat(&self, account: &str, idempotency: &str, body: &[u8]) -> Response<Body> {
+    async fn chat(&self, account: &str, idempotency: &str, body: &[u8]) -> Reply {
         let input: ChatInput = match serde_json::from_slice(body) {
             Ok(v) => v,
             Err(_) => {
@@ -498,14 +569,14 @@ impl App {
     }
 }
 
-fn unknown_usage(reservation: &str) -> Response<Body> {
+fn unknown_usage(reservation: &str) -> Reply {
     reply(
         StatusCode::BAD_GATEWAY,
         json!({"error":"Final usage could not be confirmed. Credits are held for review; do not automatically resubmit.","request_id":reservation,"credits_held":true}),
     )
 }
 
-fn ledger_error(error: LedgerError) -> Response<Body> {
+fn ledger_error(error: LedgerError) -> Reply {
     let code = match error {
         LedgerError::Unauthorized => StatusCode::UNAUTHORIZED,
         LedgerError::NoCredits => StatusCode::PAYMENT_REQUIRED,
@@ -517,7 +588,7 @@ fn ledger_error(error: LedgerError) -> Response<Body> {
     reply(code, json!({"error":error.to_string()}))
 }
 
-fn reply(status: StatusCode, value: Value) -> Response<Body> {
+fn reply(status: StatusCode, value: Value) -> Reply {
     Response::builder()
         .status(status)
         .header("Content-Type", "application/json")
@@ -527,14 +598,20 @@ fn reply(status: StatusCode, value: Value) -> Response<Body> {
             "Content-Security-Policy",
             "default-src 'none'; frame-ancestors 'none'",
         )
-        .body(Body::from(value.to_string()))
+        .body(Full::new(Bytes::from(value.to_string())))
         .expect("fixed response headers")
 }
 
-async fn bounded_body(body: &mut Body, max: usize) -> anyhow::Result<Vec<u8>> {
+async fn bounded_body<B>(body: &mut B, max: usize) -> anyhow::Result<Vec<u8>>
+where
+    B: Body<Data = Bytes> + Unpin,
+    B::Error: std::error::Error + Send + Sync + 'static,
+{
     let mut bytes = Vec::new();
-    while let Some(chunk) = body.data().await {
-        let chunk = chunk?;
+    while let Some(frame) = body.frame().await {
+        let Ok(chunk) = frame?.into_data() else {
+            continue;
+        };
         ensure!(bytes.len() + chunk.len() <= max, "Request is too large");
         bytes.extend_from_slice(&chunk);
     }

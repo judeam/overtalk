@@ -21,6 +21,18 @@ pub fn secret() -> anyhow::Result<String> {
     Ok(base64::engine::general_purpose::URL_SAFE_NO_PAD.encode(bytes))
 }
 
+/// The bundled Mozilla root certificates, the only ones the gateway's HTTPS
+/// clients trust; roots added to the server's OS store are not.
+pub fn tls_roots() -> Vec<reqwest::Certificate> {
+    static ROOTS: std::sync::LazyLock<Vec<reqwest::Certificate>> = std::sync::LazyLock::new(|| {
+        webpki_root_certs::TLS_SERVER_ROOT_CERTS
+            .iter()
+            .filter_map(|root| reqwest::Certificate::from_der(root).ok())
+            .collect()
+    });
+    ROOTS.clone()
+}
+
 pub fn digest(value: &[u8]) -> String {
     use sha2::{Digest, Sha256};
     Sha256::digest(value)

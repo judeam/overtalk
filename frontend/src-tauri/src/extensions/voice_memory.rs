@@ -86,6 +86,7 @@ pub async fn voice_memory_setup<R: Runtime>(app: AppHandle<R>) -> Result<(), Str
     let temporary = tempfile::NamedTempFile::new_in(parent).map_err(|e| e.to_string())?;
     let result = async {
         let client = reqwest::Client::builder()
+            .tls_certs_only(crate::security::transport::tls_roots())
             .timeout(Duration::from_secs(180))
             .https_only(true)
             .build()
