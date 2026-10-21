@@ -65,7 +65,8 @@ jobs:
           path: artifacts/native-memory
   native:
     name: Native / ${{ matrix.os }}
-    timeout-minutes: 55
+    # Windows compiles the release workspace about twice as slowly as Linux.
+    timeout-minutes: ${{ matrix.os == 'windows-latest' && 110 || 70 }}
     strategy:
       fail-fast: false
       matrix:
