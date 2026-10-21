@@ -186,13 +186,11 @@ jobs:
         if: runner.os == 'Linux'
         run: python scripts/verify-native-playback.py --binary target/release/examples/verify_playback
       # The runner draws with a software renderer on shared vCPUs, about four times
-      # slower than a development machine, so its budgets are four times wider; a
-      # fresh font cache is built first so it is not counted as a meeting open.
+      # slower than a development machine, so its budgets are four times wider. A
+      # discarded first pass keeps the fresh machine's cold disk out of the timing.
       - name: First-open and idle-render performance budget
         if: runner.os == 'Linux'
-        run: |
-          fc-cache
-          xvfb-run -a python scripts/audit-native-performance.py --output artifacts/native/performance.json --first-open-budget-ms 1600 --later-open-budget-ms 200
+        run: xvfb-run -a python scripts/audit-native-performance.py --warm-up --output artifacts/native/performance.json --first-open-budget-ms 1600 --later-open-budget-ms 200
       - name: Local voice memory and external library refresh
         if: runner.os == 'Linux'
         run: |

@@ -21,9 +21,9 @@ p.add_argument('--output', type=Path, required=True)
 p.add_argument('--sizes', nargs='+', default=['1280x720', '3840x2160'])
 p.add_argument('--first-open-budget-ms', type=float, default=150)
 p.add_argument('--later-open-budget-ms', type=float, default=50)
+p.add_argument('--warm-up', action='store_true', help='run once first and discard it, so a fresh machine reading the program from disk is not measured')
 args = p.parse_args()
-reports = []
-for dimensions in args.sizes:
+def measure(dimensions):
     width, height = map(int, dimensions.split('x'))
     with tempfile.TemporaryDirectory(prefix='overtalk-performance-') as temporary:
         root = Path(temporary)
@@ -58,7 +58,10 @@ for dimensions in args.sizes:
         report['actual_size'] = list(map(int,actual.groups())) if actual else None
         report['final_size'] = list(map(int,final.groups())) if final else None
         report['pass']=report['actual_size']==[width,height] and report['final_size']==[width,height] and opens[0]<=args.first_open_budget_ms and max(opens[1:],default=0)<args.later_open_budget_ms and idle_frames is not None and idle_frames<=2
-        reports.append(report)
+        return report
+if args.warm_up:
+    measure(args.sizes[0])
+reports = [measure(dimensions) for dimensions in args.sizes]
 args.output.parent.mkdir(parents=True,exist_ok=True)
 args.output.write_text(json.dumps(dict(definition='CPU render submission and request-to-first-frame; synthetic data; not display FPS',results=reports),indent=2)+'\n')
 for report in reports: print(json.dumps(report))
