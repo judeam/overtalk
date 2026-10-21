@@ -1,5 +1,5 @@
 # Common local audio decoding. Install a compatible PyTorch build separately.
 numpy>=1.26,<3
-scipy>=1.11,<2
+scipy>=1.18.1,<2
 soundfile>=0.12,<1
 huggingface-hub>=0.34,<2
