@@ -94,7 +94,7 @@ export function LanguagePickerPopover({
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search language..."
-          className="flex-1 text-sm text-gray-900 bg-transparent border-none outline-none placeholder-gray-400"
+          className="flex-1 text-sm text-gray-900 bg-transparent border-none outline-hidden placeholder-gray-400"
         />
       </div>
 

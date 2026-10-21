@@ -241,7 +241,7 @@ export function LanguageSelection({
           value={effectiveLanguage}
           onChange={(e) => handleLanguageChange(e.target.value)}
           disabled={disabled || saving || !capabilitiesReady}
-          className="w-full px-3 py-2 text-sm bg-card border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-50 disabled:text-gray-500"
+          className="w-full px-3 py-2 text-sm bg-card border border-gray-300 rounded-md shadow-xs focus:outline-hidden focus:ring-1 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-50 disabled:text-gray-500"
         >
           {availableLanguages.map((language) => (
             <option key={language.code} value={language.code}>

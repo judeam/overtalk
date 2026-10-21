@@ -1,8 +1,241 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/*
+  Tailwind 3 emitted unlayered CSS: preflight, the base rules, the component
+  rules, then the utilities. The plain stylesheets rely on that cascade (for
+  example `:where(.ot-app) :is(button, input) { font: inherit }` must lose to
+  `text-sm`), so Tailwind 4 keeps that order instead of cascade layers.
+*/
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/preflight.css';
+@import 'tw-animate-css';
+/* Tailwind 3 scanned only these directories; keep the generated utilities the same. */
+@source '../app';
+@source '../components';
+@source '../features';
+@plugin '@tailwindcss/typography';
 
-@layer base {
+@custom-variant dark (&:is(.dark *));
+/* Tailwind 3 applied hover styles on touch screens too, like this app's plain CSS. */
+@custom-variant hover (&:hover);
+
+@theme inline {
+  --font-sans: var(--font-instrument), Segoe UI, sans-serif;
+
+  --color-background: hsl(var(--background));
+
+  --color-blue-50: hsl(var(--copper-50));
+  --color-blue-100: hsl(var(--copper-100));
+  --color-blue-200: hsl(var(--copper-200));
+  --color-blue-300: hsl(var(--copper-300));
+  --color-blue-400: hsl(var(--copper-400));
+  --color-blue-500: hsl(var(--copper-500));
+  --color-blue-600: hsl(var(--copper-600));
+  --color-blue-700: hsl(var(--copper-700));
+  --color-blue-800: hsl(var(--copper-800));
+  --color-blue-900: hsl(var(--copper-900));
+  --color-blue-950: hsl(var(--copper-950));
+
+  --color-gray-50: hsl(var(--neutral-50));
+  --color-gray-100: hsl(var(--neutral-100));
+  --color-gray-200: hsl(var(--neutral-200));
+  --color-gray-300: hsl(var(--neutral-300));
+  --color-gray-400: hsl(var(--neutral-400));
+  --color-gray-500: hsl(var(--neutral-500));
+  --color-gray-600: hsl(var(--neutral-600));
+  --color-gray-700: hsl(var(--neutral-700));
+  --color-gray-800: hsl(var(--neutral-800));
+  --color-gray-900: hsl(var(--neutral-900));
+  --color-gray-950: hsl(var(--neutral-950));
+
+  --color-white: #fff;
+
+  --color-yellow-50: hsl(var(--warning-surface));
+  --color-yellow-100: hsl(var(--warning-surface));
+  --color-yellow-200: hsl(var(--warning-border));
+  --color-yellow-600: hsl(var(--warning-text));
+  --color-yellow-700: hsl(var(--warning-text));
+  --color-yellow-800: hsl(var(--warning-text));
+
+  --color-amber-50: hsl(var(--warning-surface));
+  --color-amber-100: hsl(var(--warning-surface));
+  --color-amber-200: hsl(var(--warning-border));
+  --color-amber-600: hsl(var(--warning-text));
+  --color-amber-700: hsl(var(--warning-text));
+  --color-amber-800: hsl(var(--warning-text));
+
+  --color-orange-50: hsl(var(--warning-surface));
+  --color-orange-100: hsl(var(--warning-surface));
+  --color-orange-200: hsl(var(--warning-border));
+  --color-orange-600: hsl(var(--warning-text));
+  --color-orange-700: hsl(var(--warning-text));
+  --color-orange-800: hsl(var(--warning-text));
+
+  --color-red-50: hsl(var(--error-surface));
+  --color-red-100: hsl(var(--error-surface));
+  --color-red-200: hsl(var(--error-border));
+  --color-red-700: hsl(var(--error-text));
+  --color-red-800: hsl(var(--error-text));
+
+  --color-green-50: hsl(var(--success-surface));
+  --color-green-100: hsl(var(--success-surface));
+  --color-green-200: hsl(var(--success-border));
+  --color-green-700: hsl(var(--success-text));
+  --color-green-800: hsl(var(--success-text));
+
+  /* Tailwind 3's sRGB values for the default shades in use; v4's OKLCH palette differs. */
+  --color-amber-400: #fbbf24;
+  --color-amber-900: #78350f;
+  --color-green-400: #4ade80;
+  --color-green-500: #22c55e;
+  --color-green-600: #16a34a;
+  --color-neutral-50: #fafafa;
+  --color-neutral-200: #e5e5e5;
+  --color-neutral-500: #737373;
+  --color-neutral-700: #404040;
+  --color-neutral-900: #171717;
+  --color-orange-500: #f97316;
+  --color-red-300: #fca5a5;
+  --color-red-400: #f87171;
+  --color-red-500: #ef4444;
+  --color-red-600: #dc2626;
+  --color-teal-300: #5eead4;
+  --color-teal-500: #14b8a6;
+  --color-teal-600: #0d9488;
+  --color-teal-700: #0f766e;
+  --color-yellow-400: #facc15;
+  --color-yellow-500: #eab308;
+
+  --color-foreground: hsl(var(--foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-tertiary: #64748b;
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --color-chart-1: hsl(var(--chart-1));
+  --color-chart-2: hsl(var(--chart-2));
+  --color-chart-3: hsl(var(--chart-3));
+  --color-chart-4: hsl(var(--chart-4));
+  --color-chart-5: hsl(var(--chart-5));
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  --default-ring-color: rgb(147 197 253 / 0.5);
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+
+  /* The app's own --ease-out token must not replace the `ease-out` utility's curve. */
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+
+  /* Tailwind 3 line heights were fixed lengths that children inherit unchanged. */
+  --text-xs--line-height: 1rem;
+  --text-sm--line-height: 1.25rem;
+  --text-base--line-height: 1.5rem;
+  --text-lg--line-height: 1.75rem;
+  --text-xl--line-height: 1.75rem;
+  --text-2xl--line-height: 2rem;
+  --text-3xl--line-height: 2.25rem;
+  --text-4xl--line-height: 2.5rem;
+}
+
+/* Tailwind 3 put the space-x/y margin on every child but the first and overrode the
+   children's own margins; v4 uses zero-specificity end margins instead. */
+@utility space-y-* {
+  & > :not([hidden]) ~ :not([hidden]) {
+    margin-top: calc(var(--spacing) * --value(number));
+    margin-bottom: 0;
+  }
+}
+@utility space-x-* {
+  & > :not([hidden]) ~ :not([hidden]) {
+    margin-right: 0;
+    margin-left: calc(var(--spacing) * --value(number));
+  }
+}
+
+/* Tailwind 3 preflight defaults that v4 changed. */
+*,
+::after,
+::before,
+::backdrop,
+::file-selector-button {
+  border-color: hsl(var(--neutral-200));
+}
+input::placeholder,
+textarea::placeholder {
+  color: hsl(var(--neutral-400));
+}
+button,
+[role='button'] {
+  cursor: pointer;
+}
+:disabled {
+  cursor: default;
+}
+button,
+input,
+select,
+optgroup,
+textarea {
+  border-radius: revert;
+  opacity: revert;
+}
+input:where(:not([type='button'], [type='reset'], [type='submit'])),
+select,
+optgroup,
+textarea {
+  background-color: revert;
+}
+[type='search'] {
+  -webkit-appearance: textfield;
+  outline-offset: -2px;
+}
+option,
+td,
+th {
+  padding: revert;
+}
+
   :root {
     color-scheme: light;
     --background: 206 22% 95%; --foreground: 215 22% 11%;
@@ -46,13 +279,8 @@
   a { text-underline-offset: 4px; }
   .titlebar { -webkit-app-region: drag; app-region: drag; }
   .no-drag { -webkit-app-region: no-drag; app-region: no-drag; }
-  .bn-container, .bn-editor { width: 100% !important; max-width: none !important; overflow: visible !important; }
   .ProseMirror, [data-node-type] { overflow: visible !important; }
-  .bn-block-outer { max-width: 100% !important; }
-  .bn-default-styles { max-width: none !important; }
-}
 
-@layer components {
   .sonefold-sidebar { background: hsl(var(--rail)); }
   .sonefold-logo { display: flex; align-items: center; gap: .65rem; padding: .75rem .65rem 1.25rem; font-size: 1.25rem; font-weight: 650; letter-spacing: -.025em; color: hsl(var(--foreground)); width: 100%; }
   .sonefold-logo svg { color: hsl(var(--primary)); flex-shrink: 0; }
@@ -148,7 +376,21 @@
   .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
   .custom-scrollbar::-webkit-scrollbar-thumb { background: hsl(var(--neutral-300)); border: 2px solid hsl(var(--background)); border-radius: 8px; }
   .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: hsl(var(--muted-foreground)); }
+
+@tailwind utilities source(none);
+/* With the space-x/y rules above, v4's own end margin only remains on the first child. */
+:where([class*='space-y-'] > :first-child) { margin-block-end: 0; }
+:where([class*='space-x-'] > :first-child) { margin-inline-end: 0; }
+/* @tailwindcss/typography now reads v4's OKLCH palette; keep its Tailwind 3 colors. */
+.prose {
+  --tw-prose-body: #374151; --tw-prose-headings: #111827; --tw-prose-lead: #4b5563;
+  --tw-prose-links: #111827; --tw-prose-bold: #111827; --tw-prose-counters: #6b7280;
+  --tw-prose-bullets: #d1d5db; --tw-prose-hr: #e5e7eb; --tw-prose-quotes: #111827;
+  --tw-prose-quote-borders: #e5e7eb; --tw-prose-captions: #6b7280; --tw-prose-kbd: #111827;
+  --tw-prose-kbd-shadows: rgb(17 24 39 / 10%); --tw-prose-code: #111827; --tw-prose-pre-code: #e5e7eb;
+  --tw-prose-pre-bg: #1f2937; --tw-prose-th-borders: #d1d5db; --tw-prose-td-borders: #e5e7eb;
 }
+.prose-blue { --tw-prose-links: #2563eb; }
 
 @keyframes settings-change { from { opacity: .6; transform: translateY(4px); } to { opacity: 1; transform: none; } }
 @keyframes skeleton-pulse { 50% { opacity: .55; } }

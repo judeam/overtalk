@@ -319,7 +319,7 @@ export function BuiltInModelManager({
               <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                 <div className="min-w-0 flex-1">
                   <div className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
-                    <button type="button" disabled={!isAvailable || modelIsDownloading} aria-pressed={selectedModel === model.name} onClick={event => { event.stopPropagation(); onModelSelect(model.name); }} className="min-w-0 break-words rounded-sm text-left text-base font-semibold leading-snug text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card disabled:cursor-default">{model.display_name || model.name}</button>
+                    <button type="button" disabled={!isAvailable || modelIsDownloading} aria-pressed={selectedModel === model.name} onClick={event => { event.stopPropagation(); onModelSelect(model.name); }} className="min-w-0 wrap-break-word rounded-sm text-left text-base font-semibold leading-snug text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card disabled:cursor-default">{model.display_name || model.name}</button>
                     {isAvailable && (
                       <>
                         <span className="flex shrink-0 items-center gap-1 text-xs font-medium text-green-600">

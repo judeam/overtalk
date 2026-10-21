@@ -270,7 +270,7 @@ export function ImportAudioDialog({
               {fileInfo ? (
                 <div className="bg-gray-50 rounded-lg p-4 space-y-3">
                   <div className="flex items-start gap-3">
-                    <FileAudio className="h-8 w-8 text-blue-600 flex-shrink-0" />
+                    <FileAudio className="h-8 w-8 text-blue-600 shrink-0" />
                     <div className="flex-1 min-w-0">
                       <p className="font-medium text-gray-900 truncate">{fileInfo.filename}</p>
                       <div className="flex items-center gap-4 text-sm text-gray-500 mt-1">

@@ -9,7 +9,7 @@
     "scripts/guide/capture-guide.cjs"
   ],
   "project": [
-    "src/**/*.{ts,tsx,js,jsx}",
+    "src/**/*.{ts,tsx,js,jsx,css}",
     "tests/**/*.{ts,tsx,js,mjs}",
     "scripts/**/*.{js,cjs}",
     "*.{js,mjs}"
