@@ -1,3 +1,4 @@
+#![deny(clippy::undocumented_unsafe_blocks)]
 use overtalk_worker_sandbox::Sandbox;
 use std::fs;
 #[cfg(target_os = "linux")]
@@ -102,6 +103,9 @@ assert libc.syscall(425,1,None) == -1 and ctypes.get_errno() == 1, 'io_uring_set
 print('isolated')"#;
     // Deliberately hand the launcher an inheritable secret fd. Its subprocess
     // must close it rather than bypassing the filesystem policy through /proc.
+    // SAFETY: the closure runs in the forked child before exec and makes only one
+    // async-signal-safe fcntl call on `descriptor`, which `secret_file` keeps open
+    // in the parent across the spawn, so the child inherits it.
     unsafe {
         command.pre_exec(move || {
             if libc::fcntl(descriptor, libc::F_SETFD, 0) < 0 {

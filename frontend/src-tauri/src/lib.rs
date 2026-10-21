@@ -1,3 +1,4 @@
+#![deny(clippy::undocumented_unsafe_blocks)]
 mod sync;
 #[cfg(test)]
 mod test_support;

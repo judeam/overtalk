@@ -87,10 +87,11 @@ struct DeviceChangeListenerGuard {
     data_ptr: *mut ListenerCallbackData,
 }
 
-// SAFETY: data_ptr points to a Box<ListenerCallbackData> whose fields are Send + Sync.
-// The pointer is created in register_device_change_listeners() and only
-// used for cleanup in Drop — always on the same tokio task.
 #[cfg(target_os = "macos")]
+// SAFETY: the raw pointer is the only non-Send field. The guard never
+// dereferences it; Drop only hands it back to Core Audio to remove the listener,
+// which any thread may do. The pointee holds an `Arc<Notify>`, which is Send and
+// Sync, and Core Audio's own callback thread already reads it concurrently.
 unsafe impl Send for DeviceChangeListenerGuard {}
 
 #[cfg(target_os = "macos")]
@@ -122,6 +123,10 @@ extern "C-unwind" fn device_list_changed_callback(
     _addresses: *const ca::PropAddr,
     client_data: *mut (),
 ) -> os::Status {
+    // SAFETY: Core Audio passes back the pointer registered in
+    // register_device_change_listeners, which came from Box::into_raw and is never
+    // freed once registration succeeds (see the guard's Drop), so it is valid for
+    // the rest of the process. The callback only takes a shared reference.
     let data = unsafe { &*(client_data as *const ListenerCallbackData) };
     data.notify.notify_one();
     debug!("Core Audio device list changed — waking monitor loop");
@@ -146,6 +151,8 @@ fn register_device_change_listeners(
         Ok(()) => info!("Registered Core Audio HW_DEVICES listener"),
         Err(e) => {
             error!("Failed to register HW_DEVICES listener: {:?}", e);
+            // SAFETY: `data_ptr` came from Box::into_raw above, and registration
+            // failed, so Core Audio never received it. This is its only owner.
             unsafe {
                 let _ = Box::from_raw(data_ptr);
             }

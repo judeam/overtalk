@@ -112,6 +112,8 @@ pub(crate) fn system_reduced() -> bool {
         let mut enabled = 1;
         // SPI_GETCLIENTAREAANIMATION writes a BOOL to the supplied pointer.
         // https://learn.microsoft.com/windows/win32/api/winuser/nf-winuser-systemparametersinfow
+        // SAFETY: `enabled` is a live, writable i32 (BOOL) for the whole call, which is
+        // the only memory SPI_GETCLIENTAREAANIMATION writes; uiParam and flags are 0.
         return unsafe { SystemParametersInfoW(0x1042, 0, &mut enabled, 0) != 0 && enabled == 0 };
     }
     #[allow(unreachable_code)]

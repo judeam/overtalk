@@ -1,5 +1,6 @@
 //! OS-enforced worker isolation. The parent grants exact inputs, model/runtime
 //! directories and outputs. No credentials, app database or ambient network.
+#![deny(clippy::undocumented_unsafe_blocks)]
 use serde::{Deserialize, Serialize};
 use std::{
     ffi::OsStr,
@@ -271,6 +272,8 @@ pub fn kill_process_group(pid: u32) {
     #[cfg(unix)]
     if let Ok(pid) = i32::try_from(pid) {
         if pid > 1 {
+            // SAFETY: kill takes no pointers. With pid > 1, -pid names only that
+            // process group, never every process (-1) or our own group (0).
             unsafe {
                 libc::kill(-pid, libc::SIGKILL);
             }
@@ -317,6 +320,7 @@ fn cleanup_stale_in(directory: &Path) -> io::Result<()> {
         #[cfg(unix)]
         {
             use std::os::unix::fs::MetadataExt;
+            // SAFETY: geteuid has no preconditions and cannot fail.
             if metadata.uid() != unsafe { libc::geteuid() } || metadata.mode() & 0o077 != 0 {
                 continue;
             }
@@ -474,7 +478,11 @@ fn close_inherited_descriptors() -> io::Result<()> {
         else {
             continue;
         };
+        // SAFETY: fcntl with F_GETFD takes no pointers; a number that is no longer
+        // open only returns EBADF.
         let flags = unsafe { libc::fcntl(fd, libc::F_GETFD) };
+        // SAFETY: F_SETFD takes an integer flag set and only marks the descriptor
+        // close-on-exec in this launcher, which is about to exec.
         if flags >= 0 && unsafe { libc::fcntl(fd, libc::F_SETFD, flags | libc::FD_CLOEXEC) } < 0 {
             return Err(io::Error::last_os_error());
         }
@@ -706,6 +714,8 @@ fn seccomp_fd(root: &Path) -> io::Result<i32> {
     let fd = file.into_raw_fd();
     // The dedicated launcher execs bwrap immediately; this sole extra descriptor
     // contains only the filter. bwrap consumes/closes it before the workload.
+    // SAFETY: `fd` is the descriptor this function just took from `file`; F_SETFD
+    // takes an integer flag set and no pointers.
     if unsafe { libc::fcntl(fd, libc::F_SETFD, 0) } == -1 {
         return Err(io::Error::last_os_error());
     }
@@ -713,6 +723,7 @@ fn seccomp_fd(root: &Path) -> io::Result<i32> {
         rlim_cur: 0,
         rlim_max: 0,
     };
+    // SAFETY: `limit` is a valid rlimit that outlives the call, which only reads it.
     if unsafe { libc::setrlimit(libc::RLIMIT_CORE, &limit) } != 0 {
         return Err(io::Error::last_os_error());
     }
@@ -818,7 +829,10 @@ pub fn run_bounded(
         use std::os::fd::AsRawFd;
         let descriptors = [stdout.as_raw_fd(), stderr.as_raw_fd()];
         for fd in descriptors {
+            // SAFETY: `fd` belongs to `stdout` or `stderr`, which stay open in this
+            // scope; F_GETFL takes no pointers.
             let flags = unsafe { libc::fcntl(fd, libc::F_GETFL) };
+            // SAFETY: as above; F_SETFL takes an integer flag set.
             if flags < 0 || unsafe { libc::fcntl(fd, libc::F_SETFL, flags | libc::O_NONBLOCK) } < 0
             {
                 return Err(io::Error::last_os_error());
@@ -861,6 +875,9 @@ pub fn run_bounded(
                             let mut available = 0;
                             // A blocking ReadFile could keep this thread alive after
                             // the deadline if a descendant inherited the write end.
+                            // SAFETY: `handle` belongs to `pipe`, which this thread owns
+                            // and keeps open for the whole loop. No data is read (null
+                            // buffer, size 0); the only out-pointer is `available`.
                             let ok = unsafe {
                                 PeekNamedPipe(
                                     handle as _,
@@ -905,6 +922,9 @@ pub fn run_bounded(
                                     };
                                     // Wake immediately for output, while retaining a
                                     // bounded cancellation latency and low idle CPU.
+                                    // SAFETY: `event` is one valid pollfd for the call, and
+                                    // its descriptor belongs to `pipe`, which this thread
+                                    // owns and keeps open.
                                     unsafe {
                                         libc::poll(&mut event, 1, 5);
                                     }
@@ -1029,6 +1049,7 @@ mod adversarial_tests {
         let fifo = directory("fifo");
         let name = std::ffi::CString::new(fifo.join(".owner-lock").as_os_str().as_encoded_bytes())
             .unwrap();
+        // SAFETY: `name` is a NUL-terminated C string that outlives the call; mkfifo only reads it.
         assert_eq!(unsafe { libc::mkfifo(name.as_ptr(), 0o600) }, 0);
         let linked = directory("linked");
         symlink(active.join(".owner-lock"), linked.join(".owner-lock")).unwrap();
@@ -1084,6 +1105,7 @@ mod adversarial_tests {
         assert!(open_regular(&link, true, true).is_err());
         let fifo = root.path().join("fifo");
         let name = std::ffi::CString::new(fifo.as_os_str().as_encoded_bytes()).unwrap();
+        // SAFETY: `name` is a NUL-terminated C string that outlives the call; mkfifo only reads it.
         assert_eq!(unsafe { libc::mkfifo(name.as_ptr(), 0o600) }, 0);
         assert!(open_regular(&fifo, true, false).is_err());
         assert!(open_regular(&fifo, false, false).is_err());

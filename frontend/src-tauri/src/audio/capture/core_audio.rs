@@ -200,7 +200,15 @@ impl CoreAudioCapture {
                 let byte_count = first_buffer.data_bytes_size as usize;
                 let float_count = byte_count / std::mem::size_of::<f32>();
 
-                if float_count > 0 && first_buffer.data != std::ptr::null_mut() {
+                if float_count > 0
+                    && !first_buffer.data.is_null()
+                    && (first_buffer.data as *const f32).is_aligned()
+                {
+                    // SAFETY: Core Audio keeps `input_data` and its buffers valid for
+                    // the duration of this IO proc. The pointer is non-null and
+                    // f32-aligned (checked above), the format is PCM f32, and
+                    // `float_count` whole samples fit in `data_bytes_size` bytes. The
+                    // slice is read only here and does not outlive the callback.
                     let data = unsafe {
                         std::slice::from_raw_parts(first_buffer.data as *const f32, float_count)
                     };

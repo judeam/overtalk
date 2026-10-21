@@ -668,6 +668,7 @@ mod tests {
         let dir = tempfile::tempdir().unwrap();
         let fifo = dir.path().join("fifo");
         let c = std::ffi::CString::new(fifo.as_os_str().as_encoded_bytes()).unwrap();
+        // SAFETY: `c` is a NUL-terminated C string that outlives the call; mkfifo only reads it.
         assert_eq!(unsafe { libc::mkfifo(c.as_ptr(), 0o600) }, 0);
         let link = dir.path().join("link");
         std::os::unix::fs::symlink(&fifo, &link).unwrap();

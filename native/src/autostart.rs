@@ -163,6 +163,8 @@ mod system {
     fn read(key: &str, kind: u32) -> Option<Vec<u8>> {
         let (key, name) = (wide(key), wide(NAME));
         let mut size = 0u32;
+        // SAFETY: `key` and `name` are NUL-terminated UTF-16 buffers that outlive the
+        // call. A null data pointer asks only for the size, written to `size`.
         let status = unsafe {
             RegGetValueW(
                 HKEY_CURRENT_USER,
@@ -178,6 +180,9 @@ mod system {
             return None;
         }
         let mut data = vec![0u8; size as usize];
+        // SAFETY: `data` holds exactly `size` writable bytes and `size` tells the
+        // API that capacity, so it never writes past the buffer (a value that grew
+        // meanwhile returns ERROR_MORE_DATA instead). Both strings are NUL-terminated.
         let status = unsafe {
             RegGetValueW(
                 HKEY_CURRENT_USER,
@@ -196,6 +201,7 @@ mod system {
     }
     fn delete(key: &str) -> io::Result<()> {
         let (key, name) = (wide(key), wide(NAME));
+        // SAFETY: `key` and `name` are NUL-terminated UTF-16 buffers that outlive the call.
         match unsafe { RegDeleteKeyValueW(HKEY_CURRENT_USER, key.as_ptr(), name.as_ptr()) } {
             ERROR_SUCCESS | ERROR_FILE_NOT_FOUND => Ok(()),
             status => Err(io::Error::from_raw_os_error(status as i32)),
@@ -220,6 +226,9 @@ mod system {
         check_path(&program)?;
         let (key, name, value) = (wide(RUN), wide(NAME), wide(&run_value(&program)));
         let mut handle: HKEY = null_mut();
+        // SAFETY: `key` is a NUL-terminated UTF-16 buffer that outlives the call, the
+        // optional class, security and disposition pointers are null, and `handle` is
+        // a writable HKEY that receives the opened key.
         let status = unsafe {
             RegCreateKeyExW(
                 HKEY_CURRENT_USER,
@@ -236,6 +245,9 @@ mod system {
         if status != ERROR_SUCCESS {
             return Err(io::Error::from_raw_os_error(status as i32));
         }
+        // SAFETY: `handle` was opened above with KEY_SET_VALUE and is still open.
+        // `value` is a NUL-terminated UTF-16 string whose byte length, including the
+        // terminator REG_SZ requires, is passed as the size; `name` is NUL-terminated.
         let status = unsafe {
             RegSetValueExW(
                 handle,
@@ -246,6 +258,7 @@ mod system {
                 (value.len() * 2) as u32,
             )
         };
+        // SAFETY: `handle` is the key opened above; it is closed exactly once, here.
         unsafe { RegCloseKey(handle) };
         if status != ERROR_SUCCESS {
             return Err(io::Error::from_raw_os_error(status as i32));

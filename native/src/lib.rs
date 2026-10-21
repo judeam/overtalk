@@ -1,3 +1,4 @@
+#![deny(clippy::undocumented_unsafe_blocks)]
 mod autostart;
 mod controller;
 mod drafts;

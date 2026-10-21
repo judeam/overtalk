@@ -31,6 +31,7 @@ pub(super) fn open_destination(
     #[cfg(unix)]
     {
         use std::os::unix::fs::MetadataExt;
+        // SAFETY: geteuid has no preconditions and cannot fail.
         if metadata.nlink() != 1 || metadata.uid() != unsafe { libc::geteuid() } {
             bail!("Model download must be a private regular file");
         }

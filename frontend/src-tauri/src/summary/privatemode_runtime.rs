@@ -243,8 +243,10 @@ async fn start(
         .stderr(Stdio::piped())
         .kill_on_drop(true);
     #[cfg(target_os = "linux")]
-    // SAFETY: prctl is async-signal-safe; it only asks the kernel to stop the
-    // proxy when the engine exits, so the key file is not left in use.
+    // SAFETY: the closure runs in the forked child before exec, so it may only make
+    // async-signal-safe calls: one prctl syscall, and an io::Error built from errno
+    // without allocating. It asks the kernel to stop the proxy when the engine
+    // exits, so the key file is not left in use.
     unsafe {
         command.pre_exec(|| {
             if libc::prctl(libc::PR_SET_PDEATHSIG, libc::SIGTERM) != 0 {

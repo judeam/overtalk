@@ -337,6 +337,7 @@ mod tests {
         std::fs::remove_file(&marker).unwrap();
         let metadata = root.path().join("metadata.json");
         let name = std::ffi::CString::new(metadata.as_os_str().as_encoded_bytes()).unwrap();
+        // SAFETY: `name` is a NUL-terminated C string that outlives the call; mkfifo only reads it.
         assert_eq!(unsafe { libc::mkfifo(name.as_ptr(), 0o600) }, 0);
         assert!(!owned_recording(root.path(), "meeting"));
         std::fs::write(&marker, b"1").unwrap();

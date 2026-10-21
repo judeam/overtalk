@@ -96,6 +96,7 @@ pub fn private_directory(path: &Path) -> std::io::Result<()> {
             .custom_flags(libc::O_DIRECTORY | libc::O_NOFOLLOW | libc::O_NONBLOCK)
             .open(path)?;
         let metadata = directory.metadata()?;
+        // SAFETY: geteuid has no preconditions and cannot fail.
         if metadata.uid() != unsafe { libc::geteuid() } || metadata.mode() & 0o1000 != 0 {
             return Err(std::io::Error::other(
                 "Choose a folder owned exclusively by your user",
@@ -118,6 +119,7 @@ pub fn private_file(path: &Path) -> std::io::Result<()> {
     {
         use std::os::unix::fs::{MetadataExt, PermissionsExt};
         let metadata = file.metadata()?;
+        // SAFETY: geteuid has no preconditions and cannot fail.
         if metadata.uid() != unsafe { libc::geteuid() } || metadata.nlink() != 1 {
             return Err(std::io::Error::other(
                 "Private files must belong exclusively to your user",
@@ -173,6 +175,8 @@ fn restrict_windows(path: &Path, directory: bool) -> std::io::Result<()> {
 /// Applied before any worker/file creation, inherited by helper processes.
 pub fn restrict_new_files() {
     #[cfg(unix)]
+    // SAFETY: umask takes no pointers and cannot fail; it only sets this
+    // process's file-creation mask, which every later file and child inherits.
     unsafe {
         libc::umask(0o077);
     }
@@ -254,6 +258,7 @@ mod tests {
         assert!(private_file(&hard_link).is_err());
         let fifo = temp.path().join("fifo");
         let name = std::ffi::CString::new(fifo.as_os_str().as_encoded_bytes()).unwrap();
+        // SAFETY: `name` is a NUL-terminated C string that outlives the call; mkfifo only reads it.
         assert_eq!(unsafe { libc::mkfifo(name.as_ptr(), 0o600) }, 0);
         assert!(read_limited(&fifo, 5).is_err());
         assert!(private_file(&fifo).is_err());

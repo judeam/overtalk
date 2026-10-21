@@ -27,6 +27,8 @@ struct Handle(HANDLE);
 impl Drop for Handle {
     fn drop(&mut self) {
         if !self.0.is_null() {
+            // SAFETY: `Handle` only wraps a handle this module opened (job, process
+            // or thread) and owns, so it is valid here and closed exactly once.
             unsafe {
                 CloseHandle(self.0);
             }
@@ -46,6 +48,9 @@ impl Container {
             random.path().file_name().unwrap().to_string_lossy()
         ));
         let mut sid = null_mut();
+        // SAFETY: the name, display name and description are NUL-terminated UTF-16
+        // buffers that live until the statement ends; there are no capabilities
+        // (null, 0); `sid` receives a SID that Drop releases with FreeSid.
         let hr = unsafe {
             CreateAppContainerProfile(
                 name.as_ptr(),
@@ -85,6 +90,9 @@ impl Container {
         let path = wide(path);
         let mut old = null_mut();
         let mut descriptor = null_mut();
+        // SAFETY: `path` is a NUL-terminated UTF-16 buffer that outlives the call.
+        // Only the DACL is requested: owner, group and SACL out-pointers are null,
+        // and `old` points into `descriptor`, which is freed below with LocalFree.
         let result = unsafe {
             GetNamedSecurityInfoW(
                 path.as_ptr(),
@@ -117,8 +125,14 @@ impl Container {
             },
         };
         let mut new_acl = null_mut();
+        // SAFETY: `entry` is one valid EXPLICIT_ACCESS_W whose trustee is this
+        // container's live SID, `old` points into the still-allocated `descriptor`,
+        // and `new_acl` receives a LocalAlloc'd ACL that is freed below.
         let result = unsafe { SetEntriesInAclW(1, &entry, old, &mut new_acl) };
         let result = if result == 0 {
+            // SAFETY: `path` is NUL-terminated and outlives the call, and `new_acl`
+            // is the valid ACL just built. Only the DACL is set; the other
+            // descriptor parts are null.
             unsafe {
                 SetNamedSecurityInfoW(
                     path.as_ptr(),
@@ -133,6 +147,8 @@ impl Container {
         } else {
             result
         };
+        // SAFETY: both pointers were allocated by the calls above with LocalAlloc,
+        // are freed exactly once, and nothing uses them afterwards.
         unsafe {
             if !new_acl.is_null() {
                 LocalFree(new_acl.cast());
@@ -152,6 +168,8 @@ impl Drop for Container {
         for path in &self.grants {
             let _ = self.acl(path, 0, REVOKE_ACCESS);
         }
+        // SAFETY: `name` is the NUL-terminated profile name created in `create`, and
+        // `sid` is the SID CreateAppContainerProfile returned, released exactly once.
         unsafe {
             DeleteAppContainerProfile(self.name.as_ptr());
             FreeSid(self.sid);
@@ -179,6 +197,9 @@ fn quote(value: &OsStr) -> Vec<u16> {
     out
 }
 fn low_integrity(path: &Path) -> io::Result<()> {
+    // SAFETY: every string is a NUL-terminated UTF-16 temporary that outlives its
+    // call. `acl` points into `descriptor`, which stays allocated until the
+    // LocalFree after its last use; the other out-pointers are live locals.
     unsafe {
         let mut descriptor = null_mut();
         check(ConvertStringSecurityDescriptorToSecurityDescriptorW(
@@ -273,6 +294,12 @@ pub(super) fn run(policy: &Policy, program: &Path, mut args: Vec<OsString>) -> i
         line.extend(quote(arg));
     }
     line.push(0);
+    // SAFETY: the attribute list lives in `attrs`, sized by the first
+    // InitializeProcThreadAttributeList call; `capabilities` and `inherited`, which
+    // it points to, outlive `_guard`, which deletes it. `line` is a mutable
+    // NUL-terminated command line and `environment` a double-NUL-terminated block
+    // (safe_environment always sets PATH, LANG and HOME). Every handle passed on is
+    // a standard handle or one this function created and owns through `Handle`.
     unsafe {
         let handles = [
             GetStdHandle(STD_INPUT_HANDLE),
@@ -294,16 +321,19 @@ pub(super) fn run(policy: &Policy, program: &Path, mut args: Vec<OsString>) -> i
         struct Attributes(LPPROC_THREAD_ATTRIBUTE_LIST);
         impl Drop for Attributes {
             fn drop(&mut self) {
+                // SAFETY: the list was initialized successfully before this guard
+                // was created, and it is deleted only here.
                 unsafe { DeleteProcThreadAttributeList(self.0) }
             }
         }
-        let _guard = Attributes(attrs);
         let capabilities = SECURITY_CAPABILITIES {
             AppContainerSid: container.sid,
             Capabilities: null_mut(),
             CapabilityCount: 0,
             Reserved: 0,
         };
+        // Declared after the values the list points to, so it is dropped first.
+        let _guard = Attributes(attrs);
         check(UpdateProcThreadAttribute(
             attrs,
             0,

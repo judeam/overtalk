@@ -328,6 +328,9 @@ impl Worker {
         if let Some(pid) = self.child.id() {
             // Signal the private process group, including the responsive wrapper
             // and decoder children. TERM lets the wrapper clean up its MPS daemon.
+            // SAFETY: kill takes no pointers. The child was spawned as the leader of
+            // its own process group, and `id()` is Some only until it is reaped, so
+            // the negative pid names that group and not one that reused the number.
             unsafe {
                 libc::kill(-(pid as i32), libc::SIGTERM);
             }
@@ -335,6 +338,8 @@ impl Worker {
                 .await
                 .is_err()
             {
+                // SAFETY: as above; `pid` still names the worker's process group,
+                // which keeps its number until the leader is reaped below.
                 unsafe {
                     libc::kill(-(pid as i32), libc::SIGKILL);
                 }
