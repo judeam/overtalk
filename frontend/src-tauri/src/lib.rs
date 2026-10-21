@@ -31,33 +31,34 @@ macro_rules! perf_trace {
     ($($arg:tt)*) => {};
 }
 
-// Declare audio module
+/// The documented seam for a separately built edition (see [`service_main`]).
 pub mod addon;
-pub mod extensions;
-pub use extensions::{automation, integrations, speakers, speech, speech_stream};
+pub(crate) mod extensions;
+pub(crate) use extensions::{automation, integrations, speakers, speech, speech_stream};
 
-pub mod anthropic;
-pub mod api;
+pub(crate) mod anthropic;
+pub(crate) mod api;
 pub mod audio;
-pub mod cloud;
-pub mod config;
-pub mod database;
-pub mod groq;
+pub(crate) mod cloud;
+pub(crate) mod config;
+pub(crate) mod database;
+pub(crate) mod groq;
 mod model_catalog;
-pub mod native_model_worker;
+pub(crate) mod native_model_worker;
 mod native_service;
-pub mod notifications;
-pub mod ollama;
-pub mod onboarding;
-pub mod openai;
-pub mod openrouter;
-pub mod parakeet_engine;
+pub(crate) mod notifications;
+pub(crate) mod ollama;
+pub(crate) mod onboarding;
+pub(crate) mod openai;
+pub(crate) mod openrouter;
+pub(crate) mod parakeet_engine;
+/// Only `security::logging` is public, for the desktop binary's startup.
 pub mod security;
-pub mod state;
-pub mod summary;
-pub mod tray;
-pub mod utils;
-pub mod whisper_engine;
+pub(crate) mod state;
+pub(crate) mod summary;
+pub(crate) mod tray;
+pub(crate) mod utils;
+pub(crate) mod whisper_engine;
 
 use audio::{list_audio_devices, trigger_audio_permission, AudioDevice};
 use log::{error as log_error, info as log_info};
@@ -375,7 +376,7 @@ async fn set_language_preference(language: String) -> Result<(), String> {
 }
 
 // Internal helper function to get language preference (for use within Rust code)
-pub fn get_language_preference_internal() -> Option<String> {
+pub(crate) fn get_language_preference_internal() -> Option<String> {
     LANGUAGE_PREFERENCE.lock().ok().map(|lang| lang.clone())
 }
 
@@ -437,7 +438,7 @@ pub fn service_main() {
     run_native_service(tauri::generate_context!("tauri-service.conf.json"));
 }
 
-pub fn run_native_service(context: tauri::Context<tauri::Wry>) {
+fn run_native_service(context: tauri::Context<tauri::Wry>) {
     run_with_context(context, true);
 }
 

@@ -268,39 +268,6 @@ fn parse_content_range(value: &reqwest::header::HeaderValue) -> Result<ContentRa
     Ok(ContentRange::Range { start, end, total })
 }
 
-#[derive(Debug)]
-pub enum ParakeetEngineError {
-    ModelNotLoaded,
-    ModelNotFound(String),
-    TranscriptionFailed(String),
-    DownloadFailed(String),
-    IoError(std::io::Error),
-    Other(String),
-}
-
-impl std::fmt::Display for ParakeetEngineError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            ParakeetEngineError::ModelNotLoaded => write!(f, "No Parakeet model loaded"),
-            ParakeetEngineError::ModelNotFound(name) => write!(f, "Model '{}' not found", name),
-            ParakeetEngineError::TranscriptionFailed(err) => {
-                write!(f, "Transcription failed: {}", err)
-            }
-            ParakeetEngineError::DownloadFailed(err) => write!(f, "Download failed: {}", err),
-            ParakeetEngineError::IoError(err) => write!(f, "IO error: {}", err),
-            ParakeetEngineError::Other(err) => write!(f, "Error: {}", err),
-        }
-    }
-}
-
-impl std::error::Error for ParakeetEngineError {}
-
-impl From<std::io::Error> for ParakeetEngineError {
-    fn from(err: std::io::Error) -> Self {
-        ParakeetEngineError::IoError(err)
-    }
-}
-
 pub struct ParakeetEngine {
     models_dir: PathBuf,
     isolated: crate::native_model_worker::Shared,

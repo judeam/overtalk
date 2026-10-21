@@ -18,7 +18,6 @@ pub enum OllamaError {
     InvalidEndpoint(String),
     ServerError(String),
     NoModelsFound,
-    ParseError(String),
 }
 
 impl std::fmt::Display for OllamaError {
@@ -29,7 +28,6 @@ impl std::fmt::Display for OllamaError {
             OllamaError::InvalidEndpoint(msg) => write!(f, "Invalid endpoint: {}. Please check the URL format.", msg),
             OllamaError::ServerError(msg) => write!(f, "Ollama server error: {}", msg),
             OllamaError::NoModelsFound => write!(f, "No models found on the Ollama server. Please pull models using 'ollama pull <model>'."),
-            OllamaError::ParseError(msg) => write!(f, "Failed to parse server response: {}", msg),
         }
     }
 }
@@ -238,13 +236,6 @@ fn format_size(size: i64) -> String {
     } else {
         format!("{:.1} GB", size as f64 / (1024.0 * 1024.0 * 1024.0))
     }
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-pub struct DownloadProgress {
-    pub status: String,
-    pub completed: u64,
-    pub total: u64,
 }
 
 #[command]

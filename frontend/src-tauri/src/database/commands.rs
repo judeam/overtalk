@@ -1,15 +1,8 @@
 use log::{error, info};
-use serde::Serialize;
 use tauri::{AppHandle, Emitter, Manager};
 
 use super::manager::DatabaseManager;
 use crate::state::AppState;
-
-#[derive(Serialize)]
-pub struct DatabaseCheckResult {
-    pub exists: bool,
-    pub size: u64,
-}
 
 /// Check if this is the first launch (no database exists yet)
 #[tauri::command]

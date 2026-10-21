@@ -391,33 +391,6 @@ pub async fn api_get_transcript_api_key<R: Runtime>(
 }
 
 #[tauri::command]
-pub async fn api_delete_api_key<R: Runtime>(
-    _app: AppHandle<R>,
-    state: tauri::State<'_, AppState>,
-    provider: String,
-    _auth_token: Option<String>,
-) -> Result<(), String> {
-    log_info!(
-        "log_api_delete_api_key called (native) for provider '{}'",
-        &provider
-    );
-    match SettingsRepository::delete_api_key(state.db_manager.pool(), &provider).await {
-        Ok(_) => {
-            log_info!("Successfully deleted API key for provider '{}'.", &provider);
-            Ok(())
-        }
-        Err(e) => {
-            log_error!(
-                "Failed to delete API key for provider '{}': {}",
-                &provider,
-                e
-            );
-            Err(e.to_string())
-        }
-    }
-}
-
-#[tauri::command]
 pub async fn api_delete_meeting<R: Runtime>(
     app: AppHandle<R>,
     state: tauri::State<'_, AppState>,

@@ -378,10 +378,6 @@ async fn load_compact_overviews(pool: &SqlitePool) -> Result<Vec<MeetingOverview
 }
 
 /// Peak amplitude per 1/PEAKS_PER_SECOND window, streamed so long recordings stay small.
-pub fn compute_peaks(path: &Path) -> Result<Vec<u8>, String> {
-    compute_peaks_while(path, || true)
-}
-
 fn compute_peaks_while(path: &Path, is_current: impl Fn() -> bool) -> Result<Vec<u8>, String> {
     let mut reader = crate::audio::decoder::IsolatedPcmReader::open(path, 16000, 2, 0.0)
         .map_err(|e| e.to_string())?;
@@ -571,6 +567,10 @@ pub async fn meeting_delete_mark(
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn compute_peaks(path: &Path) -> Result<Vec<u8>, String> {
+        compute_peaks_while(path, || true)
+    }
 
     #[test]
     fn waveform_decode_stops_when_a_new_meeting_supersedes_it() {

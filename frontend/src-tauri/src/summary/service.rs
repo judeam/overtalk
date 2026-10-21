@@ -969,7 +969,7 @@ mod tests {
         Template {
             name: "Test".to_string(),
             description: "Test template".to_string(),
-            sections: vec![crate::summary::templates::TemplateSection {
+            sections: vec![crate::summary::templates::types::TemplateSection {
                 title: section_title.to_string(),
                 instruction: "Summarize this section".to_string(),
                 format: "paragraph".to_string(),

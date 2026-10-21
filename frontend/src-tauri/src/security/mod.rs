@@ -1,15 +1,15 @@
 //! Shared security boundaries for every desktop entry point.
-pub mod audit;
-pub mod credentials;
-pub mod encryption;
-pub mod erasure;
-pub mod ipc;
+pub(crate) mod audit;
+pub(crate) mod credentials;
+pub(crate) mod encryption;
+pub(crate) mod erasure;
+pub(crate) mod ipc;
 pub mod logging;
-pub mod notice;
-pub mod privacy;
-pub mod recovery;
-pub mod storage;
-pub mod transport;
+pub(crate) mod notice;
+pub(crate) mod privacy;
+pub(crate) mod recovery;
+pub(crate) mod storage;
+pub(crate) mod transport;
 
 #[cfg(all(test, target_os = "linux"))]
 #[test]

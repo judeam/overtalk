@@ -2,26 +2,6 @@ use crate::database::models::{Setting, TranscriptSetting};
 use crate::summary::CustomOpenAIConfig;
 use sqlx::SqlitePool;
 
-#[derive(serde::Deserialize, Debug)]
-pub struct SaveModelConfigRequest {
-    pub provider: String,
-    pub model: String,
-    #[serde(rename = "whisperModel")]
-    pub whisper_model: String,
-    #[serde(rename = "apiKey")]
-    pub api_key: Option<String>,
-    #[serde(rename = "ollamaEndpoint")]
-    pub ollama_endpoint: Option<String>,
-}
-
-#[derive(serde::Deserialize, Debug)]
-pub struct SaveTranscriptConfigRequest {
-    pub provider: String,
-    pub model: String,
-    #[serde(rename = "apiKey")]
-    pub api_key: Option<String>,
-}
-
 pub struct SettingsRepository;
 
 // Transcript providers: localWhisper, parakeet, localSpeech, deepgram, elevenLabs, groq, openai
@@ -150,21 +130,6 @@ impl SettingsRepository {
             return Ok(None);
         }
         crate::security::credentials::get(pool, "transcript", provider).await
-    }
-
-    pub async fn delete_api_key(
-        pool: &SqlitePool,
-        provider: &str,
-    ) -> std::result::Result<(), sqlx::Error> {
-        if provider == "privatemode" {
-            return crate::summary::privatemode::delete_key()
-                .await
-                .map_err(sqlx::Error::Protocol);
-        }
-        if provider == "builtin-ai" {
-            return Ok(());
-        }
-        crate::security::credentials::delete(pool, "summary", provider).await
     }
 
     // ===== CUSTOM OPENAI CONFIG METHODS =====

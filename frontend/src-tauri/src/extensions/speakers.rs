@@ -235,26 +235,6 @@ pub async fn apply_diarization_on_connection(
     Ok(assigned)
 }
 
-pub async fn apply_diarization(
-    pool: &SqlitePool,
-    meeting_id: &str,
-    turns: &[DiarizationTurn],
-    exclusive_turns: &[DiarizationTurn],
-    model: &str,
-) -> Result<usize, String> {
-    let mut transaction = pool.begin().await.map_err(|e| e.to_string())?;
-    let assigned = apply_diarization_on_connection(
-        &mut transaction,
-        meeting_id,
-        turns,
-        exclusive_turns,
-        model,
-    )
-    .await?;
-    transaction.commit().await.map_err(|e| e.to_string())?;
-    Ok(assigned)
-}
-
 pub async fn rename_speaker(
     pool: &SqlitePool,
     meeting_id: &str,
@@ -404,6 +384,27 @@ pub async fn merge_meeting_speakers(
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    async fn apply_diarization(
+        pool: &SqlitePool,
+        meeting_id: &str,
+        turns: &[DiarizationTurn],
+        exclusive_turns: &[DiarizationTurn],
+        model: &str,
+    ) -> Result<usize, String> {
+        let mut transaction = pool.begin().await.map_err(|e| e.to_string())?;
+        let assigned = apply_diarization_on_connection(
+            &mut transaction,
+            meeting_id,
+            turns,
+            exclusive_turns,
+            model,
+        )
+        .await?;
+        transaction.commit().await.map_err(|e| e.to_string())?;
+        Ok(assigned)
+    }
+
     fn turn(start: f64, end: f64, speaker: &str) -> DiarizationTurn {
         DiarizationTurn {
             start,

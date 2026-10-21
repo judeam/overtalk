@@ -187,51 +187,6 @@ impl ConsentManager {
         Ok(())
     }
 
-    /// Update specific notification preferences
-    pub async fn update_preferences(&self, preferences: NotificationPreferences) -> Result<()> {
-        let mut settings = self.load_settings().await.unwrap_or_default();
-        settings.notification_preferences = preferences;
-        self.save_settings(&settings).await?;
-
-        log_info!("Updated notification preferences");
-        Ok(())
-    }
-
-    /// Enable or disable Do Not Disturb mode
-    pub async fn set_dnd_mode(&self, enabled: bool) -> Result<()> {
-        let mut settings = self.load_settings().await.unwrap_or_default();
-        settings.manual_dnd_mode = enabled;
-        self.save_settings(&settings).await?;
-
-        log_info!("Set manual DND mode: {}", enabled);
-        Ok(())
-    }
-
-    /// Check if notifications should be shown (considering consent, permissions, and DND)
-    pub async fn should_show_notifications(&self) -> bool {
-        match self.load_settings().await {
-            Ok(settings) => {
-                settings.consent_given
-                    && settings.system_permission_granted
-                    && !settings.manual_dnd_mode
-            }
-            Err(_) => false,
-        }
-    }
-
-    /// Initialize notification settings on first app launch
-    pub async fn initialize_on_first_launch(&self) -> Result<NotificationSettings> {
-        if self.settings_path.exists() {
-            return self.load_settings().await;
-        }
-
-        log_info!("First launch detected, initializing notification settings");
-        let default_settings = NotificationSettings::default();
-        self.save_settings(&default_settings).await?;
-
-        Ok(default_settings)
-    }
-
     /// Get settings with migration if needed
     pub async fn get_settings_with_migration(&self) -> Result<NotificationSettings> {
         let settings = self.load_settings().await.unwrap_or_default();
@@ -242,11 +197,6 @@ impl ConsentManager {
         self.save_settings(&settings).await?;
         Ok(settings)
     }
-}
-
-/// Get default notification settings
-pub fn get_default_settings() -> NotificationSettings {
-    NotificationSettings::default()
 }
 
 /// Validate notification settings
@@ -262,21 +212,4 @@ pub fn validate_settings(settings: &NotificationSettings) -> Result<()> {
     }
 
     Ok(())
-}
-
-/// Merge settings with defaults (for handling partial updates)
-pub fn merge_with_defaults(partial: NotificationSettings) -> NotificationSettings {
-    let _defaults = NotificationSettings::default();
-
-    NotificationSettings {
-        recording_notifications: partial.recording_notifications,
-        time_based_reminders: partial.time_based_reminders,
-        meeting_reminders: partial.meeting_reminders,
-        respect_do_not_disturb: partial.respect_do_not_disturb,
-        notification_sound: partial.notification_sound,
-        system_permission_granted: partial.system_permission_granted,
-        consent_given: partial.consent_given,
-        manual_dnd_mode: partial.manual_dnd_mode,
-        notification_preferences: partial.notification_preferences,
-    }
 }

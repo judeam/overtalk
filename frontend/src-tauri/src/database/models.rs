@@ -62,18 +62,6 @@ pub struct SummaryProcess {
 }
 
 #[derive(Debug, Clone, FromRow, Serialize, Deserialize)]
-pub struct TranscriptChunk {
-    pub meeting_id: String,
-    pub meeting_name: Option<String>,
-    pub transcript_text: String,
-    pub model: String,
-    pub model_name: String,
-    pub chunk_size: Option<i64>,
-    pub overlap: Option<i64>,
-    pub created_at: chrono::DateTime<chrono::Utc>,
-}
-
-#[derive(Debug, Clone, FromRow, Serialize, Deserialize)]
 pub struct Setting {
     pub id: String,
     pub provider: String,
@@ -103,15 +91,6 @@ pub struct Setting {
     #[sqlx(rename = "customOpenAIConfig")]
     #[serde(rename = "customOpenAIConfig")]
     pub custom_openai_config: Option<String>,
-}
-
-impl Setting {
-    /// Parse the custom OpenAI config from JSON string
-    pub fn get_custom_openai_config(&self) -> Option<crate::summary::CustomOpenAIConfig> {
-        self.custom_openai_config
-            .as_ref()
-            .and_then(|json| serde_json::from_str(json).ok())
-    }
 }
 
 #[derive(Debug, Clone, FromRow, Serialize, Deserialize)]

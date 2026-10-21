@@ -121,19 +121,6 @@ pub async fn key(value: Option<String>) -> Result<Option<String>, String> {
     .map_err(|_| "The OS keychain request failed".to_string())?
 }
 
-pub async fn delete_key() -> Result<(), String> {
-    tokio::task::spawn_blocking(|| {
-        let entry = keyring::Entry::new("Overtalk providers", "privatemode")
-            .map_err(|_| "Cannot access the OS keychain")?;
-        match entry.delete_credential() {
-            Ok(()) | Err(keyring::Error::NoEntry) => Ok(()),
-            Err(_) => Err("Unlock the OS keychain to remove the Privatemode API key".into()),
-        }
-    })
-    .await
-    .map_err(|_| "The OS keychain request failed".to_string())?
-}
-
 #[derive(Debug, Serialize)]
 pub struct Model {
     pub name: String,

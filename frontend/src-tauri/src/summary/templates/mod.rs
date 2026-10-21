@@ -12,8 +12,8 @@
 //!
 //! # Usage
 //!
-//! ```rust
-//! use app_lib::summary::templates;
+//! ```ignore
+//! use crate::summary::templates;
 //!
 //! // Load a specific template
 //! let template = templates::get_template("daily_standup").expect("daily standup template exists");
@@ -39,14 +39,14 @@
 
 mod defaults;
 mod loader;
-mod types;
+pub(crate) mod types;
 
 // Re-export public API
 pub use loader::{
-    delete_custom_template, get_template, is_builtin_template, list_template_ids, list_templates,
+    delete_custom_template, get_template, is_builtin_template, list_templates,
     save_custom_template, set_bundled_templates_dir, validate_and_parse_template,
 };
-pub use types::{Template, TemplateSection};
+pub use types::Template;
 
 #[cfg(test)]
 mod tests {
@@ -55,7 +55,7 @@ mod tests {
     #[test]
     fn test_module_integration() {
         // Test that we can load all built-in templates
-        let ids = list_template_ids();
+        let ids = loader::list_template_ids();
         assert!(!ids.is_empty());
 
         for id in ids {

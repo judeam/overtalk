@@ -86,22 +86,6 @@ lazy_static::lazy_static! {
 static MODEL_PATH_CACHE: Lazy<RwLock<HashMap<String, PathBuf>>> =
     Lazy::new(|| RwLock::new(HashMap::new()));
 
-/// Initialize the global sidecar manager
-pub async fn init_sidecar_manager(app_data_dir: PathBuf) -> Result<()> {
-    let manager = SidecarManager::new(app_data_dir)?;
-    let mut global_manager = SIDECAR_MANAGER.lock().await;
-    *global_manager = Some(Arc::new(manager));
-    Ok(())
-}
-
-/// Get the global sidecar manager
-async fn get_sidecar_manager() -> Result<Arc<SidecarManager>> {
-    let global_manager = SIDECAR_MANAGER.lock().await;
-    global_manager
-        .clone()
-        .ok_or_else(|| anyhow!("Sidecar manager not initialized. Call init_sidecar_manager first."))
-}
-
 /// Get cached model path with read-through caching to avoid repeated filesystem I/O
 fn get_cached_model_path(app_data_dir: &std::path::Path, model_name: &str) -> Result<PathBuf> {
     // Try read lock first (fast path for cache hits)
@@ -459,15 +443,6 @@ pub async fn force_shutdown_sidecar() -> Result<()> {
     }
 
     Ok(())
-}
-
-/// Check if sidecar is healthy
-pub async fn is_sidecar_healthy() -> bool {
-    if let Ok(manager) = get_sidecar_manager().await {
-        manager.is_healthy()
-    } else {
-        false
-    }
 }
 
 // ============================================================================

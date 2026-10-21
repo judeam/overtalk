@@ -135,83 +135,6 @@ impl<R: Runtime> NotificationManager<R> {
         self.show_notification(notification).await
     }
 
-    /// Show a recording paused notification
-    pub async fn show_recording_paused(&self) -> Result<()> {
-        let settings = self.settings.read().await;
-        if !settings.notification_preferences.show_recording_paused {
-            return Ok(());
-        }
-
-        let notification = Notification::recording_paused();
-        self.show_notification(notification).await
-    }
-
-    /// Show a recording resumed notification
-    pub async fn show_recording_resumed(&self) -> Result<()> {
-        let settings = self.settings.read().await;
-        if !settings.notification_preferences.show_recording_resumed {
-            return Ok(());
-        }
-
-        let notification = Notification::recording_resumed();
-        self.show_notification(notification).await
-    }
-
-    /// Show a transcription complete notification
-    pub async fn show_transcription_complete(&self, file_path: Option<String>) -> Result<()> {
-        let settings = self.settings.read().await;
-        if !settings
-            .notification_preferences
-            .show_transcription_complete
-        {
-            return Ok(());
-        }
-
-        let notification = Notification::transcription_complete(file_path);
-        self.show_notification(notification).await
-    }
-
-    /// Show a meeting reminder notification
-    pub async fn show_meeting_reminder(
-        &self,
-        minutes_until: u64,
-        meeting_title: Option<String>,
-    ) -> Result<()> {
-        let settings = self.settings.read().await;
-        if !settings.notification_preferences.show_meeting_reminders {
-            return Ok(());
-        }
-
-        // Check if this reminder time is enabled
-        if !settings
-            .notification_preferences
-            .meeting_reminder_minutes
-            .contains(&minutes_until)
-        {
-            return Ok(());
-        }
-
-        let notification = Notification::meeting_reminder(minutes_until, meeting_title);
-        self.show_notification(notification).await
-    }
-
-    /// Show a system error notification
-    pub async fn show_system_error(&self, error: String) -> Result<()> {
-        let settings = self.settings.read().await;
-        if !settings.notification_preferences.show_system_errors {
-            return Ok(());
-        }
-
-        let notification = Notification::system_error(error);
-        self.show_notification(notification).await
-    }
-
-    /// Show a test notification
-    pub async fn show_test_notification(&self) -> Result<()> {
-        let notification = Notification::test_notification();
-        self.system_handler.show_notification(notification).await
-    }
-
     /// Get current notification settings
     pub async fn get_settings(&self) -> NotificationSettings {
         self.settings.read().await.clone()
@@ -259,23 +182,6 @@ impl<R: Runtime> NotificationManager<R> {
         } else {
             false
         }
-    }
-
-    /// Get system DND status
-    pub async fn get_system_dnd_status(&self) -> bool {
-        self.system_handler.get_system_dnd_status().await
-    }
-
-    /// Enable or disable manual DND mode
-    pub async fn set_manual_dnd(&self, enabled: bool) -> Result<()> {
-        self.consent_manager.set_dnd_mode(enabled).await?;
-
-        // Update in-memory settings
-        let mut settings = self.settings.write().await;
-        settings.manual_dnd_mode = enabled;
-
-        log_info!("Manual DND mode set to: {}", enabled);
-        Ok(())
     }
 
     /// Request notification permission from the system
@@ -348,41 +254,4 @@ impl<R: Runtime> NotificationManager<R> {
             NotificationType::Test => true, // Always show test notifications
         }
     }
-
-    /// Clear all notifications
-    pub async fn clear_notifications(&self) -> Result<()> {
-        self.system_handler.clear_notifications().await
-    }
-
-    /// Check if the notification system is properly initialized and ready
-    pub async fn is_ready(&self) -> bool {
-        *self.initialized.read().await
-    }
-
-    /// Get notification statistics (for analytics/debugging)
-    pub async fn get_stats(&self) -> NotificationStats {
-        let settings = self.settings.read().await;
-
-        NotificationStats {
-            consent_given: settings.consent_given,
-            system_permission_granted: settings.system_permission_granted,
-            manual_dnd_active: settings.manual_dnd_mode,
-            system_dnd_active: self.get_system_dnd_status().await,
-            recording_notifications_enabled: settings
-                .notification_preferences
-                .show_recording_started,
-            meeting_reminders_enabled: settings.notification_preferences.show_meeting_reminders,
-        }
-    }
-}
-
-/// Notification system statistics
-#[derive(Debug, Clone, serde::Serialize)]
-pub struct NotificationStats {
-    pub consent_given: bool,
-    pub system_permission_granted: bool,
-    pub manual_dnd_active: bool,
-    pub system_dnd_active: bool,
-    pub recording_notifications_enabled: bool,
-    pub meeting_reminders_enabled: bool,
 }

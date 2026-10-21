@@ -1,4 +1,4 @@
-use sqlx::{migrate::MigrateDatabase, Result, Sqlite, SqlitePool, Transaction};
+use sqlx::{migrate::MigrateDatabase, Result, Sqlite, SqlitePool};
 use std::fs;
 use std::path::Path;
 use tauri::Manager;
@@ -160,26 +160,6 @@ impl DatabaseManager {
 
     pub fn pool(&self) -> &SqlitePool {
         &self.pool
-    }
-
-    pub async fn with_transaction<T, F, Fut>(&self, f: F) -> Result<T>
-    where
-        F: FnOnce(&mut Transaction<'_, Sqlite>) -> Fut,
-        Fut: std::future::Future<Output = Result<T>>,
-    {
-        let mut tx = self.pool.begin().await?;
-        let result = f(&mut tx).await;
-
-        match result {
-            Ok(val) => {
-                tx.commit().await?;
-                Ok(val)
-            }
-            Err(err) => {
-                tx.rollback().await?;
-                Err(err)
-            }
-        }
     }
 
     /// Cleanup database connection and checkpoint WAL

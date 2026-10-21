@@ -38,20 +38,6 @@ pub struct SamplingParams {
 }
 
 impl SamplingParams {
-    /// Restrained near-greedy preset for fuller but still conservative output.
-    pub fn tight_structured(stop_tokens: Vec<String>) -> Self {
-        Self {
-            temperature: 0.1,
-            top_k: 20,
-            top_p: 0.88,
-            presence_penalty: 0.0,
-            frequency_penalty: 0.0,
-            repeat_penalty: 1.0,
-            penalty_last_n: 0,
-            stop_tokens,
-        }
-    }
-
     /// Summary-tuned Qwen 3.5 preset: non-greedy with mild repetition controls.
     pub fn qwen35_summary(stop_tokens: Vec<String>) -> Self {
         Self {
@@ -304,12 +290,6 @@ pub fn get_available_models() -> Vec<ModelDef> {
 /// Get a specific model by name
 pub fn get_model_by_name(name: &str) -> Option<ModelDef> {
     get_available_models().into_iter().find(|m| m.name == name)
-}
-
-/// Get the strongest supported default for the detected hardware.
-pub fn get_default_model() -> ModelDef {
-    get_model_by_name(crate::extensions::quality_profile::detected().summary_model)
-        .expect("Default model must be defined")
 }
 
 /// Resolve model name to full file path in the models directory

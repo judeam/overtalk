@@ -7,20 +7,6 @@ use uuid::Uuid;
 pub struct TranscriptsRepository;
 
 impl TranscriptsRepository {
-    /// Saves a new meeting and its associated transcript segments.
-    /// This function uses a transaction to ensure that either both the meeting
-    /// and all its transcripts are saved, or none of them are.
-    pub async fn save_transcript(
-        pool: &SqlitePool,
-        meeting_title: &str,
-        transcripts: &[TranscriptSegment],
-        folder_path: Option<String>,
-    ) -> Result<String, SqlxError> {
-        let meeting_id = format!("meeting-{}", Uuid::new_v4());
-        Self::save_transcript_with_id(pool, &meeting_id, meeting_title, transcripts, folder_path)
-            .await
-    }
-
     /// A stable recording ID lets the native service safely retry a saved journal
     /// after a crash between the database commit and journal cleanup.
     pub(crate) async fn save_transcript_with_id(
@@ -380,12 +366,24 @@ mod tests {
                 is_partial: true,
             },
         ];
-        let first = TranscriptsRepository::save_transcript(&pool, "first", &segments, None)
-            .await
-            .unwrap();
-        let second = TranscriptsRepository::save_transcript(&pool, "second", &segments, None)
-            .await
-            .unwrap();
+        let first = TranscriptsRepository::save_transcript_with_id(
+            &pool,
+            "meeting-first",
+            "first",
+            &segments,
+            None,
+        )
+        .await
+        .unwrap();
+        let second = TranscriptsRepository::save_transcript_with_id(
+            &pool,
+            "meeting-second",
+            "second",
+            &segments,
+            None,
+        )
+        .await
+        .unwrap();
         crate::speakers::rename_speaker(&pool, &first, "SPEAKER_00", "Renamed")
             .await
             .unwrap();

@@ -17,7 +17,6 @@ async fn namespace(pool: &SqlitePool) -> Result<String, sqlx::Error> {
 enum Operation {
     Read,
     Write(String),
-    Delete,
 }
 
 async fn operate(account: String, op: Operation) -> Result<Option<String>, sqlx::Error> {
@@ -43,10 +42,6 @@ fn backend(account: String, op: Operation) -> Result<Option<String>, String> {
                 .map_err(|_| "Unlock your OS keychain to save the provider credential")?;
             Ok(None)
         }
-        Operation::Delete => match entry.delete_credential() {
-            Ok(()) | Err(keyring::Error::NoEntry) => Ok(None),
-            Err(_) => Err("Unlock your OS keychain to remove the provider credential".into()),
-        },
     }
 }
 
@@ -63,10 +58,6 @@ fn backend(account: String, op: Operation) -> Result<Option<String>, String> {
         Operation::Read => Ok(keys.get(&account).cloned()),
         Operation::Write(value) => {
             keys.insert(account, value);
-            Ok(None)
-        }
-        Operation::Delete => {
-            keys.remove(&account);
             Ok(None)
         }
     }
@@ -174,13 +165,6 @@ pub async fn save(
     clear_legacy(pool, domain, provider).await
 }
 
-pub async fn delete(pool: &SqlitePool, domain: &str, provider: &str) -> Result<(), sqlx::Error> {
-    let _guard = OPERATIONS.lock().await;
-    let account = format!("{}/{domain}/{provider}", namespace(pool).await?);
-    operate(account, Operation::Delete).await?;
-    clear_legacy(pool, domain, provider).await
-}
-
 pub async fn migrate(pool: &SqlitePool) -> Result<usize, sqlx::Error> {
     let mut count = 0;
     for (domain, providers) in [
@@ -251,8 +235,6 @@ mod tests {
             .unwrap();
         assert!(raw.is_none());
         assert_eq!(get(&b, "summary", "openai").await.unwrap(), None);
-        delete(&a, "summary", "openai").await.unwrap();
-        assert_eq!(get(&a, "summary", "openai").await.unwrap(), None);
     }
     #[tokio::test]
     async fn locked_keychain_does_not_clear_legacy_secret() {

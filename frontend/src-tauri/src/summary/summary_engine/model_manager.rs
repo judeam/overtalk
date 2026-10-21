@@ -126,11 +126,6 @@ pub struct ModelManager {
 }
 
 impl ModelManager {
-    /// Create a new model manager with default models directory
-    pub fn new() -> Result<Self> {
-        Self::new_with_models_dir(None)
-    }
-
     /// Create a new model manager with custom models directory
     pub fn new_with_models_dir(models_dir: Option<PathBuf>) -> Result<Self> {
         let models_dir = if let Some(dir) = models_dir {
@@ -327,22 +322,6 @@ impl ModelManager {
         } else {
             false
         }
-    }
-
-    /// Download a model with simple percentage callback (backward compatible)
-    pub async fn download_model(
-        &self,
-        model_name: &str,
-        progress_callback: Option<Box<dyn Fn(u8) + Send>>,
-    ) -> Result<()> {
-        // Wrap the simple callback to use detailed progress internally
-        let detailed_callback: Option<Box<dyn Fn(DownloadProgress) + Send>> = progress_callback
-            .map(|cb| {
-                Box::new(move |p: DownloadProgress| cb(p.percent))
-                    as Box<dyn Fn(DownloadProgress) + Send>
-            });
-        self.download_model_detailed(model_name, detailed_callback)
-            .await
     }
 
     /// Download a model with detailed progress (MB, speed, etc.)
@@ -858,11 +837,6 @@ impl ModelManager {
         }
 
         Ok(())
-    }
-
-    /// Get models directory path
-    pub fn get_models_directory(&self) -> PathBuf {
-        self.models_dir.clone()
     }
 }
 
