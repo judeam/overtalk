@@ -19,11 +19,15 @@ pub fn create_tray<R: Runtime>(app: &AppHandle<R>) -> tauri::Result<()> {
     // Start with default menu, will update with actual state after initialization
     // Pass can_record=true initially, will be updated by update_tray_menu immediately
     let menu = build_menu(app, RecordingState::Stopped, true)?;
+    // A build without a bundled icon reports a tray error instead of panicking.
+    let icon = app.default_window_icon().cloned().ok_or_else(|| {
+        tauri::Error::InvalidIcon(std::io::Error::other("the app has no default window icon"))
+    })?;
 
     TrayIconBuilder::with_id("main-tray")
         .menu(&menu)
         .tooltip("Overtalk")
-        .icon(app.default_window_icon().unwrap().clone())
+        .icon(icon)
         .on_menu_event(|app, event| handle_menu_event(app, event.id.as_ref()))
         .build(app)?;
 
