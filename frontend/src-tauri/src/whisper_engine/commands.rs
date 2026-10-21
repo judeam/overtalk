@@ -1,4 +1,5 @@
 use crate::config::WHISPER_MODEL_CATALOG;
+use crate::sync::LockRecovering;
 use crate::whisper_engine::{
     is_download_cancelled, CancelDownloadOutcome, ModelInfo, WhisperEngine,
 };
@@ -32,18 +33,18 @@ pub fn set_models_directory<R: Runtime>(app: &AppHandle<R>) {
 
     log::info!("Models directory set to: {}", models_dir.display());
 
-    let mut guard = MODELS_DIR.lock().unwrap();
+    let mut guard = MODELS_DIR.lock_recovering();
     *guard = Some(models_dir);
 }
 
 /// Get the configured models directory
 fn get_models_directory() -> Option<PathBuf> {
-    MODELS_DIR.lock().unwrap().clone()
+    MODELS_DIR.lock_recovering().clone()
 }
 
 #[command]
 pub async fn whisper_init() -> Result<(), String> {
-    let mut guard = WHISPER_ENGINE.lock().unwrap();
+    let mut guard = WHISPER_ENGINE.lock_recovering();
     if guard.is_some() {
         return Ok(());
     }
@@ -58,7 +59,7 @@ pub async fn whisper_init() -> Result<(), String> {
 #[command]
 pub async fn whisper_get_available_models() -> Result<Vec<ModelInfo>, String> {
     let engine = {
-        let guard = WHISPER_ENGINE.lock().unwrap();
+        let guard = WHISPER_ENGINE.lock_recovering();
         guard.as_ref().cloned()
     };
 
@@ -133,7 +134,7 @@ fn discover_models_standalone() -> Result<Vec<ModelInfo>, String> {
 #[command]
 pub async fn whisper_has_available_models() -> Result<bool, String> {
     let engine = {
-        let guard = WHISPER_ENGINE.lock().unwrap();
+        let guard = WHISPER_ENGINE.lock_recovering();
         guard.as_ref().cloned()
     };
 
@@ -160,7 +161,7 @@ pub async fn whisper_validate_model_ready_with_config<R: tauri::Runtime>(
     app: &tauri::AppHandle<R>,
 ) -> Result<String, String> {
     let engine = {
-        let guard = WHISPER_ENGINE.lock().unwrap();
+        let guard = WHISPER_ENGINE.lock_recovering();
         guard.as_ref().cloned()
     };
 
@@ -263,7 +264,7 @@ pub async fn whisper_validate_model_ready_with_config<R: tauri::Runtime>(
 #[command]
 pub async fn whisper_get_models_directory() -> Result<String, String> {
     let engine = {
-        let guard = WHISPER_ENGINE.lock().unwrap();
+        let guard = WHISPER_ENGINE.lock_recovering();
         guard.as_ref().cloned()
     };
 
@@ -281,7 +282,7 @@ pub async fn whisper_download_model(
     model_name: String,
 ) -> Result<(), String> {
     let engine = {
-        let guard = WHISPER_ENGINE.lock().unwrap();
+        let guard = WHISPER_ENGINE.lock_recovering();
         guard.as_ref().cloned()
     };
 
@@ -351,7 +352,7 @@ pub async fn whisper_download_model(
 #[command]
 pub async fn whisper_cancel_download(model_name: String) -> Result<CancelDownloadOutcome, String> {
     let engine = {
-        let guard = WHISPER_ENGINE.lock().unwrap();
+        let guard = WHISPER_ENGINE.lock_recovering();
         guard.as_ref().cloned()
     };
 
@@ -368,7 +369,7 @@ pub async fn whisper_cancel_download(model_name: String) -> Result<CancelDownloa
 #[command]
 pub async fn whisper_delete_corrupted_model(model_name: String) -> Result<String, String> {
     let engine = {
-        let guard = WHISPER_ENGINE.lock().unwrap();
+        let guard = WHISPER_ENGINE.lock_recovering();
         guard.as_ref().cloned()
     };
 

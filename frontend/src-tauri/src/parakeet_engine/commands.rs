@@ -1,5 +1,6 @@
 use crate::parakeet_engine::engine::{is_download_cancelled, CancelDownloadOutcome};
 use crate::parakeet_engine::{DownloadProgress, ModelInfo, ParakeetEngine};
+use crate::sync::LockRecovering;
 use std::path::PathBuf;
 use std::sync::{Arc, Mutex};
 use tauri::{command, AppHandle, Emitter, Manager, Runtime};
@@ -30,18 +31,18 @@ pub fn set_models_directory<R: Runtime>(app: &AppHandle<R>) {
 
     log::info!("Parakeet models directory set to: {}", models_dir.display());
 
-    let mut guard = MODELS_DIR.lock().unwrap();
+    let mut guard = MODELS_DIR.lock_recovering();
     *guard = Some(models_dir);
 }
 
 /// Get the configured models directory
 fn get_models_directory() -> Option<PathBuf> {
-    MODELS_DIR.lock().unwrap().clone()
+    MODELS_DIR.lock_recovering().clone()
 }
 
 #[command]
 pub async fn parakeet_init() -> Result<(), String> {
-    let mut guard = PARAKEET_ENGINE.lock().unwrap();
+    let mut guard = PARAKEET_ENGINE.lock_recovering();
     if guard.is_some() {
         return Ok(());
     }
@@ -56,7 +57,7 @@ pub async fn parakeet_init() -> Result<(), String> {
 #[command]
 pub async fn parakeet_get_available_models() -> Result<Vec<ModelInfo>, String> {
     let engine = {
-        let guard = PARAKEET_ENGINE.lock().unwrap();
+        let guard = PARAKEET_ENGINE.lock_recovering();
         guard.as_ref().cloned()
     };
 
@@ -73,7 +74,7 @@ pub async fn parakeet_get_available_models() -> Result<Vec<ModelInfo>, String> {
 #[command]
 pub async fn parakeet_has_available_models() -> Result<bool, String> {
     let engine = {
-        let guard = PARAKEET_ENGINE.lock().unwrap();
+        let guard = PARAKEET_ENGINE.lock_recovering();
         guard.as_ref().cloned()
     };
 
@@ -101,7 +102,7 @@ pub async fn parakeet_validate_model_ready_with_config<R: tauri::Runtime>(
     app: &tauri::AppHandle<R>,
 ) -> Result<String, String> {
     let engine = {
-        let guard = PARAKEET_ENGINE.lock().unwrap();
+        let guard = PARAKEET_ENGINE.lock_recovering();
         guard.as_ref().cloned()
     };
 
@@ -219,7 +220,7 @@ pub async fn parakeet_validate_model_ready_with_config<R: tauri::Runtime>(
 #[command]
 pub async fn parakeet_get_models_directory() -> Result<String, String> {
     let engine = {
-        let guard = PARAKEET_ENGINE.lock().unwrap();
+        let guard = PARAKEET_ENGINE.lock_recovering();
         guard.as_ref().cloned()
     };
 
@@ -237,7 +238,7 @@ pub async fn parakeet_download_model<R: Runtime>(
     model_name: String,
 ) -> Result<(), String> {
     let engine = {
-        let guard = PARAKEET_ENGINE.lock().unwrap();
+        let guard = PARAKEET_ENGINE.lock_recovering();
         guard.as_ref().cloned()
     };
 
@@ -341,7 +342,7 @@ pub async fn parakeet_download_model<R: Runtime>(
 #[command]
 pub async fn parakeet_cancel_download(model_name: String) -> Result<CancelDownloadOutcome, String> {
     let engine = {
-        let guard = PARAKEET_ENGINE.lock().unwrap();
+        let guard = PARAKEET_ENGINE.lock_recovering();
         guard.as_ref().cloned()
     };
 
@@ -360,7 +361,7 @@ pub async fn parakeet_retry_download<R: Runtime>(
     log::info!("Retrying download for: {}", model_name);
 
     let engine = {
-        let guard = PARAKEET_ENGINE.lock().unwrap();
+        let guard = PARAKEET_ENGINE.lock_recovering();
         guard.as_ref().cloned()
     };
 
@@ -376,7 +377,7 @@ pub async fn parakeet_retry_download<R: Runtime>(
 #[command]
 pub async fn parakeet_delete_corrupted_model(model_name: String) -> Result<String, String> {
     let engine = {
-        let guard = PARAKEET_ENGINE.lock().unwrap();
+        let guard = PARAKEET_ENGINE.lock_recovering();
         guard.as_ref().cloned()
     };
 

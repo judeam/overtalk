@@ -16,6 +16,9 @@ use std::task::{Context, Poll, Waker};
 #[cfg(target_os = "macos")]
 use cidre::{arc, av, cat, cf, core_audio as ca, os};
 
+#[cfg(target_os = "macos")]
+use crate::sync::LockRecovering;
+
 /// Waker state for async polling
 struct WakerState {
     waker: Option<Waker>,
@@ -327,7 +330,7 @@ fn process_audio_data(ctx: &mut AudioContext, data: &[f32]) {
 
     if pushed > 0 {
         let should_wake = {
-            let mut waker_state = ctx.waker_state.lock().unwrap();
+            let mut waker_state = ctx.waker_state.lock_recovering();
             if !waker_state.has_data {
                 waker_state.has_data = true;
                 waker_state.waker.take()
@@ -371,7 +374,7 @@ impl Stream for CoreAudioStream {
 
         // No data available, register waker and return pending
         {
-            let mut state = self.waker_state.lock().unwrap();
+            let mut state = self.waker_state.lock_recovering();
             state.has_data = false;
             state.waker = Some(cx.waker().clone());
         }

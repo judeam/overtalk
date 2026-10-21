@@ -7,6 +7,7 @@ use std::time::Instant;
 use tokio::sync::mpsc;
 
 use super::devices::AudioDevice;
+use crate::sync::LockRecovering;
 
 /// Device type for audio chunks
 #[derive(Debug, Clone, PartialEq)]
@@ -130,10 +131,10 @@ impl RecordingState {
     // Recording control
     pub fn start_recording(&self) -> Result<()> {
         self.is_recording.store(true, Ordering::SeqCst);
-        *self.recording_start.lock().unwrap() = Some(Instant::now());
+        *self.recording_start.lock_recovering() = Some(Instant::now());
         self.error_count.store(0, Ordering::SeqCst);
         self.recoverable_error_count.store(0, Ordering::SeqCst);
-        *self.last_error.lock().unwrap() = None;
+        *self.last_error.lock_recovering() = None;
         Ok(())
     }
 
@@ -141,14 +142,14 @@ impl RecordingState {
         self.is_recording.store(false, Ordering::SeqCst);
         self.is_paused.store(false, Ordering::SeqCst);
         // Clear pause tracking when stopping
-        *self.pause_start.lock().unwrap() = None;
+        *self.pause_start.lock_recovering() = None;
         // CRITICAL: Clear audio sender to close the pipeline channel
         // This ensures the pipeline loop exits properly after processing all chunks
-        *self.audio_sender.lock().unwrap() = None;
+        *self.audio_sender.lock_recovering() = None;
         // CRITICAL: Clear device references to release microphone/speaker
         // Without this, Arc<AudioDevice> references persist and keep the mic active
-        *self.microphone_device.lock().unwrap() = None;
-        *self.system_device.lock().unwrap() = None;
+        *self.microphone_device.lock_recovering() = None;
+        *self.system_device.lock_recovering() = None;
         log::info!("Recording stopped, device references cleared");
     }
 
@@ -161,7 +162,7 @@ impl RecordingState {
         }
 
         self.is_paused.store(true, Ordering::SeqCst);
-        *self.pause_start.lock().unwrap() = Some(Instant::now());
+        *self.pause_start.lock_recovering() = Some(Instant::now());
         log::info!("Recording paused");
         Ok(())
     }
@@ -175,9 +176,9 @@ impl RecordingState {
         }
 
         // Calculate pause duration and add to total
-        if let Some(pause_start) = self.pause_start.lock().unwrap().take() {
+        if let Some(pause_start) = self.pause_start.lock_recovering().take() {
             let pause_duration = pause_start.elapsed();
-            *self.total_pause_duration.lock().unwrap() += pause_duration;
+            *self.total_pause_duration.lock_recovering() += pause_duration;
             log::info!(
                 "Recording resumed after pause of {:.2}s",
                 pause_duration.as_secs_f64()
@@ -202,24 +203,24 @@ impl RecordingState {
 
     // Device management
     pub fn set_microphone_device(&self, device: Arc<AudioDevice>) {
-        *self.microphone_device.lock().unwrap() = Some(device);
+        *self.microphone_device.lock_recovering() = Some(device);
     }
 
     pub fn set_system_device(&self, device: Arc<AudioDevice>) {
-        *self.system_device.lock().unwrap() = Some(device);
+        *self.system_device.lock_recovering() = Some(device);
     }
 
     pub fn get_microphone_device(&self) -> Option<Arc<AudioDevice>> {
-        self.microphone_device.lock().unwrap().clone()
+        self.microphone_device.lock_recovering().clone()
     }
 
     pub fn get_system_device(&self) -> Option<Arc<AudioDevice>> {
-        self.system_device.lock().unwrap().clone()
+        self.system_device.lock_recovering().clone()
     }
 
     // Audio pipeline management
     pub fn set_audio_sender(&self, sender: mpsc::UnboundedSender<AudioChunk>) {
-        *self.audio_sender.lock().unwrap() = Some(sender);
+        *self.audio_sender.lock_recovering() = Some(sender);
     }
 
     pub fn send_audio_chunk(&self, chunk: AudioChunk) -> Result<()> {
@@ -228,13 +229,13 @@ impl RecordingState {
             return Ok(()); // Silently discard chunks while paused
         }
 
-        if let Some(sender) = self.audio_sender.lock().unwrap().as_ref() {
+        if let Some(sender) = self.audio_sender.lock_recovering().as_ref() {
             sender
                 .send(chunk)
                 .map_err(|_| anyhow::anyhow!("Failed to send audio chunk"))?;
 
             // Update statistics
-            let mut stats = self.stats.lock().unwrap();
+            let mut stats = self.stats.lock_recovering();
             stats.chunks_processed += 1;
             stats.last_activity = Some(Instant::now());
             Ok(())
@@ -251,7 +252,7 @@ impl RecordingState {
     where
         F: Fn(&AudioError) + Send + Sync + 'static,
     {
-        *self.error_callback.lock().unwrap() = Some(Box::new(callback));
+        *self.error_callback.lock_recovering() = Some(Box::new(callback));
     }
 
     pub fn report_error(&self, error: AudioError) {
@@ -280,10 +281,10 @@ impl RecordingState {
             self.stop_recording();
         }
 
-        *self.last_error.lock().unwrap() = Some(error.clone());
+        *self.last_error.lock_recovering() = Some(error.clone());
 
         // Call error callback if set
-        if let Some(callback) = self.error_callback.lock().unwrap().as_ref() {
+        if let Some(callback) = self.error_callback.lock_recovering().as_ref() {
             callback(&error);
         }
 
@@ -306,11 +307,11 @@ impl RecordingState {
     }
 
     pub fn get_last_error(&self) -> Option<AudioError> {
-        self.last_error.lock().unwrap().clone()
+        self.last_error.lock_recovering().clone()
     }
 
     pub fn has_fatal_error(&self) -> bool {
-        if let Some(error) = &*self.last_error.lock().unwrap() {
+        if let Some(error) = &*self.last_error.lock_recovering() {
             !error.is_recoverable() && self.error_count.load(Ordering::SeqCst) > 0
         } else {
             false
@@ -319,24 +320,22 @@ impl RecordingState {
 
     // Statistics
     pub fn get_stats(&self) -> RecordingStats {
-        self.stats.lock().unwrap().clone()
+        self.stats.lock_recovering().clone()
     }
 
     pub fn get_recording_duration(&self) -> Option<f64> {
         self.recording_start
-            .lock()
-            .unwrap()
+            .lock_recovering()
             .map(|start| start.elapsed().as_secs_f64())
     }
 
     pub fn get_active_recording_duration(&self) -> Option<f64> {
-        self.recording_start.lock().unwrap().map(|start| {
+        self.recording_start.lock_recovering().map(|start| {
             let total_duration = start.elapsed().as_secs_f64();
             let pause_duration = self.get_total_pause_duration();
             let current_pause = if self.is_paused() {
                 self.pause_start
-                    .lock()
-                    .unwrap()
+                    .lock_recovering()
                     .map(|p| p.elapsed().as_secs_f64())
                     .unwrap_or(0.0)
             } else {
@@ -347,14 +346,13 @@ impl RecordingState {
     }
 
     pub fn get_total_pause_duration(&self) -> f64 {
-        self.total_pause_duration.lock().unwrap().as_secs_f64()
+        self.total_pause_duration.lock_recovering().as_secs_f64()
     }
 
     pub fn get_current_pause_duration(&self) -> Option<f64> {
         if self.is_paused() {
             self.pause_start
-                .lock()
-                .unwrap()
+                .lock_recovering()
                 .map(|start| start.elapsed().as_secs_f64())
         } else {
             None
@@ -364,16 +362,63 @@ impl RecordingState {
     // Cleanup
     pub fn cleanup(&self) {
         self.stop_recording();
-        *self.microphone_device.lock().unwrap() = None;
-        *self.system_device.lock().unwrap() = None;
-        *self.audio_sender.lock().unwrap() = None;
-        *self.last_error.lock().unwrap() = None;
-        *self.error_callback.lock().unwrap() = None;
-        *self.stats.lock().unwrap() = RecordingStats::default();
-        *self.recording_start.lock().unwrap() = None;
-        *self.pause_start.lock().unwrap() = None;
-        *self.total_pause_duration.lock().unwrap() = std::time::Duration::ZERO;
+        *self.microphone_device.lock_recovering() = None;
+        *self.system_device.lock_recovering() = None;
+        *self.audio_sender.lock_recovering() = None;
+        *self.last_error.lock_recovering() = None;
+        *self.error_callback.lock_recovering() = None;
+        *self.stats.lock_recovering() = RecordingStats::default();
+        *self.recording_start.lock_recovering() = None;
+        *self.pause_start.lock_recovering() = None;
+        *self.total_pause_duration.lock_recovering() = std::time::Duration::ZERO;
         self.error_count.store(0, Ordering::SeqCst);
         self.recoverable_error_count.store(0, Ordering::SeqCst);
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn recording_state_stays_usable_after_a_panicking_error_callback() {
+        let state = RecordingState::new();
+        state.start_recording().unwrap();
+        state.set_error_callback(|_| panic!("error callback failed"));
+
+        // The callback panics while report_error holds its lock, poisoning it.
+        let reporter = state.clone();
+        assert!(
+            std::thread::spawn(move || reporter.report_error(AudioError::BufferOverflow))
+                .join()
+                .is_err()
+        );
+        assert!(state.error_callback.is_poisoned());
+
+        // Later errors, pauses and cleanup still work instead of panicking.
+        let (sender, mut chunks) = mpsc::unbounded_channel();
+        state.set_audio_sender(sender);
+        state.set_error_callback(|_| {});
+        state.report_error(AudioError::StreamFailed);
+        assert_eq!(state.get_error_count(), 2);
+        assert!(matches!(
+            state.get_last_error(),
+            Some(AudioError::StreamFailed)
+        ));
+        state.pause_recording().unwrap();
+        state.resume_recording().unwrap();
+        state
+            .send_audio_chunk(AudioChunk {
+                data: vec![0.0; 4],
+                sample_rate: 16_000,
+                timestamp: 0.0,
+                chunk_id: 1,
+                device_type: DeviceType::Microphone,
+            })
+            .unwrap();
+        assert_eq!(chunks.try_recv().unwrap().chunk_id, 1);
+        state.cleanup();
+        assert!(state.get_last_error().is_none());
+        assert!(!state.is_recording());
     }
 }

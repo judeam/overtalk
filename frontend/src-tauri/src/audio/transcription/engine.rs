@@ -3,6 +3,7 @@
 // TranscriptionEngine enum and model initialization/validation logic.
 
 use super::provider::TranscriptionProvider;
+use crate::sync::LockRecovering;
 use log::{info, warn};
 use std::sync::Arc;
 use tauri::{AppHandle, Manager, Runtime};
@@ -220,9 +221,7 @@ pub async fn get_or_init_transcription_engine<R: Runtime>(
 
             // Get Parakeet engine
             let engine = {
-                let guard = crate::parakeet_engine::commands::PARAKEET_ENGINE
-                    .lock()
-                    .unwrap();
+                let guard = crate::parakeet_engine::commands::PARAKEET_ENGINE.lock_recovering();
                 guard.as_ref().cloned()
             };
 
@@ -261,9 +260,7 @@ pub async fn get_or_init_whisper<R: Runtime>(
 ) -> Result<Arc<crate::whisper_engine::WhisperEngine>, String> {
     // Check if engine already exists and has a model loaded
     let existing_engine = {
-        let engine_guard = crate::whisper_engine::commands::WHISPER_ENGINE
-            .lock()
-            .unwrap();
+        let engine_guard = crate::whisper_engine::commands::WHISPER_ENGINE.lock_recovering();
         engine_guard.as_ref().cloned()
     };
 
@@ -345,9 +342,7 @@ pub async fn get_or_init_whisper<R: Runtime>(
 
     // Get the engine reference
     let engine = {
-        let engine_guard = crate::whisper_engine::commands::WHISPER_ENGINE
-            .lock()
-            .unwrap();
+        let engine_guard = crate::whisper_engine::commands::WHISPER_ENGINE.lock_recovering();
         engine_guard
             .as_ref()
             .cloned()

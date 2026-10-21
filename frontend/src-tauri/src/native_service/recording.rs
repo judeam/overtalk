@@ -2,6 +2,7 @@
 //! UI redraws, dropped transport events, and a closed window cannot lose a meeting.
 use crate::api::TranscriptSegment;
 use crate::database::repositories::transcript::TranscriptsRepository;
+use crate::sync::LockRecovering;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::{collections::BTreeMap, io::Write, path::Path, sync::Mutex};
@@ -82,27 +83,27 @@ pub(crate) fn recover_pending(app: &AppHandle) {
         }
         result
     });
-    app.state::<Persistence>().jobs.lock().unwrap().push(job);
+    app.state::<Persistence>().jobs.lock_recovering().push(job);
 }
 
 pub(crate) fn prepare(app: &AppHandle) -> bool {
     let persistence = app.state::<Persistence>();
-    let mut session = persistence.session.lock().unwrap();
+    let mut session = persistence.session.lock_recovering();
     if !session.id.is_empty() {
         return false;
     }
-    *persistence.completed.lock().unwrap() = None;
+    *persistence.completed.lock_recovering() = None;
     session.id = format!("meeting-{}", uuid::Uuid::new_v4());
     true
 }
 pub(crate) fn active_id(app: &AppHandle) -> Option<String> {
     let state = app.try_state::<Persistence>()?;
-    let id = state.session.lock().ok()?.id.clone();
+    let id = state.session.lock_recovering().id.clone();
     (!id.is_empty()).then_some(id)
 }
 
 pub(crate) fn abort_prepared(app: &AppHandle) {
-    *app.state::<Persistence>().session.lock().unwrap() = Session::default();
+    *app.state::<Persistence>().session.lock_recovering() = Session::default();
 }
 
 pub(crate) fn observe(app: &AppHandle, event: &str, value: &Value) {
@@ -111,9 +112,9 @@ pub(crate) fn observe(app: &AppHandle, event: &str, value: &Value) {
         "recording-started" => {
             prepare(app);
         }
-        "transcript-update" => persistence.session.lock().unwrap().update(value),
+        "transcript-update" => persistence.session.lock_recovering().update(value),
         "recording-stopped" => {
-            let session = std::mem::take(&mut *persistence.session.lock().unwrap());
+            let session = std::mem::take(&mut *persistence.session.lock_recovering());
             if session.id.is_empty() {
                 return;
             }
@@ -132,14 +133,13 @@ pub(crate) fn observe(app: &AppHandle, event: &str, value: &Value) {
                 if result.is_err() {
                     app.state::<Persistence>()
                         .failed
-                        .lock()
-                        .unwrap()
+                        .lock_recovering()
                         .push(recording);
                     let _ = app.emit("recording-error", serde_json::json!({"message":"The recording stopped, but saving failed. Keep Overtalk open and use Retry saving.","save_pending":true}));
                 }
                 result
             });
-            let mut jobs = persistence.jobs.lock().unwrap();
+            let mut jobs = persistence.jobs.lock_recovering();
             jobs.retain(|job| !job.inner().is_finished());
             jobs.push(job);
         }
@@ -148,14 +148,13 @@ pub(crate) fn observe(app: &AppHandle, event: &str, value: &Value) {
 }
 
 pub(crate) async fn retry(app: &AppHandle) -> Result<Value, String> {
-    let failed = std::mem::take(&mut *app.state::<Persistence>().failed.lock().unwrap());
+    let failed = std::mem::take(&mut *app.state::<Persistence>().failed.lock_recovering());
     let mut error = None;
     for recording in failed {
         if let Err(e) = persist(app, &recording).await {
             app.state::<Persistence>()
                 .failed
-                .lock()
-                .unwrap()
+                .lock_recovering()
                 .push(recording);
             error = Some(e);
         }
@@ -165,13 +164,13 @@ pub(crate) async fn retry(app: &AppHandle) -> Result<Value, String> {
 }
 
 pub(crate) fn last_saved(app: &AppHandle) -> Value {
-    app.state::<Persistence>().completed.lock().unwrap().as_ref()
+    app.state::<Persistence>().completed.lock_recovering().as_ref()
         .map(|(id, has_transcript)| serde_json::json!({"meeting_id":id,"has_transcript":has_transcript})).unwrap_or(Value::Null)
 }
 
 /// Called before a stop reply or process shutdown, never on the event-loop thread.
 pub(crate) async fn finish(app: &AppHandle) -> Result<(), String> {
-    let jobs = std::mem::take(&mut *app.state::<Persistence>().jobs.lock().unwrap());
+    let jobs = std::mem::take(&mut *app.state::<Persistence>().jobs.lock_recovering());
     let mut error = None;
     for job in jobs {
         match job.await {
@@ -261,7 +260,7 @@ async fn commit_journal(
             crate::addon::transcript_ready(&ready, &id).await;
         }
     });
-    *app.state::<Persistence>().completed.lock().unwrap() = Some((
+    *app.state::<Persistence>().completed.lock_recovering() = Some((
         recording.id.clone(),
         recording
             .segments
