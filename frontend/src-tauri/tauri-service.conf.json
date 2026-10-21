@@ -1,0 +1,9 @@
+{
+  "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
+  "productName": "Sonefold",
+  "version": "0.1.0",
+  "identifier": "com.judeam.sonefold",
+  "build": { "frontendDist": "service-assets" },
+  "app": { "windows": [], "security": { "capabilities": [] } },
+  "bundle": { "active": false }
+}

@@ -1,0 +1,29 @@
+Third-party connection logos
+
+These assets identify services that users may choose to connect to Overtalk.
+Their trademarks and artwork belong to their respective owners. They are not
+covered by Overtalk's MIT license and do not imply sponsorship or endorsement.
+The supplied artwork is displayed without recoloring or altering its geometry.
+
+Linear: official Linear icon, from the publisher's brand asset archive.
+https://linear.app/brand
+https://static.linear.app/design-assets/Linear-Brand-Assets.zip?v=3
+
+Jira and Confluence: official isolated app icons, from Atlassian's downloads.
+https://atlassian.design/foundations/logos/
+https://atlassian.design/assets/8601660886bc/logos/jira_app.zip
+https://atlassian.design/assets/8601660886bc/logos/confluence_app.zip
+
+Google: official Google G product mark, supplied by Google's asset CDN.
+https://developers.google.com/identity/branding-guidelines
+https://www.gstatic.com/images/branding/product/2x/googleg_48dp.png
+
+Retrieved 16 October 2026. Assets are embedded locally; opening a connection
+dialog does not fetch logos or contact these services.
+
+Additional official product marks, retrieved 17 October 2026:
+Microsoft: https://www.microsoft.com/favicon.ico (converted losslessly to PNG)
+Slack: https://a.slack-edge.com/80588/marketing/img/meta/favicon-32.png
+Notion: https://www.notion.so/images/favicon.ico (converted losslessly to PNG)
+GitHub: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
+These identify the respective services; the same trademark notice applies.

@@ -1,0 +1,154 @@
+import { ScrollView, ComboBox } from "std-widgets.slint";
+import { State } from "state.slint";
+import { Theme, Icons } from "theme.slint";
+import { ActionButton, Field, Divider } from "widgets.slint";
+
+component ChapterButton inherits Rectangle {
+    in property <string> text;
+    in property <bool> selected;
+    in property <bool> read;
+    callback clicked();
+    height: 42px * Theme.scale;
+    border-radius: 6px * Theme.scale;
+    background: selected ? Theme.selection : touch.has-hover ? Theme.raised : transparent;
+    border-width: focus.has-focus ? 1px : 0px;
+    border-color: Theme.teal;
+    HorizontalLayout {
+        padding-left: 10px * Theme.scale; padding-right: 10px * Theme.scale;
+        spacing: 8px * Theme.scale;
+        Text { text: root.text; color: root.selected ? Theme.teal : Theme.secondary; font-size: 14px * Theme.scale; font-weight: root.selected ? 600 : 400; overflow: elide; vertical-alignment: center; }
+        if root.read: Image { source: Icons.check; colorize: Theme.teal; width: 14px * Theme.scale; height: self.width; }
+    }
+    touch := TouchArea { mouse-cursor: pointer; clicked => { focus.focus(); root.clicked(); } }
+    focus := FocusScope { focus-on-click: false; key-pressed(event) => { if event.text == " " || event.text == "\n" { root.clicked(); return accept; } return reject; } }
+    accessible-role: button; accessible-label: text + (read ? ", read" : "");
+    accessible-action-default => { root.clicked(); }
+}
+
+component KeyboardHelp inherits VerticalLayout {
+    spacing: 14px * Theme.scale;
+    Text { text: "Keyboard shortcuts"; font-size: 16px * Theme.scale; font-weight: 600; color: Theme.ink; }
+    for shortcut in [{key: "Space", label: "Play or pause"}, {key: "Ctrl + K", label: "Search meetings"}, {key: "Ctrl + ,", label: "Open settings"}, {key: "F1", label: "Open the guide"}, {key: "Esc", label: "Go back or close"}]: HorizontalLayout {
+        spacing: 10px * Theme.scale;
+        Rectangle {
+            width: 76px * Theme.scale; height: 28px * Theme.scale;
+            background: Theme.raised; border-radius: 4px * Theme.scale;
+            Text { text: shortcut.key; color: Theme.ink; font-size: 12px * Theme.scale; horizontal-alignment: center; vertical-alignment: center; }
+        }
+        Text { text: shortcut.label; color: Theme.secondary; font-size: 13px * Theme.scale; wrap: word-wrap; vertical-alignment: center; }
+    }
+    Text { text: "Playback shortcuts work while reviewing a meeting, outside a text field."; color: Theme.muted; font-size: 13px * Theme.scale; wrap: word-wrap; }
+}
+
+export component GuideScreen inherits Rectangle {
+    property <bool> compact: root.width < 900px * Theme.scale;
+    property <length> gutter: (compact ? 18px : 28px) * Theme.scale;
+    background: Theme.ground;
+    VerticalLayout {
+        padding: root.gutter; spacing: 20px * Theme.scale;
+        HorizontalLayout {
+            spacing: 20px * Theme.scale;
+            VerticalLayout { spacing: 5px * Theme.scale;
+                Text { text: "Learn Overtalk"; color: Theme.ink; font-size: Theme.title; font-weight: 600; }
+                Text { text: "A little guidance, right when you need it."; color: Theme.secondary; font-size: 15px * Theme.scale; wrap: word-wrap; }
+            }
+            Rectangle { horizontal-stretch: 1; }
+            ActionButton { text: root.compact ? "Back" : "Back to workspace"; icon: Icons.arrow; compact: true; flat: true; clicked => { State.action("guide-close", ""); } }
+        }
+        HorizontalLayout {
+            spacing: 24px * Theme.scale;
+            if !root.compact: VerticalLayout {
+                width: 244px * Theme.scale; spacing: 12px * Theme.scale;
+                Field { placeholder: "Find a feature"; icon: Icons.search; text-size: 14px * Theme.scale; text <=> State.guide-query; edited(value) => { State.action("guide-search", value); } }
+                ScrollView {
+                    horizontal-scrollbar-policy: always-off;
+                    VerticalLayout {
+                        spacing: 3px * Theme.scale;
+                        for chapter in State.guide-chapters: VerticalLayout {
+                            spacing: 4px * Theme.scale;
+                            if chapter.starts-group: Text { text: chapter.group == "Privacy" ? "Privacy and settings" : chapter.group; color: Theme.muted; font-size: 12px * Theme.scale; font-weight: 600; height: 30px * Theme.scale; vertical-alignment: bottom; }
+                            ChapterButton { text: chapter.title; read: chapter.read; selected: chapter.index == State.guide-index; clicked => { State.action("guide-chapter", "" + chapter.index); } }
+                        }
+                        if State.guide-chapters.length == 0: Text { text: "No chapter found. Try record, speakers or export."; color: Theme.secondary; font-size: 14px * Theme.scale; wrap: word-wrap; }
+                        Rectangle { vertical-stretch: 1; }
+                    }
+                }
+                Divider { }
+                Text { text: State.guide-read-count + " of 13 chapters read"; color: Theme.muted; font-size: 13px * Theme.scale; }
+                ActionButton { text: "About Overtalk"; icon: Icons.help; compact: true; flat: true; left-aligned: true; clicked => { State.action("about", ""); } }
+            }
+            if !root.compact: Rectangle { width: 1px; background: Theme.line; }
+            VerticalLayout {
+                spacing: 14px * Theme.scale;
+                if root.compact: Field { placeholder: "Find a feature"; icon: Icons.search; text-size: 14px * Theme.scale; text <=> State.guide-query; edited(value) => { State.action("guide-search", value); } }
+                if root.compact && State.guide-query == "": ComboBox { model: State.guide-titles; current-index <=> State.guide-index; selected(value) => { State.action("guide-chapter", "" + self.current-index); } }
+                if root.compact && State.guide-query != "": ScrollView {
+                    height: min(180px * Theme.scale, max(48px * Theme.scale, State.guide-chapters.length * 44px * Theme.scale));
+                    horizontal-scrollbar-policy: always-off;
+                    VerticalLayout { spacing: 2px * Theme.scale;
+                        for chapter in State.guide-chapters: ChapterButton { text: chapter.title; read: chapter.read; selected: chapter.index == State.guide-index; clicked => { State.action("guide-chapter", "" + chapter.index); } }
+                        if State.guide-chapters.length == 0: Text { text: "No chapter found. Try record, speakers or export."; font-size: 14px * Theme.scale; color: Theme.secondary; wrap: word-wrap; }
+                    }
+                }
+                content := ScrollView {
+                    horizontal-scrollbar-policy: always-off;
+                    property <int> revision: State.guide-revision;
+                    changed revision => { self.content-y = 0px; }
+                    VerticalLayout {
+                        alignment: start; spacing: 22px * Theme.scale;
+                        padding-right: 10px * Theme.scale;
+                        HorizontalLayout {
+                            spacing: 30px * Theme.scale;
+                            VerticalLayout {
+                                max-width: 760px * Theme.scale;
+                                spacing: 18px * Theme.scale;
+                                VerticalLayout { spacing: 10px * Theme.scale;
+                                    Text { text: State.guide-title; color: Theme.ink; font-size: 26px * Theme.scale; font-weight: 600; wrap: word-wrap; }
+                                    Text { text: State.guide-summary; color: Theme.secondary; font-size: 16px * Theme.scale; wrap: word-wrap; line-height-factor: 1.45; }
+                                }
+                                Divider { }
+                                for step[index] in State.guide-steps: HorizontalLayout {
+                                    alignment: start; spacing: 14px * Theme.scale;
+                                    Rectangle {
+                                        width: 30px * Theme.scale; height: self.width; border-radius: 8px * Theme.scale; background: Theme.dark ? #173a3b : #ddf0ed;
+                                        Text { text: "" + (index + 1); color: Theme.teal; font-size: 14px * Theme.scale; font-weight: 600; horizontal-alignment: center; vertical-alignment: center; }
+                                    }
+                                    VerticalLayout { spacing: 6px * Theme.scale;
+                                        Text { text: step.title; color: Theme.ink; font-size: 17px * Theme.scale; font-weight: 600; wrap: word-wrap; }
+                                        Text { text: step.body; color: Theme.secondary; font-size: 16px * Theme.scale; wrap: word-wrap; line-height-factor: 1.5; }
+                                    }
+                                }
+                                if State.guide-tip != "": HorizontalLayout {
+                                    spacing: 10px * Theme.scale;
+                                    Image { source: Icons.help; colorize: Theme.amber; width: 18px * Theme.scale; height: self.width; }
+                                    Text { text: State.guide-tip; color: Theme.secondary; font-size: 14px * Theme.scale; wrap: word-wrap; line-height-factor: 1.4; }
+                                }
+                                if State.guide-keys != "": Text { text: State.guide-keys; color: Theme.teal; font-size: 14px * Theme.scale; wrap: word-wrap; }
+                                HorizontalLayout { alignment: start; spacing: 10px * Theme.scale;
+                                    ActionButton { text: State.guide-action-label; primary: true; compact: true; clicked => { State.action("guide-open", ""); } }
+                                    ActionButton { text: State.guide-is-read ? "Read" : "Mark as read"; icon: Icons.check; compact: true; flat: true; enabled: !State.guide-is-read; clicked => { State.action("guide-read", ""); } }
+                                }
+                                Divider { }
+                                HorizontalLayout {
+                                    ActionButton { text: "Previous"; icon: Icons.arrow; compact: true; flat: true; enabled: State.guide-index > 0; clicked => { State.action("guide-chapter", "" + (State.guide-index - 1)); } }
+                                    Rectangle { horizontal-stretch: 1; }
+                                    ActionButton { text: "Next chapter"; icon: @image-url("../assets/arrow-right.svg"); compact: true; flat: true; enabled: State.guide-index < 12; clicked => { State.action("guide-read", ""); State.action("guide-chapter", "" + (State.guide-index + 1)); } }
+                                }
+                            }
+                            if root.width >= 1300px * Theme.scale: VerticalLayout {
+                                width: 230px * Theme.scale; spacing: 24px * Theme.scale;
+                                KeyboardHelp { }
+                                Divider { }
+                                Text { text: "Private by default"; color: Theme.ink; font-size: 16px * Theme.scale; font-weight: 600; }
+                                Text { text: "This guide works offline. Recordings and transcripts stay on this computer unless you choose a cloud provider or share them."; color: Theme.secondary; font-size: 14px * Theme.scale; wrap: word-wrap; line-height-factor: 1.45; }
+                                Rectangle { vertical-stretch: 1; }
+                            }
+                            Rectangle { horizontal-stretch: 1; max-width: root.width >= 1300px * Theme.scale ? 10000px : 0px; }
+                        }
+                        if root.width < 1300px * Theme.scale: KeyboardHelp { }
+                    }
+                }
+            }
+        }
+    }
+}

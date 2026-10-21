@@ -1,0 +1,65 @@
+{
+  "id": "val-design",
+  "split": "validation",
+  "difficulty": "normal",
+  "language": "fr",
+  "domain": "design critique",
+  "provenance": "Newly authored synthetic diagnostic; no real personal data; not a recording.",
+  "transcript": "[00:00] Camille: Le nouveau menu a été testé avec six personnes; quatre n'ont pas trouvé Exporter.\n[00:10] Hugo: J'ai déjà corrigé le contraste hier.\n[00:20] Camille: Décision: remplacer l'icône seule par le libellé Exporter.\n[00:30] Hugo: Je prépare la maquette pour mercredi, pas le code de production.\n[00:40] Inès: Faut-il déplacer aussi Supprimer?\n[00:50] Camille: Aucune décision sur Supprimer. Nous n'avons pas encore de test suivant prévu.\n[01:00] Inès: Je n'ai pas de tâche à prendre aujourd'hui.",
+  "facts": [
+    {
+      "id": "F1",
+      "assertion": "Test had6participants;4could not find Export.",
+      "evidence": [
+        1
+      ]
+    },
+    {
+      "id": "F2",
+      "assertion": "Contrast already corrected yesterday.",
+      "evidence": [
+        2
+      ]
+    },
+    {
+      "id": "F3",
+      "assertion": "Decision: replace icon-only Export with a label.",
+      "evidence": [
+        3
+      ]
+    },
+    {
+      "id": "F4",
+      "assertion": "Hugo prepares mockup by Wednesday, not production code.",
+      "evidence": [
+        4
+      ]
+    },
+    {
+      "id": "F5",
+      "assertion": "Moving Delete is unresolved.",
+      "evidence": [
+        5,
+        6
+      ]
+    },
+    {
+      "id": "F6",
+      "assertion": "Next test has not been scheduled.",
+      "evidence": [
+        6
+      ]
+    },
+    {
+      "id": "F7",
+      "assertion": "Inès takes no task.",
+      "evidence": [
+        7
+      ]
+    }
+  ],
+  "forbidden": [
+    "Do not assign Inès next test.",
+    "No production Wednesday deadline."
+  ]
+}

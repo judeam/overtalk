@@ -1,0 +1,26 @@
+{
+  "cutoff": "2026-09-30",
+  "verified_via": "Official Hugging Face API model metadata and commits/main history",
+  "models": {
+    "Qwen/Qwen3-ASR-1.7B": {
+      "revision": "7278e1e70fe206f11671096ffdd38061171dd6e5",
+      "revision_date": "2026-01-30T03:00:12Z",
+      "history": "https://huggingface.co/api/models/Qwen/Qwen3-ASR-1.7B/commits/main"
+    },
+    "Qwen/Qwen3-ForcedAligner-0.6B": {
+      "revision": "c7cbfc2048c462b0d63a45797104fc9db3ad62b7",
+      "revision_date": "2026-01-30T03:00:55Z",
+      "history": "https://huggingface.co/api/models/Qwen/Qwen3-ForcedAligner-0.6B/commits/main"
+    },
+    "nvidia/Nemotron-3-Diarization": {
+      "revision": "f667ed73aee57d40cc39428eb768b4fd87a0a29e",
+      "revision_date": "2026-09-24T05:52:51Z",
+      "history": "https://huggingface.co/api/models/nvidia/Nemotron-3-Diarization/commits/main"
+    },
+    "nvidia/multitalker-parakeet-streaming-0.6b-v1": {
+      "revision": "8749fc71fd6e2d88ef230159bbf2aea69b524ee1",
+      "revision_date": "2026-01-28T02:03:41Z",
+      "history": "https://huggingface.co/api/models/nvidia/multitalker-parakeet-streaming-0.6b-v1/commits/main"
+    }
+  }
+}

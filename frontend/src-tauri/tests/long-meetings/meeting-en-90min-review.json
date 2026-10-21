@@ -1,0 +1,6049 @@
+{
+ "name": "en-90min-review",
+ "language": "en",
+ "minutes": 94,
+ "people": [
+  "Lena",
+  "Marco",
+  "Priya",
+  "Tom"
+ ],
+ "lines": [
+  {
+   "t": 0,
+   "speaker": "Lena",
+   "text": "Okay, let's move on to the Kestrel dashboard redesign."
+  },
+  {
+   "t": 5,
+   "speaker": "Priya",
+   "text": "The current Kestrel dashboard loads in about 4.2 seconds on the median account."
+  },
+  {
+   "t": 12,
+   "speaker": "Tom",
+   "text": "Sorry, I was on mute."
+  },
+  {
+   "t": 15,
+   "speaker": "Tom",
+   "text": "Let's finish this topic first and then take five minutes."
+  },
+  {
+   "t": 21,
+   "speaker": "Marco",
+   "text": "I'm not sure the data supports that yet."
+  },
+  {
+   "t": 26,
+   "speaker": "Marco",
+   "text": "Around 1,800 customers open Kestrel every week."
+  },
+  {
+   "t": 30,
+   "speaker": "Tom",
+   "text": "The documentation for this is pretty outdated, by the way."
+  },
+  {
+   "t": 36,
+   "speaker": "Marco",
+   "text": "Sure, one moment, let me find the right window."
+  },
+  {
+   "t": 41,
+   "speaker": "Priya",
+   "text": "I talked to the design team yesterday and they had a few concerns."
+  },
+  {
+   "t": 48,
+   "speaker": "Tom",
+   "text": "There's also a dependency on the platform team that we shouldn't forget."
+  },
+  {
+   "t": 55,
+   "speaker": "Tom",
+   "text": "I just dropped it in the chat."
+  },
+  {
+   "t": 59,
+   "speaker": "Marco",
+   "text": "I would like to see a rough estimate before we go further."
+  },
+  {
+   "t": 65,
+   "speaker": "Lena",
+   "text": "Let me check my notes, I think this came up in the last retro too."
+  },
+  {
+   "t": 73,
+   "speaker": "Priya",
+   "text": "Right."
+  },
+  {
+   "t": 75,
+   "speaker": "Priya",
+   "text": "This affects the mobile app as well, not just the web."
+  },
+  {
+   "t": 81,
+   "speaker": "Priya",
+   "text": "I just dropped it in the chat."
+  },
+  {
+   "t": 86,
+   "speaker": "Marco",
+   "text": "The metrics dashboard was down this morning, so these numbers are from yesterday."
+  },
+  {
+   "t": 93,
+   "speaker": "Priya",
+   "text": "The main risk is still the timeline, honestly."
+  },
+  {
+   "t": 97,
+   "speaker": "Priya",
+   "text": "From the support side, this is one of the top complaints."
+  },
+  {
+   "t": 103,
+   "speaker": "Marco",
+   "text": "Let me check my notes, I think this came up in the last retro too."
+  },
+  {
+   "t": 111,
+   "speaker": "Priya",
+   "text": "There's also a dependency on the platform team that we shouldn't forget."
+  },
+  {
+   "t": 118,
+   "speaker": "Tom",
+   "text": "Hmm."
+  },
+  {
+   "t": 120,
+   "speaker": "Tom",
+   "text": "Mhm."
+  },
+  {
+   "t": 122,
+   "speaker": "Priya",
+   "text": "The main risk is still the timeline, honestly."
+  },
+  {
+   "t": 126,
+   "speaker": "Lena",
+   "text": "The metrics dashboard was down this morning, so these numbers are from yesterday."
+  },
+  {
+   "t": 133,
+   "speaker": "Lena",
+   "text": "Mm-hm."
+  },
+  {
+   "t": 135,
+   "speaker": "Priya",
+   "text": "I saw a competitor launch something like this last month."
+  },
+  {
+   "t": 141,
+   "speaker": "Priya",
+   "text": "I talked to the design team yesterday and they had a few concerns."
+  },
+  {
+   "t": 148,
+   "speaker": "Lena",
+   "text": "Mhm."
+  },
+  {
+   "t": 150,
+   "speaker": "Priya",
+   "text": "The metrics dashboard was down this morning, so these numbers are from yesterday."
+  },
+  {
+   "t": 157,
+   "speaker": "Lena",
+   "text": "I'm not sure the data supports that yet."
+  },
+  {
+   "t": 161,
+   "speaker": "Priya",
+   "text": "What if we dropped the dark theme from Kestrel entirely?"
+  },
+  {
+   "t": 167,
+   "speaker": "Marco",
+   "text": "I'd rather not decide that today, we need the survey data first."
+  },
+  {
+   "t": 174,
+   "speaker": "Tom",
+   "text": "We tried something similar two years ago and it didn't go well."
+  },
+  {
+   "t": 180,
+   "speaker": "Tom",
+   "text": "The documentation for this is pretty outdated, by the way."
+  },
+  {
+   "t": 186,
+   "speaker": "Lena",
+   "text": "Let's finish this topic first and then take five minutes."
+  },
+  {
+   "t": 191,
+   "speaker": "Priya",
+   "text": "From an engineering point of view it's not that hard."
+  },
+  {
+   "t": 197,
+   "speaker": "Priya",
+   "text": "The last time we estimated this, it took twice as long as planned."
+  },
+  {
+   "t": 204,
+   "speaker": "Priya",
+   "text": "Honestly I think the team can handle it if we cut scope a bit."
+  },
+  {
+   "t": 211,
+   "speaker": "Lena",
+   "text": "So we agree: the Kestrel redesign ships after the trade fair in March, not before."
+  },
+  {
+   "t": 219,
+   "speaker": "Marco",
+   "text": "Okay, agreed."
+  },
+  {
+   "t": 221,
+   "speaker": "Lena",
+   "text": "Marco, can you send the Kestrel mockups to the design review group? Ideally by Thursday."
+  },
+  {
+   "t": 229,
+   "speaker": "Marco",
+   "text": "Okay, I'll take it, Thursday works."
+  },
+  {
+   "t": 233,
+   "speaker": "Lena",
+   "text": "We tried something similar two years ago and it didn't go well."
+  },
+  {
+   "t": 240,
+   "speaker": "Tom",
+   "text": "I saw a competitor launch something like this last month."
+  },
+  {
+   "t": 245,
+   "speaker": "Priya",
+   "text": "We need to be careful with the wording towards customers."
+  },
+  {
+   "t": 251,
+   "speaker": "Lena",
+   "text": "The main risk is still the timeline, honestly."
+  },
+  {
+   "t": 256,
+   "speaker": "Priya",
+   "text": "The main risk is still the timeline, honestly."
+  },
+  {
+   "t": 261,
+   "speaker": "Priya",
+   "text": "We discussed this with the customer success team last week."
+  },
+  {
+   "t": 266,
+   "speaker": "Marco",
+   "text": "Let's not go down that rabbit hole right now."
+  },
+  {
+   "t": 272,
+   "speaker": "Priya",
+   "text": "Let's not go down that rabbit hole right now."
+  },
+  {
+   "t": 277,
+   "speaker": "Priya",
+   "text": "Honestly I think the team can handle it if we cut scope a bit."
+  },
+  {
+   "t": 284,
+   "speaker": "Lena",
+   "text": "Let me check my notes, I think this came up in the last retro too."
+  },
+  {
+   "t": 292,
+   "speaker": "Priya",
+   "text": "We tried something similar two years ago and it didn't go well."
+  },
+  {
+   "t": 298,
+   "speaker": "Marco",
+   "text": "There's also a dependency on the platform team that we shouldn't forget."
+  },
+  {
+   "t": 305,
+   "speaker": "Lena",
+   "text": "This affects the mobile app as well, not just the web."
+  },
+  {
+   "t": 311,
+   "speaker": "Priya",
+   "text": "Uh-huh."
+  },
+  {
+   "t": 313,
+   "speaker": "Tom",
+   "text": "We should loop in finance before we commit to anything expensive."
+  },
+  {
+   "t": 319,
+   "speaker": "Lena",
+   "text": "From the support side, this is one of the top complaints."
+  },
+  {
+   "t": 325,
+   "speaker": "Tom",
+   "text": "I agree with the direction, I'm just worried about the effort."
+  },
+  {
+   "t": 331,
+   "speaker": "Lena",
+   "text": "That's a fair point, but customers haven't really complained about it."
+  },
+  {
+   "t": 337,
+   "speaker": "Priya",
+   "text": "Sorry, I was on mute."
+  },
+  {
+   "t": 341,
+   "speaker": "Priya",
+   "text": "Could you repeat that? Your audio cut out for a moment."
+  },
+  {
+   "t": 347,
+   "speaker": "Priya",
+   "text": "I think we should keep it simple for the first version."
+  },
+  {
+   "t": 353,
+   "speaker": "Priya",
+   "text": "The metrics dashboard was down this morning, so these numbers are from yesterday."
+  },
+  {
+   "t": 360,
+   "speaker": "Tom",
+   "text": "There's also a dependency on the platform team that we shouldn't forget."
+  },
+  {
+   "t": 366,
+   "speaker": "Marco",
+   "text": "Tom, you wanted to talk about the invoice export for Halden Logistics?"
+  },
+  {
+   "t": 373,
+   "speaker": "Tom",
+   "text": "Halden Logistics sends us roughly 600 invoices a month."
+  },
+  {
+   "t": 378,
+   "speaker": "Lena",
+   "text": "We should loop in finance before we commit to anything expensive."
+  },
+  {
+   "t": 384,
+   "speaker": "Tom",
+   "text": "The PDF export breaks on tables longer than two pages."
+  },
+  {
+   "t": 390,
+   "speaker": "Priya",
+   "text": "The documentation for this is pretty outdated, by the way."
+  },
+  {
+   "t": 396,
+   "speaker": "Lena",
+   "text": "We should loop in finance before we commit to anything expensive."
+  },
+  {
+   "t": 402,
+   "speaker": "Lena",
+   "text": "I'll be out on Friday afternoon, just so you know."
+  },
+  {
+   "t": 407,
+   "speaker": "Lena",
+   "text": "I talked to the design team yesterday and they had a few concerns."
+  },
+  {
+   "t": 414,
+   "speaker": "Marco",
+   "text": "From an engineering point of view it's not that hard."
+  },
+  {
+   "t": 420,
+   "speaker": "Lena",
+   "text": "This affects the mobile app as well, not just the web."
+  },
+  {
+   "t": 426,
+   "speaker": "Lena",
+   "text": "Should we offer Halden an Excel export as well?"
+  },
+  {
+   "t": 431,
+   "speaker": "Priya",
+   "text": "No, not now. Excel export is out of scope this quarter."
+  },
+  {
+   "t": 437,
+   "speaker": "Priya",
+   "text": "From the support side, this is one of the top complaints."
+  },
+  {
+   "t": 443,
+   "speaker": "Tom",
+   "text": "The main risk is still the timeline, honestly."
+  },
+  {
+   "t": 448,
+   "speaker": "Marco",
+   "text": "Decision then: we fix the long-table PDF layout for Halden before any new export formats."
+  },
+  {
+   "t": 456,
+   "speaker": "Tom",
+   "text": "Agreed."
+  },
+  {
+   "t": 458,
+   "speaker": "Tom",
+   "text": "Honestly I think the team can handle it if we cut scope a bit."
+  },
+  {
+   "t": 465,
+   "speaker": "Priya",
+   "text": "Can you share your screen for a second?"
+  },
+  {
+   "t": 470,
+   "speaker": "Lena",
+   "text": "That's a fair point, but customers haven't really complained about it."
+  },
+  {
+   "t": 476,
+   "speaker": "Marco",
+   "text": "Uh-huh."
+  },
+  {
+   "t": 478,
+   "speaker": "Tom",
+   "text": "I looked at the numbers again and they're roughly where we expected."
+  },
+  {
+   "t": 485,
+   "speaker": "Lena",
+   "text": "Thanks, got it."
+  },
+  {
+   "t": 487,
+   "speaker": "Priya",
+   "text": "The last time we estimated this, it took twice as long as planned."
+  },
+  {
+   "t": 494,
+   "speaker": "Tom",
+   "text": "The documentation for this is pretty outdated, by the way."
+  },
+  {
+   "t": 500,
+   "speaker": "Lena",
+   "text": "Uh-huh."
+  },
+  {
+   "t": 502,
+   "speaker": "Lena",
+   "text": "We tried something similar two years ago and it didn't go well."
+  },
+  {
+   "t": 508,
+   "speaker": "Tom",
+   "text": "Mhm."
+  },
+  {
+   "t": 510,
+   "speaker": "Tom",
+   "text": "I think we should keep it simple for the first version."
+  },
+  {
+   "t": 516,
+   "speaker": "Lena",
+   "text": "Let's not go down that rabbit hole right now."
+  },
+  {
+   "t": 522,
+   "speaker": "Marco",
+   "text": "Priya, can you call Halden and confirm their invoice template? Ideally by Monday."
+  },
+  {
+   "t": 528,
+   "speaker": "Priya",
+   "text": "Okay, I'll take it, Monday works."
+  },
+  {
+   "t": 532,
+   "speaker": "Marco",
+   "text": "Honestly I think the team can handle it if we cut scope a bit."
+  },
+  {
+   "t": 540,
+   "speaker": "Lena",
+   "text": "This affects the mobile app as well, not just the web."
+  },
+  {
+   "t": 546,
+   "speaker": "Tom",
+   "text": "Mhm."
+  },
+  {
+   "t": 548,
+   "speaker": "Priya",
+   "text": "Tom, will you write the regression tests for the long tables by end of the month?"
+  },
+  {
+   "t": 556,
+   "speaker": "Tom",
+   "text": "Yes, I'll do that by end of the month."
+  },
+  {
+   "t": 561,
+   "speaker": "Tom",
+   "text": "Coffee break soon? We've been going for a while."
+  },
+  {
+   "t": 566,
+   "speaker": "Tom",
+   "text": "I talked to the design team yesterday and they had a few concerns."
+  },
+  {
+   "t": 573,
+   "speaker": "Priya",
+   "text": "Hmm."
+  },
+  {
+   "t": 575,
+   "speaker": "Tom",
+   "text": "The metrics dashboard was down this morning, so these numbers are from yesterday."
+  },
+  {
+   "t": 582,
+   "speaker": "Priya",
+   "text": "Right."
+  },
+  {
+   "t": 584,
+   "speaker": "Tom",
+   "text": "Sure, one moment, let me find the right window."
+  },
+  {
+   "t": 589,
+   "speaker": "Lena",
+   "text": "We tried something similar two years ago and it didn't go well."
+  },
+  {
+   "t": 596,
+   "speaker": "Priya",
+   "text": "Does anyone have the link to the planning document?"
+  },
+  {
+   "t": 601,
+   "speaker": "Tom",
+   "text": "Mhm."
+  },
+  {
+   "t": 603,
+   "speaker": "Lena",
+   "text": "Let's not go down that rabbit hole right now."
+  },
+  {
+   "t": 608,
+   "speaker": "Tom",
+   "text": "I looked at the numbers again and they're roughly where we expected."
+  },
+  {
+   "t": 615,
+   "speaker": "Lena",
+   "text": "Hmm."
+  },
+  {
+   "t": 617,
+   "speaker": "Tom",
+   "text": "Let me check my notes, I think this came up in the last retro too."
+  },
+  {
+   "t": 624,
+   "speaker": "Priya",
+   "text": "Mhm."
+  },
+  {
+   "t": 626,
+   "speaker": "Lena",
+   "text": "That's a fair point, but customers haven't really complained about it."
+  },
+  {
+   "t": 632,
+   "speaker": "Priya",
+   "text": "Let's keep an eye on it and revisit if it gets worse."
+  },
+  {
+   "t": 639,
+   "speaker": "Lena",
+   "text": "I think we should keep it simple for the first version."
+  },
+  {
+   "t": 645,
+   "speaker": "Marco",
+   "text": "From an engineering point of view it's not that hard."
+  },
+  {
+   "t": 651,
+   "speaker": "Lena",
+   "text": "Mhm."
+  },
+  {
+   "t": 653,
+   "speaker": "Lena",
+   "text": "Could you repeat that? Your audio cut out for a moment."
+  },
+  {
+   "t": 659,
+   "speaker": "Marco",
+   "text": "Could you repeat that? Your audio cut out for a moment."
+  },
+  {
+   "t": 665,
+   "speaker": "Priya",
+   "text": "Thanks, got it."
+  },
+  {
+   "t": 668,
+   "speaker": "Priya",
+   "text": "Thanks, got it."
+  },
+  {
+   "t": 670,
+   "speaker": "Tom",
+   "text": "I think we should keep it simple for the first version."
+  },
+  {
+   "t": 676,
+   "speaker": "Marco",
+   "text": "The metrics dashboard was down this morning, so these numbers are from yesterday."
+  },
+  {
+   "t": 683,
+   "speaker": "Tom",
+   "text": "The documentation for this is pretty outdated, by the way."
+  },
+  {
+   "t": 689,
+   "speaker": "Marco",
+   "text": "Hmm."
+  },
+  {
+   "t": 691,
+   "speaker": "Tom",
+   "text": "Hmm."
+  },
+  {
+   "t": 693,
+   "speaker": "Tom",
+   "text": "The documentation for this is pretty outdated, by the way."
+  },
+  {
+   "t": 698,
+   "speaker": "Marco",
+   "text": "Could you repeat that? Your audio cut out for a moment."
+  },
+  {
+   "t": 705,
+   "speaker": "Marco",
+   "text": "Sorry, I was on mute."
+  },
+  {
+   "t": 708,
+   "speaker": "Marco",
+   "text": "Let's not go down that rabbit hole right now."
+  },
+  {
+   "t": 713,
+   "speaker": "Priya",
+   "text": "Coffee break soon? We've been going for a while."
+  },
+  {
+   "t": 719,
+   "speaker": "Priya",
+   "text": "The metrics dashboard was down this morning, so these numbers are from yesterday."
+  },
+  {
+   "t": 726,
+   "speaker": "Lena",
+   "text": "My gut feeling is that we're overthinking this one."
+  },
+  {
+   "t": 731,
+   "speaker": "Marco",
+   "text": "I just dropped it in the chat."
+  },
+  {
+   "t": 735,
+   "speaker": "Marco",
+   "text": "Uh-huh."
+  },
+  {
+   "t": 737,
+   "speaker": "Tom",
+   "text": "I'm not sure the data supports that yet."
+  },
+  {
+   "t": 742,
+   "speaker": "Marco",
+   "text": "Let's keep an eye on it and revisit if it gets worse."
+  },
+  {
+   "t": 748,
+   "speaker": "Lena",
+   "text": "Let's finish this topic first and then take five minutes."
+  },
+  {
+   "t": 754,
+   "speaker": "Tom",
+   "text": "Sure, one moment, let me find the right window."
+  },
+  {
+   "t": 759,
+   "speaker": "Priya",
+   "text": "Next item: the on-call rotation."
+  },
+  {
+   "t": 763,
+   "speaker": "Priya",
+   "text": "I talked to the design team yesterday and they had a few concerns."
+  },
+  {
+   "t": 770,
+   "speaker": "Priya",
+   "text": "Mhm."
+  },
+  {
+   "t": 772,
+   "speaker": "Lena",
+   "text": "I think we should keep it simple for the first version."
+  },
+  {
+   "t": 778,
+   "speaker": "Priya",
+   "text": "Uh-huh."
+  },
+  {
+   "t": 780,
+   "speaker": "Priya",
+   "text": "Hmm."
+  },
+  {
+   "t": 782,
+   "speaker": "Priya",
+   "text": "Uh-huh."
+  },
+  {
+   "t": 784,
+   "speaker": "Lena",
+   "text": "I don't have a strong opinion on this one."
+  },
+  {
+   "t": 789,
+   "speaker": "Tom",
+   "text": "I don't have a strong opinion on this one."
+  },
+  {
+   "t": 794,
+   "speaker": "Marco",
+   "text": "We had 14 pages out of hours last month."
+  },
+  {
+   "t": 799,
+   "speaker": "Priya",
+   "text": "That's a fair point, but customers haven't really complained about it."
+  },
+  {
+   "t": 805,
+   "speaker": "Lena",
+   "text": "Hmm."
+  },
+  {
+   "t": 807,
+   "speaker": "Priya",
+   "text": "The documentation for this is pretty outdated, by the way."
+  },
+  {
+   "t": 813,
+   "speaker": "Lena",
+   "text": "Two of them were false alarms from the disk monitor."
+  },
+  {
+   "t": 819,
+   "speaker": "Priya",
+   "text": "Could we pay a weekend bonus for on-call?"
+  },
+  {
+   "t": 824,
+   "speaker": "Tom",
+   "text": "That needs HR, we can't agree it in this meeting."
+  },
+  {
+   "t": 829,
+   "speaker": "Priya",
+   "text": "I would like to see a rough estimate before we go further."
+  },
+  {
+   "t": 836,
+   "speaker": "Priya",
+   "text": "Agreed: the on-call rotation moves to one-week shifts starting in November."
+  },
+  {
+   "t": 842,
+   "speaker": "Lena",
+   "text": "Fine by me."
+  },
+  {
+   "t": 845,
+   "speaker": "Tom",
+   "text": "Lena, can you update the PagerDuty schedule? Ideally by Friday."
+  },
+  {
+   "t": 850,
+   "speaker": "Lena",
+   "text": "Okay, I'll take it, Friday works."
+  },
+  {
+   "t": 854,
+   "speaker": "Marco",
+   "text": "I'll be out on Friday afternoon, just so you know."
+  },
+  {
+   "t": 860,
+   "speaker": "Marco",
+   "text": "I'm not sure the data supports that yet."
+  },
+  {
+   "t": 865,
+   "speaker": "Lena",
+   "text": "We discussed this with the customer success team last week."
+  },
+  {
+   "t": 870,
+   "speaker": "Marco",
+   "text": "Mm-hm."
+  },
+  {
+   "t": 872,
+   "speaker": "Priya",
+   "text": "The metrics dashboard was down this morning, so these numbers are from yesterday."
+  },
+  {
+   "t": 879,
+   "speaker": "Tom",
+   "text": "We discussed this with the customer success team last week."
+  },
+  {
+   "t": 885,
+   "speaker": "Lena",
+   "text": "Could you repeat that? Your audio cut out for a moment."
+  },
+  {
+   "t": 891,
+   "speaker": "Tom",
+   "text": "Right."
+  },
+  {
+   "t": 893,
+   "speaker": "Priya",
+   "text": "There's also a dependency on the platform team that we shouldn't forget."
+  },
+  {
+   "t": 899,
+   "speaker": "Lena",
+   "text": "We tried something similar two years ago and it didn't go well."
+  },
+  {
+   "t": 906,
+   "speaker": "Marco",
+   "text": "There's also a dependency on the platform team that we shouldn't forget."
+  },
+  {
+   "t": 912,
+   "speaker": "Priya",
+   "text": "From an engineering point of view it's not that hard."
+  },
+  {
+   "t": 918,
+   "speaker": "Tom",
+   "text": "Thanks, got it."
+  },
+  {
+   "t": 921,
+   "speaker": "Priya",
+   "text": "Sure, one moment, let me find the right window."
+  },
+  {
+   "t": 926,
+   "speaker": "Marco",
+   "text": "That's a fair point, but customers haven't really complained about it."
+  },
+  {
+   "t": 932,
+   "speaker": "Lena",
+   "text": "Let me check my notes, I think this came up in the last retro too."
+  },
+  {
+   "t": 940,
+   "speaker": "Marco",
+   "text": "That's a fair point, but customers haven't really complained about it."
+  },
+  {
+   "t": 946,
+   "speaker": "Tom",
+   "text": "The metrics dashboard was down this morning, so these numbers are from yesterday."
+  },
+  {
+   "t": 953,
+   "speaker": "Marco",
+   "text": "We tried something similar two years ago and it didn't go well."
+  },
+  {
+   "t": 959,
+   "speaker": "Marco",
+   "text": "Sorry, I was on mute."
+  },
+  {
+   "t": 963,
+   "speaker": "Priya",
+   "text": "Sorry, I was on mute."
+  },
+  {
+   "t": 967,
+   "speaker": "Lena",
+   "text": "I'll be out on Friday afternoon, just so you know."
+  },
+  {
+   "t": 972,
+   "speaker": "Tom",
+   "text": "I would like to see a rough estimate before we go further."
+  },
+  {
+   "t": 979,
+   "speaker": "Priya",
+   "text": "I just dropped it in the chat."
+  },
+  {
+   "t": 983,
+   "speaker": "Tom",
+   "text": "My gut feeling is that we're overthinking this one."
+  },
+  {
+   "t": 988,
+   "speaker": "Tom",
+   "text": "My gut feeling is that we're overthinking this one."
+  },
+  {
+   "t": 994,
+   "speaker": "Lena",
+   "text": "Right."
+  },
+  {
+   "t": 996,
+   "speaker": "Tom",
+   "text": "Right."
+  },
+  {
+   "t": 997,
+   "speaker": "Marco",
+   "text": "Hmm."
+  },
+  {
+   "t": 999,
+   "speaker": "Marco",
+   "text": "The documentation for this is pretty outdated, by the way."
+  },
+  {
+   "t": 1005,
+   "speaker": "Tom",
+   "text": "Mm-hm."
+  },
+  {
+   "t": 1007,
+   "speaker": "Marco",
+   "text": "Uh-huh."
+  },
+  {
+   "t": 1009,
+   "speaker": "Lena",
+   "text": "Mhm."
+  },
+  {
+   "t": 1011,
+   "speaker": "Marco",
+   "text": "Mm-hm."
+  },
+  {
+   "t": 1013,
+   "speaker": "Lena",
+   "text": "I don't have a strong opinion on this one."
+  },
+  {
+   "t": 1018,
+   "speaker": "Priya",
+   "text": "Let's not go down that rabbit hole right now."
+  },
+  {
+   "t": 1023,
+   "speaker": "Lena",
+   "text": "We tried something similar two years ago and it didn't go well."
+  },
+  {
+   "t": 1030,
+   "speaker": "Lena",
+   "text": "I talked to the design team yesterday and they had a few concerns."
+  },
+  {
+   "t": 1037,
+   "speaker": "Marco",
+   "text": "I saw a competitor launch something like this last month."
+  },
+  {
+   "t": 1042,
+   "speaker": "Tom",
+   "text": "Sorry, I was on mute."
+  },
+  {
+   "t": 1046,
+   "speaker": "Tom",
+   "text": "We should loop in finance before we commit to anything expensive."
+  },
+  {
+   "t": 1052,
+   "speaker": "Tom",
+   "text": "I talked to the design team yesterday and they had a few concerns."
+  },
+  {
+   "t": 1059,
+   "speaker": "Marco",
+   "text": "Right."
+  },
+  {
+   "t": 1061,
+   "speaker": "Lena",
+   "text": "Let's keep an eye on it and revisit if it gets worse."
+  },
+  {
+   "t": 1067,
+   "speaker": "Marco",
+   "text": "This affects the mobile app as well, not just the web."
+  },
+  {
+   "t": 1073,
+   "speaker": "Lena",
+   "text": "My gut feeling is that we're overthinking this one."
+  },
+  {
+   "t": 1079,
+   "speaker": "Tom",
+   "text": "Thanks, got it."
+  },
+  {
+   "t": 1081,
+   "speaker": "Priya",
+   "text": "I talked to the design team yesterday and they had a few concerns."
+  },
+  {
+   "t": 1088,
+   "speaker": "Tom",
+   "text": "Does anyone have the link to the planning document?"
+  },
+  {
+   "t": 1094,
+   "speaker": "Marco",
+   "text": "Thanks, got it."
+  },
+  {
+   "t": 1096,
+   "speaker": "Priya",
+   "text": "I agree with the direction, I'm just worried about the effort."
+  },
+  {
+   "t": 1102,
+   "speaker": "Tom",
+   "text": "I'm not sure the data supports that yet."
+  },
+  {
+   "t": 1107,
+   "speaker": "Marco",
+   "text": "From the support side, this is one of the top complaints."
+  },
+  {
+   "t": 1113,
+   "speaker": "Tom",
+   "text": "Mm-hm."
+  },
+  {
+   "t": 1115,
+   "speaker": "Marco",
+   "text": "The main risk is still the timeline, honestly."
+  },
+  {
+   "t": 1120,
+   "speaker": "Tom",
+   "text": "Right."
+  },
+  {
+   "t": 1122,
+   "speaker": "Lena",
+   "text": "Can you share your screen for a second?"
+  },
+  {
+   "t": 1127,
+   "speaker": "Tom",
+   "text": "Let's not go down that rabbit hole right now."
+  },
+  {
+   "t": 1132,
+   "speaker": "Marco",
+   "text": "Mhm."
+  },
+  {
+   "t": 1134,
+   "speaker": "Tom",
+   "text": "Thanks, got it."
+  },
+  {
+   "t": 1137,
+   "speaker": "Marco",
+   "text": "Right."
+  },
+  {
+   "t": 1139,
+   "speaker": "Marco",
+   "text": "Hmm."
+  },
+  {
+   "t": 1141,
+   "speaker": "Lena",
+   "text": "Mm-hm."
+  },
+  {
+   "t": 1142,
+   "speaker": "Lena",
+   "text": "That's a fair point, but customers haven't really complained about it."
+  },
+  {
+   "t": 1149,
+   "speaker": "Tom",
+   "text": "Marco, you wanted to talk about the Q3 hiring plan?"
+  },
+  {
+   "t": 1154,
+   "speaker": "Tom",
+   "text": "Can you share your screen for a second?"
+  },
+  {
+   "t": 1159,
+   "speaker": "Lena",
+   "text": "We have budget for three engineering roles."
+  },
+  {
+   "t": 1163,
+   "speaker": "Lena",
+   "text": "I looked at the numbers again and they're roughly where we expected."
+  },
+  {
+   "t": 1170,
+   "speaker": "Lena",
+   "text": "Mhm."
+  },
+  {
+   "t": 1172,
+   "speaker": "Tom",
+   "text": "Mhm."
+  },
+  {
+   "t": 1174,
+   "speaker": "Priya",
+   "text": "Mm-hm."
+  },
+  {
+   "t": 1176,
+   "speaker": "Priya",
+   "text": "Let's keep an eye on it and revisit if it gets worse."
+  },
+  {
+   "t": 1182,
+   "speaker": "Lena",
+   "text": "We need to be careful with the wording towards customers."
+  },
+  {
+   "t": 1188,
+   "speaker": "Lena",
+   "text": "Thanks, got it."
+  },
+  {
+   "t": 1191,
+   "speaker": "Tom",
+   "text": "Could you repeat that? Your audio cut out for a moment."
+  },
+  {
+   "t": 1197,
+   "speaker": "Priya",
+   "text": "Hmm."
+  },
+  {
+   "t": 1199,
+   "speaker": "Marco",
+   "text": "Thanks, got it."
+  },
+  {
+   "t": 1201,
+   "speaker": "Priya",
+   "text": "I just dropped it in the chat."
+  },
+  {
+   "t": 1206,
+   "speaker": "Tom",
+   "text": "Does anyone have the link to the planning document?"
+  },
+  {
+   "t": 1211,
+   "speaker": "Tom",
+   "text": "I would like to see a rough estimate before we go further."
+  },
+  {
+   "t": 1218,
+   "speaker": "Tom",
+   "text": "From the support side, this is one of the top complaints."
+  },
+  {
+   "t": 1224,
+   "speaker": "Marco",
+   "text": "I talked to the design team yesterday and they had a few concerns."
+  },
+  {
+   "t": 1231,
+   "speaker": "Marco",
+   "text": "The backend role has been open for 11 weeks."
+  },
+  {
+   "t": 1236,
+   "speaker": "Tom",
+   "text": "The main risk is still the timeline, honestly."
+  },
+  {
+   "t": 1241,
+   "speaker": "Priya",
+   "text": "Mhm."
+  },
+  {
+   "t": 1243,
+   "speaker": "Lena",
+   "text": "Can you share your screen for a second?"
+  },
+  {
+   "t": 1247,
+   "speaker": "Tom",
+   "text": "What about hiring a contractor in the meantime?"
+  },
+  {
+   "t": 1252,
+   "speaker": "Marco",
+   "text": "Let's park that, I'm not convinced it's worth the onboarding time."
+  },
+  {
+   "t": 1258,
+   "speaker": "Tom",
+   "text": "Okay, we decide to hire the backend engineer first and the two frontend roles after."
+  },
+  {
+   "t": 1266,
+   "speaker": "Marco",
+   "text": "Agreed."
+  },
+  {
+   "t": 1268,
+   "speaker": "Lena",
+   "text": "Hmm."
+  },
+  {
+   "t": 1270,
+   "speaker": "Lena",
+   "text": "My gut feeling is that we're overthinking this one."
+  },
+  {
+   "t": 1275,
+   "speaker": "Marco",
+   "text": "I agree with the direction, I'm just worried about the effort."
+  },
+  {
+   "t": 1281,
+   "speaker": "Marco",
+   "text": "I'm not sure the data supports that yet."
+  },
+  {
+   "t": 1286,
+   "speaker": "Lena",
+   "text": "I looked at the numbers again and they're roughly where we expected."
+  },
+  {
+   "t": 1293,
+   "speaker": "Marco",
+   "text": "I agree with the direction, I'm just worried about the effort."
+  },
+  {
+   "t": 1299,
+   "speaker": "Tom",
+   "text": "From an engineering point of view it's not that hard."
+  },
+  {
+   "t": 1304,
+   "speaker": "Marco",
+   "text": "Let's not go down that rabbit hole right now."
+  },
+  {
+   "t": 1310,
+   "speaker": "Lena",
+   "text": "I think we should keep it simple for the first version."
+  },
+  {
+   "t": 1316,
+   "speaker": "Lena",
+   "text": "That's a fair point, but customers haven't really complained about it."
+  },
+  {
+   "t": 1322,
+   "speaker": "Marco",
+   "text": "Let me check my notes, I think this came up in the last retro too."
+  },
+  {
+   "t": 1329,
+   "speaker": "Lena",
+   "text": "Honestly I think the team can handle it if we cut scope a bit."
+  },
+  {
+   "t": 1337,
+   "speaker": "Priya",
+   "text": "Marco, can you rewrite the backend job description? Ideally by next Wednesday."
+  },
+  {
+   "t": 1343,
+   "speaker": "Marco",
+   "text": "Yes, I'll do that by next Wednesday."
+  },
+  {
+   "t": 1348,
+   "speaker": "Tom",
+   "text": "Let me check my notes, I think this came up in the last retro too."
+  },
+  {
+   "t": 1355,
+   "speaker": "Tom",
+   "text": "We need to be careful with the wording towards customers."
+  },
+  {
+   "t": 1361,
+   "speaker": "Lena",
+   "text": "I would like to see a rough estimate before we go further."
+  },
+  {
+   "t": 1368,
+   "speaker": "Tom",
+   "text": "I would like to see a rough estimate before we go further."
+  },
+  {
+   "t": 1374,
+   "speaker": "Lena",
+   "text": "Coffee break soon? We've been going for a while."
+  },
+  {
+   "t": 1379,
+   "speaker": "Priya",
+   "text": "Sure, one moment, let me find the right window."
+  },
+  {
+   "t": 1385,
+   "speaker": "Lena",
+   "text": "I don't have a strong opinion on this one."
+  },
+  {
+   "t": 1390,
+   "speaker": "Tom",
+   "text": "Does anyone have the link to the planning document?"
+  },
+  {
+   "t": 1395,
+   "speaker": "Marco",
+   "text": "Sure, one moment, let me find the right window."
+  },
+  {
+   "t": 1400,
+   "speaker": "Priya",
+   "text": "Can you share your screen for a second?"
+  },
+  {
+   "t": 1405,
+   "speaker": "Lena",
+   "text": "I would like to see a rough estimate before we go further."
+  },
+  {
+   "t": 1412,
+   "speaker": "Marco",
+   "text": "Let's not go down that rabbit hole right now."
+  },
+  {
+   "t": 1417,
+   "speaker": "Marco",
+   "text": "I agree with the direction, I'm just worried about the effort."
+  },
+  {
+   "t": 1423,
+   "speaker": "Tom",
+   "text": "We discussed this with the customer success team last week."
+  },
+  {
+   "t": 1429,
+   "speaker": "Tom",
+   "text": "Sorry, I was on mute."
+  },
+  {
+   "t": 1432,
+   "speaker": "Tom",
+   "text": "The metrics dashboard was down this morning, so these numbers are from yesterday."
+  },
+  {
+   "t": 1439,
+   "speaker": "Priya",
+   "text": "I talked to the design team yesterday and they had a few concerns."
+  },
+  {
+   "t": 1446,
+   "speaker": "Marco",
+   "text": "The main risk is still the timeline, honestly."
+  },
+  {
+   "t": 1451,
+   "speaker": "Marco",
+   "text": "The main risk is still the timeline, honestly."
+  },
+  {
+   "t": 1456,
+   "speaker": "Lena",
+   "text": "The documentation for this is pretty outdated, by the way."
+  },
+  {
+   "t": 1461,
+   "speaker": "Marco",
+   "text": "I talked to the design team yesterday and they had a few concerns."
+  },
+  {
+   "t": 1468,
+   "speaker": "Tom",
+   "text": "There's also a dependency on the platform team that we shouldn't forget."
+  },
+  {
+   "t": 1475,
+   "speaker": "Tom",
+   "text": "We need to be careful with the wording towards customers."
+  },
+  {
+   "t": 1481,
+   "speaker": "Marco",
+   "text": "I'll be out on Friday afternoon, just so you know."
+  },
+  {
+   "t": 1486,
+   "speaker": "Tom",
+   "text": "Uh-huh."
+  },
+  {
+   "t": 1488,
+   "speaker": "Marco",
+   "text": "I agree with the direction, I'm just worried about the effort."
+  },
+  {
+   "t": 1494,
+   "speaker": "Tom",
+   "text": "I'll be out on Friday afternoon, just so you know."
+  },
+  {
+   "t": 1500,
+   "speaker": "Marco",
+   "text": "Does anyone have the link to the planning document?"
+  },
+  {
+   "t": 1505,
+   "speaker": "Tom",
+   "text": "We discussed this with the customer success team last week."
+  },
+  {
+   "t": 1511,
+   "speaker": "Marco",
+   "text": "Coffee break soon? We've been going for a while."
+  },
+  {
+   "t": 1516,
+   "speaker": "Priya",
+   "text": "I'll be out on Friday afternoon, just so you know."
+  },
+  {
+   "t": 1522,
+   "speaker": "Lena",
+   "text": "Next item: the Lisbon office move."
+  },
+  {
+   "t": 1526,
+   "speaker": "Lena",
+   "text": "The Lisbon lease ends on the 30th of January."
+  },
+  {
+   "t": 1531,
+   "speaker": "Lena",
+   "text": "Mhm."
+  },
+  {
+   "t": 1533,
+   "speaker": "Priya",
+   "text": "We discussed this with the customer success team last week."
+  },
+  {
+   "t": 1539,
+   "speaker": "Lena",
+   "text": "Does anyone have the link to the planning document?"
+  },
+  {
+   "t": 1544,
+   "speaker": "Lena",
+   "text": "The last time we estimated this, it took twice as long as planned."
+  },
+  {
+   "t": 1551,
+   "speaker": "Lena",
+   "text": "I saw a competitor launch something like this last month."
+  },
+  {
+   "t": 1556,
+   "speaker": "Tom",
+   "text": "Let me check my notes, I think this came up in the last retro too."
+  },
+  {
+   "t": 1564,
+   "speaker": "Tom",
+   "text": "The last time we estimated this, it took twice as long as planned."
+  },
+  {
+   "t": 1571,
+   "speaker": "Tom",
+   "text": "The new space has 22 desks."
+  },
+  {
+   "t": 1575,
+   "speaker": "Priya",
+   "text": "Maybe we should keep both offices for a while?"
+  },
+  {
+   "t": 1580,
+   "speaker": "Marco",
+   "text": "That doubles the rent, so no."
+  },
+  {
+   "t": 1584,
+   "speaker": "Lena",
+   "text": "Hmm."
+  },
+  {
+   "t": 1586,
+   "speaker": "Marco",
+   "text": "From the support side, this is one of the top complaints."
+  },
+  {
+   "t": 1592,
+   "speaker": "Priya",
+   "text": "The metrics dashboard was down this morning, so these numbers are from yesterday."
+  },
+  {
+   "t": 1599,
+   "speaker": "Lena",
+   "text": "There's also a dependency on the platform team that we shouldn't forget."
+  },
+  {
+   "t": 1606,
+   "speaker": "Tom",
+   "text": "Mhm."
+  },
+  {
+   "t": 1608,
+   "speaker": "Tom",
+   "text": "We discussed this with the customer success team last week."
+  },
+  {
+   "t": 1613,
+   "speaker": "Tom",
+   "text": "From an engineering point of view it's not that hard."
+  },
+  {
+   "t": 1619,
+   "speaker": "Priya",
+   "text": "From the support side, this is one of the top complaints."
+  },
+  {
+   "t": 1625,
+   "speaker": "Lena",
+   "text": "We tried something similar two years ago and it didn't go well."
+  },
+  {
+   "t": 1632,
+   "speaker": "Tom",
+   "text": "We need to be careful with the wording towards customers."
+  },
+  {
+   "t": 1637,
+   "speaker": "Tom",
+   "text": "Honestly I think the team can handle it if we cut scope a bit."
+  },
+  {
+   "t": 1645,
+   "speaker": "Marco",
+   "text": "The documentation for this is pretty outdated, by the way."
+  },
+  {
+   "t": 1650,
+   "speaker": "Lena",
+   "text": "We tried something similar two years ago and it didn't go well."
+  },
+  {
+   "t": 1657,
+   "speaker": "Tom",
+   "text": "We should loop in finance before we commit to anything expensive."
+  },
+  {
+   "t": 1663,
+   "speaker": "Lena",
+   "text": "There's also a dependency on the platform team that we shouldn't forget."
+  },
+  {
+   "t": 1669,
+   "speaker": "Lena",
+   "text": "Let's finish this topic first and then take five minutes."
+  },
+  {
+   "t": 1675,
+   "speaker": "Priya",
+   "text": "There's also a dependency on the platform team that we shouldn't forget."
+  },
+  {
+   "t": 1682,
+   "speaker": "Priya",
+   "text": "Mhm."
+  },
+  {
+   "t": 1683,
+   "speaker": "Tom",
+   "text": "Hmm."
+  },
+  {
+   "t": 1685,
+   "speaker": "Marco",
+   "text": "We need to be careful with the wording towards customers."
+  },
+  {
+   "t": 1691,
+   "speaker": "Priya",
+   "text": "Thanks, got it."
+  },
+  {
+   "t": 1694,
+   "speaker": "Lena",
+   "text": "Right."
+  },
+  {
+   "t": 1696,
+   "speaker": "Tom",
+   "text": "Let's not go down that rabbit hole right now."
+  },
+  {
+   "t": 1701,
+   "speaker": "Lena",
+   "text": "Fine, we sign the lease for the Alcântara space in Lisbon."
+  },
+  {
+   "t": 1707,
+   "speaker": "Marco",
+   "text": "Yes, that works for me."
+  },
+  {
+   "t": 1711,
+   "speaker": "Marco",
+   "text": "Priya, can you get three quotes from moving companies? Ideally by December 5."
+  },
+  {
+   "t": 1718,
+   "speaker": "Priya",
+   "text": "Yes, I'll do that by December 5."
+  },
+  {
+   "t": 1722,
+   "speaker": "Lena",
+   "text": "Sorry, I was on mute."
+  },
+  {
+   "t": 1726,
+   "speaker": "Lena",
+   "text": "That's a fair point, but customers haven't really complained about it."
+  },
+  {
+   "t": 1732,
+   "speaker": "Priya",
+   "text": "I looked at the numbers again and they're roughly where we expected."
+  },
+  {
+   "t": 1738,
+   "speaker": "Tom",
+   "text": "Sure, one moment, let me find the right window."
+  },
+  {
+   "t": 1743,
+   "speaker": "Tom",
+   "text": "Let's keep an eye on it and revisit if it gets worse."
+  },
+  {
+   "t": 1750,
+   "speaker": "Lena",
+   "text": "Coffee break soon? We've been going for a while."
+  },
+  {
+   "t": 1755,
+   "speaker": "Marco",
+   "text": "Hmm."
+  },
+  {
+   "t": 1757,
+   "speaker": "Tom",
+   "text": "Right."
+  },
+  {
+   "t": 1759,
+   "speaker": "Marco",
+   "text": "I looked at the numbers again and they're roughly where we expected."
+  },
+  {
+   "t": 1765,
+   "speaker": "Marco",
+   "text": "Could you repeat that? Your audio cut out for a moment."
+  },
+  {
+   "t": 1772,
+   "speaker": "Marco",
+   "text": "We tried something similar two years ago and it didn't go well."
+  },
+  {
+   "t": 1778,
+   "speaker": "Marco",
+   "text": "Right."
+  },
+  {
+   "t": 1780,
+   "speaker": "Tom",
+   "text": "Let me check my notes, I think this came up in the last retro too."
+  },
+  {
+   "t": 1788,
+   "speaker": "Priya",
+   "text": "The main risk is still the timeline, honestly."
+  },
+  {
+   "t": 1793,
+   "speaker": "Marco",
+   "text": "Mhm."
+  },
+  {
+   "t": 1794,
+   "speaker": "Priya",
+   "text": "I just dropped it in the chat."
+  },
+  {
+   "t": 1799,
+   "speaker": "Marco",
+   "text": "Sure, one moment, let me find the right window."
+  },
+  {
+   "t": 1804,
+   "speaker": "Marco",
+   "text": "Uh-huh."
+  },
+  {
+   "t": 1806,
+   "speaker": "Lena",
+   "text": "The last time we estimated this, it took twice as long as planned."
+  },
+  {
+   "t": 1813,
+   "speaker": "Lena",
+   "text": "I don't have a strong opinion on this one."
+  },
+  {
+   "t": 1818,
+   "speaker": "Tom",
+   "text": "Let's not go down that rabbit hole right now."
+  },
+  {
+   "t": 1823,
+   "speaker": "Tom",
+   "text": "Uh-huh."
+  },
+  {
+   "t": 1825,
+   "speaker": "Priya",
+   "text": "We discussed this with the customer success team last week."
+  },
+  {
+   "t": 1831,
+   "speaker": "Tom",
+   "text": "Coffee break soon? We've been going for a while."
+  },
+  {
+   "t": 1836,
+   "speaker": "Priya",
+   "text": "Sorry, I was on mute."
+  },
+  {
+   "t": 1840,
+   "speaker": "Priya",
+   "text": "Could you repeat that? Your audio cut out for a moment."
+  },
+  {
+   "t": 1846,
+   "speaker": "Priya",
+   "text": "From the support side, this is one of the top complaints."
+  },
+  {
+   "t": 1852,
+   "speaker": "Marco",
+   "text": "Sorry, I was on mute."
+  },
+  {
+   "t": 1856,
+   "speaker": "Tom",
+   "text": "Mhm."
+  },
+  {
+   "t": 1858,
+   "speaker": "Lena",
+   "text": "Could you repeat that? Your audio cut out for a moment."
+  },
+  {
+   "t": 1864,
+   "speaker": "Lena",
+   "text": "From the support side, this is one of the top complaints."
+  },
+  {
+   "t": 1870,
+   "speaker": "Priya",
+   "text": "Does anyone have the link to the planning document?"
+  },
+  {
+   "t": 1875,
+   "speaker": "Tom",
+   "text": "Mm-hm."
+  },
+  {
+   "t": 1877,
+   "speaker": "Priya",
+   "text": "I agree with the direction, I'm just worried about the effort."
+  },
+  {
+   "t": 1883,
+   "speaker": "Priya",
+   "text": "Does anyone have the link to the planning document?"
+  },
+  {
+   "t": 1888,
+   "speaker": "Priya",
+   "text": "We need to be careful with the wording towards customers."
+  },
+  {
+   "t": 1894,
+   "speaker": "Priya",
+   "text": "My gut feeling is that we're overthinking this one."
+  },
+  {
+   "t": 1899,
+   "speaker": "Marco",
+   "text": "Okay, let's move on to the Orion API migration."
+  },
+  {
+   "t": 1904,
+   "speaker": "Marco",
+   "text": "Uh-huh."
+  },
+  {
+   "t": 1906,
+   "speaker": "Tom",
+   "text": "The documentation for this is pretty outdated, by the way."
+  },
+  {
+   "t": 1912,
+   "speaker": "Lena",
+   "text": "Can you share your screen for a second?"
+  },
+  {
+   "t": 1917,
+   "speaker": "Priya",
+   "text": "Let's finish this topic first and then take five minutes."
+  },
+  {
+   "t": 1922,
+   "speaker": "Tom",
+   "text": "Hmm."
+  },
+  {
+   "t": 1924,
+   "speaker": "Priya",
+   "text": "Sure, one moment, let me find the right window."
+  },
+  {
+   "t": 1930,
+   "speaker": "Tom",
+   "text": "Can you share your screen for a second?"
+  },
+  {
+   "t": 1934,
+   "speaker": "Tom",
+   "text": "This affects the mobile app as well, not just the web."
+  },
+  {
+   "t": 1941,
+   "speaker": "Lena",
+   "text": "Does anyone have the link to the planning document?"
+  },
+  {
+   "t": 1946,
+   "speaker": "Priya",
+   "text": "From an engineering point of view it's not that hard."
+  },
+  {
+   "t": 1951,
+   "speaker": "Lena",
+   "text": "Does anyone have the link to the planning document?"
+  },
+  {
+   "t": 1957,
+   "speaker": "Priya",
+   "text": "I'm not sure the data supports that yet."
+  },
+  {
+   "t": 1962,
+   "speaker": "Lena",
+   "text": "Does anyone have the link to the planning document?"
+  },
+  {
+   "t": 1967,
+   "speaker": "Lena",
+   "text": "We tried something similar two years ago and it didn't go well."
+  },
+  {
+   "t": 1973,
+   "speaker": "Priya",
+   "text": "This affects the mobile app as well, not just the web."
+  },
+  {
+   "t": 1979,
+   "speaker": "Marco",
+   "text": "Orion v1 still serves about 9 percent of API traffic."
+  },
+  {
+   "t": 1985,
+   "speaker": "Priya",
+   "text": "Mm-hm."
+  },
+  {
+   "t": 1987,
+   "speaker": "Tom",
+   "text": "Seventeen integrations call the deprecated endpoints."
+  },
+  {
+   "t": 1991,
+   "speaker": "Priya",
+   "text": "Should we charge customers who stay on v1?"
+  },
+  {
+   "t": 1996,
+   "speaker": "Tom",
+   "text": "No, that would only cause friction."
+  },
+  {
+   "t": 2000,
+   "speaker": "Tom",
+   "text": "I agree with the direction, I'm just worried about the effort."
+  },
+  {
+   "t": 2006,
+   "speaker": "Tom",
+   "text": "That's a fair point, but customers haven't really complained about it."
+  },
+  {
+   "t": 2012,
+   "speaker": "Priya",
+   "text": "We tried something similar two years ago and it didn't go well."
+  },
+  {
+   "t": 2018,
+   "speaker": "Lena",
+   "text": "Sorry, I was on mute."
+  },
+  {
+   "t": 2022,
+   "speaker": "Tom",
+   "text": "I think we should keep it simple for the first version."
+  },
+  {
+   "t": 2028,
+   "speaker": "Tom",
+   "text": "Uh-huh."
+  },
+  {
+   "t": 2030,
+   "speaker": "Tom",
+   "text": "Right."
+  },
+  {
+   "t": 2032,
+   "speaker": "Marco",
+   "text": "I just dropped it in the chat."
+  },
+  {
+   "t": 2036,
+   "speaker": "Marco",
+   "text": "Decided: Orion v1 is switched off on the 1st of February."
+  },
+  {
+   "t": 2042,
+   "speaker": "Tom",
+   "text": "Fine by me."
+  },
+  {
+   "t": 2045,
+   "speaker": "Marco",
+   "text": "Tom, can you email the seventeen integration owners about Orion by tomorrow?"
+  },
+  {
+   "t": 2052,
+   "speaker": "Tom",
+   "text": "Okay, I'll take it, tomorrow works."
+  },
+  {
+   "t": 2056,
+   "speaker": "Lena",
+   "text": "I think we should keep it simple for the first version."
+  },
+  {
+   "t": 2062,
+   "speaker": "Lena",
+   "text": "Let's not go down that rabbit hole right now."
+  },
+  {
+   "t": 2067,
+   "speaker": "Tom",
+   "text": "Let's not go down that rabbit hole right now."
+  },
+  {
+   "t": 2072,
+   "speaker": "Priya",
+   "text": "Let me check my notes, I think this came up in the last retro too."
+  },
+  {
+   "t": 2080,
+   "speaker": "Priya",
+   "text": "We should loop in finance before we commit to anything expensive."
+  },
+  {
+   "t": 2086,
+   "speaker": "Lena",
+   "text": "Thanks, got it."
+  },
+  {
+   "t": 2089,
+   "speaker": "Lena",
+   "text": "Mm-hm."
+  },
+  {
+   "t": 2091,
+   "speaker": "Marco",
+   "text": "From an engineering point of view it's not that hard."
+  },
+  {
+   "t": 2096,
+   "speaker": "Marco",
+   "text": "I think we should keep it simple for the first version."
+  },
+  {
+   "t": 2103,
+   "speaker": "Tom",
+   "text": "Let's keep an eye on it and revisit if it gets worse."
+  },
+  {
+   "t": 2109,
+   "speaker": "Marco",
+   "text": "We discussed this with the customer success team last week."
+  },
+  {
+   "t": 2115,
+   "speaker": "Priya",
+   "text": "My gut feeling is that we're overthinking this one."
+  },
+  {
+   "t": 2120,
+   "speaker": "Priya",
+   "text": "We tried something similar two years ago and it didn't go well."
+  },
+  {
+   "t": 2126,
+   "speaker": "Priya",
+   "text": "We need to be careful with the wording towards customers."
+  },
+  {
+   "t": 2132,
+   "speaker": "Marco",
+   "text": "The documentation for this is pretty outdated, by the way."
+  },
+  {
+   "t": 2138,
+   "speaker": "Priya",
+   "text": "This affects the mobile app as well, not just the web."
+  },
+  {
+   "t": 2144,
+   "speaker": "Marco",
+   "text": "I don't have a strong opinion on this one."
+  },
+  {
+   "t": 2149,
+   "speaker": "Tom",
+   "text": "Let me check my notes, I think this came up in the last retro too."
+  },
+  {
+   "t": 2157,
+   "speaker": "Tom",
+   "text": "Mm-hm."
+  },
+  {
+   "t": 2159,
+   "speaker": "Marco",
+   "text": "Let's not go down that rabbit hole right now."
+  },
+  {
+   "t": 2164,
+   "speaker": "Tom",
+   "text": "Let's not go down that rabbit hole right now."
+  },
+  {
+   "t": 2169,
+   "speaker": "Marco",
+   "text": "Can you share your screen for a second?"
+  },
+  {
+   "t": 2174,
+   "speaker": "Marco",
+   "text": "I just dropped it in the chat."
+  },
+  {
+   "t": 2179,
+   "speaker": "Priya",
+   "text": "Uh-huh."
+  },
+  {
+   "t": 2180,
+   "speaker": "Lena",
+   "text": "I saw a competitor launch something like this last month."
+  },
+  {
+   "t": 2186,
+   "speaker": "Tom",
+   "text": "My gut feeling is that we're overthinking this one."
+  },
+  {
+   "t": 2191,
+   "speaker": "Marco",
+   "text": "Right."
+  },
+  {
+   "t": 2193,
+   "speaker": "Marco",
+   "text": "I agree with the direction, I'm just worried about the effort."
+  },
+  {
+   "t": 2199,
+   "speaker": "Marco",
+   "text": "Does anyone have the link to the planning document?"
+  },
+  {
+   "t": 2205,
+   "speaker": "Tom",
+   "text": "Mm-hm."
+  },
+  {
+   "t": 2206,
+   "speaker": "Marco",
+   "text": "This affects the mobile app as well, not just the web."
+  },
+  {
+   "t": 2213,
+   "speaker": "Priya",
+   "text": "I would like to see a rough estimate before we go further."
+  },
+  {
+   "t": 2219,
+   "speaker": "Tom",
+   "text": "Mm-hm."
+  },
+  {
+   "t": 2221,
+   "speaker": "Priya",
+   "text": "Could you repeat that? Your audio cut out for a moment."
+  },
+  {
+   "t": 2227,
+   "speaker": "Tom",
+   "text": "The metrics dashboard was down this morning, so these numbers are from yesterday."
+  },
+  {
+   "t": 2234,
+   "speaker": "Tom",
+   "text": "From an engineering point of view it's not that hard."
+  },
+  {
+   "t": 2240,
+   "speaker": "Marco",
+   "text": "Let's keep an eye on it and revisit if it gets worse."
+  },
+  {
+   "t": 2246,
+   "speaker": "Priya",
+   "text": "Hmm."
+  },
+  {
+   "t": 2248,
+   "speaker": "Priya",
+   "text": "I'm not sure the data supports that yet."
+  },
+  {
+   "t": 2253,
+   "speaker": "Marco",
+   "text": "Mm-hm."
+  },
+  {
+   "t": 2255,
+   "speaker": "Marco",
+   "text": "Let's keep an eye on it and revisit if it gets worse."
+  },
+  {
+   "t": 2261,
+   "speaker": "Priya",
+   "text": "I would like to see a rough estimate before we go further."
+  },
+  {
+   "t": 2268,
+   "speaker": "Marco",
+   "text": "We need to be careful with the wording towards customers."
+  },
+  {
+   "t": 2273,
+   "speaker": "Priya",
+   "text": "Next item: the customer survey results."
+  },
+  {
+   "t": 2277,
+   "speaker": "Tom",
+   "text": "We got 412 responses to the survey."
+  },
+  {
+   "t": 2282,
+   "speaker": "Tom",
+   "text": "We need to be careful with the wording towards customers."
+  },
+  {
+   "t": 2288,
+   "speaker": "Marco",
+   "text": "Could you repeat that? Your audio cut out for a moment."
+  },
+  {
+   "t": 2294,
+   "speaker": "Tom",
+   "text": "Sorry, I was on mute."
+  },
+  {
+   "t": 2297,
+   "speaker": "Marco",
+   "text": "Let's not go down that rabbit hole right now."
+  },
+  {
+   "t": 2302,
+   "speaker": "Marco",
+   "text": "I don't have a strong opinion on this one."
+  },
+  {
+   "t": 2308,
+   "speaker": "Marco",
+   "text": "We discussed this with the customer success team last week."
+  },
+  {
+   "t": 2313,
+   "speaker": "Priya",
+   "text": "Let's finish this topic first and then take five minutes."
+  },
+  {
+   "t": 2319,
+   "speaker": "Tom",
+   "text": "Mhm."
+  },
+  {
+   "t": 2321,
+   "speaker": "Marco",
+   "text": "From the support side, this is one of the top complaints."
+  },
+  {
+   "t": 2327,
+   "speaker": "Lena",
+   "text": "Mm-hm."
+  },
+  {
+   "t": 2329,
+   "speaker": "Priya",
+   "text": "Let's finish this topic first and then take five minutes."
+  },
+  {
+   "t": 2335,
+   "speaker": "Tom",
+   "text": "Sure, one moment, let me find the right window."
+  },
+  {
+   "t": 2340,
+   "speaker": "Marco",
+   "text": "Let's not go down that rabbit hole right now."
+  },
+  {
+   "t": 2345,
+   "speaker": "Marco",
+   "text": "That's a fair point, but customers haven't really complained about it."
+  },
+  {
+   "t": 2351,
+   "speaker": "Priya",
+   "text": "Let's keep an eye on it and revisit if it gets worse."
+  },
+  {
+   "t": 2358,
+   "speaker": "Priya",
+   "text": "Honestly I think the team can handle it if we cut scope a bit."
+  },
+  {
+   "t": 2365,
+   "speaker": "Priya",
+   "text": "Could you repeat that? Your audio cut out for a moment."
+  },
+  {
+   "t": 2371,
+   "speaker": "Marco",
+   "text": "Search was the most requested feature, mentioned 133 times."
+  },
+  {
+   "t": 2376,
+   "speaker": "Priya",
+   "text": "The last time we estimated this, it took twice as long as planned."
+  },
+  {
+   "t": 2383,
+   "speaker": "Priya",
+   "text": "Do we want to run a second survey in Spanish?"
+  },
+  {
+   "t": 2389,
+   "speaker": "Tom",
+   "text": "Maybe later in the year, not now."
+  },
+  {
+   "t": 2393,
+   "speaker": "Lena",
+   "text": "Let me check my notes, I think this came up in the last retro too."
+  },
+  {
+   "t": 2401,
+   "speaker": "Lena",
+   "text": "We tried something similar two years ago and it didn't go well."
+  },
+  {
+   "t": 2408,
+   "speaker": "Priya",
+   "text": "We discussed this with the customer success team last week."
+  },
+  {
+   "t": 2413,
+   "speaker": "Marco",
+   "text": "Let's not go down that rabbit hole right now."
+  },
+  {
+   "t": 2419,
+   "speaker": "Priya",
+   "text": "Hmm."
+  },
+  {
+   "t": 2420,
+   "speaker": "Priya",
+   "text": "So the decision is that search goes on the roadmap ahead of offline mode."
+  },
+  {
+   "t": 2428,
+   "speaker": "Marco",
+   "text": "Okay, agreed."
+  },
+  {
+   "t": 2430,
+   "speaker": "Tom",
+   "text": "From an engineering point of view it's not that hard."
+  },
+  {
+   "t": 2436,
+   "speaker": "Priya",
+   "text": "This affects the mobile app as well, not just the web."
+  },
+  {
+   "t": 2442,
+   "speaker": "Tom",
+   "text": "There's also a dependency on the platform team that we shouldn't forget."
+  },
+  {
+   "t": 2448,
+   "speaker": "Marco",
+   "text": "Mhm."
+  },
+  {
+   "t": 2450,
+   "speaker": "Marco",
+   "text": "I looked at the numbers again and they're roughly where we expected."
+  },
+  {
+   "t": 2457,
+   "speaker": "Marco",
+   "text": "We tried something similar two years ago and it didn't go well."
+  },
+  {
+   "t": 2463,
+   "speaker": "Priya",
+   "text": "Does anyone have the link to the planning document?"
+  },
+  {
+   "t": 2469,
+   "speaker": "Tom",
+   "text": "Lena, can you write a one-page summary of the survey for the board? Ideally by Tuesday."
+  },
+  {
+   "t": 2477,
+   "speaker": "Lena",
+   "text": "Yes, I'll do that by Tuesday."
+  },
+  {
+   "t": 2481,
+   "speaker": "Lena",
+   "text": "Right."
+  },
+  {
+   "t": 2483,
+   "speaker": "Marco",
+   "text": "I'll be out on Friday afternoon, just so you know."
+  },
+  {
+   "t": 2488,
+   "speaker": "Marco",
+   "text": "Uh-huh."
+  },
+  {
+   "t": 2490,
+   "speaker": "Lena",
+   "text": "I think we should keep it simple for the first version."
+  },
+  {
+   "t": 2496,
+   "speaker": "Lena",
+   "text": "We tried something similar two years ago and it didn't go well."
+  },
+  {
+   "t": 2503,
+   "speaker": "Tom",
+   "text": "Mhm."
+  },
+  {
+   "t": 2505,
+   "speaker": "Tom",
+   "text": "Let's finish this topic first and then take five minutes."
+  },
+  {
+   "t": 2510,
+   "speaker": "Lena",
+   "text": "I looked at the numbers again and they're roughly where we expected."
+  },
+  {
+   "t": 2517,
+   "speaker": "Marco",
+   "text": "The metrics dashboard was down this morning, so these numbers are from yesterday."
+  },
+  {
+   "t": 2524,
+   "speaker": "Priya",
+   "text": "Uh-huh."
+  },
+  {
+   "t": 2526,
+   "speaker": "Lena",
+   "text": "Does anyone have the link to the planning document?"
+  },
+  {
+   "t": 2531,
+   "speaker": "Tom",
+   "text": "Right."
+  },
+  {
+   "t": 2533,
+   "speaker": "Tom",
+   "text": "Mm-hm."
+  },
+  {
+   "t": 2535,
+   "speaker": "Marco",
+   "text": "Let's not go down that rabbit hole right now."
+  },
+  {
+   "t": 2540,
+   "speaker": "Lena",
+   "text": "The last time we estimated this, it took twice as long as planned."
+  },
+  {
+   "t": 2547,
+   "speaker": "Marco",
+   "text": "We should loop in finance before we commit to anything expensive."
+  },
+  {
+   "t": 2553,
+   "speaker": "Tom",
+   "text": "Let me check my notes, I think this came up in the last retro too."
+  },
+  {
+   "t": 2561,
+   "speaker": "Marco",
+   "text": "That's a fair point, but customers haven't really complained about it."
+  },
+  {
+   "t": 2567,
+   "speaker": "Tom",
+   "text": "The main risk is still the timeline, honestly."
+  },
+  {
+   "t": 2572,
+   "speaker": "Marco",
+   "text": "Uh-huh."
+  },
+  {
+   "t": 2574,
+   "speaker": "Priya",
+   "text": "From an engineering point of view it's not that hard."
+  },
+  {
+   "t": 2579,
+   "speaker": "Marco",
+   "text": "I just dropped it in the chat."
+  },
+  {
+   "t": 2584,
+   "speaker": "Priya",
+   "text": "This affects the mobile app as well, not just the web."
+  },
+  {
+   "t": 2590,
+   "speaker": "Tom",
+   "text": "Could you repeat that? Your audio cut out for a moment."
+  },
+  {
+   "t": 2596,
+   "speaker": "Priya",
+   "text": "Let me check my notes, I think this came up in the last retro too."
+  },
+  {
+   "t": 2604,
+   "speaker": "Tom",
+   "text": "I'm not sure the data supports that yet."
+  },
+  {
+   "t": 2608,
+   "speaker": "Marco",
+   "text": "My gut feeling is that we're overthinking this one."
+  },
+  {
+   "t": 2614,
+   "speaker": "Priya",
+   "text": "The documentation for this is pretty outdated, by the way."
+  },
+  {
+   "t": 2619,
+   "speaker": "Lena",
+   "text": "Hmm."
+  },
+  {
+   "t": 2621,
+   "speaker": "Tom",
+   "text": "The last time we estimated this, it took twice as long as planned."
+  },
+  {
+   "t": 2628,
+   "speaker": "Tom",
+   "text": "Mhm."
+  },
+  {
+   "t": 2630,
+   "speaker": "Tom",
+   "text": "Can you share your screen for a second?"
+  },
+  {
+   "t": 2635,
+   "speaker": "Priya",
+   "text": "Can you share your screen for a second?"
+  },
+  {
+   "t": 2640,
+   "speaker": "Tom",
+   "text": "My gut feeling is that we're overthinking this one."
+  },
+  {
+   "t": 2645,
+   "speaker": "Tom",
+   "text": "Let's look at the Bramble mobile release now."
+  },
+  {
+   "t": 2650,
+   "speaker": "Marco",
+   "text": "Hmm."
+  },
+  {
+   "t": 2652,
+   "speaker": "Priya",
+   "text": "I think we should keep it simple for the first version."
+  },
+  {
+   "t": 2658,
+   "speaker": "Lena",
+   "text": "Bramble 3.2 has 41 open bugs, 6 of them critical."
+  },
+  {
+   "t": 2664,
+   "speaker": "Tom",
+   "text": "Does anyone have the link to the planning document?"
+  },
+  {
+   "t": 2669,
+   "speaker": "Priya",
+   "text": "The metrics dashboard was down this morning, so these numbers are from yesterday."
+  },
+  {
+   "t": 2676,
+   "speaker": "Tom",
+   "text": "App store review usually takes two days."
+  },
+  {
+   "t": 2680,
+   "speaker": "Lena",
+   "text": "I saw a competitor launch something like this last month."
+  },
+  {
+   "t": 2686,
+   "speaker": "Priya",
+   "text": "Could we ship Bramble 3.2 without the tablet layout?"
+  },
+  {
+   "t": 2691,
+   "speaker": "Marco",
+   "text": "No, the tablet layout is half the release."
+  },
+  {
+   "t": 2696,
+   "speaker": "Tom",
+   "text": "Honestly I think the team can handle it if we cut scope a bit."
+  },
+  {
+   "t": 2703,
+   "speaker": "Priya",
+   "text": "I agree with the direction, I'm just worried about the effort."
+  },
+  {
+   "t": 2709,
+   "speaker": "Tom",
+   "text": "Uh-huh."
+  },
+  {
+   "t": 2711,
+   "speaker": "Marco",
+   "text": "Let's keep an eye on it and revisit if it gets worse."
+  },
+  {
+   "t": 2718,
+   "speaker": "Tom",
+   "text": "We agree to delay Bramble 3.2 by one week to fix the critical bugs."
+  },
+  {
+   "t": 2725,
+   "speaker": "Priya",
+   "text": "Agreed."
+  },
+  {
+   "t": 2727,
+   "speaker": "Tom",
+   "text": "Can you share your screen for a second?"
+  },
+  {
+   "t": 2732,
+   "speaker": "Priya",
+   "text": "Could you repeat that? Your audio cut out for a moment."
+  },
+  {
+   "t": 2738,
+   "speaker": "Tom",
+   "text": "Marco, can you triage the six critical Bramble bugs by today?"
+  },
+  {
+   "t": 2744,
+   "speaker": "Marco",
+   "text": "Okay, I'll take it, today works."
+  },
+  {
+   "t": 2748,
+   "speaker": "Tom",
+   "text": "This affects the mobile app as well, not just the web."
+  },
+  {
+   "t": 2754,
+   "speaker": "Tom",
+   "text": "I saw a competitor launch something like this last month."
+  },
+  {
+   "t": 2760,
+   "speaker": "Priya",
+   "text": "I talked to the design team yesterday and they had a few concerns."
+  },
+  {
+   "t": 2767,
+   "speaker": "Priya",
+   "text": "Thanks, got it."
+  },
+  {
+   "t": 2769,
+   "speaker": "Priya",
+   "text": "Thanks, got it."
+  },
+  {
+   "t": 2772,
+   "speaker": "Marco",
+   "text": "We tried something similar two years ago and it didn't go well."
+  },
+  {
+   "t": 2779,
+   "speaker": "Tom",
+   "text": "The main risk is still the timeline, honestly."
+  },
+  {
+   "t": 2783,
+   "speaker": "Tom",
+   "text": "Let me check my notes, I think this came up in the last retro too."
+  },
+  {
+   "t": 2791,
+   "speaker": "Tom",
+   "text": "I just dropped it in the chat."
+  },
+  {
+   "t": 2796,
+   "speaker": "Marco",
+   "text": "Priya, will you tell the support team about the new Bramble date? Ideally by Monday."
+  },
+  {
+   "t": 2803,
+   "speaker": "Priya",
+   "text": "Yes, I'll do that by Monday."
+  },
+  {
+   "t": 2807,
+   "speaker": "Lena",
+   "text": "From the support side, this is one of the top complaints."
+  },
+  {
+   "t": 2813,
+   "speaker": "Marco",
+   "text": "Let me check my notes, I think this came up in the last retro too."
+  },
+  {
+   "t": 2821,
+   "speaker": "Lena",
+   "text": "From an engineering point of view it's not that hard."
+  },
+  {
+   "t": 2827,
+   "speaker": "Marco",
+   "text": "Mm-hm."
+  },
+  {
+   "t": 2829,
+   "speaker": "Marco",
+   "text": "I'll be out on Friday afternoon, just so you know."
+  },
+  {
+   "t": 2834,
+   "speaker": "Marco",
+   "text": "This affects the mobile app as well, not just the web."
+  },
+  {
+   "t": 2841,
+   "speaker": "Tom",
+   "text": "Hmm."
+  },
+  {
+   "t": 2842,
+   "speaker": "Lena",
+   "text": "I would like to see a rough estimate before we go further."
+  },
+  {
+   "t": 2849,
+   "speaker": "Priya",
+   "text": "The main risk is still the timeline, honestly."
+  },
+  {
+   "t": 2854,
+   "speaker": "Marco",
+   "text": "I just dropped it in the chat."
+  },
+  {
+   "t": 2858,
+   "speaker": "Marco",
+   "text": "I'll be out on Friday afternoon, just so you know."
+  },
+  {
+   "t": 2864,
+   "speaker": "Marco",
+   "text": "Hmm."
+  },
+  {
+   "t": 2866,
+   "speaker": "Marco",
+   "text": "I saw a competitor launch something like this last month."
+  },
+  {
+   "t": 2871,
+   "speaker": "Priya",
+   "text": "I think we should keep it simple for the first version."
+  },
+  {
+   "t": 2878,
+   "speaker": "Marco",
+   "text": "I agree with the direction, I'm just worried about the effort."
+  },
+  {
+   "t": 2884,
+   "speaker": "Lena",
+   "text": "Thanks, got it."
+  },
+  {
+   "t": 2886,
+   "speaker": "Marco",
+   "text": "My gut feeling is that we're overthinking this one."
+  },
+  {
+   "t": 2892,
+   "speaker": "Lena",
+   "text": "There's also a dependency on the platform team that we shouldn't forget."
+  },
+  {
+   "t": 2898,
+   "speaker": "Marco",
+   "text": "We need to be careful with the wording towards customers."
+  },
+  {
+   "t": 2904,
+   "speaker": "Marco",
+   "text": "We need to be careful with the wording towards customers."
+  },
+  {
+   "t": 2909,
+   "speaker": "Lena",
+   "text": "Let's finish this topic first and then take five minutes."
+  },
+  {
+   "t": 2915,
+   "speaker": "Lena",
+   "text": "Honestly I think the team can handle it if we cut scope a bit."
+  },
+  {
+   "t": 2922,
+   "speaker": "Priya",
+   "text": "Thanks, got it."
+  },
+  {
+   "t": 2925,
+   "speaker": "Marco",
+   "text": "The documentation for this is pretty outdated, by the way."
+  },
+  {
+   "t": 2931,
+   "speaker": "Priya",
+   "text": "I agree with the direction, I'm just worried about the effort."
+  },
+  {
+   "t": 2937,
+   "speaker": "Lena",
+   "text": "I think we should keep it simple for the first version."
+  },
+  {
+   "t": 2943,
+   "speaker": "Priya",
+   "text": "Thanks, got it."
+  },
+  {
+   "t": 2946,
+   "speaker": "Priya",
+   "text": "The last time we estimated this, it took twice as long as planned."
+  },
+  {
+   "t": 2953,
+   "speaker": "Lena",
+   "text": "That's a fair point, but customers haven't really complained about it."
+  },
+  {
+   "t": 2959,
+   "speaker": "Priya",
+   "text": "Uh-huh."
+  },
+  {
+   "t": 2961,
+   "speaker": "Priya",
+   "text": "We should loop in finance before we commit to anything expensive."
+  },
+  {
+   "t": 2967,
+   "speaker": "Lena",
+   "text": "Uh-huh."
+  },
+  {
+   "t": 2969,
+   "speaker": "Priya",
+   "text": "I saw a competitor launch something like this last month."
+  },
+  {
+   "t": 2974,
+   "speaker": "Tom",
+   "text": "Hmm."
+  },
+  {
+   "t": 2976,
+   "speaker": "Tom",
+   "text": "From the support side, this is one of the top complaints."
+  },
+  {
+   "t": 2982,
+   "speaker": "Priya",
+   "text": "Right."
+  },
+  {
+   "t": 2984,
+   "speaker": "Priya",
+   "text": "Let's keep an eye on it and revisit if it gets worse."
+  },
+  {
+   "t": 2991,
+   "speaker": "Marco",
+   "text": "The documentation for this is pretty outdated, by the way."
+  },
+  {
+   "t": 2996,
+   "speaker": "Tom",
+   "text": "I just dropped it in the chat."
+  },
+  {
+   "t": 3001,
+   "speaker": "Lena",
+   "text": "Does anyone have the link to the planning document?"
+  },
+  {
+   "t": 3006,
+   "speaker": "Tom",
+   "text": "I saw a competitor launch something like this last month."
+  },
+  {
+   "t": 3012,
+   "speaker": "Tom",
+   "text": "Coffee break soon? We've been going for a while."
+  },
+  {
+   "t": 3017,
+   "speaker": "Priya",
+   "text": "Mhm."
+  },
+  {
+   "t": 3019,
+   "speaker": "Lena",
+   "text": "Coffee break soon? We've been going for a while."
+  },
+  {
+   "t": 3024,
+   "speaker": "Marco",
+   "text": "Could you repeat that? Your audio cut out for a moment."
+  },
+  {
+   "t": 3030,
+   "speaker": "Lena",
+   "text": "Priya, you wanted to talk about the security audit findings?"
+  },
+  {
+   "t": 3036,
+   "speaker": "Marco",
+   "text": "The audit report is due to the client by the 15th."
+  },
+  {
+   "t": 3042,
+   "speaker": "Tom",
+   "text": "Mm-hm."
+  },
+  {
+   "t": 3044,
+   "speaker": "Lena",
+   "text": "I don't have a strong opinion on this one."
+  },
+  {
+   "t": 3049,
+   "speaker": "Tom",
+   "text": "The auditors found 3 high and 9 medium findings."
+  },
+  {
+   "t": 3054,
+   "speaker": "Lena",
+   "text": "Let's finish this topic first and then take five minutes."
+  },
+  {
+   "t": 3060,
+   "speaker": "Lena",
+   "text": "Mhm."
+  },
+  {
+   "t": 3062,
+   "speaker": "Priya",
+   "text": "Let me check my notes, I think this came up in the last retro too."
+  },
+  {
+   "t": 3070,
+   "speaker": "Lena",
+   "text": "Uh-huh."
+  },
+  {
+   "t": 3072,
+   "speaker": "Tom",
+   "text": "Can you share your screen for a second?"
+  },
+  {
+   "t": 3077,
+   "speaker": "Marco",
+   "text": "Mm-hm."
+  },
+  {
+   "t": 3078,
+   "speaker": "Priya",
+   "text": "I would like to see a rough estimate before we go further."
+  },
+  {
+   "t": 3085,
+   "speaker": "Marco",
+   "text": "I looked at the numbers again and they're roughly where we expected."
+  },
+  {
+   "t": 3091,
+   "speaker": "Marco",
+   "text": "I looked at the numbers again and they're roughly where we expected."
+  },
+  {
+   "t": 3098,
+   "speaker": "Marco",
+   "text": "This affects the mobile app as well, not just the web."
+  },
+  {
+   "t": 3104,
+   "speaker": "Priya",
+   "text": "Should we hire a second audit firm for a re-test?"
+  },
+  {
+   "t": 3110,
+   "speaker": "Marco",
+   "text": "Too expensive, let's not."
+  },
+  {
+   "t": 3113,
+   "speaker": "Tom",
+   "text": "The metrics dashboard was down this morning, so these numbers are from yesterday."
+  },
+  {
+   "t": 3120,
+   "speaker": "Priya",
+   "text": "Uh-huh."
+  },
+  {
+   "t": 3122,
+   "speaker": "Priya",
+   "text": "Right."
+  },
+  {
+   "t": 3124,
+   "speaker": "Marco",
+   "text": "I just dropped it in the chat."
+  },
+  {
+   "t": 3128,
+   "speaker": "Priya",
+   "text": "Coffee break soon? We've been going for a while."
+  },
+  {
+   "t": 3133,
+   "speaker": "Marco",
+   "text": "We need to be careful with the wording towards customers."
+  },
+  {
+   "t": 3139,
+   "speaker": "Lena",
+   "text": "Agreed then: all three high findings get fixed before we answer the auditors."
+  },
+  {
+   "t": 3146,
+   "speaker": "Priya",
+   "text": "Agreed."
+  },
+  {
+   "t": 3148,
+   "speaker": "Priya",
+   "text": "I just dropped it in the chat."
+  },
+  {
+   "t": 3152,
+   "speaker": "Tom",
+   "text": "Thanks, got it."
+  },
+  {
+   "t": 3155,
+   "speaker": "Lena",
+   "text": "Tom, can you rotate the leaked staging keys? Ideally by tonight."
+  },
+  {
+   "t": 3161,
+   "speaker": "Tom",
+   "text": "Yes, I'll do that by tonight."
+  },
+  {
+   "t": 3165,
+   "speaker": "Tom",
+   "text": "Does anyone have the link to the planning document?"
+  },
+  {
+   "t": 3170,
+   "speaker": "Priya",
+   "text": "We discussed this with the customer success team last week."
+  },
+  {
+   "t": 3176,
+   "speaker": "Tom",
+   "text": "I don't have a strong opinion on this one."
+  },
+  {
+   "t": 3181,
+   "speaker": "Priya",
+   "text": "Sorry, I was on mute."
+  },
+  {
+   "t": 3185,
+   "speaker": "Tom",
+   "text": "Mhm."
+  },
+  {
+   "t": 3187,
+   "speaker": "Marco",
+   "text": "Thanks, got it."
+  },
+  {
+   "t": 3189,
+   "speaker": "Marco",
+   "text": "Honestly I think the team can handle it if we cut scope a bit."
+  },
+  {
+   "t": 3197,
+   "speaker": "Lena",
+   "text": "Honestly I think the team can handle it if we cut scope a bit."
+  },
+  {
+   "t": 3204,
+   "speaker": "Marco",
+   "text": "Sorry, I was on mute."
+  },
+  {
+   "t": 3208,
+   "speaker": "Priya",
+   "text": "That's a fair point, but customers haven't really complained about it."
+  },
+  {
+   "t": 3214,
+   "speaker": "Lena",
+   "text": "Sorry, I was on mute."
+  },
+  {
+   "t": 3217,
+   "speaker": "Priya",
+   "text": "Hmm."
+  },
+  {
+   "t": 3219,
+   "speaker": "Priya",
+   "text": "I talked to the design team yesterday and they had a few concerns."
+  },
+  {
+   "t": 3226,
+   "speaker": "Tom",
+   "text": "Could you repeat that? Your audio cut out for a moment."
+  },
+  {
+   "t": 3232,
+   "speaker": "Priya",
+   "text": "I don't have a strong opinion on this one."
+  },
+  {
+   "t": 3238,
+   "speaker": "Tom",
+   "text": "The documentation for this is pretty outdated, by the way."
+  },
+  {
+   "t": 3243,
+   "speaker": "Marco",
+   "text": "Sure, one moment, let me find the right window."
+  },
+  {
+   "t": 3248,
+   "speaker": "Lena",
+   "text": "Does anyone have the link to the planning document?"
+  },
+  {
+   "t": 3254,
+   "speaker": "Marco",
+   "text": "I looked at the numbers again and they're roughly where we expected."
+  },
+  {
+   "t": 3260,
+   "speaker": "Priya",
+   "text": "Right."
+  },
+  {
+   "t": 3262,
+   "speaker": "Marco",
+   "text": "Uh-huh."
+  },
+  {
+   "t": 3264,
+   "speaker": "Lena",
+   "text": "From an engineering point of view it's not that hard."
+  },
+  {
+   "t": 3270,
+   "speaker": "Marco",
+   "text": "Mm-hm."
+  },
+  {
+   "t": 3272,
+   "speaker": "Marco",
+   "text": "Let's not go down that rabbit hole right now."
+  },
+  {
+   "t": 3277,
+   "speaker": "Marco",
+   "text": "Let's finish this topic first and then take five minutes."
+  },
+  {
+   "t": 3283,
+   "speaker": "Tom",
+   "text": "We need to be careful with the wording towards customers."
+  },
+  {
+   "t": 3288,
+   "speaker": "Tom",
+   "text": "Hmm."
+  },
+  {
+   "t": 3290,
+   "speaker": "Lena",
+   "text": "Hmm."
+  },
+  {
+   "t": 3292,
+   "speaker": "Priya",
+   "text": "I think we should keep it simple for the first version."
+  },
+  {
+   "t": 3298,
+   "speaker": "Lena",
+   "text": "Does anyone have the link to the planning document?"
+  },
+  {
+   "t": 3303,
+   "speaker": "Tom",
+   "text": "Mhm."
+  },
+  {
+   "t": 3305,
+   "speaker": "Tom",
+   "text": "Thanks, got it."
+  },
+  {
+   "t": 3308,
+   "speaker": "Tom",
+   "text": "Sure, one moment, let me find the right window."
+  },
+  {
+   "t": 3313,
+   "speaker": "Priya",
+   "text": "Uh-huh."
+  },
+  {
+   "t": 3315,
+   "speaker": "Tom",
+   "text": "We need to be careful with the wording towards customers."
+  },
+  {
+   "t": 3321,
+   "speaker": "Priya",
+   "text": "We should loop in finance before we commit to anything expensive."
+  },
+  {
+   "t": 3327,
+   "speaker": "Tom",
+   "text": "We should loop in finance before we commit to anything expensive."
+  },
+  {
+   "t": 3333,
+   "speaker": "Priya",
+   "text": "We need to be careful with the wording towards customers."
+  },
+  {
+   "t": 3339,
+   "speaker": "Priya",
+   "text": "We should loop in finance before we commit to anything expensive."
+  },
+  {
+   "t": 3345,
+   "speaker": "Marco",
+   "text": "I looked at the numbers again and they're roughly where we expected."
+  },
+  {
+   "t": 3351,
+   "speaker": "Priya",
+   "text": "I don't have a strong opinion on this one."
+  },
+  {
+   "t": 3357,
+   "speaker": "Tom",
+   "text": "Let's keep an eye on it and revisit if it gets worse."
+  },
+  {
+   "t": 3363,
+   "speaker": "Tom",
+   "text": "From the support side, this is one of the top complaints."
+  },
+  {
+   "t": 3369,
+   "speaker": "Tom",
+   "text": "I just dropped it in the chat."
+  },
+  {
+   "t": 3374,
+   "speaker": "Lena",
+   "text": "Hmm."
+  },
+  {
+   "t": 3375,
+   "speaker": "Priya",
+   "text": "Does anyone have the link to the planning document?"
+  },
+  {
+   "t": 3381,
+   "speaker": "Tom",
+   "text": "I just dropped it in the chat."
+  },
+  {
+   "t": 3385,
+   "speaker": "Lena",
+   "text": "Uh-huh."
+  },
+  {
+   "t": 3387,
+   "speaker": "Priya",
+   "text": "Let's not go down that rabbit hole right now."
+  },
+  {
+   "t": 3392,
+   "speaker": "Tom",
+   "text": "Sorry, I was on mute."
+  },
+  {
+   "t": 3396,
+   "speaker": "Marco",
+   "text": "I agree with the direction, I'm just worried about the effort."
+  },
+  {
+   "t": 3402,
+   "speaker": "Priya",
+   "text": "Does anyone have the link to the planning document?"
+  },
+  {
+   "t": 3407,
+   "speaker": "Lena",
+   "text": "That's a fair point, but customers haven't really complained about it."
+  },
+  {
+   "t": 3413,
+   "speaker": "Tom",
+   "text": "The main risk is still the timeline, honestly."
+  },
+  {
+   "t": 3418,
+   "speaker": "Marco",
+   "text": "Next item: the pricing page experiment."
+  },
+  {
+   "t": 3422,
+   "speaker": "Priya",
+   "text": "I just dropped it in the chat."
+  },
+  {
+   "t": 3427,
+   "speaker": "Tom",
+   "text": "From the support side, this is one of the top complaints."
+  },
+  {
+   "t": 3433,
+   "speaker": "Lena",
+   "text": "Uh-huh."
+  },
+  {
+   "t": 3435,
+   "speaker": "Lena",
+   "text": "I don't have a strong opinion on this one."
+  },
+  {
+   "t": 3440,
+   "speaker": "Lena",
+   "text": "This affects the mobile app as well, not just the web."
+  },
+  {
+   "t": 3446,
+   "speaker": "Tom",
+   "text": "Let's not go down that rabbit hole right now."
+  },
+  {
+   "t": 3451,
+   "speaker": "Tom",
+   "text": "We need to be careful with the wording towards customers."
+  },
+  {
+   "t": 3457,
+   "speaker": "Marco",
+   "text": "We discussed this with the customer success team last week."
+  },
+  {
+   "t": 3462,
+   "speaker": "Lena",
+   "text": "The annual plan converts at 2.8 percent."
+  },
+  {
+   "t": 3467,
+   "speaker": "Lena",
+   "text": "I would like to see a rough estimate before we go further."
+  },
+  {
+   "t": 3473,
+   "speaker": "Marco",
+   "text": "Sure, one moment, let me find the right window."
+  },
+  {
+   "t": 3479,
+   "speaker": "Priya",
+   "text": "The experiment ran for 19 days."
+  },
+  {
+   "t": 3483,
+   "speaker": "Priya",
+   "text": "The last time we estimated this, it took twice as long as planned."
+  },
+  {
+   "t": 3490,
+   "speaker": "Lena",
+   "text": "Can you share your screen for a second?"
+  },
+  {
+   "t": 3494,
+   "speaker": "Marco",
+   "text": "I looked at the numbers again and they're roughly where we expected."
+  },
+  {
+   "t": 3501,
+   "speaker": "Lena",
+   "text": "We should loop in finance before we commit to anything expensive."
+  },
+  {
+   "t": 3507,
+   "speaker": "Marco",
+   "text": "What if we removed the free tier?"
+  },
+  {
+   "t": 3511,
+   "speaker": "Priya",
+   "text": "That's a much bigger conversation, not today."
+  },
+  {
+   "t": 3516,
+   "speaker": "Marco",
+   "text": "Mhm."
+  },
+  {
+   "t": 3518,
+   "speaker": "Tom",
+   "text": "From an engineering point of view it's not that hard."
+  },
+  {
+   "t": 3523,
+   "speaker": "Priya",
+   "text": "Mhm."
+  },
+  {
+   "t": 3525,
+   "speaker": "Marco",
+   "text": "The metrics dashboard was down this morning, so these numbers are from yesterday."
+  },
+  {
+   "t": 3532,
+   "speaker": "Lena",
+   "text": "Mhm."
+  },
+  {
+   "t": 3534,
+   "speaker": "Marco",
+   "text": "My gut feeling is that we're overthinking this one."
+  },
+  {
+   "t": 3539,
+   "speaker": "Lena",
+   "text": "Could you repeat that? Your audio cut out for a moment."
+  },
+  {
+   "t": 3545,
+   "speaker": "Tom",
+   "text": "Sure, one moment, let me find the right window."
+  },
+  {
+   "t": 3551,
+   "speaker": "Marco",
+   "text": "I'm not sure the data supports that yet."
+  },
+  {
+   "t": 3556,
+   "speaker": "Priya",
+   "text": "I don't have a strong opinion on this one."
+  },
+  {
+   "t": 3561,
+   "speaker": "Marco",
+   "text": "Can you share your screen for a second?"
+  },
+  {
+   "t": 3566,
+   "speaker": "Lena",
+   "text": "We need to be careful with the wording towards customers."
+  },
+  {
+   "t": 3571,
+   "speaker": "Lena",
+   "text": "From the support side, this is one of the top complaints."
+  },
+  {
+   "t": 3577,
+   "speaker": "Marco",
+   "text": "Decision: we keep the new pricing page with the annual plan shown first."
+  },
+  {
+   "t": 3584,
+   "speaker": "Lena",
+   "text": "Yes, that works for me."
+  },
+  {
+   "t": 3588,
+   "speaker": "Marco",
+   "text": "Could you repeat that? Your audio cut out for a moment."
+  },
+  {
+   "t": 3594,
+   "speaker": "Marco",
+   "text": "Let's not go down that rabbit hole right now."
+  },
+  {
+   "t": 3599,
+   "speaker": "Marco",
+   "text": "Lena, can you share the pricing experiment dashboard with sales? Ideally by Thursday."
+  },
+  {
+   "t": 3606,
+   "speaker": "Lena",
+   "text": "Yes, I'll do that by Thursday."
+  },
+  {
+   "t": 3610,
+   "speaker": "Tom",
+   "text": "From an engineering point of view it's not that hard."
+  },
+  {
+   "t": 3616,
+   "speaker": "Marco",
+   "text": "Thanks, got it."
+  },
+  {
+   "t": 3619,
+   "speaker": "Priya",
+   "text": "The documentation for this is pretty outdated, by the way."
+  },
+  {
+   "t": 3624,
+   "speaker": "Tom",
+   "text": "Hmm."
+  },
+  {
+   "t": 3626,
+   "speaker": "Lena",
+   "text": "Hmm."
+  },
+  {
+   "t": 3628,
+   "speaker": "Tom",
+   "text": "Coffee break soon? We've been going for a while."
+  },
+  {
+   "t": 3633,
+   "speaker": "Lena",
+   "text": "From the support side, this is one of the top complaints."
+  },
+  {
+   "t": 3639,
+   "speaker": "Lena",
+   "text": "Hmm."
+  },
+  {
+   "t": 3641,
+   "speaker": "Marco",
+   "text": "Could you repeat that? Your audio cut out for a moment."
+  },
+  {
+   "t": 3647,
+   "speaker": "Tom",
+   "text": "I saw a competitor launch something like this last month."
+  },
+  {
+   "t": 3653,
+   "speaker": "Priya",
+   "text": "We discussed this with the customer success team last week."
+  },
+  {
+   "t": 3659,
+   "speaker": "Priya",
+   "text": "Mhm."
+  },
+  {
+   "t": 3661,
+   "speaker": "Lena",
+   "text": "Can you share your screen for a second?"
+  },
+  {
+   "t": 3665,
+   "speaker": "Lena",
+   "text": "Let's not go down that rabbit hole right now."
+  },
+  {
+   "t": 3671,
+   "speaker": "Lena",
+   "text": "Uh-huh."
+  },
+  {
+   "t": 3673,
+   "speaker": "Tom",
+   "text": "Uh-huh."
+  },
+  {
+   "t": 3675,
+   "speaker": "Tom",
+   "text": "The metrics dashboard was down this morning, so these numbers are from yesterday."
+  },
+  {
+   "t": 3681,
+   "speaker": "Marco",
+   "text": "Uh-huh."
+  },
+  {
+   "t": 3683,
+   "speaker": "Marco",
+   "text": "We need to be careful with the wording towards customers."
+  },
+  {
+   "t": 3689,
+   "speaker": "Priya",
+   "text": "Sure, one moment, let me find the right window."
+  },
+  {
+   "t": 3694,
+   "speaker": "Tom",
+   "text": "My gut feeling is that we're overthinking this one."
+  },
+  {
+   "t": 3700,
+   "speaker": "Lena",
+   "text": "Uh-huh."
+  },
+  {
+   "t": 3701,
+   "speaker": "Tom",
+   "text": "I agree with the direction, I'm just worried about the effort."
+  },
+  {
+   "t": 3708,
+   "speaker": "Tom",
+   "text": "I think we should keep it simple for the first version."
+  },
+  {
+   "t": 3714,
+   "speaker": "Priya",
+   "text": "Sure, one moment, let me find the right window."
+  },
+  {
+   "t": 3719,
+   "speaker": "Marco",
+   "text": "Sorry, I was on mute."
+  },
+  {
+   "t": 3722,
+   "speaker": "Tom",
+   "text": "Thanks, got it."
+  },
+  {
+   "t": 3725,
+   "speaker": "Marco",
+   "text": "I'll be out on Friday afternoon, just so you know."
+  },
+  {
+   "t": 3731,
+   "speaker": "Lena",
+   "text": "Mm-hm."
+  },
+  {
+   "t": 3733,
+   "speaker": "Tom",
+   "text": "From an engineering point of view it's not that hard."
+  },
+  {
+   "t": 3738,
+   "speaker": "Tom",
+   "text": "The metrics dashboard was down this morning, so these numbers are from yesterday."
+  },
+  {
+   "t": 3745,
+   "speaker": "Priya",
+   "text": "From an engineering point of view it's not that hard."
+  },
+  {
+   "t": 3751,
+   "speaker": "Tom",
+   "text": "Coffee break soon? We've been going for a while."
+  },
+  {
+   "t": 3756,
+   "speaker": "Lena",
+   "text": "My gut feeling is that we're overthinking this one."
+  },
+  {
+   "t": 3762,
+   "speaker": "Lena",
+   "text": "Let's not go down that rabbit hole right now."
+  },
+  {
+   "t": 3767,
+   "speaker": "Tom",
+   "text": "Hmm."
+  },
+  {
+   "t": 3769,
+   "speaker": "Priya",
+   "text": "We discussed this with the customer success team last week."
+  },
+  {
+   "t": 3774,
+   "speaker": "Tom",
+   "text": "Right."
+  },
+  {
+   "t": 3776,
+   "speaker": "Marco",
+   "text": "Let's keep an eye on it and revisit if it gets worse."
+  },
+  {
+   "t": 3783,
+   "speaker": "Tom",
+   "text": "I just dropped it in the chat."
+  },
+  {
+   "t": 3787,
+   "speaker": "Priya",
+   "text": "I would like to see a rough estimate before we go further."
+  },
+  {
+   "t": 3794,
+   "speaker": "Priya",
+   "text": "Mm-hm."
+  },
+  {
+   "t": 3796,
+   "speaker": "Lena",
+   "text": "I'll be out on Friday afternoon, just so you know."
+  },
+  {
+   "t": 3801,
+   "speaker": "Priya",
+   "text": "Okay, let's move on to the data retention policy."
+  },
+  {
+   "t": 3807,
+   "speaker": "Marco",
+   "text": "We currently keep raw logs for 400 days."
+  },
+  {
+   "t": 3811,
+   "speaker": "Tom",
+   "text": "I just dropped it in the chat."
+  },
+  {
+   "t": 3816,
+   "speaker": "Marco",
+   "text": "The last time we estimated this, it took twice as long as planned."
+  },
+  {
+   "t": 3823,
+   "speaker": "Priya",
+   "text": "Could you repeat that? Your audio cut out for a moment."
+  },
+  {
+   "t": 3829,
+   "speaker": "Priya",
+   "text": "Mm-hm."
+  },
+  {
+   "t": 3831,
+   "speaker": "Lena",
+   "text": "We need to be careful with the wording towards customers."
+  },
+  {
+   "t": 3836,
+   "speaker": "Priya",
+   "text": "Can you share your screen for a second?"
+  },
+  {
+   "t": 3841,
+   "speaker": "Marco",
+   "text": "I looked at the numbers again and they're roughly where we expected."
+  },
+  {
+   "t": 3848,
+   "speaker": "Priya",
+   "text": "I talked to the design team yesterday and they had a few concerns."
+  },
+  {
+   "t": 3855,
+   "speaker": "Lena",
+   "text": "I looked at the numbers again and they're roughly where we expected."
+  },
+  {
+   "t": 3861,
+   "speaker": "Tom",
+   "text": "Let's not go down that rabbit hole right now."
+  },
+  {
+   "t": 3866,
+   "speaker": "Lena",
+   "text": "Hmm."
+  },
+  {
+   "t": 3868,
+   "speaker": "Priya",
+   "text": "The main risk is still the timeline, honestly."
+  },
+  {
+   "t": 3873,
+   "speaker": "Marco",
+   "text": "Let's finish this topic first and then take five minutes."
+  },
+  {
+   "t": 3879,
+   "speaker": "Marco",
+   "text": "The last time we estimated this, it took twice as long as planned."
+  },
+  {
+   "t": 3886,
+   "speaker": "Lena",
+   "text": "From an engineering point of view it's not that hard."
+  },
+  {
+   "t": 3891,
+   "speaker": "Marco",
+   "text": "Mhm."
+  },
+  {
+   "t": 3893,
+   "speaker": "Priya",
+   "text": "The last time we estimated this, it took twice as long as planned."
+  },
+  {
+   "t": 3900,
+   "speaker": "Lena",
+   "text": "Let's finish this topic first and then take five minutes."
+  },
+  {
+   "t": 3906,
+   "speaker": "Priya",
+   "text": "Sure, one moment, let me find the right window."
+  },
+  {
+   "t": 3911,
+   "speaker": "Tom",
+   "text": "Right."
+  },
+  {
+   "t": 3913,
+   "speaker": "Marco",
+   "text": "Uh-huh."
+  },
+  {
+   "t": 3915,
+   "speaker": "Priya",
+   "text": "We need to be careful with the wording towards customers."
+  },
+  {
+   "t": 3921,
+   "speaker": "Marco",
+   "text": "Let me check my notes, I think this came up in the last retro too."
+  },
+  {
+   "t": 3928,
+   "speaker": "Tom",
+   "text": "Legal wants a maximum of 90 days for personal data."
+  },
+  {
+   "t": 3934,
+   "speaker": "Priya",
+   "text": "Right."
+  },
+  {
+   "t": 3936,
+   "speaker": "Marco",
+   "text": "Could we anonymise instead of deleting?"
+  },
+  {
+   "t": 3940,
+   "speaker": "Lena",
+   "text": "Legal said anonymisation isn't enough here."
+  },
+  {
+   "t": 3944,
+   "speaker": "Priya",
+   "text": "So we agree: raw logs with personal data are deleted after 90 days."
+  },
+  {
+   "t": 3951,
+   "speaker": "Marco",
+   "text": "Fine by me."
+  },
+  {
+   "t": 3954,
+   "speaker": "Priya",
+   "text": "The documentation for this is pretty outdated, by the way."
+  },
+  {
+   "t": 3959,
+   "speaker": "Lena",
+   "text": "Thanks, got it."
+  },
+  {
+   "t": 3962,
+   "speaker": "Marco",
+   "text": "Sure, one moment, let me find the right window."
+  },
+  {
+   "t": 3967,
+   "speaker": "Marco",
+   "text": "Sorry, I was on mute."
+  },
+  {
+   "t": 3971,
+   "speaker": "Lena",
+   "text": "Mm-hm."
+  },
+  {
+   "t": 3973,
+   "speaker": "Lena",
+   "text": "Priya, can you draft the retention policy text for legal? Ideally by next Friday."
+  },
+  {
+   "t": 3980,
+   "speaker": "Priya",
+   "text": "Okay, I'll take it, next Friday works."
+  },
+  {
+   "t": 3985,
+   "speaker": "Lena",
+   "text": "The last time we estimated this, it took twice as long as planned."
+  },
+  {
+   "t": 3991,
+   "speaker": "Tom",
+   "text": "Could you repeat that? Your audio cut out for a moment."
+  },
+  {
+   "t": 3998,
+   "speaker": "Priya",
+   "text": "The last time we estimated this, it took twice as long as planned."
+  },
+  {
+   "t": 4004,
+   "speaker": "Priya",
+   "text": "Can you share your screen for a second?"
+  },
+  {
+   "t": 4009,
+   "speaker": "Priya",
+   "text": "Does anyone have the link to the planning document?"
+  },
+  {
+   "t": 4015,
+   "speaker": "Tom",
+   "text": "I saw a competitor launch something like this last month."
+  },
+  {
+   "t": 4020,
+   "speaker": "Priya",
+   "text": "Let me check my notes, I think this came up in the last retro too."
+  },
+  {
+   "t": 4028,
+   "speaker": "Priya",
+   "text": "Sorry, I was on mute."
+  },
+  {
+   "t": 4032,
+   "speaker": "Marco",
+   "text": "Let's keep an eye on it and revisit if it gets worse."
+  },
+  {
+   "t": 4038,
+   "speaker": "Marco",
+   "text": "My gut feeling is that we're overthinking this one."
+  },
+  {
+   "t": 4043,
+   "speaker": "Lena",
+   "text": "Does anyone have the link to the planning document?"
+  },
+  {
+   "t": 4049,
+   "speaker": "Tom",
+   "text": "That's a fair point, but customers haven't really complained about it."
+  },
+  {
+   "t": 4055,
+   "speaker": "Marco",
+   "text": "I saw a competitor launch something like this last month."
+  },
+  {
+   "t": 4060,
+   "speaker": "Priya",
+   "text": "Mhm."
+  },
+  {
+   "t": 4062,
+   "speaker": "Priya",
+   "text": "Right."
+  },
+  {
+   "t": 4064,
+   "speaker": "Marco",
+   "text": "Honestly I think the team can handle it if we cut scope a bit."
+  },
+  {
+   "t": 4071,
+   "speaker": "Marco",
+   "text": "We tried something similar two years ago and it didn't go well."
+  },
+  {
+   "t": 4078,
+   "speaker": "Marco",
+   "text": "Does anyone have the link to the planning document?"
+  },
+  {
+   "t": 4083,
+   "speaker": "Tom",
+   "text": "Let's not go down that rabbit hole right now."
+  },
+  {
+   "t": 4088,
+   "speaker": "Tom",
+   "text": "I think we should keep it simple for the first version."
+  },
+  {
+   "t": 4095,
+   "speaker": "Priya",
+   "text": "That's a fair point, but customers haven't really complained about it."
+  },
+  {
+   "t": 4101,
+   "speaker": "Marco",
+   "text": "Let me check my notes, I think this came up in the last retro too."
+  },
+  {
+   "t": 4108,
+   "speaker": "Tom",
+   "text": "I don't have a strong opinion on this one."
+  },
+  {
+   "t": 4114,
+   "speaker": "Priya",
+   "text": "Let's not go down that rabbit hole right now."
+  },
+  {
+   "t": 4119,
+   "speaker": "Lena",
+   "text": "Thanks, got it."
+  },
+  {
+   "t": 4122,
+   "speaker": "Tom",
+   "text": "That's a fair point, but customers haven't really complained about it."
+  },
+  {
+   "t": 4128,
+   "speaker": "Marco",
+   "text": "Mm-hm."
+  },
+  {
+   "t": 4130,
+   "speaker": "Tom",
+   "text": "From the support side, this is one of the top complaints."
+  },
+  {
+   "t": 4136,
+   "speaker": "Tom",
+   "text": "I saw a competitor launch something like this last month."
+  },
+  {
+   "t": 4141,
+   "speaker": "Tom",
+   "text": "Can you share your screen for a second?"
+  },
+  {
+   "t": 4146,
+   "speaker": "Priya",
+   "text": "I just dropped it in the chat."
+  },
+  {
+   "t": 4151,
+   "speaker": "Marco",
+   "text": "Honestly I think the team can handle it if we cut scope a bit."
+  },
+  {
+   "t": 4158,
+   "speaker": "Lena",
+   "text": "We need to be careful with the wording towards customers."
+  },
+  {
+   "t": 4164,
+   "speaker": "Marco",
+   "text": "I think we should keep it simple for the first version."
+  },
+  {
+   "t": 4170,
+   "speaker": "Lena",
+   "text": "Right."
+  },
+  {
+   "t": 4172,
+   "speaker": "Tom",
+   "text": "I would like to see a rough estimate before we go further."
+  },
+  {
+   "t": 4178,
+   "speaker": "Tom",
+   "text": "Let's look at the Juniper search index now."
+  },
+  {
+   "t": 4183,
+   "speaker": "Tom",
+   "text": "I would like to see a rough estimate before we go further."
+  },
+  {
+   "t": 4189,
+   "speaker": "Lena",
+   "text": "The index is 340 gigabytes."
+  },
+  {
+   "t": 4193,
+   "speaker": "Tom",
+   "text": "I don't have a strong opinion on this one."
+  },
+  {
+   "t": 4198,
+   "speaker": "Priya",
+   "text": "From the support side, this is one of the top complaints."
+  },
+  {
+   "t": 4204,
+   "speaker": "Lena",
+   "text": "We need to be careful with the wording towards customers."
+  },
+  {
+   "t": 4210,
+   "speaker": "Tom",
+   "text": "Coffee break soon? We've been going for a while."
+  },
+  {
+   "t": 4215,
+   "speaker": "Lena",
+   "text": "Let me check my notes, I think this came up in the last retro too."
+  },
+  {
+   "t": 4223,
+   "speaker": "Marco",
+   "text": "Honestly I think the team can handle it if we cut scope a bit."
+  },
+  {
+   "t": 4230,
+   "speaker": "Lena",
+   "text": "The documentation for this is pretty outdated, by the way."
+  },
+  {
+   "t": 4236,
+   "speaker": "Tom",
+   "text": "I'll be out on Friday afternoon, just so you know."
+  },
+  {
+   "t": 4242,
+   "speaker": "Priya",
+   "text": "From an engineering point of view it's not that hard."
+  },
+  {
+   "t": 4247,
+   "speaker": "Tom",
+   "text": "We need to be careful with the wording towards customers."
+  },
+  {
+   "t": 4253,
+   "speaker": "Priya",
+   "text": "We should loop in finance before we commit to anything expensive."
+  },
+  {
+   "t": 4259,
+   "speaker": "Marco",
+   "text": "Juniper reindexing takes about 7 hours."
+  },
+  {
+   "t": 4263,
+   "speaker": "Marco",
+   "text": "Let's keep an eye on it and revisit if it gets worse."
+  },
+  {
+   "t": 4270,
+   "speaker": "Lena",
+   "text": "Sure, one moment, let me find the right window."
+  },
+  {
+   "t": 4275,
+   "speaker": "Tom",
+   "text": "Hmm."
+  },
+  {
+   "t": 4277,
+   "speaker": "Tom",
+   "text": "Thanks, got it."
+  },
+  {
+   "t": 4280,
+   "speaker": "Lena",
+   "text": "We discussed this with the customer success team last week."
+  },
+  {
+   "t": 4285,
+   "speaker": "Lena",
+   "text": "This affects the mobile app as well, not just the web."
+  },
+  {
+   "t": 4291,
+   "speaker": "Marco",
+   "text": "The last time we estimated this, it took twice as long as planned."
+  },
+  {
+   "t": 4298,
+   "speaker": "Lena",
+   "text": "We need to be careful with the wording towards customers."
+  },
+  {
+   "t": 4304,
+   "speaker": "Marco",
+   "text": "Should we switch to a hosted search service?"
+  },
+  {
+   "t": 4309,
+   "speaker": "Priya",
+   "text": "Not until we know the incremental numbers."
+  },
+  {
+   "t": 4313,
+   "speaker": "Priya",
+   "text": "Thanks, got it."
+  },
+  {
+   "t": 4316,
+   "speaker": "Marco",
+   "text": "Let's not go down that rabbit hole right now."
+  },
+  {
+   "t": 4321,
+   "speaker": "Tom",
+   "text": "Mhm."
+  },
+  {
+   "t": 4323,
+   "speaker": "Priya",
+   "text": "Mm-hm."
+  },
+  {
+   "t": 4325,
+   "speaker": "Lena",
+   "text": "This affects the mobile app as well, not just the web."
+  },
+  {
+   "t": 4331,
+   "speaker": "Priya",
+   "text": "Mhm."
+  },
+  {
+   "t": 4333,
+   "speaker": "Marco",
+   "text": "Could you repeat that? Your audio cut out for a moment."
+  },
+  {
+   "t": 4339,
+   "speaker": "Marco",
+   "text": "Sorry, I was on mute."
+  },
+  {
+   "t": 4343,
+   "speaker": "Priya",
+   "text": "I don't have a strong opinion on this one."
+  },
+  {
+   "t": 4348,
+   "speaker": "Tom",
+   "text": "Decided: we move Juniper to incremental indexing this quarter."
+  },
+  {
+   "t": 4353,
+   "speaker": "Priya",
+   "text": "Fine by me."
+  },
+  {
+   "t": 4356,
+   "speaker": "Priya",
+   "text": "We need to be careful with the wording towards customers."
+  },
+  {
+   "t": 4362,
+   "speaker": "Marco",
+   "text": "Coffee break soon? We've been going for a while."
+  },
+  {
+   "t": 4367,
+   "speaker": "Marco",
+   "text": "Does anyone have the link to the planning document?"
+  },
+  {
+   "t": 4372,
+   "speaker": "Marco",
+   "text": "There's also a dependency on the platform team that we shouldn't forget."
+  },
+  {
+   "t": 4379,
+   "speaker": "Priya",
+   "text": "Tom, can you benchmark incremental indexing on the staging copy? Ideally by Wednesday."
+  },
+  {
+   "t": 4385,
+   "speaker": "Tom",
+   "text": "Sure, I can have that done by Wednesday."
+  },
+  {
+   "t": 4390,
+   "speaker": "Lena",
+   "text": "We discussed this with the customer success team last week."
+  },
+  {
+   "t": 4396,
+   "speaker": "Tom",
+   "text": "Mhm."
+  },
+  {
+   "t": 4398,
+   "speaker": "Tom",
+   "text": "I would like to see a rough estimate before we go further."
+  },
+  {
+   "t": 4404,
+   "speaker": "Priya",
+   "text": "We discussed this with the customer success team last week."
+  },
+  {
+   "t": 4410,
+   "speaker": "Marco",
+   "text": "Uh-huh."
+  },
+  {
+   "t": 4412,
+   "speaker": "Lena",
+   "text": "That's a fair point, but customers haven't really complained about it."
+  },
+  {
+   "t": 4418,
+   "speaker": "Priya",
+   "text": "Uh-huh."
+  },
+  {
+   "t": 4420,
+   "speaker": "Priya",
+   "text": "We discussed this with the customer success team last week."
+  },
+  {
+   "t": 4426,
+   "speaker": "Marco",
+   "text": "Mhm."
+  },
+  {
+   "t": 4428,
+   "speaker": "Priya",
+   "text": "We discussed this with the customer success team last week."
+  },
+  {
+   "t": 4433,
+   "speaker": "Marco",
+   "text": "I just dropped it in the chat."
+  },
+  {
+   "t": 4438,
+   "speaker": "Tom",
+   "text": "Let's not go down that rabbit hole right now."
+  },
+  {
+   "t": 4443,
+   "speaker": "Tom",
+   "text": "Sorry, I was on mute."
+  },
+  {
+   "t": 4446,
+   "speaker": "Marco",
+   "text": "The last time we estimated this, it took twice as long as planned."
+  },
+  {
+   "t": 4453,
+   "speaker": "Marco",
+   "text": "I agree with the direction, I'm just worried about the effort."
+  },
+  {
+   "t": 4459,
+   "speaker": "Priya",
+   "text": "Sure, one moment, let me find the right window."
+  },
+  {
+   "t": 4465,
+   "speaker": "Priya",
+   "text": "We discussed this with the customer success team last week."
+  },
+  {
+   "t": 4470,
+   "speaker": "Tom",
+   "text": "We tried something similar two years ago and it didn't go well."
+  },
+  {
+   "t": 4477,
+   "speaker": "Tom",
+   "text": "The metrics dashboard was down this morning, so these numbers are from yesterday."
+  },
+  {
+   "t": 4484,
+   "speaker": "Marco",
+   "text": "I'll be out on Friday afternoon, just so you know."
+  },
+  {
+   "t": 4489,
+   "speaker": "Priya",
+   "text": "Mhm."
+  },
+  {
+   "t": 4491,
+   "speaker": "Tom",
+   "text": "Right."
+  },
+  {
+   "t": 4493,
+   "speaker": "Marco",
+   "text": "I would like to see a rough estimate before we go further."
+  },
+  {
+   "t": 4500,
+   "speaker": "Lena",
+   "text": "Can you share your screen for a second?"
+  },
+  {
+   "t": 4505,
+   "speaker": "Tom",
+   "text": "Let's keep an eye on it and revisit if it gets worse."
+  },
+  {
+   "t": 4511,
+   "speaker": "Lena",
+   "text": "My gut feeling is that we're overthinking this one."
+  },
+  {
+   "t": 4516,
+   "speaker": "Priya",
+   "text": "Uh-huh."
+  },
+  {
+   "t": 4518,
+   "speaker": "Lena",
+   "text": "The last time we estimated this, it took twice as long as planned."
+  },
+  {
+   "t": 4525,
+   "speaker": "Lena",
+   "text": "The documentation for this is pretty outdated, by the way."
+  },
+  {
+   "t": 4531,
+   "speaker": "Lena",
+   "text": "Let's finish this topic first and then take five minutes."
+  },
+  {
+   "t": 4537,
+   "speaker": "Tom",
+   "text": "Coffee break soon? We've been going for a while."
+  },
+  {
+   "t": 4542,
+   "speaker": "Priya",
+   "text": "I looked at the numbers again and they're roughly where we expected."
+  },
+  {
+   "t": 4548,
+   "speaker": "Lena",
+   "text": "Priya, you wanted to talk about the partner webinar?"
+  },
+  {
+   "t": 4554,
+   "speaker": "Priya",
+   "text": "I'm not sure the data supports that yet."
+  },
+  {
+   "t": 4558,
+   "speaker": "Priya",
+   "text": "The last time we estimated this, it took twice as long as planned."
+  },
+  {
+   "t": 4565,
+   "speaker": "Priya",
+   "text": "I think we should keep it simple for the first version."
+  },
+  {
+   "t": 4571,
+   "speaker": "Marco",
+   "text": "My gut feeling is that we're overthinking this one."
+  },
+  {
+   "t": 4577,
+   "speaker": "Lena",
+   "text": "The main risk is still the timeline, honestly."
+  },
+  {
+   "t": 4581,
+   "speaker": "Tom",
+   "text": "The documentation for this is pretty outdated, by the way."
+  },
+  {
+   "t": 4587,
+   "speaker": "Lena",
+   "text": "That's a fair point, but customers haven't really complained about it."
+  },
+  {
+   "t": 4593,
+   "speaker": "Tom",
+   "text": "I agree with the direction, I'm just worried about the effort."
+  },
+  {
+   "t": 4599,
+   "speaker": "Priya",
+   "text": "We need to be careful with the wording towards customers."
+  },
+  {
+   "t": 4605,
+   "speaker": "Lena",
+   "text": "Thanks, got it."
+  },
+  {
+   "t": 4608,
+   "speaker": "Tom",
+   "text": "The metrics dashboard was down this morning, so these numbers are from yesterday."
+  },
+  {
+   "t": 4615,
+   "speaker": "Tom",
+   "text": "I agree with the direction, I'm just worried about the effort."
+  },
+  {
+   "t": 4621,
+   "speaker": "Priya",
+   "text": "I looked at the numbers again and they're roughly where we expected."
+  },
+  {
+   "t": 4627,
+   "speaker": "Lena",
+   "text": "I talked to the design team yesterday and they had a few concerns."
+  },
+  {
+   "t": 4634,
+   "speaker": "Marco",
+   "text": "Let me check my notes, I think this came up in the last retro too."
+  },
+  {
+   "t": 4642,
+   "speaker": "Tom",
+   "text": "Two partners have confirmed so far."
+  },
+  {
+   "t": 4646,
+   "speaker": "Priya",
+   "text": "Let's not go down that rabbit hole right now."
+  },
+  {
+   "t": 4651,
+   "speaker": "Priya",
+   "text": "Last year's webinar had 260 attendees."
+  },
+  {
+   "t": 4655,
+   "speaker": "Tom",
+   "text": "This affects the mobile app as well, not just the web."
+  },
+  {
+   "t": 4661,
+   "speaker": "Marco",
+   "text": "What if we did it in person instead?"
+  },
+  {
+   "t": 4666,
+   "speaker": "Priya",
+   "text": "Travel budget is frozen, so no."
+  },
+  {
+   "t": 4670,
+   "speaker": "Tom",
+   "text": "Coffee break soon? We've been going for a while."
+  },
+  {
+   "t": 4675,
+   "speaker": "Lena",
+   "text": "I'll be out on Friday afternoon, just so you know."
+  },
+  {
+   "t": 4681,
+   "speaker": "Lena",
+   "text": "Mm-hm."
+  },
+  {
+   "t": 4683,
+   "speaker": "Lena",
+   "text": "Okay, the partner webinar is on the 12th of November."
+  },
+  {
+   "t": 4689,
+   "speaker": "Marco",
+   "text": "Fine by me."
+  },
+  {
+   "t": 4691,
+   "speaker": "Priya",
+   "text": "Honestly I think the team can handle it if we cut scope a bit."
+  },
+  {
+   "t": 4699,
+   "speaker": "Tom",
+   "text": "Let me check my notes, I think this came up in the last retro too."
+  },
+  {
+   "t": 4706,
+   "speaker": "Priya",
+   "text": "Let's keep an eye on it and revisit if it gets worse."
+  },
+  {
+   "t": 4713,
+   "speaker": "Lena",
+   "text": "I don't have a strong opinion on this one."
+  },
+  {
+   "t": 4718,
+   "speaker": "Marco",
+   "text": "Right."
+  },
+  {
+   "t": 4720,
+   "speaker": "Priya",
+   "text": "This affects the mobile app as well, not just the web."
+  },
+  {
+   "t": 4726,
+   "speaker": "Marco",
+   "text": "I would like to see a rough estimate before we go further."
+  },
+  {
+   "t": 4733,
+   "speaker": "Priya",
+   "text": "I'll be out on Friday afternoon, just so you know."
+  },
+  {
+   "t": 4738,
+   "speaker": "Priya",
+   "text": "From the support side, this is one of the top complaints."
+  },
+  {
+   "t": 4744,
+   "speaker": "Tom",
+   "text": "Marco, can you send the webinar invitations to the partner list? Ideally by Monday."
+  },
+  {
+   "t": 4752,
+   "speaker": "Marco",
+   "text": "Yes, I'll do that by Monday."
+  },
+  {
+   "t": 4756,
+   "speaker": "Tom",
+   "text": "Could you repeat that? Your audio cut out for a moment."
+  },
+  {
+   "t": 4762,
+   "speaker": "Marco",
+   "text": "Let's not go down that rabbit hole right now."
+  },
+  {
+   "t": 4767,
+   "speaker": "Lena",
+   "text": "Thanks, got it."
+  },
+  {
+   "t": 4770,
+   "speaker": "Lena",
+   "text": "Right."
+  },
+  {
+   "t": 4772,
+   "speaker": "Lena",
+   "text": "Coffee break soon? We've been going for a while."
+  },
+  {
+   "t": 4777,
+   "speaker": "Priya",
+   "text": "Mm-hm."
+  },
+  {
+   "t": 4779,
+   "speaker": "Tom",
+   "text": "Let me check my notes, I think this came up in the last retro too."
+  },
+  {
+   "t": 4787,
+   "speaker": "Marco",
+   "text": "Sure, one moment, let me find the right window."
+  },
+  {
+   "t": 4792,
+   "speaker": "Tom",
+   "text": "Right."
+  },
+  {
+   "t": 4794,
+   "speaker": "Lena",
+   "text": "Mhm."
+  },
+  {
+   "t": 4796,
+   "speaker": "Priya",
+   "text": "The main risk is still the timeline, honestly."
+  },
+  {
+   "t": 4801,
+   "speaker": "Priya",
+   "text": "I'm not sure the data supports that yet."
+  },
+  {
+   "t": 4805,
+   "speaker": "Priya",
+   "text": "I would like to see a rough estimate before we go further."
+  },
+  {
+   "t": 4812,
+   "speaker": "Priya",
+   "text": "There's also a dependency on the platform team that we shouldn't forget."
+  },
+  {
+   "t": 4818,
+   "speaker": "Lena",
+   "text": "Thanks, got it."
+  },
+  {
+   "t": 4821,
+   "speaker": "Priya",
+   "text": "Let me check my notes, I think this came up in the last retro too."
+  },
+  {
+   "t": 4829,
+   "speaker": "Priya",
+   "text": "The main risk is still the timeline, honestly."
+  },
+  {
+   "t": 4834,
+   "speaker": "Marco",
+   "text": "Sorry, I was on mute."
+  },
+  {
+   "t": 4837,
+   "speaker": "Marco",
+   "text": "Uh-huh."
+  },
+  {
+   "t": 4839,
+   "speaker": "Priya",
+   "text": "The last time we estimated this, it took twice as long as planned."
+  },
+  {
+   "t": 4846,
+   "speaker": "Priya",
+   "text": "Right."
+  },
+  {
+   "t": 4848,
+   "speaker": "Lena",
+   "text": "From an engineering point of view it's not that hard."
+  },
+  {
+   "t": 4854,
+   "speaker": "Marco",
+   "text": "I don't have a strong opinion on this one."
+  },
+  {
+   "t": 4859,
+   "speaker": "Tom",
+   "text": "The main risk is still the timeline, honestly."
+  },
+  {
+   "t": 4864,
+   "speaker": "Tom",
+   "text": "Honestly I think the team can handle it if we cut scope a bit."
+  },
+  {
+   "t": 4871,
+   "speaker": "Priya",
+   "text": "Hmm."
+  },
+  {
+   "t": 4873,
+   "speaker": "Marco",
+   "text": "I don't have a strong opinion on this one."
+  },
+  {
+   "t": 4878,
+   "speaker": "Marco",
+   "text": "That's a fair point, but customers haven't really complained about it."
+  },
+  {
+   "t": 4884,
+   "speaker": "Lena",
+   "text": "Mhm."
+  },
+  {
+   "t": 4886,
+   "speaker": "Tom",
+   "text": "From an engineering point of view it's not that hard."
+  },
+  {
+   "t": 4892,
+   "speaker": "Marco",
+   "text": "I agree with the direction, I'm just worried about the effort."
+  },
+  {
+   "t": 4898,
+   "speaker": "Marco",
+   "text": "Could you repeat that? Your audio cut out for a moment."
+  },
+  {
+   "t": 4904,
+   "speaker": "Priya",
+   "text": "Could you repeat that? Your audio cut out for a moment."
+  },
+  {
+   "t": 4910,
+   "speaker": "Tom",
+   "text": "I'm not sure the data supports that yet."
+  },
+  {
+   "t": 4915,
+   "speaker": "Marco",
+   "text": "Lena, you wanted to talk about the support backlog?"
+  },
+  {
+   "t": 4920,
+   "speaker": "Lena",
+   "text": "I talked to the design team yesterday and they had a few concerns."
+  },
+  {
+   "t": 4927,
+   "speaker": "Tom",
+   "text": "I looked at the numbers again and they're roughly where we expected."
+  },
+  {
+   "t": 4934,
+   "speaker": "Marco",
+   "text": "I think we should keep it simple for the first version."
+  },
+  {
+   "t": 4940,
+   "speaker": "Marco",
+   "text": "Right."
+  },
+  {
+   "t": 4942,
+   "speaker": "Lena",
+   "text": "I think we should keep it simple for the first version."
+  },
+  {
+   "t": 4948,
+   "speaker": "Tom",
+   "text": "Right."
+  },
+  {
+   "t": 4950,
+   "speaker": "Priya",
+   "text": "Mhm."
+  },
+  {
+   "t": 4952,
+   "speaker": "Priya",
+   "text": "I would like to see a rough estimate before we go further."
+  },
+  {
+   "t": 4958,
+   "speaker": "Marco",
+   "text": "I talked to the design team yesterday and they had a few concerns."
+  },
+  {
+   "t": 4965,
+   "speaker": "Tom",
+   "text": "We discussed this with the customer success team last week."
+  },
+  {
+   "t": 4971,
+   "speaker": "Priya",
+   "text": "Could you repeat that? Your audio cut out for a moment."
+  },
+  {
+   "t": 4977,
+   "speaker": "Marco",
+   "text": "Could you repeat that? Your audio cut out for a moment."
+  },
+  {
+   "t": 4983,
+   "speaker": "Tom",
+   "text": "Could you repeat that? Your audio cut out for a moment."
+  },
+  {
+   "t": 4989,
+   "speaker": "Tom",
+   "text": "That's a fair point, but customers haven't really complained about it."
+  },
+  {
+   "t": 4995,
+   "speaker": "Marco",
+   "text": "From the support side, this is one of the top complaints."
+  },
+  {
+   "t": 5001,
+   "speaker": "Marco",
+   "text": "Let's keep an eye on it and revisit if it gets worse."
+  },
+  {
+   "t": 5008,
+   "speaker": "Marco",
+   "text": "Right."
+  },
+  {
+   "t": 5010,
+   "speaker": "Priya",
+   "text": "I saw a competitor launch something like this last month."
+  },
+  {
+   "t": 5015,
+   "speaker": "Priya",
+   "text": "The main risk is still the timeline, honestly."
+  },
+  {
+   "t": 5020,
+   "speaker": "Marco",
+   "text": "Median first response time is 19 hours."
+  },
+  {
+   "t": 5024,
+   "speaker": "Priya",
+   "text": "Coffee break soon? We've been going for a while."
+  },
+  {
+   "t": 5030,
+   "speaker": "Tom",
+   "text": "The support backlog is at 230 tickets."
+  },
+  {
+   "t": 5034,
+   "speaker": "Marco",
+   "text": "Let's not go down that rabbit hole right now."
+  },
+  {
+   "t": 5039,
+   "speaker": "Marco",
+   "text": "Thanks, got it."
+  },
+  {
+   "t": 5042,
+   "speaker": "Priya",
+   "text": "I'm not sure the data supports that yet."
+  },
+  {
+   "t": 5047,
+   "speaker": "Lena",
+   "text": "Uh-huh."
+  },
+  {
+   "t": 5049,
+   "speaker": "Lena",
+   "text": "We discussed this with the customer success team last week."
+  },
+  {
+   "t": 5055,
+   "speaker": "Marco",
+   "text": "Right."
+  },
+  {
+   "t": 5056,
+   "speaker": "Priya",
+   "text": "Should we outsource first-line support?"
+  },
+  {
+   "t": 5060,
+   "speaker": "Lena",
+   "text": "I'm against that, quality would drop."
+  },
+  {
+   "t": 5064,
+   "speaker": "Priya",
+   "text": "The main risk is still the timeline, honestly."
+  },
+  {
+   "t": 5069,
+   "speaker": "Lena",
+   "text": "I agree with the direction, I'm just worried about the effort."
+  },
+  {
+   "t": 5075,
+   "speaker": "Lena",
+   "text": "I'm not sure the data supports that yet."
+  },
+  {
+   "t": 5080,
+   "speaker": "Priya",
+   "text": "My gut feeling is that we're overthinking this one."
+  },
+  {
+   "t": 5085,
+   "speaker": "Priya",
+   "text": "I would like to see a rough estimate before we go further."
+  },
+  {
+   "t": 5092,
+   "speaker": "Marco",
+   "text": "We agree that engineers join the support rotation for two hours every Friday."
+  },
+  {
+   "t": 5098,
+   "speaker": "Tom",
+   "text": "Yes, that works for me."
+  },
+  {
+   "t": 5102,
+   "speaker": "Lena",
+   "text": "Honestly I think the team can handle it if we cut scope a bit."
+  },
+  {
+   "t": 5109,
+   "speaker": "Priya",
+   "text": "Lena, can you set up the macro for the top ten questions? Ideally by next week."
+  },
+  {
+   "t": 5118,
+   "speaker": "Lena",
+   "text": "Okay, I'll take it, next week works."
+  },
+  {
+   "t": 5122,
+   "speaker": "Tom",
+   "text": "Does anyone have the link to the planning document?"
+  },
+  {
+   "t": 5127,
+   "speaker": "Priya",
+   "text": "I just dropped it in the chat."
+  },
+  {
+   "t": 5132,
+   "speaker": "Lena",
+   "text": "From the support side, this is one of the top complaints."
+  },
+  {
+   "t": 5138,
+   "speaker": "Tom",
+   "text": "My gut feeling is that we're overthinking this one."
+  },
+  {
+   "t": 5143,
+   "speaker": "Marco",
+   "text": "Sure, one moment, let me find the right window."
+  },
+  {
+   "t": 5148,
+   "speaker": "Lena",
+   "text": "I would like to see a rough estimate before we go further."
+  },
+  {
+   "t": 5155,
+   "speaker": "Marco",
+   "text": "Sure, one moment, let me find the right window."
+  },
+  {
+   "t": 5160,
+   "speaker": "Marco",
+   "text": "I'll be out on Friday afternoon, just so you know."
+  },
+  {
+   "t": 5166,
+   "speaker": "Priya",
+   "text": "Right."
+  },
+  {
+   "t": 5168,
+   "speaker": "Priya",
+   "text": "I'll be out on Friday afternoon, just so you know."
+  },
+  {
+   "t": 5173,
+   "speaker": "Lena",
+   "text": "We need to be careful with the wording towards customers."
+  },
+  {
+   "t": 5179,
+   "speaker": "Priya",
+   "text": "This affects the mobile app as well, not just the web."
+  },
+  {
+   "t": 5185,
+   "speaker": "Lena",
+   "text": "There's also a dependency on the platform team that we shouldn't forget."
+  },
+  {
+   "t": 5191,
+   "speaker": "Tom",
+   "text": "The metrics dashboard was down this morning, so these numbers are from yesterday."
+  },
+  {
+   "t": 5198,
+   "speaker": "Marco",
+   "text": "Let me check my notes, I think this came up in the last retro too."
+  },
+  {
+   "t": 5206,
+   "speaker": "Marco",
+   "text": "The metrics dashboard was down this morning, so these numbers are from yesterday."
+  },
+  {
+   "t": 5213,
+   "speaker": "Priya",
+   "text": "Thanks, got it."
+  },
+  {
+   "t": 5216,
+   "speaker": "Marco",
+   "text": "Mhm."
+  },
+  {
+   "t": 5218,
+   "speaker": "Lena",
+   "text": "I saw a competitor launch something like this last month."
+  },
+  {
+   "t": 5223,
+   "speaker": "Priya",
+   "text": "The metrics dashboard was down this morning, so these numbers are from yesterday."
+  },
+  {
+   "t": 5230,
+   "speaker": "Marco",
+   "text": "The documentation for this is pretty outdated, by the way."
+  },
+  {
+   "t": 5236,
+   "speaker": "Priya",
+   "text": "Mm-hm."
+  },
+  {
+   "t": 5238,
+   "speaker": "Lena",
+   "text": "Coffee break soon? We've been going for a while."
+  },
+  {
+   "t": 5243,
+   "speaker": "Lena",
+   "text": "Honestly I think the team can handle it if we cut scope a bit."
+  },
+  {
+   "t": 5250,
+   "speaker": "Marco",
+   "text": "Coffee break soon? We've been going for a while."
+  },
+  {
+   "t": 5256,
+   "speaker": "Lena",
+   "text": "Hmm."
+  },
+  {
+   "t": 5258,
+   "speaker": "Priya",
+   "text": "I'll be out on Friday afternoon, just so you know."
+  },
+  {
+   "t": 5263,
+   "speaker": "Priya",
+   "text": "We tried something similar two years ago and it didn't go well."
+  },
+  {
+   "t": 5270,
+   "speaker": "Marco",
+   "text": "We should loop in finance before we commit to anything expensive."
+  },
+  {
+   "t": 5276,
+   "speaker": "Tom",
+   "text": "From an engineering point of view it's not that hard."
+  },
+  {
+   "t": 5282,
+   "speaker": "Priya",
+   "text": "Right."
+  },
+  {
+   "t": 5283,
+   "speaker": "Lena",
+   "text": "We discussed this with the customer success team last week."
+  },
+  {
+   "t": 5289,
+   "speaker": "Priya",
+   "text": "Let's look at the Tamsin onboarding flow now."
+  },
+  {
+   "t": 5294,
+   "speaker": "Lena",
+   "text": "Uh-huh."
+  },
+  {
+   "t": 5296,
+   "speaker": "Lena",
+   "text": "Hmm."
+  },
+  {
+   "t": 5298,
+   "speaker": "Priya",
+   "text": "Right."
+  },
+  {
+   "t": 5300,
+   "speaker": "Priya",
+   "text": "I just dropped it in the chat."
+  },
+  {
+   "t": 5304,
+   "speaker": "Marco",
+   "text": "Sorry, I was on mute."
+  },
+  {
+   "t": 5308,
+   "speaker": "Lena",
+   "text": "Sorry, I was on mute."
+  },
+  {
+   "t": 5311,
+   "speaker": "Lena",
+   "text": "The drop-off is on the import step."
+  },
+  {
+   "t": 5316,
+   "speaker": "Lena",
+   "text": "The last time we estimated this, it took twice as long as planned."
+  },
+  {
+   "t": 5323,
+   "speaker": "Tom",
+   "text": "We should loop in finance before we commit to anything expensive."
+  },
+  {
+   "t": 5329,
+   "speaker": "Priya",
+   "text": "Mhm."
+  },
+  {
+   "t": 5331,
+   "speaker": "Lena",
+   "text": "The main risk is still the timeline, honestly."
+  },
+  {
+   "t": 5335,
+   "speaker": "Priya",
+   "text": "Right."
+  },
+  {
+   "t": 5337,
+   "speaker": "Lena",
+   "text": "Uh-huh."
+  },
+  {
+   "t": 5339,
+   "speaker": "Lena",
+   "text": "Only 38 percent of new users finish Tamsin onboarding."
+  },
+  {
+   "t": 5345,
+   "speaker": "Tom",
+   "text": "Could we remove onboarding completely?"
+  },
+  {
+   "t": 5348,
+   "speaker": "Marco",
+   "text": "No, activation would collapse."
+  },
+  {
+   "t": 5351,
+   "speaker": "Marco",
+   "text": "That's a fair point, but customers haven't really complained about it."
+  },
+  {
+   "t": 5357,
+   "speaker": "Lena",
+   "text": "Thanks, got it."
+  },
+  {
+   "t": 5360,
+   "speaker": "Priya",
+   "text": "Decision: the Tamsin import step becomes optional."
+  },
+  {
+   "t": 5365,
+   "speaker": "Tom",
+   "text": "Okay, agreed."
+  },
+  {
+   "t": 5367,
+   "speaker": "Tom",
+   "text": "I think we should keep it simple for the first version."
+  },
+  {
+   "t": 5373,
+   "speaker": "Marco",
+   "text": "Can you share your screen for a second?"
+  },
+  {
+   "t": 5378,
+   "speaker": "Marco",
+   "text": "There's also a dependency on the platform team that we shouldn't forget."
+  },
+  {
+   "t": 5384,
+   "speaker": "Priya",
+   "text": "Let's keep an eye on it and revisit if it gets worse."
+  },
+  {
+   "t": 5391,
+   "speaker": "Lena",
+   "text": "I would like to see a rough estimate before we go further."
+  },
+  {
+   "t": 5397,
+   "speaker": "Tom",
+   "text": "Thanks, got it."
+  },
+  {
+   "t": 5400,
+   "speaker": "Priya",
+   "text": "I don't have a strong opinion on this one."
+  },
+  {
+   "t": 5405,
+   "speaker": "Marco",
+   "text": "Uh-huh."
+  },
+  {
+   "t": 5407,
+   "speaker": "Tom",
+   "text": "From the support side, this is one of the top complaints."
+  },
+  {
+   "t": 5413,
+   "speaker": "Priya",
+   "text": "There's also a dependency on the platform team that we shouldn't forget."
+  },
+  {
+   "t": 5420,
+   "speaker": "Tom",
+   "text": "Does anyone have the link to the planning document?"
+  },
+  {
+   "t": 5425,
+   "speaker": "Lena",
+   "text": "The main risk is still the timeline, honestly."
+  },
+  {
+   "t": 5430,
+   "speaker": "Tom",
+   "text": "Let's finish this topic first and then take five minutes."
+  },
+  {
+   "t": 5436,
+   "speaker": "Marco",
+   "text": "Mm-hm."
+  },
+  {
+   "t": 5437,
+   "speaker": "Marco",
+   "text": "Mhm."
+  },
+  {
+   "t": 5439,
+   "speaker": "Marco",
+   "text": "I'll be out on Friday afternoon, just so you know."
+  },
+  {
+   "t": 5445,
+   "speaker": "Marco",
+   "text": "I don't have a strong opinion on this one."
+  },
+  {
+   "t": 5450,
+   "speaker": "Tom",
+   "text": "Priya, can you write the copy for the skip button by Thursday?"
+  },
+  {
+   "t": 5457,
+   "speaker": "Priya",
+   "text": "Okay, I'll take it, Thursday works."
+  },
+  {
+   "t": 5461,
+   "speaker": "Marco",
+   "text": "The last time we estimated this, it took twice as long as planned."
+  },
+  {
+   "t": 5468,
+   "speaker": "Priya",
+   "text": "Mm-hm."
+  },
+  {
+   "t": 5470,
+   "speaker": "Lena",
+   "text": "I looked at the numbers again and they're roughly where we expected."
+  },
+  {
+   "t": 5476,
+   "speaker": "Tom",
+   "text": "Right."
+  },
+  {
+   "t": 5478,
+   "speaker": "Marco",
+   "text": "I'll be out on Friday afternoon, just so you know."
+  },
+  {
+   "t": 5484,
+   "speaker": "Tom",
+   "text": "From an engineering point of view it's not that hard."
+  },
+  {
+   "t": 5489,
+   "speaker": "Tom",
+   "text": "Let's not go down that rabbit hole right now."
+  },
+  {
+   "t": 5495,
+   "speaker": "Lena",
+   "text": "I would like to see a rough estimate before we go further."
+  },
+  {
+   "t": 5501,
+   "speaker": "Lena",
+   "text": "This affects the mobile app as well, not just the web."
+  },
+  {
+   "t": 5507,
+   "speaker": "Tom",
+   "text": "Right."
+  },
+  {
+   "t": 5509,
+   "speaker": "Lena",
+   "text": "That's a fair point, but customers haven't really complained about it."
+  },
+  {
+   "t": 5515,
+   "speaker": "Lena",
+   "text": "Let's keep an eye on it and revisit if it gets worse."
+  },
+  {
+   "t": 5522,
+   "speaker": "Lena",
+   "text": "I don't have a strong opinion on this one."
+  },
+  {
+   "t": 5527,
+   "speaker": "Tom",
+   "text": "Could you repeat that? Your audio cut out for a moment."
+  },
+  {
+   "t": 5533,
+   "speaker": "Tom",
+   "text": "Right."
+  },
+  {
+   "t": 5535,
+   "speaker": "Lena",
+   "text": "Could you repeat that? Your audio cut out for a moment."
+  },
+  {
+   "t": 5541,
+   "speaker": "Priya",
+   "text": "I think we should keep it simple for the first version."
+  },
+  {
+   "t": 5547,
+   "speaker": "Marco",
+   "text": "We need to be careful with the wording towards customers."
+  },
+  {
+   "t": 5553,
+   "speaker": "Priya",
+   "text": "I saw a competitor launch something like this last month."
+  },
+  {
+   "t": 5558,
+   "speaker": "Lena",
+   "text": "This affects the mobile app as well, not just the web."
+  },
+  {
+   "t": 5565,
+   "speaker": "Tom",
+   "text": "Could you repeat that? Your audio cut out for a moment."
+  },
+  {
+   "t": 5571,
+   "speaker": "Lena",
+   "text": "Hmm."
+  },
+  {
+   "t": 5573,
+   "speaker": "Priya",
+   "text": "I'm not sure the data supports that yet."
+  },
+  {
+   "t": 5577,
+   "speaker": "Tom",
+   "text": "Sure, one moment, let me find the right window."
+  },
+  {
+   "t": 5583,
+   "speaker": "Priya",
+   "text": "I would like to see a rough estimate before we go further."
+  },
+  {
+   "t": 5589,
+   "speaker": "Priya",
+   "text": "Mm-hm."
+  },
+  {
+   "t": 5591,
+   "speaker": "Priya",
+   "text": "I'll be out on Friday afternoon, just so you know."
+  },
+  {
+   "t": 5597,
+   "speaker": "Tom",
+   "text": "I think we should keep it simple for the first version."
+  },
+  {
+   "t": 5603,
+   "speaker": "Lena",
+   "text": "I would like to see a rough estimate before we go further."
+  },
+  {
+   "t": 5609,
+   "speaker": "Marco",
+   "text": "Uh-huh."
+  },
+  {
+   "t": 5611,
+   "speaker": "Priya",
+   "text": "I looked at the numbers again and they're roughly where we expected."
+  },
+  {
+   "t": 5618,
+   "speaker": "Lena",
+   "text": "The metrics dashboard was down this morning, so these numbers are from yesterday."
+  },
+  {
+   "t": 5625,
+   "speaker": "Priya",
+   "text": "We discussed this with the customer success team last week."
+  },
+  {
+   "t": 5630,
+   "speaker": "Priya",
+   "text": "We should loop in finance before we commit to anything expensive."
+  },
+  {
+   "t": 5636,
+   "speaker": "Lena",
+   "text": "I'll be out on Friday afternoon, just so you know."
+  },
+  {
+   "t": 5642,
+   "speaker": "Marco",
+   "text": "We need to be careful with the wording towards customers."
+  },
+  {
+   "t": 5648,
+   "speaker": "Marco",
+   "text": "I'll be out on Friday afternoon, just so you know."
+  },
+  {
+   "t": 5653,
+   "speaker": "Lena",
+   "text": "Sorry, I was on mute."
+  },
+  {
+   "t": 5657,
+   "speaker": "Lena",
+   "text": "I just dropped it in the chat."
+  },
+  {
+   "t": 5661,
+   "speaker": "Priya",
+   "text": "I think we should keep it simple for the first version."
+  }
+ ],
+ "key": {
+  "decisions": [
+   {
+    "keywords": [
+     "Kestrel",
+     "March"
+    ]
+   },
+   {
+    "keywords": [
+     "Halden",
+     "PDF"
+    ]
+   },
+   {
+    "keywords": [
+     "one-week",
+     "November"
+    ]
+   },
+   {
+    "keywords": [
+     "backend engineer",
+     "first"
+    ]
+   },
+   {
+    "keywords": [
+     "Alcântara|Alcantara"
+    ]
+   },
+   {
+    "keywords": [
+     "Orion",
+     "February"
+    ]
+   },
+   {
+    "keywords": [
+     "search",
+     "offline"
+    ]
+   },
+   {
+    "keywords": [
+     "Bramble",
+     "one week|1 week"
+    ]
+   },
+   {
+    "keywords": [
+     "high findings"
+    ]
+   },
+   {
+    "keywords": [
+     "annual plan",
+     "pricing page"
+    ]
+   },
+   {
+    "keywords": [
+     "90 days"
+    ]
+   },
+   {
+    "keywords": [
+     "Juniper",
+     "incremental"
+    ]
+   },
+   {
+    "keywords": [
+     "webinar",
+     "November"
+    ]
+   },
+   {
+    "keywords": [
+     "support rotation",
+     "Friday"
+    ]
+   },
+   {
+    "keywords": [
+     "Tamsin",
+     "optional"
+    ]
+   }
+  ],
+  "actions": [
+   {
+    "keywords": [
+     "Kestrel",
+     "mockups"
+    ],
+    "owner": "Marco",
+    "due": [
+     "Thursday",
+     "Donnerstag"
+    ]
+   },
+   {
+    "keywords": [
+     "Halden",
+     "template"
+    ],
+    "owner": "Priya",
+    "due": [
+     "Monday",
+     "Montag"
+    ]
+   },
+   {
+    "keywords": [
+     "regression",
+     "tables"
+    ],
+    "owner": "Tom",
+    "due": [
+     "end of the month",
+     "end of month",
+     "month end"
+    ]
+   },
+   {
+    "keywords": [
+     "PagerDuty"
+    ],
+    "owner": "Lena",
+    "due": [
+     "Friday",
+     "Freitag"
+    ]
+   },
+   {
+    "keywords": [
+     "job description"
+    ],
+    "owner": "Marco",
+    "due": [
+     "next Wednesday",
+     "Wednesday"
+    ]
+   },
+   {
+    "keywords": [
+     "moving",
+     "quotes"
+    ],
+    "owner": "Priya",
+    "due": [
+     "December 5",
+     "5 December",
+     "5th of December",
+     "Dec 5"
+    ]
+   },
+   {
+    "keywords": [
+     "integration owners"
+    ],
+    "owner": "Tom",
+    "due": [
+     "tomorrow",
+     "morgen"
+    ]
+   },
+   {
+    "keywords": [
+     "survey",
+     "board"
+    ],
+    "owner": "Lena",
+    "due": [
+     "Tuesday",
+     "Dienstag"
+    ]
+   },
+   {
+    "keywords": [
+     "critical",
+     "Bramble"
+    ],
+    "owner": "Marco",
+    "due": [
+     "today",
+     "end of day",
+     "heute"
+    ]
+   },
+   {
+    "keywords": [
+     "support team"
+    ],
+    "owner": "Priya",
+    "due": [
+     "Monday",
+     "Montag"
+    ]
+   },
+   {
+    "keywords": [
+     "staging keys"
+    ],
+    "owner": "Tom",
+    "due": [
+     "tonight",
+     "today"
+    ]
+   },
+   {
+    "keywords": [
+     "pricing",
+     "sales"
+    ],
+    "owner": "Lena",
+    "due": [
+     "Thursday",
+     "Donnerstag"
+    ]
+   },
+   {
+    "keywords": [
+     "retention policy"
+    ],
+    "owner": "Priya",
+    "due": [
+     "next Friday",
+     "Friday"
+    ]
+   },
+   {
+    "keywords": [
+     "benchmark"
+    ],
+    "owner": "Tom",
+    "due": [
+     "Wednesday",
+     "Mittwoch"
+    ]
+   },
+   {
+    "keywords": [
+     "invitations"
+    ],
+    "owner": "Marco",
+    "due": [
+     "Monday",
+     "Montag"
+    ]
+   },
+   {
+    "keywords": [
+     "macro"
+    ],
+    "owner": "Lena",
+    "due": [
+     "next week"
+    ]
+   },
+   {
+    "keywords": [
+     "skip button"
+    ],
+    "owner": "Priya",
+    "due": [
+     "Thursday",
+     "Donnerstag"
+    ]
+   }
+  ],
+  "traps": [
+   {
+    "keywords": [
+     "dark theme"
+    ]
+   },
+   {
+    "keywords": [
+     "Excel"
+    ]
+   },
+   {
+    "keywords": [
+     "weekend bonus"
+    ]
+   },
+   {
+    "keywords": [
+     "contractor"
+    ]
+   },
+   {
+    "keywords": [
+     "both offices"
+    ]
+   },
+   {
+    "keywords": [
+     "charge"
+    ]
+   },
+   {
+    "keywords": [
+     "Spanish"
+    ]
+   },
+   {
+    "keywords": [
+     "tablet layout"
+    ]
+   },
+   {
+    "keywords": [
+     "second audit"
+    ]
+   },
+   {
+    "keywords": [
+     "free tier"
+    ]
+   },
+   {
+    "keywords": [
+     "anonymis|anonymiz"
+    ]
+   },
+   {
+    "keywords": [
+     "hosted search"
+    ]
+   },
+   {
+    "keywords": [
+     "in person"
+    ]
+   },
+   {
+    "keywords": [
+     "outsource"
+    ]
+   },
+   {
+    "keywords": [
+     "remove onboarding"
+    ]
+   }
+  ]
+ },
+ "transcript": "[00:00] [Lena] Okay, let's move on to the Kestrel dashboard redesign.\n[00:05] [Priya] The current Kestrel dashboard loads in about 4.2 seconds on the median account.\n[00:12] [Tom] Sorry, I was on mute.\n[00:15] [Tom] Let's finish this topic first and then take five minutes.\n[00:21] [Marco] I'm not sure the data supports that yet.\n[00:26] [Marco] Around 1,800 customers open Kestrel every week.\n[00:30] [Tom] The documentation for this is pretty outdated, by the way.\n[00:36] [Marco] Sure, one moment, let me find the right window.\n[00:41] [Priya] I talked to the design team yesterday and they had a few concerns.\n[00:48] [Tom] There's also a dependency on the platform team that we shouldn't forget.\n[00:55] [Tom] I just dropped it in the chat.\n[00:59] [Marco] I would like to see a rough estimate before we go further.\n[01:05] [Lena] Let me check my notes, I think this came up in the last retro too.\n[01:13] [Priya] Right.\n[01:15] [Priya] This affects the mobile app as well, not just the web.\n[01:21] [Priya] I just dropped it in the chat.\n[01:26] [Marco] The metrics dashboard was down this morning, so these numbers are from yesterday.\n[01:33] [Priya] The main risk is still the timeline, honestly.\n[01:37] [Priya] From the support side, this is one of the top complaints.\n[01:43] [Marco] Let me check my notes, I think this came up in the last retro too.\n[01:51] [Priya] There's also a dependency on the platform team that we shouldn't forget.\n[01:58] [Tom] Hmm.\n[02:00] [Tom] Mhm.\n[02:02] [Priya] The main risk is still the timeline, honestly.\n[02:06] [Lena] The metrics dashboard was down this morning, so these numbers are from yesterday.\n[02:13] [Lena] Mm-hm.\n[02:15] [Priya] I saw a competitor launch something like this last month.\n[02:21] [Priya] I talked to the design team yesterday and they had a few concerns.\n[02:28] [Lena] Mhm.\n[02:30] [Priya] The metrics dashboard was down this morning, so these numbers are from yesterday.\n[02:37] [Lena] I'm not sure the data supports that yet.\n[02:41] [Priya] What if we dropped the dark theme from Kestrel entirely?\n[02:47] [Marco] I'd rather not decide that today, we need the survey data first.\n[02:54] [Tom] We tried something similar two years ago and it didn't go well.\n[03:00] [Tom] The documentation for this is pretty outdated, by the way.\n[03:06] [Lena] Let's finish this topic first and then take five minutes.\n[03:11] [Priya] From an engineering point of view it's not that hard.\n[03:17] [Priya] The last time we estimated this, it took twice as long as planned.\n[03:24] [Priya] Honestly I think the team can handle it if we cut scope a bit.\n[03:31] [Lena] So we agree: the Kestrel redesign ships after the trade fair in March, not before.\n[03:39] [Marco] Okay, agreed.\n[03:41] [Lena] Marco, can you send the Kestrel mockups to the design review group? Ideally by Thursday.\n[03:49] [Marco] Okay, I'll take it, Thursday works.\n[03:53] [Lena] We tried something similar two years ago and it didn't go well.\n[04:00] [Tom] I saw a competitor launch something like this last month.\n[04:05] [Priya] We need to be careful with the wording towards customers.\n[04:11] [Lena] The main risk is still the timeline, honestly.\n[04:16] [Priya] The main risk is still the timeline, honestly.\n[04:21] [Priya] We discussed this with the customer success team last week.\n[04:26] [Marco] Let's not go down that rabbit hole right now.\n[04:32] [Priya] Let's not go down that rabbit hole right now.\n[04:37] [Priya] Honestly I think the team can handle it if we cut scope a bit.\n[04:44] [Lena] Let me check my notes, I think this came up in the last retro too.\n[04:52] [Priya] We tried something similar two years ago and it didn't go well.\n[04:58] [Marco] There's also a dependency on the platform team that we shouldn't forget.\n[05:05] [Lena] This affects the mobile app as well, not just the web.\n[05:11] [Priya] Uh-huh.\n[05:13] [Tom] We should loop in finance before we commit to anything expensive.\n[05:19] [Lena] From the support side, this is one of the top complaints.\n[05:25] [Tom] I agree with the direction, I'm just worried about the effort.\n[05:31] [Lena] That's a fair point, but customers haven't really complained about it.\n[05:37] [Priya] Sorry, I was on mute.\n[05:41] [Priya] Could you repeat that? Your audio cut out for a moment.\n[05:47] [Priya] I think we should keep it simple for the first version.\n[05:53] [Priya] The metrics dashboard was down this morning, so these numbers are from yesterday.\n[06:00] [Tom] There's also a dependency on the platform team that we shouldn't forget.\n[06:06] [Marco] Tom, you wanted to talk about the invoice export for Halden Logistics?\n[06:13] [Tom] Halden Logistics sends us roughly 600 invoices a month.\n[06:18] [Lena] We should loop in finance before we commit to anything expensive.\n[06:24] [Tom] The PDF export breaks on tables longer than two pages.\n[06:30] [Priya] The documentation for this is pretty outdated, by the way.\n[06:36] [Lena] We should loop in finance before we commit to anything expensive.\n[06:42] [Lena] I'll be out on Friday afternoon, just so you know.\n[06:47] [Lena] I talked to the design team yesterday and they had a few concerns.\n[06:54] [Marco] From an engineering point of view it's not that hard.\n[07:00] [Lena] This affects the mobile app as well, not just the web.\n[07:06] [Lena] Should we offer Halden an Excel export as well?\n[07:11] [Priya] No, not now. Excel export is out of scope this quarter.\n[07:17] [Priya] From the support side, this is one of the top complaints.\n[07:23] [Tom] The main risk is still the timeline, honestly.\n[07:28] [Marco] Decision then: we fix the long-table PDF layout for Halden before any new export formats.\n[07:36] [Tom] Agreed.\n[07:38] [Tom] Honestly I think the team can handle it if we cut scope a bit.\n[07:45] [Priya] Can you share your screen for a second?\n[07:50] [Lena] That's a fair point, but customers haven't really complained about it.\n[07:56] [Marco] Uh-huh.\n[07:58] [Tom] I looked at the numbers again and they're roughly where we expected.\n[08:05] [Lena] Thanks, got it.\n[08:07] [Priya] The last time we estimated this, it took twice as long as planned.\n[08:14] [Tom] The documentation for this is pretty outdated, by the way.\n[08:20] [Lena] Uh-huh.\n[08:22] [Lena] We tried something similar two years ago and it didn't go well.\n[08:28] [Tom] Mhm.\n[08:30] [Tom] I think we should keep it simple for the first version.\n[08:36] [Lena] Let's not go down that rabbit hole right now.\n[08:42] [Marco] Priya, can you call Halden and confirm their invoice template? Ideally by Monday.\n[08:48] [Priya] Okay, I'll take it, Monday works.\n[08:52] [Marco] Honestly I think the team can handle it if we cut scope a bit.\n[09:00] [Lena] This affects the mobile app as well, not just the web.\n[09:06] [Tom] Mhm.\n[09:08] [Priya] Tom, will you write the regression tests for the long tables by end of the month?\n[09:16] [Tom] Yes, I'll do that by end of the month.\n[09:21] [Tom] Coffee break soon? We've been going for a while.\n[09:26] [Tom] I talked to the design team yesterday and they had a few concerns.\n[09:33] [Priya] Hmm.\n[09:35] [Tom] The metrics dashboard was down this morning, so these numbers are from yesterday.\n[09:42] [Priya] Right.\n[09:44] [Tom] Sure, one moment, let me find the right window.\n[09:49] [Lena] We tried something similar two years ago and it didn't go well.\n[09:56] [Priya] Does anyone have the link to the planning document?\n[10:01] [Tom] Mhm.\n[10:03] [Lena] Let's not go down that rabbit hole right now.\n[10:08] [Tom] I looked at the numbers again and they're roughly where we expected.\n[10:15] [Lena] Hmm.\n[10:17] [Tom] Let me check my notes, I think this came up in the last retro too.\n[10:24] [Priya] Mhm.\n[10:26] [Lena] That's a fair point, but customers haven't really complained about it.\n[10:32] [Priya] Let's keep an eye on it and revisit if it gets worse.\n[10:39] [Lena] I think we should keep it simple for the first version.\n[10:45] [Marco] From an engineering point of view it's not that hard.\n[10:51] [Lena] Mhm.\n[10:53] [Lena] Could you repeat that? Your audio cut out for a moment.\n[10:59] [Marco] Could you repeat that? Your audio cut out for a moment.\n[11:05] [Priya] Thanks, got it.\n[11:08] [Priya] Thanks, got it.\n[11:10] [Tom] I think we should keep it simple for the first version.\n[11:16] [Marco] The metrics dashboard was down this morning, so these numbers are from yesterday.\n[11:23] [Tom] The documentation for this is pretty outdated, by the way.\n[11:29] [Marco] Hmm.\n[11:31] [Tom] Hmm.\n[11:33] [Tom] The documentation for this is pretty outdated, by the way.\n[11:38] [Marco] Could you repeat that? Your audio cut out for a moment.\n[11:45] [Marco] Sorry, I was on mute.\n[11:48] [Marco] Let's not go down that rabbit hole right now.\n[11:53] [Priya] Coffee break soon? We've been going for a while.\n[11:59] [Priya] The metrics dashboard was down this morning, so these numbers are from yesterday.\n[12:06] [Lena] My gut feeling is that we're overthinking this one.\n[12:11] [Marco] I just dropped it in the chat.\n[12:15] [Marco] Uh-huh.\n[12:17] [Tom] I'm not sure the data supports that yet.\n[12:22] [Marco] Let's keep an eye on it and revisit if it gets worse.\n[12:28] [Lena] Let's finish this topic first and then take five minutes.\n[12:34] [Tom] Sure, one moment, let me find the right window.\n[12:39] [Priya] Next item: the on-call rotation.\n[12:43] [Priya] I talked to the design team yesterday and they had a few concerns.\n[12:50] [Priya] Mhm.\n[12:52] [Lena] I think we should keep it simple for the first version.\n[12:58] [Priya] Uh-huh.\n[13:00] [Priya] Hmm.\n[13:02] [Priya] Uh-huh.\n[13:04] [Lena] I don't have a strong opinion on this one.\n[13:09] [Tom] I don't have a strong opinion on this one.\n[13:14] [Marco] We had 14 pages out of hours last month.\n[13:19] [Priya] That's a fair point, but customers haven't really complained about it.\n[13:25] [Lena] Hmm.\n[13:27] [Priya] The documentation for this is pretty outdated, by the way.\n[13:33] [Lena] Two of them were false alarms from the disk monitor.\n[13:39] [Priya] Could we pay a weekend bonus for on-call?\n[13:44] [Tom] That needs HR, we can't agree it in this meeting.\n[13:49] [Priya] I would like to see a rough estimate before we go further.\n[13:56] [Priya] Agreed: the on-call rotation moves to one-week shifts starting in November.\n[14:02] [Lena] Fine by me.\n[14:05] [Tom] Lena, can you update the PagerDuty schedule? Ideally by Friday.\n[14:10] [Lena] Okay, I'll take it, Friday works.\n[14:14] [Marco] I'll be out on Friday afternoon, just so you know.\n[14:20] [Marco] I'm not sure the data supports that yet.\n[14:25] [Lena] We discussed this with the customer success team last week.\n[14:30] [Marco] Mm-hm.\n[14:32] [Priya] The metrics dashboard was down this morning, so these numbers are from yesterday.\n[14:39] [Tom] We discussed this with the customer success team last week.\n[14:45] [Lena] Could you repeat that? Your audio cut out for a moment.\n[14:51] [Tom] Right.\n[14:53] [Priya] There's also a dependency on the platform team that we shouldn't forget.\n[14:59] [Lena] We tried something similar two years ago and it didn't go well.\n[15:06] [Marco] There's also a dependency on the platform team that we shouldn't forget.\n[15:12] [Priya] From an engineering point of view it's not that hard.\n[15:18] [Tom] Thanks, got it.\n[15:21] [Priya] Sure, one moment, let me find the right window.\n[15:26] [Marco] That's a fair point, but customers haven't really complained about it.\n[15:32] [Lena] Let me check my notes, I think this came up in the last retro too.\n[15:40] [Marco] That's a fair point, but customers haven't really complained about it.\n[15:46] [Tom] The metrics dashboard was down this morning, so these numbers are from yesterday.\n[15:53] [Marco] We tried something similar two years ago and it didn't go well.\n[15:59] [Marco] Sorry, I was on mute.\n[16:03] [Priya] Sorry, I was on mute.\n[16:07] [Lena] I'll be out on Friday afternoon, just so you know.\n[16:12] [Tom] I would like to see a rough estimate before we go further.\n[16:19] [Priya] I just dropped it in the chat.\n[16:23] [Tom] My gut feeling is that we're overthinking this one.\n[16:28] [Tom] My gut feeling is that we're overthinking this one.\n[16:34] [Lena] Right.\n[16:36] [Tom] Right.\n[16:37] [Marco] Hmm.\n[16:39] [Marco] The documentation for this is pretty outdated, by the way.\n[16:45] [Tom] Mm-hm.\n[16:47] [Marco] Uh-huh.\n[16:49] [Lena] Mhm.\n[16:51] [Marco] Mm-hm.\n[16:53] [Lena] I don't have a strong opinion on this one.\n[16:58] [Priya] Let's not go down that rabbit hole right now.\n[17:03] [Lena] We tried something similar two years ago and it didn't go well.\n[17:10] [Lena] I talked to the design team yesterday and they had a few concerns.\n[17:17] [Marco] I saw a competitor launch something like this last month.\n[17:22] [Tom] Sorry, I was on mute.\n[17:26] [Tom] We should loop in finance before we commit to anything expensive.\n[17:32] [Tom] I talked to the design team yesterday and they had a few concerns.\n[17:39] [Marco] Right.\n[17:41] [Lena] Let's keep an eye on it and revisit if it gets worse.\n[17:47] [Marco] This affects the mobile app as well, not just the web.\n[17:53] [Lena] My gut feeling is that we're overthinking this one.\n[17:59] [Tom] Thanks, got it.\n[18:01] [Priya] I talked to the design team yesterday and they had a few concerns.\n[18:08] [Tom] Does anyone have the link to the planning document?\n[18:14] [Marco] Thanks, got it.\n[18:16] [Priya] I agree with the direction, I'm just worried about the effort.\n[18:22] [Tom] I'm not sure the data supports that yet.\n[18:27] [Marco] From the support side, this is one of the top complaints.\n[18:33] [Tom] Mm-hm.\n[18:35] [Marco] The main risk is still the timeline, honestly.\n[18:40] [Tom] Right.\n[18:42] [Lena] Can you share your screen for a second?\n[18:47] [Tom] Let's not go down that rabbit hole right now.\n[18:52] [Marco] Mhm.\n[18:54] [Tom] Thanks, got it.\n[18:57] [Marco] Right.\n[18:59] [Marco] Hmm.\n[19:01] [Lena] Mm-hm.\n[19:02] [Lena] That's a fair point, but customers haven't really complained about it.\n[19:09] [Tom] Marco, you wanted to talk about the Q3 hiring plan?\n[19:14] [Tom] Can you share your screen for a second?\n[19:19] [Lena] We have budget for three engineering roles.\n[19:23] [Lena] I looked at the numbers again and they're roughly where we expected.\n[19:30] [Lena] Mhm.\n[19:32] [Tom] Mhm.\n[19:34] [Priya] Mm-hm.\n[19:36] [Priya] Let's keep an eye on it and revisit if it gets worse.\n[19:42] [Lena] We need to be careful with the wording towards customers.\n[19:48] [Lena] Thanks, got it.\n[19:51] [Tom] Could you repeat that? Your audio cut out for a moment.\n[19:57] [Priya] Hmm.\n[19:59] [Marco] Thanks, got it.\n[20:01] [Priya] I just dropped it in the chat.\n[20:06] [Tom] Does anyone have the link to the planning document?\n[20:11] [Tom] I would like to see a rough estimate before we go further.\n[20:18] [Tom] From the support side, this is one of the top complaints.\n[20:24] [Marco] I talked to the design team yesterday and they had a few concerns.\n[20:31] [Marco] The backend role has been open for 11 weeks.\n[20:36] [Tom] The main risk is still the timeline, honestly.\n[20:41] [Priya] Mhm.\n[20:43] [Lena] Can you share your screen for a second?\n[20:47] [Tom] What about hiring a contractor in the meantime?\n[20:52] [Marco] Let's park that, I'm not convinced it's worth the onboarding time.\n[20:58] [Tom] Okay, we decide to hire the backend engineer first and the two frontend roles after.\n[21:06] [Marco] Agreed.\n[21:08] [Lena] Hmm.\n[21:10] [Lena] My gut feeling is that we're overthinking this one.\n[21:15] [Marco] I agree with the direction, I'm just worried about the effort.\n[21:21] [Marco] I'm not sure the data supports that yet.\n[21:26] [Lena] I looked at the numbers again and they're roughly where we expected.\n[21:33] [Marco] I agree with the direction, I'm just worried about the effort.\n[21:39] [Tom] From an engineering point of view it's not that hard.\n[21:44] [Marco] Let's not go down that rabbit hole right now.\n[21:50] [Lena] I think we should keep it simple for the first version.\n[21:56] [Lena] That's a fair point, but customers haven't really complained about it.\n[22:02] [Marco] Let me check my notes, I think this came up in the last retro too.\n[22:09] [Lena] Honestly I think the team can handle it if we cut scope a bit.\n[22:17] [Priya] Marco, can you rewrite the backend job description? Ideally by next Wednesday.\n[22:23] [Marco] Yes, I'll do that by next Wednesday.\n[22:28] [Tom] Let me check my notes, I think this came up in the last retro too.\n[22:35] [Tom] We need to be careful with the wording towards customers.\n[22:41] [Lena] I would like to see a rough estimate before we go further.\n[22:48] [Tom] I would like to see a rough estimate before we go further.\n[22:54] [Lena] Coffee break soon? We've been going for a while.\n[22:59] [Priya] Sure, one moment, let me find the right window.\n[23:05] [Lena] I don't have a strong opinion on this one.\n[23:10] [Tom] Does anyone have the link to the planning document?\n[23:15] [Marco] Sure, one moment, let me find the right window.\n[23:20] [Priya] Can you share your screen for a second?\n[23:25] [Lena] I would like to see a rough estimate before we go further.\n[23:32] [Marco] Let's not go down that rabbit hole right now.\n[23:37] [Marco] I agree with the direction, I'm just worried about the effort.\n[23:43] [Tom] We discussed this with the customer success team last week.\n[23:49] [Tom] Sorry, I was on mute.\n[23:52] [Tom] The metrics dashboard was down this morning, so these numbers are from yesterday.\n[23:59] [Priya] I talked to the design team yesterday and they had a few concerns.\n[24:06] [Marco] The main risk is still the timeline, honestly.\n[24:11] [Marco] The main risk is still the timeline, honestly.\n[24:16] [Lena] The documentation for this is pretty outdated, by the way.\n[24:21] [Marco] I talked to the design team yesterday and they had a few concerns.\n[24:28] [Tom] There's also a dependency on the platform team that we shouldn't forget.\n[24:35] [Tom] We need to be careful with the wording towards customers.\n[24:41] [Marco] I'll be out on Friday afternoon, just so you know.\n[24:46] [Tom] Uh-huh.\n[24:48] [Marco] I agree with the direction, I'm just worried about the effort.\n[24:54] [Tom] I'll be out on Friday afternoon, just so you know.\n[25:00] [Marco] Does anyone have the link to the planning document?\n[25:05] [Tom] We discussed this with the customer success team last week.\n[25:11] [Marco] Coffee break soon? We've been going for a while.\n[25:16] [Priya] I'll be out on Friday afternoon, just so you know.\n[25:22] [Lena] Next item: the Lisbon office move.\n[25:26] [Lena] The Lisbon lease ends on the 30th of January.\n[25:31] [Lena] Mhm.\n[25:33] [Priya] We discussed this with the customer success team last week.\n[25:39] [Lena] Does anyone have the link to the planning document?\n[25:44] [Lena] The last time we estimated this, it took twice as long as planned.\n[25:51] [Lena] I saw a competitor launch something like this last month.\n[25:56] [Tom] Let me check my notes, I think this came up in the last retro too.\n[26:04] [Tom] The last time we estimated this, it took twice as long as planned.\n[26:11] [Tom] The new space has 22 desks.\n[26:15] [Priya] Maybe we should keep both offices for a while?\n[26:20] [Marco] That doubles the rent, so no.\n[26:24] [Lena] Hmm.\n[26:26] [Marco] From the support side, this is one of the top complaints.\n[26:32] [Priya] The metrics dashboard was down this morning, so these numbers are from yesterday.\n[26:39] [Lena] There's also a dependency on the platform team that we shouldn't forget.\n[26:46] [Tom] Mhm.\n[26:48] [Tom] We discussed this with the customer success team last week.\n[26:53] [Tom] From an engineering point of view it's not that hard.\n[26:59] [Priya] From the support side, this is one of the top complaints.\n[27:05] [Lena] We tried something similar two years ago and it didn't go well.\n[27:12] [Tom] We need to be careful with the wording towards customers.\n[27:17] [Tom] Honestly I think the team can handle it if we cut scope a bit.\n[27:25] [Marco] The documentation for this is pretty outdated, by the way.\n[27:30] [Lena] We tried something similar two years ago and it didn't go well.\n[27:37] [Tom] We should loop in finance before we commit to anything expensive.\n[27:43] [Lena] There's also a dependency on the platform team that we shouldn't forget.\n[27:49] [Lena] Let's finish this topic first and then take five minutes.\n[27:55] [Priya] There's also a dependency on the platform team that we shouldn't forget.\n[28:02] [Priya] Mhm.\n[28:03] [Tom] Hmm.\n[28:05] [Marco] We need to be careful with the wording towards customers.\n[28:11] [Priya] Thanks, got it.\n[28:14] [Lena] Right.\n[28:16] [Tom] Let's not go down that rabbit hole right now.\n[28:21] [Lena] Fine, we sign the lease for the Alcântara space in Lisbon.\n[28:27] [Marco] Yes, that works for me.\n[28:31] [Marco] Priya, can you get three quotes from moving companies? Ideally by December 5.\n[28:38] [Priya] Yes, I'll do that by December 5.\n[28:42] [Lena] Sorry, I was on mute.\n[28:46] [Lena] That's a fair point, but customers haven't really complained about it.\n[28:52] [Priya] I looked at the numbers again and they're roughly where we expected.\n[28:58] [Tom] Sure, one moment, let me find the right window.\n[29:03] [Tom] Let's keep an eye on it and revisit if it gets worse.\n[29:10] [Lena] Coffee break soon? We've been going for a while.\n[29:15] [Marco] Hmm.\n[29:17] [Tom] Right.\n[29:19] [Marco] I looked at the numbers again and they're roughly where we expected.\n[29:25] [Marco] Could you repeat that? Your audio cut out for a moment.\n[29:32] [Marco] We tried something similar two years ago and it didn't go well.\n[29:38] [Marco] Right.\n[29:40] [Tom] Let me check my notes, I think this came up in the last retro too.\n[29:48] [Priya] The main risk is still the timeline, honestly.\n[29:53] [Marco] Mhm.\n[29:54] [Priya] I just dropped it in the chat.\n[29:59] [Marco] Sure, one moment, let me find the right window.\n[30:04] [Marco] Uh-huh.\n[30:06] [Lena] The last time we estimated this, it took twice as long as planned.\n[30:13] [Lena] I don't have a strong opinion on this one.\n[30:18] [Tom] Let's not go down that rabbit hole right now.\n[30:23] [Tom] Uh-huh.\n[30:25] [Priya] We discussed this with the customer success team last week.\n[30:31] [Tom] Coffee break soon? We've been going for a while.\n[30:36] [Priya] Sorry, I was on mute.\n[30:40] [Priya] Could you repeat that? Your audio cut out for a moment.\n[30:46] [Priya] From the support side, this is one of the top complaints.\n[30:52] [Marco] Sorry, I was on mute.\n[30:56] [Tom] Mhm.\n[30:58] [Lena] Could you repeat that? Your audio cut out for a moment.\n[31:04] [Lena] From the support side, this is one of the top complaints.\n[31:10] [Priya] Does anyone have the link to the planning document?\n[31:15] [Tom] Mm-hm.\n[31:17] [Priya] I agree with the direction, I'm just worried about the effort.\n[31:23] [Priya] Does anyone have the link to the planning document?\n[31:28] [Priya] We need to be careful with the wording towards customers.\n[31:34] [Priya] My gut feeling is that we're overthinking this one.\n[31:39] [Marco] Okay, let's move on to the Orion API migration.\n[31:44] [Marco] Uh-huh.\n[31:46] [Tom] The documentation for this is pretty outdated, by the way.\n[31:52] [Lena] Can you share your screen for a second?\n[31:57] [Priya] Let's finish this topic first and then take five minutes.\n[32:02] [Tom] Hmm.\n[32:04] [Priya] Sure, one moment, let me find the right window.\n[32:10] [Tom] Can you share your screen for a second?\n[32:14] [Tom] This affects the mobile app as well, not just the web.\n[32:21] [Lena] Does anyone have the link to the planning document?\n[32:26] [Priya] From an engineering point of view it's not that hard.\n[32:31] [Lena] Does anyone have the link to the planning document?\n[32:37] [Priya] I'm not sure the data supports that yet.\n[32:42] [Lena] Does anyone have the link to the planning document?\n[32:47] [Lena] We tried something similar two years ago and it didn't go well.\n[32:53] [Priya] This affects the mobile app as well, not just the web.\n[32:59] [Marco] Orion v1 still serves about 9 percent of API traffic.\n[33:05] [Priya] Mm-hm.\n[33:07] [Tom] Seventeen integrations call the deprecated endpoints.\n[33:11] [Priya] Should we charge customers who stay on v1?\n[33:16] [Tom] No, that would only cause friction.\n[33:20] [Tom] I agree with the direction, I'm just worried about the effort.\n[33:26] [Tom] That's a fair point, but customers haven't really complained about it.\n[33:32] [Priya] We tried something similar two years ago and it didn't go well.\n[33:38] [Lena] Sorry, I was on mute.\n[33:42] [Tom] I think we should keep it simple for the first version.\n[33:48] [Tom] Uh-huh.\n[33:50] [Tom] Right.\n[33:52] [Marco] I just dropped it in the chat.\n[33:56] [Marco] Decided: Orion v1 is switched off on the 1st of February.\n[34:02] [Tom] Fine by me.\n[34:05] [Marco] Tom, can you email the seventeen integration owners about Orion by tomorrow?\n[34:12] [Tom] Okay, I'll take it, tomorrow works.\n[34:16] [Lena] I think we should keep it simple for the first version.\n[34:22] [Lena] Let's not go down that rabbit hole right now.\n[34:27] [Tom] Let's not go down that rabbit hole right now.\n[34:32] [Priya] Let me check my notes, I think this came up in the last retro too.\n[34:40] [Priya] We should loop in finance before we commit to anything expensive.\n[34:46] [Lena] Thanks, got it.\n[34:49] [Lena] Mm-hm.\n[34:51] [Marco] From an engineering point of view it's not that hard.\n[34:56] [Marco] I think we should keep it simple for the first version.\n[35:03] [Tom] Let's keep an eye on it and revisit if it gets worse.\n[35:09] [Marco] We discussed this with the customer success team last week.\n[35:15] [Priya] My gut feeling is that we're overthinking this one.\n[35:20] [Priya] We tried something similar two years ago and it didn't go well.\n[35:26] [Priya] We need to be careful with the wording towards customers.\n[35:32] [Marco] The documentation for this is pretty outdated, by the way.\n[35:38] [Priya] This affects the mobile app as well, not just the web.\n[35:44] [Marco] I don't have a strong opinion on this one.\n[35:49] [Tom] Let me check my notes, I think this came up in the last retro too.\n[35:57] [Tom] Mm-hm.\n[35:59] [Marco] Let's not go down that rabbit hole right now.\n[36:04] [Tom] Let's not go down that rabbit hole right now.\n[36:09] [Marco] Can you share your screen for a second?\n[36:14] [Marco] I just dropped it in the chat.\n[36:19] [Priya] Uh-huh.\n[36:20] [Lena] I saw a competitor launch something like this last month.\n[36:26] [Tom] My gut feeling is that we're overthinking this one.\n[36:31] [Marco] Right.\n[36:33] [Marco] I agree with the direction, I'm just worried about the effort.\n[36:39] [Marco] Does anyone have the link to the planning document?\n[36:45] [Tom] Mm-hm.\n[36:46] [Marco] This affects the mobile app as well, not just the web.\n[36:53] [Priya] I would like to see a rough estimate before we go further.\n[36:59] [Tom] Mm-hm.\n[37:01] [Priya] Could you repeat that? Your audio cut out for a moment.\n[37:07] [Tom] The metrics dashboard was down this morning, so these numbers are from yesterday.\n[37:14] [Tom] From an engineering point of view it's not that hard.\n[37:20] [Marco] Let's keep an eye on it and revisit if it gets worse.\n[37:26] [Priya] Hmm.\n[37:28] [Priya] I'm not sure the data supports that yet.\n[37:33] [Marco] Mm-hm.\n[37:35] [Marco] Let's keep an eye on it and revisit if it gets worse.\n[37:41] [Priya] I would like to see a rough estimate before we go further.\n[37:48] [Marco] We need to be careful with the wording towards customers.\n[37:53] [Priya] Next item: the customer survey results.\n[37:57] [Tom] We got 412 responses to the survey.\n[38:02] [Tom] We need to be careful with the wording towards customers.\n[38:08] [Marco] Could you repeat that? Your audio cut out for a moment.\n[38:14] [Tom] Sorry, I was on mute.\n[38:17] [Marco] Let's not go down that rabbit hole right now.\n[38:22] [Marco] I don't have a strong opinion on this one.\n[38:28] [Marco] We discussed this with the customer success team last week.\n[38:33] [Priya] Let's finish this topic first and then take five minutes.\n[38:39] [Tom] Mhm.\n[38:41] [Marco] From the support side, this is one of the top complaints.\n[38:47] [Lena] Mm-hm.\n[38:49] [Priya] Let's finish this topic first and then take five minutes.\n[38:55] [Tom] Sure, one moment, let me find the right window.\n[39:00] [Marco] Let's not go down that rabbit hole right now.\n[39:05] [Marco] That's a fair point, but customers haven't really complained about it.\n[39:11] [Priya] Let's keep an eye on it and revisit if it gets worse.\n[39:18] [Priya] Honestly I think the team can handle it if we cut scope a bit.\n[39:25] [Priya] Could you repeat that? Your audio cut out for a moment.\n[39:31] [Marco] Search was the most requested feature, mentioned 133 times.\n[39:36] [Priya] The last time we estimated this, it took twice as long as planned.\n[39:43] [Priya] Do we want to run a second survey in Spanish?\n[39:49] [Tom] Maybe later in the year, not now.\n[39:53] [Lena] Let me check my notes, I think this came up in the last retro too.\n[40:01] [Lena] We tried something similar two years ago and it didn't go well.\n[40:08] [Priya] We discussed this with the customer success team last week.\n[40:13] [Marco] Let's not go down that rabbit hole right now.\n[40:19] [Priya] Hmm.\n[40:20] [Priya] So the decision is that search goes on the roadmap ahead of offline mode.\n[40:28] [Marco] Okay, agreed.\n[40:30] [Tom] From an engineering point of view it's not that hard.\n[40:36] [Priya] This affects the mobile app as well, not just the web.\n[40:42] [Tom] There's also a dependency on the platform team that we shouldn't forget.\n[40:48] [Marco] Mhm.\n[40:50] [Marco] I looked at the numbers again and they're roughly where we expected.\n[40:57] [Marco] We tried something similar two years ago and it didn't go well.\n[41:03] [Priya] Does anyone have the link to the planning document?\n[41:09] [Tom] Lena, can you write a one-page summary of the survey for the board? Ideally by Tuesday.\n[41:17] [Lena] Yes, I'll do that by Tuesday.\n[41:21] [Lena] Right.\n[41:23] [Marco] I'll be out on Friday afternoon, just so you know.\n[41:28] [Marco] Uh-huh.\n[41:30] [Lena] I think we should keep it simple for the first version.\n[41:36] [Lena] We tried something similar two years ago and it didn't go well.\n[41:43] [Tom] Mhm.\n[41:45] [Tom] Let's finish this topic first and then take five minutes.\n[41:50] [Lena] I looked at the numbers again and they're roughly where we expected.\n[41:57] [Marco] The metrics dashboard was down this morning, so these numbers are from yesterday.\n[42:04] [Priya] Uh-huh.\n[42:06] [Lena] Does anyone have the link to the planning document?\n[42:11] [Tom] Right.\n[42:13] [Tom] Mm-hm.\n[42:15] [Marco] Let's not go down that rabbit hole right now.\n[42:20] [Lena] The last time we estimated this, it took twice as long as planned.\n[42:27] [Marco] We should loop in finance before we commit to anything expensive.\n[42:33] [Tom] Let me check my notes, I think this came up in the last retro too.\n[42:41] [Marco] That's a fair point, but customers haven't really complained about it.\n[42:47] [Tom] The main risk is still the timeline, honestly.\n[42:52] [Marco] Uh-huh.\n[42:54] [Priya] From an engineering point of view it's not that hard.\n[42:59] [Marco] I just dropped it in the chat.\n[43:04] [Priya] This affects the mobile app as well, not just the web.\n[43:10] [Tom] Could you repeat that? Your audio cut out for a moment.\n[43:16] [Priya] Let me check my notes, I think this came up in the last retro too.\n[43:24] [Tom] I'm not sure the data supports that yet.\n[43:28] [Marco] My gut feeling is that we're overthinking this one.\n[43:34] [Priya] The documentation for this is pretty outdated, by the way.\n[43:39] [Lena] Hmm.\n[43:41] [Tom] The last time we estimated this, it took twice as long as planned.\n[43:48] [Tom] Mhm.\n[43:50] [Tom] Can you share your screen for a second?\n[43:55] [Priya] Can you share your screen for a second?\n[44:00] [Tom] My gut feeling is that we're overthinking this one.\n[44:05] [Tom] Let's look at the Bramble mobile release now.\n[44:10] [Marco] Hmm.\n[44:12] [Priya] I think we should keep it simple for the first version.\n[44:18] [Lena] Bramble 3.2 has 41 open bugs, 6 of them critical.\n[44:24] [Tom] Does anyone have the link to the planning document?\n[44:29] [Priya] The metrics dashboard was down this morning, so these numbers are from yesterday.\n[44:36] [Tom] App store review usually takes two days.\n[44:40] [Lena] I saw a competitor launch something like this last month.\n[44:46] [Priya] Could we ship Bramble 3.2 without the tablet layout?\n[44:51] [Marco] No, the tablet layout is half the release.\n[44:56] [Tom] Honestly I think the team can handle it if we cut scope a bit.\n[45:03] [Priya] I agree with the direction, I'm just worried about the effort.\n[45:09] [Tom] Uh-huh.\n[45:11] [Marco] Let's keep an eye on it and revisit if it gets worse.\n[45:18] [Tom] We agree to delay Bramble 3.2 by one week to fix the critical bugs.\n[45:25] [Priya] Agreed.\n[45:27] [Tom] Can you share your screen for a second?\n[45:32] [Priya] Could you repeat that? Your audio cut out for a moment.\n[45:38] [Tom] Marco, can you triage the six critical Bramble bugs by today?\n[45:44] [Marco] Okay, I'll take it, today works.\n[45:48] [Tom] This affects the mobile app as well, not just the web.\n[45:54] [Tom] I saw a competitor launch something like this last month.\n[46:00] [Priya] I talked to the design team yesterday and they had a few concerns.\n[46:07] [Priya] Thanks, got it.\n[46:09] [Priya] Thanks, got it.\n[46:12] [Marco] We tried something similar two years ago and it didn't go well.\n[46:19] [Tom] The main risk is still the timeline, honestly.\n[46:23] [Tom] Let me check my notes, I think this came up in the last retro too.\n[46:31] [Tom] I just dropped it in the chat.\n[46:36] [Marco] Priya, will you tell the support team about the new Bramble date? Ideally by Monday.\n[46:43] [Priya] Yes, I'll do that by Monday.\n[46:47] [Lena] From the support side, this is one of the top complaints.\n[46:53] [Marco] Let me check my notes, I think this came up in the last retro too.\n[47:01] [Lena] From an engineering point of view it's not that hard.\n[47:07] [Marco] Mm-hm.\n[47:09] [Marco] I'll be out on Friday afternoon, just so you know.\n[47:14] [Marco] This affects the mobile app as well, not just the web.\n[47:21] [Tom] Hmm.\n[47:22] [Lena] I would like to see a rough estimate before we go further.\n[47:29] [Priya] The main risk is still the timeline, honestly.\n[47:34] [Marco] I just dropped it in the chat.\n[47:38] [Marco] I'll be out on Friday afternoon, just so you know.\n[47:44] [Marco] Hmm.\n[47:46] [Marco] I saw a competitor launch something like this last month.\n[47:51] [Priya] I think we should keep it simple for the first version.\n[47:58] [Marco] I agree with the direction, I'm just worried about the effort.\n[48:04] [Lena] Thanks, got it.\n[48:06] [Marco] My gut feeling is that we're overthinking this one.\n[48:12] [Lena] There's also a dependency on the platform team that we shouldn't forget.\n[48:18] [Marco] We need to be careful with the wording towards customers.\n[48:24] [Marco] We need to be careful with the wording towards customers.\n[48:29] [Lena] Let's finish this topic first and then take five minutes.\n[48:35] [Lena] Honestly I think the team can handle it if we cut scope a bit.\n[48:42] [Priya] Thanks, got it.\n[48:45] [Marco] The documentation for this is pretty outdated, by the way.\n[48:51] [Priya] I agree with the direction, I'm just worried about the effort.\n[48:57] [Lena] I think we should keep it simple for the first version.\n[49:03] [Priya] Thanks, got it.\n[49:06] [Priya] The last time we estimated this, it took twice as long as planned.\n[49:13] [Lena] That's a fair point, but customers haven't really complained about it.\n[49:19] [Priya] Uh-huh.\n[49:21] [Priya] We should loop in finance before we commit to anything expensive.\n[49:27] [Lena] Uh-huh.\n[49:29] [Priya] I saw a competitor launch something like this last month.\n[49:34] [Tom] Hmm.\n[49:36] [Tom] From the support side, this is one of the top complaints.\n[49:42] [Priya] Right.\n[49:44] [Priya] Let's keep an eye on it and revisit if it gets worse.\n[49:51] [Marco] The documentation for this is pretty outdated, by the way.\n[49:56] [Tom] I just dropped it in the chat.\n[50:01] [Lena] Does anyone have the link to the planning document?\n[50:06] [Tom] I saw a competitor launch something like this last month.\n[50:12] [Tom] Coffee break soon? We've been going for a while.\n[50:17] [Priya] Mhm.\n[50:19] [Lena] Coffee break soon? We've been going for a while.\n[50:24] [Marco] Could you repeat that? Your audio cut out for a moment.\n[50:30] [Lena] Priya, you wanted to talk about the security audit findings?\n[50:36] [Marco] The audit report is due to the client by the 15th.\n[50:42] [Tom] Mm-hm.\n[50:44] [Lena] I don't have a strong opinion on this one.\n[50:49] [Tom] The auditors found 3 high and 9 medium findings.\n[50:54] [Lena] Let's finish this topic first and then take five minutes.\n[51:00] [Lena] Mhm.\n[51:02] [Priya] Let me check my notes, I think this came up in the last retro too.\n[51:10] [Lena] Uh-huh.\n[51:12] [Tom] Can you share your screen for a second?\n[51:17] [Marco] Mm-hm.\n[51:18] [Priya] I would like to see a rough estimate before we go further.\n[51:25] [Marco] I looked at the numbers again and they're roughly where we expected.\n[51:31] [Marco] I looked at the numbers again and they're roughly where we expected.\n[51:38] [Marco] This affects the mobile app as well, not just the web.\n[51:44] [Priya] Should we hire a second audit firm for a re-test?\n[51:50] [Marco] Too expensive, let's not.\n[51:53] [Tom] The metrics dashboard was down this morning, so these numbers are from yesterday.\n[52:00] [Priya] Uh-huh.\n[52:02] [Priya] Right.\n[52:04] [Marco] I just dropped it in the chat.\n[52:08] [Priya] Coffee break soon? We've been going for a while.\n[52:13] [Marco] We need to be careful with the wording towards customers.\n[52:19] [Lena] Agreed then: all three high findings get fixed before we answer the auditors.\n[52:26] [Priya] Agreed.\n[52:28] [Priya] I just dropped it in the chat.\n[52:32] [Tom] Thanks, got it.\n[52:35] [Lena] Tom, can you rotate the leaked staging keys? Ideally by tonight.\n[52:41] [Tom] Yes, I'll do that by tonight.\n[52:45] [Tom] Does anyone have the link to the planning document?\n[52:50] [Priya] We discussed this with the customer success team last week.\n[52:56] [Tom] I don't have a strong opinion on this one.\n[53:01] [Priya] Sorry, I was on mute.\n[53:05] [Tom] Mhm.\n[53:07] [Marco] Thanks, got it.\n[53:09] [Marco] Honestly I think the team can handle it if we cut scope a bit.\n[53:17] [Lena] Honestly I think the team can handle it if we cut scope a bit.\n[53:24] [Marco] Sorry, I was on mute.\n[53:28] [Priya] That's a fair point, but customers haven't really complained about it.\n[53:34] [Lena] Sorry, I was on mute.\n[53:37] [Priya] Hmm.\n[53:39] [Priya] I talked to the design team yesterday and they had a few concerns.\n[53:46] [Tom] Could you repeat that? Your audio cut out for a moment.\n[53:52] [Priya] I don't have a strong opinion on this one.\n[53:58] [Tom] The documentation for this is pretty outdated, by the way.\n[54:03] [Marco] Sure, one moment, let me find the right window.\n[54:08] [Lena] Does anyone have the link to the planning document?\n[54:14] [Marco] I looked at the numbers again and they're roughly where we expected.\n[54:20] [Priya] Right.\n[54:22] [Marco] Uh-huh.\n[54:24] [Lena] From an engineering point of view it's not that hard.\n[54:30] [Marco] Mm-hm.\n[54:32] [Marco] Let's not go down that rabbit hole right now.\n[54:37] [Marco] Let's finish this topic first and then take five minutes.\n[54:43] [Tom] We need to be careful with the wording towards customers.\n[54:48] [Tom] Hmm.\n[54:50] [Lena] Hmm.\n[54:52] [Priya] I think we should keep it simple for the first version.\n[54:58] [Lena] Does anyone have the link to the planning document?\n[55:03] [Tom] Mhm.\n[55:05] [Tom] Thanks, got it.\n[55:08] [Tom] Sure, one moment, let me find the right window.\n[55:13] [Priya] Uh-huh.\n[55:15] [Tom] We need to be careful with the wording towards customers.\n[55:21] [Priya] We should loop in finance before we commit to anything expensive.\n[55:27] [Tom] We should loop in finance before we commit to anything expensive.\n[55:33] [Priya] We need to be careful with the wording towards customers.\n[55:39] [Priya] We should loop in finance before we commit to anything expensive.\n[55:45] [Marco] I looked at the numbers again and they're roughly where we expected.\n[55:51] [Priya] I don't have a strong opinion on this one.\n[55:57] [Tom] Let's keep an eye on it and revisit if it gets worse.\n[56:03] [Tom] From the support side, this is one of the top complaints.\n[56:09] [Tom] I just dropped it in the chat.\n[56:14] [Lena] Hmm.\n[56:15] [Priya] Does anyone have the link to the planning document?\n[56:21] [Tom] I just dropped it in the chat.\n[56:25] [Lena] Uh-huh.\n[56:27] [Priya] Let's not go down that rabbit hole right now.\n[56:32] [Tom] Sorry, I was on mute.\n[56:36] [Marco] I agree with the direction, I'm just worried about the effort.\n[56:42] [Priya] Does anyone have the link to the planning document?\n[56:47] [Lena] That's a fair point, but customers haven't really complained about it.\n[56:53] [Tom] The main risk is still the timeline, honestly.\n[56:58] [Marco] Next item: the pricing page experiment.\n[57:02] [Priya] I just dropped it in the chat.\n[57:07] [Tom] From the support side, this is one of the top complaints.\n[57:13] [Lena] Uh-huh.\n[57:15] [Lena] I don't have a strong opinion on this one.\n[57:20] [Lena] This affects the mobile app as well, not just the web.\n[57:26] [Tom] Let's not go down that rabbit hole right now.\n[57:31] [Tom] We need to be careful with the wording towards customers.\n[57:37] [Marco] We discussed this with the customer success team last week.\n[57:42] [Lena] The annual plan converts at 2.8 percent.\n[57:47] [Lena] I would like to see a rough estimate before we go further.\n[57:53] [Marco] Sure, one moment, let me find the right window.\n[57:59] [Priya] The experiment ran for 19 days.\n[58:03] [Priya] The last time we estimated this, it took twice as long as planned.\n[58:10] [Lena] Can you share your screen for a second?\n[58:14] [Marco] I looked at the numbers again and they're roughly where we expected.\n[58:21] [Lena] We should loop in finance before we commit to anything expensive.\n[58:27] [Marco] What if we removed the free tier?\n[58:31] [Priya] That's a much bigger conversation, not today.\n[58:36] [Marco] Mhm.\n[58:38] [Tom] From an engineering point of view it's not that hard.\n[58:43] [Priya] Mhm.\n[58:45] [Marco] The metrics dashboard was down this morning, so these numbers are from yesterday.\n[58:52] [Lena] Mhm.\n[58:54] [Marco] My gut feeling is that we're overthinking this one.\n[58:59] [Lena] Could you repeat that? Your audio cut out for a moment.\n[59:05] [Tom] Sure, one moment, let me find the right window.\n[59:11] [Marco] I'm not sure the data supports that yet.\n[59:16] [Priya] I don't have a strong opinion on this one.\n[59:21] [Marco] Can you share your screen for a second?\n[59:26] [Lena] We need to be careful with the wording towards customers.\n[59:31] [Lena] From the support side, this is one of the top complaints.\n[59:37] [Marco] Decision: we keep the new pricing page with the annual plan shown first.\n[59:44] [Lena] Yes, that works for me.\n[59:48] [Marco] Could you repeat that? Your audio cut out for a moment.\n[59:54] [Marco] Let's not go down that rabbit hole right now.\n[59:59] [Marco] Lena, can you share the pricing experiment dashboard with sales? Ideally by Thursday.\n[60:06] [Lena] Yes, I'll do that by Thursday.\n[60:10] [Tom] From an engineering point of view it's not that hard.\n[60:16] [Marco] Thanks, got it.\n[60:19] [Priya] The documentation for this is pretty outdated, by the way.\n[60:24] [Tom] Hmm.\n[60:26] [Lena] Hmm.\n[60:28] [Tom] Coffee break soon? We've been going for a while.\n[60:33] [Lena] From the support side, this is one of the top complaints.\n[60:39] [Lena] Hmm.\n[60:41] [Marco] Could you repeat that? Your audio cut out for a moment.\n[60:47] [Tom] I saw a competitor launch something like this last month.\n[60:53] [Priya] We discussed this with the customer success team last week.\n[60:59] [Priya] Mhm.\n[61:01] [Lena] Can you share your screen for a second?\n[61:05] [Lena] Let's not go down that rabbit hole right now.\n[61:11] [Lena] Uh-huh.\n[61:13] [Tom] Uh-huh.\n[61:15] [Tom] The metrics dashboard was down this morning, so these numbers are from yesterday.\n[61:21] [Marco] Uh-huh.\n[61:23] [Marco] We need to be careful with the wording towards customers.\n[61:29] [Priya] Sure, one moment, let me find the right window.\n[61:34] [Tom] My gut feeling is that we're overthinking this one.\n[61:40] [Lena] Uh-huh.\n[61:41] [Tom] I agree with the direction, I'm just worried about the effort.\n[61:48] [Tom] I think we should keep it simple for the first version.\n[61:54] [Priya] Sure, one moment, let me find the right window.\n[61:59] [Marco] Sorry, I was on mute.\n[62:02] [Tom] Thanks, got it.\n[62:05] [Marco] I'll be out on Friday afternoon, just so you know.\n[62:11] [Lena] Mm-hm.\n[62:13] [Tom] From an engineering point of view it's not that hard.\n[62:18] [Tom] The metrics dashboard was down this morning, so these numbers are from yesterday.\n[62:25] [Priya] From an engineering point of view it's not that hard.\n[62:31] [Tom] Coffee break soon? We've been going for a while.\n[62:36] [Lena] My gut feeling is that we're overthinking this one.\n[62:42] [Lena] Let's not go down that rabbit hole right now.\n[62:47] [Tom] Hmm.\n[62:49] [Priya] We discussed this with the customer success team last week.\n[62:54] [Tom] Right.\n[62:56] [Marco] Let's keep an eye on it and revisit if it gets worse.\n[63:03] [Tom] I just dropped it in the chat.\n[63:07] [Priya] I would like to see a rough estimate before we go further.\n[63:14] [Priya] Mm-hm.\n[63:16] [Lena] I'll be out on Friday afternoon, just so you know.\n[63:21] [Priya] Okay, let's move on to the data retention policy.\n[63:27] [Marco] We currently keep raw logs for 400 days.\n[63:31] [Tom] I just dropped it in the chat.\n[63:36] [Marco] The last time we estimated this, it took twice as long as planned.\n[63:43] [Priya] Could you repeat that? Your audio cut out for a moment.\n[63:49] [Priya] Mm-hm.\n[63:51] [Lena] We need to be careful with the wording towards customers.\n[63:56] [Priya] Can you share your screen for a second?\n[64:01] [Marco] I looked at the numbers again and they're roughly where we expected.\n[64:08] [Priya] I talked to the design team yesterday and they had a few concerns.\n[64:15] [Lena] I looked at the numbers again and they're roughly where we expected.\n[64:21] [Tom] Let's not go down that rabbit hole right now.\n[64:26] [Lena] Hmm.\n[64:28] [Priya] The main risk is still the timeline, honestly.\n[64:33] [Marco] Let's finish this topic first and then take five minutes.\n[64:39] [Marco] The last time we estimated this, it took twice as long as planned.\n[64:46] [Lena] From an engineering point of view it's not that hard.\n[64:51] [Marco] Mhm.\n[64:53] [Priya] The last time we estimated this, it took twice as long as planned.\n[65:00] [Lena] Let's finish this topic first and then take five minutes.\n[65:06] [Priya] Sure, one moment, let me find the right window.\n[65:11] [Tom] Right.\n[65:13] [Marco] Uh-huh.\n[65:15] [Priya] We need to be careful with the wording towards customers.\n[65:21] [Marco] Let me check my notes, I think this came up in the last retro too.\n[65:28] [Tom] Legal wants a maximum of 90 days for personal data.\n[65:34] [Priya] Right.\n[65:36] [Marco] Could we anonymise instead of deleting?\n[65:40] [Lena] Legal said anonymisation isn't enough here.\n[65:44] [Priya] So we agree: raw logs with personal data are deleted after 90 days.\n[65:51] [Marco] Fine by me.\n[65:54] [Priya] The documentation for this is pretty outdated, by the way.\n[65:59] [Lena] Thanks, got it.\n[66:02] [Marco] Sure, one moment, let me find the right window.\n[66:07] [Marco] Sorry, I was on mute.\n[66:11] [Lena] Mm-hm.\n[66:13] [Lena] Priya, can you draft the retention policy text for legal? Ideally by next Friday.\n[66:20] [Priya] Okay, I'll take it, next Friday works.\n[66:25] [Lena] The last time we estimated this, it took twice as long as planned.\n[66:31] [Tom] Could you repeat that? Your audio cut out for a moment.\n[66:38] [Priya] The last time we estimated this, it took twice as long as planned.\n[66:44] [Priya] Can you share your screen for a second?\n[66:49] [Priya] Does anyone have the link to the planning document?\n[66:55] [Tom] I saw a competitor launch something like this last month.\n[67:00] [Priya] Let me check my notes, I think this came up in the last retro too.\n[67:08] [Priya] Sorry, I was on mute.\n[67:12] [Marco] Let's keep an eye on it and revisit if it gets worse.\n[67:18] [Marco] My gut feeling is that we're overthinking this one.\n[67:23] [Lena] Does anyone have the link to the planning document?\n[67:29] [Tom] That's a fair point, but customers haven't really complained about it.\n[67:35] [Marco] I saw a competitor launch something like this last month.\n[67:40] [Priya] Mhm.\n[67:42] [Priya] Right.\n[67:44] [Marco] Honestly I think the team can handle it if we cut scope a bit.\n[67:51] [Marco] We tried something similar two years ago and it didn't go well.\n[67:58] [Marco] Does anyone have the link to the planning document?\n[68:03] [Tom] Let's not go down that rabbit hole right now.\n[68:08] [Tom] I think we should keep it simple for the first version.\n[68:15] [Priya] That's a fair point, but customers haven't really complained about it.\n[68:21] [Marco] Let me check my notes, I think this came up in the last retro too.\n[68:28] [Tom] I don't have a strong opinion on this one.\n[68:34] [Priya] Let's not go down that rabbit hole right now.\n[68:39] [Lena] Thanks, got it.\n[68:42] [Tom] That's a fair point, but customers haven't really complained about it.\n[68:48] [Marco] Mm-hm.\n[68:50] [Tom] From the support side, this is one of the top complaints.\n[68:56] [Tom] I saw a competitor launch something like this last month.\n[69:01] [Tom] Can you share your screen for a second?\n[69:06] [Priya] I just dropped it in the chat.\n[69:11] [Marco] Honestly I think the team can handle it if we cut scope a bit.\n[69:18] [Lena] We need to be careful with the wording towards customers.\n[69:24] [Marco] I think we should keep it simple for the first version.\n[69:30] [Lena] Right.\n[69:32] [Tom] I would like to see a rough estimate before we go further.\n[69:38] [Tom] Let's look at the Juniper search index now.\n[69:43] [Tom] I would like to see a rough estimate before we go further.\n[69:49] [Lena] The index is 340 gigabytes.\n[69:53] [Tom] I don't have a strong opinion on this one.\n[69:58] [Priya] From the support side, this is one of the top complaints.\n[70:04] [Lena] We need to be careful with the wording towards customers.\n[70:10] [Tom] Coffee break soon? We've been going for a while.\n[70:15] [Lena] Let me check my notes, I think this came up in the last retro too.\n[70:23] [Marco] Honestly I think the team can handle it if we cut scope a bit.\n[70:30] [Lena] The documentation for this is pretty outdated, by the way.\n[70:36] [Tom] I'll be out on Friday afternoon, just so you know.\n[70:42] [Priya] From an engineering point of view it's not that hard.\n[70:47] [Tom] We need to be careful with the wording towards customers.\n[70:53] [Priya] We should loop in finance before we commit to anything expensive.\n[70:59] [Marco] Juniper reindexing takes about 7 hours.\n[71:03] [Marco] Let's keep an eye on it and revisit if it gets worse.\n[71:10] [Lena] Sure, one moment, let me find the right window.\n[71:15] [Tom] Hmm.\n[71:17] [Tom] Thanks, got it.\n[71:20] [Lena] We discussed this with the customer success team last week.\n[71:25] [Lena] This affects the mobile app as well, not just the web.\n[71:31] [Marco] The last time we estimated this, it took twice as long as planned.\n[71:38] [Lena] We need to be careful with the wording towards customers.\n[71:44] [Marco] Should we switch to a hosted search service?\n[71:49] [Priya] Not until we know the incremental numbers.\n[71:53] [Priya] Thanks, got it.\n[71:56] [Marco] Let's not go down that rabbit hole right now.\n[72:01] [Tom] Mhm.\n[72:03] [Priya] Mm-hm.\n[72:05] [Lena] This affects the mobile app as well, not just the web.\n[72:11] [Priya] Mhm.\n[72:13] [Marco] Could you repeat that? Your audio cut out for a moment.\n[72:19] [Marco] Sorry, I was on mute.\n[72:23] [Priya] I don't have a strong opinion on this one.\n[72:28] [Tom] Decided: we move Juniper to incremental indexing this quarter.\n[72:33] [Priya] Fine by me.\n[72:36] [Priya] We need to be careful with the wording towards customers.\n[72:42] [Marco] Coffee break soon? We've been going for a while.\n[72:47] [Marco] Does anyone have the link to the planning document?\n[72:52] [Marco] There's also a dependency on the platform team that we shouldn't forget.\n[72:59] [Priya] Tom, can you benchmark incremental indexing on the staging copy? Ideally by Wednesday.\n[73:05] [Tom] Sure, I can have that done by Wednesday.\n[73:10] [Lena] We discussed this with the customer success team last week.\n[73:16] [Tom] Mhm.\n[73:18] [Tom] I would like to see a rough estimate before we go further.\n[73:24] [Priya] We discussed this with the customer success team last week.\n[73:30] [Marco] Uh-huh.\n[73:32] [Lena] That's a fair point, but customers haven't really complained about it.\n[73:38] [Priya] Uh-huh.\n[73:40] [Priya] We discussed this with the customer success team last week.\n[73:46] [Marco] Mhm.\n[73:48] [Priya] We discussed this with the customer success team last week.\n[73:53] [Marco] I just dropped it in the chat.\n[73:58] [Tom] Let's not go down that rabbit hole right now.\n[74:03] [Tom] Sorry, I was on mute.\n[74:06] [Marco] The last time we estimated this, it took twice as long as planned.\n[74:13] [Marco] I agree with the direction, I'm just worried about the effort.\n[74:19] [Priya] Sure, one moment, let me find the right window.\n[74:25] [Priya] We discussed this with the customer success team last week.\n[74:30] [Tom] We tried something similar two years ago and it didn't go well.\n[74:37] [Tom] The metrics dashboard was down this morning, so these numbers are from yesterday.\n[74:44] [Marco] I'll be out on Friday afternoon, just so you know.\n[74:49] [Priya] Mhm.\n[74:51] [Tom] Right.\n[74:53] [Marco] I would like to see a rough estimate before we go further.\n[75:00] [Lena] Can you share your screen for a second?\n[75:05] [Tom] Let's keep an eye on it and revisit if it gets worse.\n[75:11] [Lena] My gut feeling is that we're overthinking this one.\n[75:16] [Priya] Uh-huh.\n[75:18] [Lena] The last time we estimated this, it took twice as long as planned.\n[75:25] [Lena] The documentation for this is pretty outdated, by the way.\n[75:31] [Lena] Let's finish this topic first and then take five minutes.\n[75:37] [Tom] Coffee break soon? We've been going for a while.\n[75:42] [Priya] I looked at the numbers again and they're roughly where we expected.\n[75:48] [Lena] Priya, you wanted to talk about the partner webinar?\n[75:54] [Priya] I'm not sure the data supports that yet.\n[75:58] [Priya] The last time we estimated this, it took twice as long as planned.\n[76:05] [Priya] I think we should keep it simple for the first version.\n[76:11] [Marco] My gut feeling is that we're overthinking this one.\n[76:17] [Lena] The main risk is still the timeline, honestly.\n[76:21] [Tom] The documentation for this is pretty outdated, by the way.\n[76:27] [Lena] That's a fair point, but customers haven't really complained about it.\n[76:33] [Tom] I agree with the direction, I'm just worried about the effort.\n[76:39] [Priya] We need to be careful with the wording towards customers.\n[76:45] [Lena] Thanks, got it.\n[76:48] [Tom] The metrics dashboard was down this morning, so these numbers are from yesterday.\n[76:55] [Tom] I agree with the direction, I'm just worried about the effort.\n[77:01] [Priya] I looked at the numbers again and they're roughly where we expected.\n[77:07] [Lena] I talked to the design team yesterday and they had a few concerns.\n[77:14] [Marco] Let me check my notes, I think this came up in the last retro too.\n[77:22] [Tom] Two partners have confirmed so far.\n[77:26] [Priya] Let's not go down that rabbit hole right now.\n[77:31] [Priya] Last year's webinar had 260 attendees.\n[77:35] [Tom] This affects the mobile app as well, not just the web.\n[77:41] [Marco] What if we did it in person instead?\n[77:46] [Priya] Travel budget is frozen, so no.\n[77:50] [Tom] Coffee break soon? We've been going for a while.\n[77:55] [Lena] I'll be out on Friday afternoon, just so you know.\n[78:01] [Lena] Mm-hm.\n[78:03] [Lena] Okay, the partner webinar is on the 12th of November.\n[78:09] [Marco] Fine by me.\n[78:11] [Priya] Honestly I think the team can handle it if we cut scope a bit.\n[78:19] [Tom] Let me check my notes, I think this came up in the last retro too.\n[78:26] [Priya] Let's keep an eye on it and revisit if it gets worse.\n[78:33] [Lena] I don't have a strong opinion on this one.\n[78:38] [Marco] Right.\n[78:40] [Priya] This affects the mobile app as well, not just the web.\n[78:46] [Marco] I would like to see a rough estimate before we go further.\n[78:53] [Priya] I'll be out on Friday afternoon, just so you know.\n[78:58] [Priya] From the support side, this is one of the top complaints.\n[79:04] [Tom] Marco, can you send the webinar invitations to the partner list? Ideally by Monday.\n[79:12] [Marco] Yes, I'll do that by Monday.\n[79:16] [Tom] Could you repeat that? Your audio cut out for a moment.\n[79:22] [Marco] Let's not go down that rabbit hole right now.\n[79:27] [Lena] Thanks, got it.\n[79:30] [Lena] Right.\n[79:32] [Lena] Coffee break soon? We've been going for a while.\n[79:37] [Priya] Mm-hm.\n[79:39] [Tom] Let me check my notes, I think this came up in the last retro too.\n[79:47] [Marco] Sure, one moment, let me find the right window.\n[79:52] [Tom] Right.\n[79:54] [Lena] Mhm.\n[79:56] [Priya] The main risk is still the timeline, honestly.\n[80:01] [Priya] I'm not sure the data supports that yet.\n[80:05] [Priya] I would like to see a rough estimate before we go further.\n[80:12] [Priya] There's also a dependency on the platform team that we shouldn't forget.\n[80:18] [Lena] Thanks, got it.\n[80:21] [Priya] Let me check my notes, I think this came up in the last retro too.\n[80:29] [Priya] The main risk is still the timeline, honestly.\n[80:34] [Marco] Sorry, I was on mute.\n[80:37] [Marco] Uh-huh.\n[80:39] [Priya] The last time we estimated this, it took twice as long as planned.\n[80:46] [Priya] Right.\n[80:48] [Lena] From an engineering point of view it's not that hard.\n[80:54] [Marco] I don't have a strong opinion on this one.\n[80:59] [Tom] The main risk is still the timeline, honestly.\n[81:04] [Tom] Honestly I think the team can handle it if we cut scope a bit.\n[81:11] [Priya] Hmm.\n[81:13] [Marco] I don't have a strong opinion on this one.\n[81:18] [Marco] That's a fair point, but customers haven't really complained about it.\n[81:24] [Lena] Mhm.\n[81:26] [Tom] From an engineering point of view it's not that hard.\n[81:32] [Marco] I agree with the direction, I'm just worried about the effort.\n[81:38] [Marco] Could you repeat that? Your audio cut out for a moment.\n[81:44] [Priya] Could you repeat that? Your audio cut out for a moment.\n[81:50] [Tom] I'm not sure the data supports that yet.\n[81:55] [Marco] Lena, you wanted to talk about the support backlog?\n[82:00] [Lena] I talked to the design team yesterday and they had a few concerns.\n[82:07] [Tom] I looked at the numbers again and they're roughly where we expected.\n[82:14] [Marco] I think we should keep it simple for the first version.\n[82:20] [Marco] Right.\n[82:22] [Lena] I think we should keep it simple for the first version.\n[82:28] [Tom] Right.\n[82:30] [Priya] Mhm.\n[82:32] [Priya] I would like to see a rough estimate before we go further.\n[82:38] [Marco] I talked to the design team yesterday and they had a few concerns.\n[82:45] [Tom] We discussed this with the customer success team last week.\n[82:51] [Priya] Could you repeat that? Your audio cut out for a moment.\n[82:57] [Marco] Could you repeat that? Your audio cut out for a moment.\n[83:03] [Tom] Could you repeat that? Your audio cut out for a moment.\n[83:09] [Tom] That's a fair point, but customers haven't really complained about it.\n[83:15] [Marco] From the support side, this is one of the top complaints.\n[83:21] [Marco] Let's keep an eye on it and revisit if it gets worse.\n[83:28] [Marco] Right.\n[83:30] [Priya] I saw a competitor launch something like this last month.\n[83:35] [Priya] The main risk is still the timeline, honestly.\n[83:40] [Marco] Median first response time is 19 hours.\n[83:44] [Priya] Coffee break soon? We've been going for a while.\n[83:50] [Tom] The support backlog is at 230 tickets.\n[83:54] [Marco] Let's not go down that rabbit hole right now.\n[83:59] [Marco] Thanks, got it.\n[84:02] [Priya] I'm not sure the data supports that yet.\n[84:07] [Lena] Uh-huh.\n[84:09] [Lena] We discussed this with the customer success team last week.\n[84:15] [Marco] Right.\n[84:16] [Priya] Should we outsource first-line support?\n[84:20] [Lena] I'm against that, quality would drop.\n[84:24] [Priya] The main risk is still the timeline, honestly.\n[84:29] [Lena] I agree with the direction, I'm just worried about the effort.\n[84:35] [Lena] I'm not sure the data supports that yet.\n[84:40] [Priya] My gut feeling is that we're overthinking this one.\n[84:45] [Priya] I would like to see a rough estimate before we go further.\n[84:52] [Marco] We agree that engineers join the support rotation for two hours every Friday.\n[84:58] [Tom] Yes, that works for me.\n[85:02] [Lena] Honestly I think the team can handle it if we cut scope a bit.\n[85:09] [Priya] Lena, can you set up the macro for the top ten questions? Ideally by next week.\n[85:18] [Lena] Okay, I'll take it, next week works.\n[85:22] [Tom] Does anyone have the link to the planning document?\n[85:27] [Priya] I just dropped it in the chat.\n[85:32] [Lena] From the support side, this is one of the top complaints.\n[85:38] [Tom] My gut feeling is that we're overthinking this one.\n[85:43] [Marco] Sure, one moment, let me find the right window.\n[85:48] [Lena] I would like to see a rough estimate before we go further.\n[85:55] [Marco] Sure, one moment, let me find the right window.\n[86:00] [Marco] I'll be out on Friday afternoon, just so you know.\n[86:06] [Priya] Right.\n[86:08] [Priya] I'll be out on Friday afternoon, just so you know.\n[86:13] [Lena] We need to be careful with the wording towards customers.\n[86:19] [Priya] This affects the mobile app as well, not just the web.\n[86:25] [Lena] There's also a dependency on the platform team that we shouldn't forget.\n[86:31] [Tom] The metrics dashboard was down this morning, so these numbers are from yesterday.\n[86:38] [Marco] Let me check my notes, I think this came up in the last retro too.\n[86:46] [Marco] The metrics dashboard was down this morning, so these numbers are from yesterday.\n[86:53] [Priya] Thanks, got it.\n[86:56] [Marco] Mhm.\n[86:58] [Lena] I saw a competitor launch something like this last month.\n[87:03] [Priya] The metrics dashboard was down this morning, so these numbers are from yesterday.\n[87:10] [Marco] The documentation for this is pretty outdated, by the way.\n[87:16] [Priya] Mm-hm.\n[87:18] [Lena] Coffee break soon? We've been going for a while.\n[87:23] [Lena] Honestly I think the team can handle it if we cut scope a bit.\n[87:30] [Marco] Coffee break soon? We've been going for a while.\n[87:36] [Lena] Hmm.\n[87:38] [Priya] I'll be out on Friday afternoon, just so you know.\n[87:43] [Priya] We tried something similar two years ago and it didn't go well.\n[87:50] [Marco] We should loop in finance before we commit to anything expensive.\n[87:56] [Tom] From an engineering point of view it's not that hard.\n[88:02] [Priya] Right.\n[88:03] [Lena] We discussed this with the customer success team last week.\n[88:09] [Priya] Let's look at the Tamsin onboarding flow now.\n[88:14] [Lena] Uh-huh.\n[88:16] [Lena] Hmm.\n[88:18] [Priya] Right.\n[88:20] [Priya] I just dropped it in the chat.\n[88:24] [Marco] Sorry, I was on mute.\n[88:28] [Lena] Sorry, I was on mute.\n[88:31] [Lena] The drop-off is on the import step.\n[88:36] [Lena] The last time we estimated this, it took twice as long as planned.\n[88:43] [Tom] We should loop in finance before we commit to anything expensive.\n[88:49] [Priya] Mhm.\n[88:51] [Lena] The main risk is still the timeline, honestly.\n[88:55] [Priya] Right.\n[88:57] [Lena] Uh-huh.\n[88:59] [Lena] Only 38 percent of new users finish Tamsin onboarding.\n[89:05] [Tom] Could we remove onboarding completely?\n[89:08] [Marco] No, activation would collapse.\n[89:11] [Marco] That's a fair point, but customers haven't really complained about it.\n[89:17] [Lena] Thanks, got it.\n[89:20] [Priya] Decision: the Tamsin import step becomes optional.\n[89:25] [Tom] Okay, agreed.\n[89:27] [Tom] I think we should keep it simple for the first version.\n[89:33] [Marco] Can you share your screen for a second?\n[89:38] [Marco] There's also a dependency on the platform team that we shouldn't forget.\n[89:44] [Priya] Let's keep an eye on it and revisit if it gets worse.\n[89:51] [Lena] I would like to see a rough estimate before we go further.\n[89:57] [Tom] Thanks, got it.\n[90:00] [Priya] I don't have a strong opinion on this one.\n[90:05] [Marco] Uh-huh.\n[90:07] [Tom] From the support side, this is one of the top complaints.\n[90:13] [Priya] There's also a dependency on the platform team that we shouldn't forget.\n[90:20] [Tom] Does anyone have the link to the planning document?\n[90:25] [Lena] The main risk is still the timeline, honestly.\n[90:30] [Tom] Let's finish this topic first and then take five minutes.\n[90:36] [Marco] Mm-hm.\n[90:37] [Marco] Mhm.\n[90:39] [Marco] I'll be out on Friday afternoon, just so you know.\n[90:45] [Marco] I don't have a strong opinion on this one.\n[90:50] [Tom] Priya, can you write the copy for the skip button by Thursday?\n[90:57] [Priya] Okay, I'll take it, Thursday works.\n[91:01] [Marco] The last time we estimated this, it took twice as long as planned.\n[91:08] [Priya] Mm-hm.\n[91:10] [Lena] I looked at the numbers again and they're roughly where we expected.\n[91:16] [Tom] Right.\n[91:18] [Marco] I'll be out on Friday afternoon, just so you know.\n[91:24] [Tom] From an engineering point of view it's not that hard.\n[91:29] [Tom] Let's not go down that rabbit hole right now.\n[91:35] [Lena] I would like to see a rough estimate before we go further.\n[91:41] [Lena] This affects the mobile app as well, not just the web.\n[91:47] [Tom] Right.\n[91:49] [Lena] That's a fair point, but customers haven't really complained about it.\n[91:55] [Lena] Let's keep an eye on it and revisit if it gets worse.\n[92:02] [Lena] I don't have a strong opinion on this one.\n[92:07] [Tom] Could you repeat that? Your audio cut out for a moment.\n[92:13] [Tom] Right.\n[92:15] [Lena] Could you repeat that? Your audio cut out for a moment.\n[92:21] [Priya] I think we should keep it simple for the first version.\n[92:27] [Marco] We need to be careful with the wording towards customers.\n[92:33] [Priya] I saw a competitor launch something like this last month.\n[92:38] [Lena] This affects the mobile app as well, not just the web.\n[92:45] [Tom] Could you repeat that? Your audio cut out for a moment.\n[92:51] [Lena] Hmm.\n[92:53] [Priya] I'm not sure the data supports that yet.\n[92:57] [Tom] Sure, one moment, let me find the right window.\n[93:03] [Priya] I would like to see a rough estimate before we go further.\n[93:09] [Priya] Mm-hm.\n[93:11] [Priya] I'll be out on Friday afternoon, just so you know.\n[93:17] [Tom] I think we should keep it simple for the first version.\n[93:23] [Lena] I would like to see a rough estimate before we go further.\n[93:29] [Marco] Uh-huh.\n[93:31] [Priya] I looked at the numbers again and they're roughly where we expected.\n[93:38] [Lena] The metrics dashboard was down this morning, so these numbers are from yesterday.\n[93:45] [Priya] We discussed this with the customer success team last week.\n[93:50] [Priya] We should loop in finance before we commit to anything expensive.\n[93:56] [Lena] I'll be out on Friday afternoon, just so you know.\n[94:02] [Marco] We need to be careful with the wording towards customers.\n[94:08] [Marco] I'll be out on Friday afternoon, just so you know.\n[94:13] [Lena] Sorry, I was on mute.\n[94:17] [Lena] I just dropped it in the chat.\n[94:21] [Priya] I think we should keep it simple for the first version."
+}

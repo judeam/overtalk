@@ -1,0 +1,78 @@
+{
+  "id": "test-projects",
+  "split": "holdout",
+  "difficulty": "very_hard",
+  "language": "zh",
+  "domain": "multi-project review",
+  "provenance": "Newly authored synthetic diagnostic; no real personal data; not a recording.",
+  "transcript": "[00:00] 周岚：今天分别讨论灯塔项目和河流项目，不要合并预算和日期。\n[00:10] 赵晨：灯塔项目的旧页面已经下线，新页面还没有上线。\n[00:20] 林悦：河流项目还有四个数据错误，不代表只需要处理四条记录。\n[00:30] 周岚：灯塔原计划八月八日上线，现在取消。必须先完成无障碍检查。\n[00:40] 赵晨：我会在八月六日之前提交灯塔的检查申请。那不是检查完成日期。\n[00:50] 林悦：河流的数据修复方案由我写，没有承诺截止日期。\n[01:00] 周岚：灯塔检查由谁做还没有定。河流项目的验收人是赵晨，但验收日期未定。\n[01:10] 赵晨：收到。我已经把河流的测试日志上传了。\n[01:20] 林悦：灯塔的预算是不是三千元？\n[01:30] 周岚：不是。灯塔只批准两千一百元总额，含税。河流的预算仍然没批。\n[01:40] 赵晨：有人建议删除河流的旧数据来减少错误。\n[01:50] 周岚：明确拒绝。旧数据要保留，错误要在副本里调查。\n[02:00] 林悦：请确认，我负责方案，不负责批准预算。\n[02:10] 周岚：对。另外，供应商能不能在周末协助还不知道，也没有下单。\n[02:20] 赵晨：八月八日不是河流的日期，是已经取消的灯塔日期。\n[02:30] 林悦：明白。请不要从上次会议推断这个会议发生在哪一年。",
+  "facts": [
+    {
+      "id": "F1",
+      "assertion": "Lighthouseoldpagedown,newpagenotlive.",
+      "evidence": [
+        2
+      ]
+    },
+    {
+      "id": "F2",
+      "assertion": "River4dataerrorsnotagreedrecordscope.",
+      "evidence": [
+        3
+      ]
+    },
+    {
+      "id": "F3",
+      "assertion": "LighthouseAug8cancelled;accessibilityrequired;ZhaoChensubmitsrequestbyAug6notreviewcompletion.",
+      "evidence": [
+        4,
+        5,
+        15
+      ]
+    },
+    {
+      "id": "F4",
+      "assertion": "LinYueownsRivermodificationplanwithnodeadline;notbudgetapprover.",
+      "evidence": [
+        6,
+        13
+      ]
+    },
+    {
+      "id": "F5",
+      "assertion": "Lighthousereviewerunknown;ZhaoChenRiveracceptanceownerwithnodate;logsalreadyuploaded.",
+      "evidence": [
+        7,
+        8
+      ]
+    },
+    {
+      "id": "F6",
+      "assertion": "LighthouseCNY2100totalincludingtaxnot3000;Riverbudgetunapproved.",
+      "evidence": [
+        9,
+        10
+      ]
+    },
+    {
+      "id": "F7",
+      "assertion": "Riverolddataretained;investigatecopies;deletionrejected.",
+      "evidence": [
+        11,
+        12
+      ]
+    },
+    {
+      "id": "F8",
+      "assertion": "Weekendsuppliersupportunknown/notordered;meetingyearnotstated.",
+      "evidence": [
+        14,
+        16
+      ]
+    }
+  ],
+  "forbidden": [
+    "DonottransferLighthousebudget/date toRiver.",
+    "Nosupplierpurchase."
+  ]
+}

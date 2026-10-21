@@ -1,0 +1,28 @@
+{
+  "exit_code": 0,
+  "elapsed_seconds": 7.033,
+  "responses": [
+    {
+      "type": "response",
+      "text": "Mina will send the approved budget to Leo by Friday.",
+      "error": null
+    },
+    {
+      "type": "goodbye"
+    }
+  ],
+  "model": "Qwen3.5-4B-Q4_K_M",
+  "device": "RTX 5090 Laptop CUDA; GPU-sharing launcher at 85% of GPU threads",
+  "checkpoint": {
+    "repository": "unsloth/Qwen3.5-4B-GGUF",
+    "revision": "e87f176479d0855a907a41277aca2f8ee7a09523",
+    "file": "Qwen3.5-4B-Q4_K_M.gguf",
+    "size": 2740937888,
+    "lfs": {
+      "sha256": "00fe7986ff5f6b463e62455821146049db6f9313603938a70800d1fb69ef11a4",
+      "size": 2740937888,
+      "pointerSize": 135
+    }
+  },
+  "input_kind": "synthetic one-sentence meeting; no user recordings"
+}

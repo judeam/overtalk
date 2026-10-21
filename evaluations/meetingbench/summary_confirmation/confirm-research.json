@@ -1,0 +1,81 @@
+{
+  "id": "confirm-research",
+  "split": "holdout",
+  "difficulty": "very_hard",
+  "language": "en",
+  "domain": "ambiguous research handover",
+  "provenance": "New synthetic confirmation case, authored after v5 stability failures and sealed before v6 inference; not a population-random sample.",
+  "transcript": "[00:00] Speaker1: This dataset has 240 rows, but 18 are duplicates. That doesn't prove there are 222 distinct patients; one patient can have several valid rows.\n[00:10] Speaker2: I cleaned the label spelling yesterday, not the duplicate rows.\n[00:20] Speaker3: Shall we delete the duplicates now?\n[00:30] Speaker1: No deletion is approved. Make a reversible copy for inspection first.\n[00:40] Speaker2: I'll make that copy by noon tomorrow. My audio cut out before my name; keep my label as Speaker2.\n[00:50] Speaker3: The directory says Morgan.\n[01:00] Speaker2: That's the lab account, not my name.\n[01:10] Speaker1: I am Dana. I will inspect the copy after it exists, but I am not committing to tomorrow.\n[01:20] Speaker3: The preliminary analysis says 62 percent. Is that accuracy?\n[01:30] Dana: No. That's the fraction of labeled rows, not a validated model accuracy.\n[01:40] Speaker2: We proposed releasing the dataset at the end of this quarter.\n[01:50] Dana: That remains only a proposal. Consent approval is still missing; do not publish until it is granted.\n[02:00] Speaker3: Can we say all consent forms are lost?\n[02:10] Dana: No, missing approval does not establish lost forms. We don't know their status yet.\n[02:20] Speaker2: Is external review funded?\n[02:30] Dana: Not decided. The old 900-dollar allocation belongs to a different project.",
+  "facts": [
+    {
+      "id": "F1",
+      "assertion": "240rowswith18duplicatesdoesnotestablish222distinctpatients.",
+      "evidence": [
+        1
+      ]
+    },
+    {
+      "id": "F2",
+      "assertion": "Labelspellingcleanedyesterday,notduplicates.",
+      "evidence": [
+        2
+      ]
+    },
+    {
+      "id": "F3",
+      "assertion": "Noduplicate deletionapproved;reversiblecopyfirst.",
+      "evidence": [
+        3,
+        4
+      ]
+    },
+    {
+      "id": "F4",
+      "assertion": "Speaker2makescopybytomorrownoon;Morganislabaccountnotidentity.",
+      "evidence": [
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "id": "F5",
+      "assertion": "Danainspectsaftercopyexistswithouttomorrowdeadline.",
+      "evidence": [
+        8
+      ]
+    },
+    {
+      "id": "F6",
+      "assertion": "62percentislabeledrowfractionnotvalidatedaccuracy.",
+      "evidence": [
+        9,
+        10
+      ]
+    },
+    {
+      "id": "F7",
+      "assertion": "Quarter-endreleaseonlyproposal;consentapprovalrequiredbeforepublication.",
+      "evidence": [
+        11,
+        12
+      ]
+    },
+    {
+      "id": "F8",
+      "assertion": "Consentformstatusunknown;lostformsnotestablished.",
+      "evidence": [
+        13,
+        14
+      ]
+    },
+    {
+      "id": "F9",
+      "assertion": "Externalreviewfundingundecided;USD900belongsanotherproject.",
+      "evidence": [
+        15,
+        16
+      ]
+    }
+  ]
+}

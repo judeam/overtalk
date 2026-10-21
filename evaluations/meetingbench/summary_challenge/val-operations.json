@@ -1,0 +1,66 @@
+{
+  "id": "val-operations",
+  "split": "validation",
+  "difficulty": "normal",
+  "language": "zh",
+  "domain": "warehouse operations",
+  "provenance": "Newly authored synthetic diagnostic; no real personal data; not a recording.",
+  "transcript": "[00:00] 陈敏：冷库温度已经恢复正常，维修昨晚完成了。\n[00:10] 李阳：那三十箱货都可以发吗？\n[00:20] 陈敏：不行。只有十二箱通过检查，十八箱继续隔离。\n[00:30] 李阳：我会在周五上午十点前把十二箱的清单发给客户。\n[00:40] 王琳：客户要求周五送到。\n[00:50] 陈敏：那只是客户要求，我们没有承诺送达时间。\n[01:00] 王琳：额外检测需要花多少钱还不知道。\n[01:10] 陈敏：对，没有批准检测预算，也没有安排新的维修任务。",
+  "facts": [
+    {
+      "id": "F1",
+      "assertion": "Cold-store temperature normal; repair completed last night.",
+      "evidence": [
+        1
+      ]
+    },
+    {
+      "id": "F2",
+      "assertion": "12of30boxespassed;18remainisolated.",
+      "evidence": [
+        2,
+        3
+      ]
+    },
+    {
+      "id": "F3",
+      "assertion": "LiYang sends12-box list by Friday10am.",
+      "evidence": [
+        4
+      ]
+    },
+    {
+      "id": "F4",
+      "assertion": "Customer requests Friday delivery but none promised.",
+      "evidence": [
+        5,
+        6
+      ]
+    },
+    {
+      "id": "F5",
+      "assertion": "Extra testing cost unknown.",
+      "evidence": [
+        7
+      ]
+    },
+    {
+      "id": "F6",
+      "assertion": "No testing budget approved.",
+      "evidence": [
+        8
+      ]
+    },
+    {
+      "id": "F7",
+      "assertion": "No new repair task assigned.",
+      "evidence": [
+        8
+      ]
+    }
+  ],
+  "forbidden": [
+    "No Friday delivery commitment.",
+    "No task to repair again."
+  ]
+}

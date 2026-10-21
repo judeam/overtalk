@@ -1,0 +1,36 @@
+rules:
+  - id: unbounded-provider-response
+    languages: [rust]
+    severity: ERROR
+    message: Use security::transport::response_text with a byte limit before parsing provider responses.
+    metadata:
+      category: security
+      cwe: 'CWE-400: Uncontrolled Resource Consumption'
+    pattern-either:
+      - pattern: response.text()
+      - pattern: response.json::<$TYPE>()
+  - id: disabled-tls-validation
+    languages: [rust]
+    severity: ERROR
+    message: Keep TLS certificate and hostname validation enabled.
+    metadata:
+      category: security
+    pattern-either:
+      - pattern: $CLIENT.danger_accept_invalid_certs(true)
+      - pattern: $CLIENT.danger_accept_invalid_hostnames(true)
+  - id: unrestricted-pytorch-load
+    languages: [python]
+    severity: ERROR
+    message: Load pinned model artifacts with weights_only=True; arbitrary pickle objects can execute code.
+    metadata:
+      category: security
+    pattern: torch.load(..., weights_only=False, ...)
+  - id: shell-subprocess
+    languages: [python]
+    severity: ERROR
+    message: Pass an argument list to subprocess without a shell.
+    metadata:
+      category: security
+    pattern-either:
+      - pattern: subprocess.run(..., shell=True, ...)
+      - pattern: subprocess.Popen(..., shell=True, ...)

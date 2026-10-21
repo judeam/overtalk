@@ -1,0 +1,85 @@
+{
+  "id": "confirm-localization",
+  "split": "holdout",
+  "difficulty": "very_hard",
+  "language": "es",
+  "domain": "localization and accessibility",
+  "provenance": "New synthetic confirmation case, authored after v5 stability failures and sealed before v6 inference; not a population-random sample.",
+  "transcript": "[00:00] Nerea: Separaremos la traducción al catalán de la revisión de accesibilidad.\n[00:10] Óscar: La versión catalana de la ayuda está terminada, pero nadie la ha publicado.\n[00:20] Luz: La revisión de accesibilidad encontró nueve problemas, no nueve páginas enteras para rehacer.\n[00:30] Nerea: Habíamos propuesto publicar todo el día 14; retiro esa fecha. No hay fecha de publicación.\n[00:40] Óscar: Yo enviaré el glosario catalán a Luz antes del viernes. Eso no incluye traducir el manual.\n[00:50] Luz: Puedo revisar el glosario después, pero no prometo terminar el viernes.\n[01:00] Nerea: El manual sigue sin responsable. No asignéis esa traducción a Óscar por asociación.\n[01:10] Luz: Prepararé una lista priorizada de los nueve problemas; no he prometido una fecha.\n[01:20] Óscar: ¿Aprobamos un presupuesto de 1200 euros para todo?\n[01:30] Nerea: No. Solo 450 euros para la revisión de accesibilidad, impuestos incluidos. Ningún presupuesto para el manual.\n[01:40] Luz: El correo de estado ya salió ayer.\n[01:50] Óscar: Propongo ocultar los mensajes de error para pasar la prueba.\n[02:00] Nerea: Rechazado. Los mensajes deben seguir visibles. Y publicar exige verificar primero los cambios.\n[02:10] Luz: Sigue abierta la pregunta de contratar una persona para probar con lector de pantalla.",
+  "facts": [
+    {
+      "id": "F1",
+      "assertion": "Catalanhelpfinishedbutnotpublished.",
+      "evidence": [
+        2
+      ]
+    },
+    {
+      "id": "F2",
+      "assertion": "9accessibilityproblemsnot9pagesapprovedforrewrite.",
+      "evidence": [
+        3
+      ]
+    },
+    {
+      "id": "F3",
+      "assertion": "Day14publicationproposalwithdrawn;nopublicationdate.",
+      "evidence": [
+        4
+      ]
+    },
+    {
+      "id": "F4",
+      "assertion": "OscarsendsCatalanglossarytoLuzbeforeFriday,notmanualtranslation.",
+      "evidence": [
+        5,
+        7
+      ]
+    },
+    {
+      "id": "F5",
+      "assertion": "LuzreviewsafterreceiptwithoutFridaydeadline;manualownerunknown.",
+      "evidence": [
+        6,
+        7
+      ]
+    },
+    {
+      "id": "F6",
+      "assertion": "Luzpreparesprioritized9-problemlistwithoutdeadline.",
+      "evidence": [
+        8
+      ]
+    },
+    {
+      "id": "F7",
+      "assertion": "EUR450accessibilityreviewonlyincludingtax;1200notapproved;manualbudgetabsent.",
+      "evidence": [
+        9,
+        10
+      ]
+    },
+    {
+      "id": "F8",
+      "assertion": "Status emailalreadysentyesterday.",
+      "evidence": [
+        11
+      ]
+    },
+    {
+      "id": "F9",
+      "assertion": "Hideerrorsrejected;messagesstayvisible;verifychangesbeforepublication.",
+      "evidence": [
+        12,
+        13
+      ]
+    },
+    {
+      "id": "F10",
+      "assertion": "Hiringscreen-reader testerunresolved.",
+      "evidence": [
+        14
+      ]
+    }
+  ]
+}

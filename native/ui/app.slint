@@ -1,0 +1,217 @@
+import { ListView, ScrollView, TextEdit, AboutSlint, Palette, ComboBox } from "std-widgets.slint";
+import "../../frontend/public/fonts/overtalk/InstrumentSans-Variable.ttf";
+import "../../frontend/public/fonts/overtalk/Phudu-Variable.ttf";
+import { Theme, Icons } from "theme.slint";
+import {
+    State,
+    MeetingRow,
+    NoteBlock,
+    TranscriptRow,
+    LaneRow,
+    ClipRow,
+    TickRow,
+    ResultRow,
+    DetailRow,
+    FormRow,
+    GuideChapter,
+    GuideStep,
+    EventCard,
+    BriefItem,
+    BriefSection,
+} from "state.slint";
+import {
+    ActionButton,
+    Field,
+    SectionHeading,
+    Hint,
+    Divider,
+} from "widgets.slint";
+import { LibraryScreen, SettingsScreen } from "workspace.slint";
+import { HomeScreen } from "home.slint";
+import { MeetingScreen } from "meeting.slint";
+import { Sidebar } from "sidebar.slint";
+import { TemplateEditor } from "templates.slint";
+import { ProjectWorkspace } from "projects.slint";
+import { WorkspaceDialog, BriefDialog } from "dialogs.slint";
+import { RecordingNoticeDialog } from "privacy.slint";
+import { ConnectionDialog } from "connections.slint";
+import { GuideScreen } from "guide.slint";
+export { AppTray } from "tray.slint";
+export { MeetingWidget } from "meeting-widget.slint";
+export {
+    State,
+    Theme,
+    MeetingRow,
+    NoteBlock,
+    TranscriptRow,
+    LaneRow,
+    ClipRow,
+    TickRow,
+    ResultRow,
+    DetailRow,
+    FormRow,
+    GuideChapter,
+    GuideStep,
+    EventCard,
+    BriefItem,
+    BriefSection,
+}
+export component AppWindow inherits Window {
+    callback copy-text(string);
+    copy-text(value) => { clipboard.text = value; clipboard.select-all(); clipboard.copy(); clipboard.text = ""; }
+    clipboard := TextInput { visible: false; }
+    title: "Overtalk";
+    icon: @image-url("../../frontend/public/brand/icon.svg");
+    preferred-width: 1440px;
+    preferred-height: 900px;
+    min-width: 760px;
+    min-height: 540px;
+    background: Theme.ground;
+    default-font-family: "Instrument Sans";
+    default-font-size: Theme.body;
+    in-out property <bool> compact-navigation-open: false;
+    public function close-navigation() { root.compact-navigation-open = false; navigation-toggle.focus-control(); }
+    property <int> current-view: State.view;
+    property <string> current-meeting: State.selected-id;
+    changed current-view => { if root.compact-navigation-open { root.close-navigation(); } }
+    changed current-meeting => { if root.compact-navigation-open { root.close-navigation(); } }
+    property <bool> dark-theme: State.dark;
+    property <float> ui-scale: State.zoom * min(24, max(18, 14 + root.width / 1px * 0.0021)) / 16;
+    changed dark-theme => { Theme.dark = self.dark-theme; Palette.color-scheme = self.dark-theme ? ColorScheme.dark : ColorScheme.light; State.ui-style-changed(); }
+    changed ui-scale => { Theme.scale = self.ui-scale; State.ui-style-changed(); }
+    init => { Theme.dark = self.dark-theme; Theme.scale = self.ui-scale; Palette.color-scheme = self.dark-theme ? ColorScheme.dark : ColorScheme.light; State.window-width = root.width / 1px; State.window-height = root.height / 1px; }
+    changed width => { State.window-width = self.width / 1px; State.ui-style-changed(); }
+    changed height => { State.window-height = self.height / 1px; State.ui-style-changed(); }
+    forward-focus: shortcuts;
+    shortcuts := FocusScope {
+    key-pressed(event) => {
+        if event.text == Key.Escape && State.hub-inspector-open { State.hub-inspector-open = false; return accept; }
+        if event.text == Key.Escape && root.compact-navigation-open { root.close-navigation(); return accept; }
+        if event.text == Key.Escape && State.modal != "" { State.action("modal-cancel", ""); return accept; }
+        if event.text == Key.Escape && State.view == 4 { State.action("guide-close", ""); return accept; }
+        if event.text == Key.F1 { State.action("guide", ""); return accept; }
+        if event.modifiers.control && event.text == "k" { State.action("navigate", "2"); State.search-focus = true; return accept; }
+        if event.modifiers.control && event.text == "," { State.action("settings", "0"); return accept; }
+        if event.text == " " && State.view == 1 && !State.editing-notes { State.action("toggle-play", ""); return accept; }
+        return reject;
+    }
+    VerticalLayout {
+        spacing: 0px;
+        Rectangle {
+            height: 52px * Theme.scale - 1px;
+            background: Theme.chrome;
+            HorizontalLayout {
+                padding-left: 20px * Theme.scale;
+                padding-right: 20px * Theme.scale;
+                spacing: 8px * Theme.scale;
+                navigation-toggle := ActionButton { visible: State.window-width < 1100; width: self.visible ? self.min-width : 0px; icon: Icons.menu; text: "Menu"; help: root.compact-navigation-open ? "Hide navigation" : "Show navigation"; compact: true; flat: true; selected: root.compact-navigation-open; clicked => { if root.compact-navigation-open { root.close-navigation(); } else { root.compact-navigation-open = true; } } }
+                Rectangle {
+                    width: 22.4px * Theme.scale;
+                    Image { source: Icons.brand; width: 18.4px * Theme.scale; height: self.width; y: (parent.height - self.height) / 2; }
+                }
+
+                Text {
+                    text: "Overtalk";
+                    color: Theme.ink;
+                    font-size: 19.5px * Theme.scale;
+                    letter-spacing: -0.195px * Theme.scale;
+                    font-weight: 600;
+                    vertical-alignment: center;
+                }
+
+                Rectangle {
+                    visible: State.window-width >= 1100;
+                    width: self.visible ? 22px * Theme.scale + tagline.preferred-width : 0px;
+                    tagline := Text {
+                        x: 22px * Theme.scale;
+                        height: parent.height;
+                        text: "A local-first meeting notebook";
+                        color: Theme.muted;
+                        font-size: 15.3px * Theme.scale;
+                        letter-spacing: -0.153px * Theme.scale;
+                        vertical-alignment: center;
+                    }
+                }
+
+                Rectangle {
+                    horizontal-stretch: 1;
+                }
+
+                if State.recording: ActionButton {
+                    text: "Recording";
+                    icon: Icons.microphone;
+                    clicked => { State.action("home", ""); }
+                }
+                VerticalLayout { alignment: center; ActionButton {
+                    text: "Guide";
+                    icon: Icons.help;
+                    flat: true;
+                    compact: true;
+                    label-size: 15.3px * Theme.scale;
+                    clicked => { State.action("guide", ""); }
+                } }
+
+            }
+        }
+
+        Divider { }
+
+        HorizontalLayout {
+            spacing: 0px;
+            if State.window-width >= 1100: Sidebar {
+                width: (State.window-width >= 2300 ? 300px : State.window-width >= 1280 ? 264px : 232px) * Theme.scale - 1px;
+            }
+
+            Rectangle {
+                width: 1px;
+                background: Theme.line;
+            }
+
+            Rectangle {
+                horizontal-stretch: 1;
+                if State.view == 0: HomeScreen { }
+                if State.view == 1: MeetingScreen { app-width: State.window-width * 1px; app-height: State.window-height * 1px; }
+                if State.view == 2 || State.view == 5 || State.view == 6 || State.view == 7: LibraryScreen { }
+                if State.view == 3: SettingsScreen { }
+                if State.view == 8: ProjectWorkspace { }
+                if State.view == 4: GuideScreen { }
+            }
+        }
+
+    }
+
+    // Compact navigation floats over the current page without changing its width.
+    if State.window-width < 1100 && root.compact-navigation-open: Rectangle {
+        y: 52px * Theme.scale; height: root.height - self.y;
+        background: #00000077;
+        TouchArea { clicked => { root.close-navigation(); } }
+        Sidebar { x: 0px; y: 0px; height: parent.height; width: min(320px * Theme.scale, parent.width - 64px); }
+    }
+
+    // Notifications float above the workspace so confirmations never resize
+    // the transcript or displace a user's reading position.
+    notice := Rectangle {
+        property <bool> has-action: State.error == "" && State.message != "" && State.message == State.message-action-for && State.message-action-label != "";
+        width: min(520px * Theme.scale, parent.width - 40px * Theme.scale);
+        height: min(parent.height * 0.3, max(64px * Theme.scale, notice-text.preferred-height + 32px * Theme.scale) + (self.has-action ? 44px * Theme.scale : 0px));
+        x: parent.width - self.width - 20px * Theme.scale;
+        y: parent.height - self.height - 20px * Theme.scale;
+        opacity: State.error != "" || State.message != "" ? 1 : 0;
+        visible: self.opacity > 0;
+        animate opacity { duration: State.reduced-motion ? 0ms : 160ms; easing: cubic-bezier(0.23, 1, 0.32, 1); }
+        background: Theme.panel; border-width: 1px; border-color: Theme.line-strong; border-radius: 10px * Theme.scale;
+        Rectangle { x: 1px; width: 3px * Theme.scale; height: parent.height - 24px * Theme.scale; y: 12px * Theme.scale; background: State.error != "" ? Theme.amber : Theme.teal; border-radius: 2px; }
+        Image { source: State.error != "" ? Icons.help : Icons.check; colorize: State.error != "" ? Theme.amber : Theme.teal; x: 16px * Theme.scale; y: 20px * Theme.scale; width: 20px * Theme.scale; height: self.width; }
+        ScrollView { x: 48px * Theme.scale; y: 16px * Theme.scale; width: parent.width - 100px * Theme.scale; height: parent.height - 32px * Theme.scale - (notice.has-action ? 44px * Theme.scale : 0px);
+            notice-text := Text { width: notice.width - 100px * Theme.scale; text: State.error != "" ? State.error : State.message; color: Theme.ink; font-size: Theme.small; wrap: word-wrap; }
+        }
+        if notice.has-action: ActionButton { x: 40px * Theme.scale; y: parent.height - self.height - 12px * Theme.scale; width: self.min-width; text: State.message-action-label; compact: true; clicked => { State.message = ""; State.action(State.message-action, State.message-action-value); } }
+        ActionButton { x: parent.width - self.width - 8px * Theme.scale; y: 10px * Theme.scale; width: 32px * Theme.scale; height: self.width; icon: Icons.close; help: "Dismiss message"; compact: true; flat: true; clicked => { State.error = ""; State.message = ""; } }
+    }
+
+    if State.modal == "connection-picker" || State.modal == "connection-setup": ConnectionDialog { }
+    if State.modal == "brief": BriefDialog { }
+    if State.modal == "recording-notice": RecordingNoticeDialog { }
+    if State.modal != "" && State.modal != "connection-picker" && State.modal != "connection-setup" && State.modal != "brief" && State.modal != "recording-notice": WorkspaceDialog { }
+    }
+}

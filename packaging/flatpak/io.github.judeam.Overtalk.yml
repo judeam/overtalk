@@ -1,0 +1,82 @@
+# Flatpak manifest for the free, open-source Overtalk desktop app, prepared for
+# a later Flathub submission. It has not been built yet: see
+# packaging/README.md#flatpak for what it needs (flatpak-builder, the GNOME 51
+# SDK, cargo-sources.json) and the code changes Flathub requires first.
+id: io.github.judeam.Overtalk
+# The engine links WebKitGTK 4.1 through Tauri; the GNOME runtime provides it.
+# GNOME 51 is built on freedesktop 26.08, which also ships /usr/bin/ffmpeg.
+runtime: org.gnome.Platform
+runtime-version: '51'
+sdk: org.gnome.Sdk
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.rust-stable
+  # libclang for bindgen (PipeWire, whisper.cpp and llama.cpp bindings).
+  - org.freedesktop.Sdk.Extension.llvm22
+command: overtalk
+finish-args:
+  # Display. X11 only where Wayland is unavailable; DRI for the GPU renderer.
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=ipc
+  - --device=dri
+  # Microphone and call audio. The engine records through PulseAudio (served
+  # by PipeWire on current desktops), including the monitor sources that carry
+  # system audio; no direct PipeWire or ALSA device access is needed.
+  - --socket=pulseaudio
+  # Model downloads on first use, optional cloud providers, and a local Ollama.
+  - --share=network
+  # The default recordings folder, ~/Documents/sonefold-recordings, only.
+  - --filesystem=xdg-documents/sonefold-recordings:create
+  # Credentials for optional providers and integrations (keyring crate).
+  - --talk-name=org.freedesktop.secrets
+  # Recording reminders and status (tauri-plugin-notification) and the tray.
+  - --talk-name=org.freedesktop.Notifications
+  - --talk-name=org.kde.StatusNotifierWatcher
+modules:
+  - name: overtalk
+    buildsystem: simple
+    build-options:
+      append-path: /usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/llvm22/bin
+      prepend-ld-library-path: /usr/lib/sdk/llvm22/lib
+      env:
+        CARGO_HOME: /run/build/overtalk/cargo
+        CARGO_NET_OFFLINE: 'true'
+        LIBCLANG_PATH: /usr/lib/sdk/llvm22/lib
+        # The pinned ONNX Runtime archive below, linked statically.
+        ORT_LIB_LOCATION: /run/build/overtalk/onnxruntime/lib
+        # The build verifies and records this FFmpeg; at run time the engine
+        # uses the runtime's /usr/bin/ffmpeg.
+        OVERTALK_FFMPEG_PATH: /usr/bin/ffmpeg
+    build-commands:
+      # Builds every binary (portable CPU flags are set by build.py) and stages
+      # bin/, lib/Sonefold/ and share/ (icons, desktop entry, metainfo,
+      # licences) straight into /app.
+      - OVERTALK_FFMPEG_SHA256=$(sha256sum "$OVERTALK_FFMPEG_PATH" | cut -d' ' -f1)
+        python3 packaging/linux/build.py --stage /app
+    sources:
+      # Local builds. For Flathub replace with:
+      #   - type: git
+      #     url: https://github.com/judeam/overtalk.git
+      #     tag: v0.1.0
+      #     commit: <full commit hash of the tag>
+      - type: dir
+        path: ../..
+        skip:
+          - .git
+          - target
+          - frontend/node_modules
+          - frontend/out
+          - frontend/.next
+          - frontend/src-tauri/target
+          - speech-worker/.venv-modern
+          - speech-worker/.venv-qwen
+          - website
+      # Generated from Cargo.lock with flatpak-cargo-generator; see
+      # packaging/README.md#flatpak. Vendors every crate for the offline build.
+      - cargo-sources.json
+      # ONNX Runtime 1.22.0 static library, the archive ort-sys 2.0.0-rc.10
+      # itself downloads and checks (ort-sys dist.txt, target "none").
+      - type: archive
+        url: https://cdn.pyke.io/0/pyke:ort-rs/ms@1.22.0/x86_64-unknown-linux-gnu.tgz
+        sha256: ed1716de95974bf47ab0223ca33734a0b5a5d09a181225d0e8ed62d070aea893
+        dest: onnxruntime

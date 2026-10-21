@@ -1,0 +1,66 @@
+{
+  "id": "val-finance",
+  "split": "validation",
+  "difficulty": "hard",
+  "language": "ko",
+  "domain": "finance review",
+  "provenance": "Newly authored synthetic diagnostic; no real personal data; not a recording.",
+  "transcript": "[00:00] 지민: 이번 분기 매출은 예상치가 아니라 확정치로 8천만 원입니다.\n[00:10] 민수: 비용 한도는 처음에 천만 원이라고 했죠?\n[00:20] 지민: 수정합니다. 세금을 포함한 총한도는 7백만 원입니다. 천만 원은 취소됐어요.\n[00:30] 서연: 제가 6월 18일까지 비용 내역 초안을 작성하겠습니다.\n[00:40] 민수: 그날 감사가 끝나는 건가요?\n[00:50] 서연: 아니요. 초안 작성 기한일 뿐이고 감사 완료일은 정하지 않았어요.\n[01:00] 지민: 지급 전에 민수의 검토가 필요합니다. 민수의 검토 기한도 정하지 않았습니다.\n[01:10] 민수: 지난달 영수증은 이미 올렸습니다.\n[01:20] 서연: 새 회계 도구를 살지는 아직 결정되지 않았습니다.",
+  "facts": [
+    {
+      "id": "F1",
+      "assertion": "Quarter revenue is confirmedKRW80million, not forecast.",
+      "evidence": [
+        1
+      ]
+    },
+    {
+      "id": "F2",
+      "assertion": "Total capKRW7million includes tax;KRW10millioncancelled.",
+      "evidence": [
+        2,
+        3
+      ]
+    },
+    {
+      "id": "F3",
+      "assertion": "Seoyeon drafts cost breakdown byJune18.",
+      "evidence": [
+        4
+      ]
+    },
+    {
+      "id": "F4",
+      "assertion": "June18isnot auditcompletion; audittimingunknown.",
+      "evidence": [
+        5,
+        6
+      ]
+    },
+    {
+      "id": "F5",
+      "assertion": "Minsu review required before payment; no reviewdeadline.",
+      "evidence": [
+        7
+      ]
+    },
+    {
+      "id": "F6",
+      "assertion": "Receipts already uploaded.",
+      "evidence": [
+        8
+      ]
+    },
+    {
+      "id": "F7",
+      "assertion": "Buying accounting tool is undecided.",
+      "evidence": [
+        9
+      ]
+    }
+  ],
+  "forbidden": [
+    "Do not moveSeoyeondeadline toMinsu.",
+    "No additional tax budget."
+  ]
+}

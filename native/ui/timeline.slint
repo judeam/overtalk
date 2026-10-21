@@ -1,0 +1,174 @@
+import { ScrollView } from "std-widgets.slint";
+import { Theme, Icons } from "theme.slint";
+import { State } from "state.slint";
+import { ActionButton, Hint, TrackSlider, SpeakerBadge } from "widgets.slint";
+
+export component TimelinePanel inherits Rectangle {
+    in property <length> app-width;
+    in property <length> app-height;
+    property <float> shown-playhead: State.playhead;
+    animate shown-playhead { duration: State.playing && !State.reduced-motion ? 50ms : 0ms; easing: linear; }
+    property <bool> notes-mode: State.meeting-tab == 1;
+    property <bool> compact: notes-mode || app-height / Theme.scale <= 800px;
+    property <bool> inline-controls: lane-height < 58px * Theme.scale;
+    property <length> header-height: (compact ? 60px : 86px) * Theme.scale;
+    // Reserve a useful reading pane at every DPI. A width-only breakpoint can
+    // leave 150%-scaled laptops with large chrome and almost no transcript.
+    property <length> workspace-height: max(0px, app-height - (52px + (app-height <= 600px ? 72px : app-width < 1440px ? 96px : 86px) + 48px) * Theme.scale - 2px);
+    property <length> available-height: max(72px * Theme.scale, min(workspace-height * (notes-mode ? 0.45 : 0.5), workspace-height - min(320px * Theme.scale, workspace-height * 0.55)));
+    property <length> notes-height: min(available-height, max(112px * Theme.scale, State.notes-timeline-fraction == 0 ? min(app-height * 0.25, header-height + State.lanes.length * (32px * Theme.scale + lane-gap) + 8px * Theme.scale) : app-height * State.notes-timeline-fraction));
+    property <length> lane-height: notes-mode ? max(18px * Theme.scale, min(32px * Theme.scale, (notes-height - header-height - 8px * Theme.scale) / max(1, State.lanes.length) - lane-gap)) : max((compact ? 22px : 28px) * Theme.scale, min((compact ? 32px : 64px) * Theme.scale, (available-height - header-height) / max(1, State.lanes.length) - lane-gap));
+    property <length> head-width: (notes-mode || inline-controls ? 216px : 160px) * Theme.scale;
+    property <length> lane-gap: (notes-mode ? 3px : app-height <= 800px ? 4px : 6px) * Theme.scale;
+    height: notes-mode ? notes-height : min(State.timeline-auto ? (State.lanes.length * (root.lane-height + root.lane-gap) - root.lane-gap + header-height) : State.timeline-height * 1px, available-height);
+    background: Theme.dark ? #181f25 : Theme.panel;
+    VerticalLayout {
+        spacing: 0px;
+        HorizontalLayout {
+            height: (root.compact ? 30px : 40px) * Theme.scale;
+            padding-left: 24px * Theme.scale;
+            padding-right: 24px * Theme.scale;
+            spacing: 10px * Theme.scale;
+            alignment: end;
+            ActionButton { text: "Mark moment"; icon: Icons.bookmark; compact: true; flat: true; height: 28px * Theme.scale; label-size: 12px * Theme.scale; clicked => { State.action("add-mark", ""); } }
+            Rectangle { horizontal-stretch: 1; }
+            if root.notes-mode && root.width > 900px * Theme.scale: Hint { text: "Drag the bottom edge to resize"; font-size: 12px * Theme.scale; vertical-alignment: center; }
+            ActionButton { text: root.notes-mode ? "Reset size" : "Auto fit"; compact: true; flat: true; selected: !root.notes-mode && State.timeline-auto; selected-background: Theme.dark ? #1d2e32 : #e1f0ed; foreground: !root.notes-mode && State.timeline-auto ? Theme.teal : Theme.secondary; height: 28px * Theme.scale; label-size: 12px * Theme.scale; clicked => { if root.notes-mode { State.notes-timeline-fraction = 0; } else { State.timeline-auto = true; } } }
+            if !root.notes-mode: Hint { text: "Height"; font-size: 12px * Theme.scale; vertical-alignment: center; }
+            if !root.notes-mode: TrackSlider { height: 28px * Theme.scale; minimum: 150; maximum: 1000; value <=> State.timeline-height; width: 90px * Theme.scale; changed => { State.timeline-auto = false; } }
+        }
+        Rectangle {
+            height: (root.compact ? 30px : 46px) * Theme.scale;
+            clip: true;
+            x: 24px * Theme.scale;
+            width: parent.width - 48px * Theme.scale;
+            Rectangle { x: root.head-width; y: (root.compact ? 4px : 10px) * Theme.scale; width: parent.width - root.head-width; height: 32px * Theme.scale; background: Theme.ground; }
+            for tick in State.ruler-ticks: Rectangle {
+                x: root.head-width + tick.position * (parent.width - root.head-width);
+                width: 1px;
+                y: (root.compact ? 4px : 10px) * Theme.scale; height: 32px * Theme.scale;
+                Rectangle { y: parent.height - 10px * Theme.scale; height: 10px * Theme.scale; width: 1px; background: Theme.line-strong; }
+                if tick.label != "": Text { x: -28px * Theme.scale; width: 56px * Theme.scale; text: tick.label; color: Theme.secondary; font-size: 13px * Theme.scale; horizontal-alignment: center; }
+            }
+            Rectangle { x: root.head-width + root.shown-playhead * (parent.width - root.head-width) - self.width / 2; y: parent.height - self.height - 8px * Theme.scale; width: 9px * Theme.scale; height: self.width; border-radius: self.width / 2; background: Theme.record; }
+            for mark in State.markers: ActionButton {
+                x: root.head-width + mark.start / State.timeline-duration * (parent.width - root.head-width) - self.width / 2;
+                y: parent.height - self.height; width: 22px * Theme.scale; height: 24px * Theme.scale;
+                icon: Icons.bookmark; foreground: Theme.amber; help: mark.body;
+                compact: true; flat: true; clicked => { State.action("marker-options", mark.id); }
+            }
+        }
+        ScrollView {
+            HorizontalLayout {
+                padding-left: 24px * Theme.scale;
+                padding-right: 24px * Theme.scale;
+                VerticalLayout {
+                    spacing: root.lane-gap;
+                    for lane in State.lanes: Rectangle {
+                        height: root.lane-height;
+                        border-width: 1px;
+                        border-color: Theme.line;
+                        border-radius: 6px * Theme.scale;
+                        background: Theme.dark ? #1a2028 : #e9eef1;
+                        clip: true;
+                        HorizontalLayout {
+                            spacing: 0px;
+                            Rectangle {
+                                width: root.head-width;
+                                background: Theme.dark ? #171d24 : #f8f9fb;
+                                if root.notes-mode: Rectangle {
+                                    TouchArea { mouse-cursor: pointer; clicked => { State.selected-lane-id = lane.id; lane-focus.focus(); } }
+                                    lane-focus := FocusScope { focus-on-click: false; key-pressed(event) => { if event.text == " " || event.text == "\n" { State.selected-lane-id = lane.id; return accept; } return reject; } }
+                                    HorizontalLayout {
+                                        padding-left: 10px * Theme.scale; padding-right: 8px * Theme.scale; spacing: 6px * Theme.scale;
+                                        Rectangle { width: 18px * Theme.scale;
+                                            SpeakerBadge { tone: lane.tone; symbol-color: lane.kind == 0 ? #ffffff : #17131e; icon: lane.kind == 0 ? Icons.person : lane.kind == 1 ? Icons.check : Icons.tasks; width: parent.width; height: self.width; y: (parent.height - self.height) / 2; active: State.playing && State.speaking-id == lane.id; }
+                                        }
+                                        Text { text: lane.name; min-width: 0px; horizontal-stretch: 1; color: Theme.ink; font-size: 13px * Theme.scale; font-weight: 600; overflow: elide; vertical-alignment: center; }
+                                        if lane.kind == 0 && (State.selected-lane-id == lane.id || lane.solo || lane.muted): ActionButton { text: "Only"; selected: lane.solo; compact: true; height: 18px * Theme.scale; horizontal-padding: 4px * Theme.scale; label-size: 10px * Theme.scale; clicked => { State.action("solo-speaker", lane.id); } }
+                                        if lane.kind == 0 && (State.selected-lane-id == lane.id || lane.solo || lane.muted): ActionButton { text: "Skip"; selected: lane.muted; compact: true; height: 18px * Theme.scale; horizontal-padding: 4px * Theme.scale; label-size: 10px * Theme.scale; clicked => { State.action("mute-speaker", lane.id); } }
+                                    }
+                                    Rectangle { border-width: 1px; border-color: lane.tone; opacity: State.selected-lane-id == lane.id || lane-focus.has-focus ? 0.7 : 0; }
+                                    accessible-role: button; accessible-label: "Select " + lane.name + " timeline controls";
+                                    accessible-action-default => { State.selected-lane-id = lane.id; }
+                                }
+                                if !root.notes-mode && root.inline-controls: Rectangle {
+                                    TouchArea { mouse-cursor: pointer; clicked => { State.selected-lane-id = lane.id; inline-focus.focus(); } }
+                                    inline-focus := FocusScope { focus-on-click: false; key-pressed(event) => { if event.text == " " || event.text == "\n" { State.selected-lane-id = lane.id; return accept; } return reject; } }
+                                    HorizontalLayout {
+                                        padding-left: 10px * Theme.scale; padding-right: 8px * Theme.scale; spacing: 6px * Theme.scale;
+                                        Rectangle { width: 18px * Theme.scale;
+                                            SpeakerBadge { tone: lane.tone; symbol-color: lane.kind == 0 ? #ffffff : #17131e; icon: lane.kind == 0 ? Icons.person : lane.kind == 1 ? Icons.check : Icons.tasks; width: parent.width; height: self.width; y: (parent.height - self.height) / 2; active: State.playing && State.speaking-id == lane.id; }
+                                        }
+                                        Text { text: lane.name; min-width: 0px; horizontal-stretch: 1; color: Theme.ink; font-size: 13px * Theme.scale; font-weight: 600; overflow: elide; vertical-alignment: center; }
+                                        if lane.kind == 0 && (State.selected-lane-id == lane.id || lane.solo || lane.muted): ActionButton { text: "Only"; selected: lane.solo; compact: true; height: 20px * Theme.scale; horizontal-padding: 4px * Theme.scale; label-size: 10px * Theme.scale; clicked => { State.action("solo-speaker", lane.id); } }
+                                        if lane.kind == 0 && (State.selected-lane-id == lane.id || lane.solo || lane.muted): ActionButton { text: "Skip"; selected: lane.muted; compact: true; height: 20px * Theme.scale; horizontal-padding: 4px * Theme.scale; label-size: 10px * Theme.scale; clicked => { State.action("mute-speaker", lane.id); } }
+                                    }
+                                    Rectangle { border-width: 1px; border-color: lane.tone; opacity: State.selected-lane-id == lane.id || inline-focus.has-focus ? 0.7 : 0; }
+                                    accessible-role: button; accessible-label: "Select " + lane.name + " timeline controls";
+                                    accessible-action-default => { State.selected-lane-id = lane.id; }
+                                }
+                                if !root.notes-mode && !root.inline-controls: VerticalLayout {
+                                    padding-left: 13px * Theme.scale; padding-right: 10px * Theme.scale; spacing: 6px * Theme.scale; alignment: center;
+                                    HorizontalLayout { spacing: 8px * Theme.scale;
+                                        SpeakerBadge { tone: lane.tone; symbol-color: lane.kind == 0 ? #ffffff : #17131e; icon: lane.kind == 0 ? Icons.person : lane.kind == 1 ? Icons.check : Icons.tasks; active: State.playing && State.speaking-id == lane.id; }
+                                        Text { text: lane.name; color: Theme.ink; font-size: 14px * Theme.scale; font-weight: 600; overflow: elide; vertical-alignment: center; }
+                                    }
+                                    if lane.kind == 0: HorizontalLayout { padding-left: 28px * Theme.scale; spacing: 6px * Theme.scale; alignment: start;
+                                        ActionButton { text: "Only"; selected: lane.solo; compact: true; height: 26px * Theme.scale; horizontal-padding: 6px * Theme.scale; label-size: 11px * Theme.scale; clicked => { State.action("solo-speaker", lane.id); } }
+                                        ActionButton { text: "Skip"; selected: lane.muted; compact: true; height: 26px * Theme.scale; horizontal-padding: 6px * Theme.scale; label-size: 11px * Theme.scale; clicked => { State.action("mute-speaker", lane.id); } }
+                                    }
+                                }
+                            }
+                            Rectangle {
+                                horizontal-stretch: 1;
+                                clip: true;
+                                for tick in State.ruler-ticks: Rectangle { x: tick.position * parent.width; width: 1px; height: parent.height; background: Theme.dark ? #252d37 : #dce2e7; }
+                                Image { source: lane.waveform; width: parent.width; height: parent.height; image-fit: fill; opacity: lane.muted ? 0.38 : 1; }
+                                TouchArea { mouse-cursor: pointer; clicked => { State.selected-lane-id = lane.id; State.action("seek-fraction", "" + self.mouse-x / self.width); } }
+                                for item in lane.clips: Rectangle {
+                                    property <bool> selected: State.note-group-contains(item.members, State.selected-note-id) && State.selected-note-id != "";
+                                    x: item.position * parent.width;
+                                    width: item.span * parent.width;
+                                    y: (parent.height - self.height) / 2;
+                                    height: max(0px, parent.height - (root.notes-mode ? 4px : 8px) * Theme.scale);
+                                    border-radius: 5px * Theme.scale;
+                                    background: lane.kind == 1 ? (Theme.dark ? #332c19 : #fff0bc) : (Theme.dark ? #28233a : #eee4ff);
+                                    border-width: self.selected ? 2px : 1px;
+                                    border-color: lane.tone.with-alpha(self.selected ? 1 : 0.55);
+                                    Rectangle { width: parent.width; height: parent.height; border-radius: parent.border-radius; background: lane.tone; opacity: card-touch.has-hover ? 0.14 : parent.selected ? 0.08 : 0; animate opacity { duration: State.reduced-motion ? 0ms : 140ms; easing: cubic-bezier(0.23, 1, 0.32, 1); } }
+                                    Rectangle { x: 0px; y: 5px * Theme.scale; width: 3px * Theme.scale; height: parent.height - 10px * Theme.scale; border-radius: 2px; background: lane.tone; }
+                                    Text { x: 12px * Theme.scale; width: parent.width - 30px * Theme.scale; height: parent.height; text: item.label; color: Theme.ink; font-weight: item.count > 1 ? 600 : 400; font-size: (root.compact ? 12px : 13px) * Theme.scale; vertical-alignment: center; wrap: no-wrap; overflow: elide; }
+                                    if item.count > 1: Image { source: Icons.chevron; colorize: lane.tone; width: 12px * Theme.scale; height: self.width; x: parent.width - self.width - 8px * Theme.scale; y: (parent.height - self.height) / 2; }
+                                    card-touch := TouchArea { mouse-cursor: pointer; pointer-event(event) => { if event.kind == PointerEventKind.down { card-focus.focus(); } } clicked => { State.action("select-note-group", item.members); } }
+                                    card-focus := FocusScope { focus-on-click: false; key-pressed(event) => { if event.text == " " || event.text == "\n" { State.action("select-note-group", item.members); return accept; } return reject; } }
+                                    Rectangle { width: parent.width; height: parent.height; border-radius: parent.border-radius; border-width: 2px; border-color: Theme.ink; opacity: card-focus.has-focus ? 1 : 0; }
+                                    accessible-role: button;
+                                    accessible-label: item.label + ". " + item.body;
+                                    accessible-action-default => { State.action("select-note-group", item.members); }
+                                }
+                                Rectangle { x: root.shown-playhead * parent.width; width: 1.5px; height: parent.height; background: Theme.record; }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if root.notes-mode: Rectangle {
+            height: 8px * Theme.scale;
+            background: resize-area.has-hover || resize-area.pressed ? Theme.selection : transparent;
+            Rectangle { x: (parent.width - self.width) / 2; y: (parent.height - self.height) / 2; width: 44px * Theme.scale; height: 2px * Theme.scale; border-radius: self.height / 2; background: resize-focus.has-focus ? Theme.teal : Theme.line-strong; }
+            resize-area := TouchArea {
+                mouse-cursor: ns-resize;
+                pointer-event(event) => { if event.kind == PointerEventKind.down { resize-focus.focus(); } }
+                moved => { if self.pressed { State.notes-timeline-fraction = min(0.45, max(0.14, (root.height + self.mouse-y - self.pressed-y) / root.app-height)); } }
+            }
+            resize-focus := FocusScope { focus-on-click: false; key-pressed(event) => {
+                if event.text == Key.UpArrow || event.text == Key.DownArrow { State.notes-timeline-fraction = min(0.45, max(0.14, root.height / root.app-height + (event.text == Key.DownArrow ? 0.025 : -0.025))); return accept; }
+                return reject;
+            } }
+            accessible-role: slider; accessible-label: "Notes timeline height";
+            accessible-value: "" + round(root.height / root.app-height * 100) + " percent of the window";
+        }
+    }
+}

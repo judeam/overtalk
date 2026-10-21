@@ -1,0 +1,23 @@
+{
+  "$schema": "https://unpkg.com/knip@6.42.0/schema.json",
+  "entry": [
+    "tests/**/*.test.{ts,tsx,js,mjs}",
+    "scripts/auto-detect-gpu.js",
+    "scripts/check-ui.cjs",
+    "scripts/profile-meeting-open.cjs",
+    "scripts/profile-workspace.cjs",
+    "scripts/guide/capture-guide.cjs"
+  ],
+  "project": [
+    "src/**/*.{ts,tsx,js,jsx}",
+    "tests/**/*.{ts,tsx,js,mjs}",
+    "scripts/**/*.{js,cjs}",
+    "*.{js,mjs}"
+  ],
+  "ignoreDependencies": [
+    "prettier"
+  ],
+  "rules": {
+    "cycles": "error"
+  }
+}

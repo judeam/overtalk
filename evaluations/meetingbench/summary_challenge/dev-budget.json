@@ -1,0 +1,66 @@
+{
+  "id": "dev-budget",
+  "split": "development",
+  "difficulty": "normal",
+  "language": "de",
+  "domain": "community event",
+  "provenance": "Newly authored synthetic diagnostic; no real personal data; not a recording.",
+  "transcript": "[00:00] Mara: Die Raumreservierung ist bestätigt. Wir haben 32 Anmeldungen, nicht 32 Helfer.\n[00:10] Jonas: Für das Catering hatte ich 900 Euro vorgeschlagen.\n[00:20] Mara: Beschlossen sind insgesamt 650 Euro, inklusive Lieferung. Die 900 Euro gelten nicht.\n[00:30] Jonas: Ich bestelle das Catering für 32 Personen bis Dienstagmittag.\n[00:40] Mara: Gut. Alkohol wird nicht bestellt.\n[00:50] Lea: Ich habe die Einladungen schon verschickt.\n[01:00] Jonas: Brauchen wir einen Gebärdensprachdolmetscher?\n[01:10] Mara: Das wissen wir noch nicht; niemand hat die Klärung übernommen.",
+  "facts": [
+    {
+      "id": "F1",
+      "assertion": "Room booking is confirmed.",
+      "evidence": [
+        1
+      ]
+    },
+    {
+      "id": "F2",
+      "assertion": "There are 32 attendees/registrations, not 32 volunteers.",
+      "evidence": [
+        1
+      ]
+    },
+    {
+      "id": "F3",
+      "assertion": "Total catering cap is EUR650 including delivery; EUR900 was rejected.",
+      "evidence": [
+        2,
+        3
+      ]
+    },
+    {
+      "id": "F4",
+      "assertion": "Jonas will order catering for 32 by Tuesday noon.",
+      "evidence": [
+        4
+      ]
+    },
+    {
+      "id": "F5",
+      "assertion": "No alcohol will be ordered.",
+      "evidence": [
+        5
+      ]
+    },
+    {
+      "id": "F6",
+      "assertion": "Lea already sent invitations.",
+      "evidence": [
+        6
+      ]
+    },
+    {
+      "id": "F7",
+      "assertion": "Interpreter need and its owner remain unresolved.",
+      "evidence": [
+        7,
+        8
+      ]
+    }
+  ],
+  "forbidden": [
+    "Do not turn completed invitations into an action.",
+    "No additional EUR650 delivery budget."
+  ]
+}

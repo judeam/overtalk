@@ -1,0 +1,3 @@
+# Optional text-only engine experiment. Keep separate from the ASR environment,
+# which qwen-asr pins to vLLM 0.14.0.
+vllm==0.31.0

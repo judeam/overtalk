@@ -1,0 +1,511 @@
+{
+  "id": "very-hard-en-hi-preview",
+  "title": "[Synthetic stress test] Launch incident — English + Hindi, six speakers",
+  "count_toward_200": false,
+  "reference_status": "Assistant-authored synthetic demonstration; not native-speaker validated",
+  "languages": [
+    "en",
+    "hi"
+  ],
+  "people": [
+    {
+      "id": "asha",
+      "name": "Asha",
+      "voice": "custom-existing",
+      "style": "Adult woman project manager, natural Indian English and Hindi. Firm, clear, conversational. Never read the delivery instructions aloud."
+    },
+    {
+      "id": "daniel",
+      "name": "Daniel",
+      "voice": "Puck",
+      "style": "Adult male engineer, natural British English accent, tense and defensive. Conversational, not theatrical."
+    },
+    {
+      "id": "hina",
+      "name": "Hina",
+      "voice": "Kore",
+      "style": "Adult woman operations engineer, fluent Hindi with natural English code-switching, fast but understandable, frustrated."
+    },
+    {
+      "id": "marco",
+      "name": "Marco",
+      "voice": "Charon",
+      "style": "Adult male quality engineer speaking fluent English with a noticeable Italian accent. Precise, insistent, slightly gravelly."
+    },
+    {
+      "id": "leah",
+      "name": "Leah",
+      "voice": "Leda",
+      "style": "Adult woman customer lead speaking fluent English with a natural Nigerian accent. Urgent, expressive, professionally frustrated."
+    },
+    {
+      "id": "nikhil",
+      "name": "Nikhil",
+      "voice": "Fenrir",
+      "style": "Adult male security engineer, fluent Hindi and Indian English. Measured low register, becomes emphatic when interrupted."
+    }
+  ],
+  "turns": [
+    {
+      "id": "T001",
+      "speaker": "asha",
+      "text": "Okay, everyone, this is a synthetic incident exercise. Six people are on this call. We need one clear decision about tonight's release.",
+      "emotion": "calm"
+    },
+    {
+      "id": "T002",
+      "speaker": "leah",
+      "text": "The client has already announced eight o'clock. Their support team is getting calls. Please do not tell me we have discovered another blocker.",
+      "emotion": "calm"
+    },
+    {
+      "id": "T003",
+      "speaker": "daniel",
+      "text": "The patch passed on staging. I said the duplicate charge was fixed in the new build, not that production was already safe.",
+      "emotion": "calm"
+    },
+    {
+      "id": "T004",
+      "speaker": "hina",
+      "text": "नहीं, staging और production का configuration अलग है। वही पुराना retry चालू है। मैंने सुबह channel में लिखा था।",
+      "emotion": "calm"
+    },
+    {
+      "id": "T005",
+      "speaker": "marco",
+      "group": "argument-1",
+      "text": "Exactly. I still have two receipts for one order. Passing a test is not the same as fixing the customer's charge.",
+      "emotion": "angry"
+    },
+    {
+      "id": "T006",
+      "speaker": "daniel",
+      "group": "argument-1",
+      "text": "That receipt is from the old worker! Marco, please check the build number before you say my patch does not work.",
+      "emotion": "angry"
+    },
+    {
+      "id": "T007",
+      "speaker": "hina",
+      "group": "argument-1",
+      "text": "मेरी बात सुनो! Old worker अभी भी चल रहा है। मैं उसी की बात कर रही हूँ। पहले उसे बंद करो!",
+      "emotion": "angry"
+    },
+    {
+      "id": "T008",
+      "speaker": "asha",
+      "text": "Stop. One at a time. Hina, your connection dropped after old worker. Is that worker still accepting real customer jobs?",
+      "emotion": "calm"
+    },
+    {
+      "id": "T009",
+      "speaker": "hina",
+      "text": "हाँ, अभी भी। तीन पुराने workers हैं। मैंने कहा था तीन, तेरह नहीं। अभी traffic उन्हीं पर जा रहा है।",
+      "emotion": "calm"
+    },
+    {
+      "id": "T010",
+      "speaker": "nikhil",
+      "text": "Before anyone restarts them, do not paste the access token into this call's chat. The credential in the screenshot needs rotating.",
+      "emotion": "calm"
+    },
+    {
+      "id": "T011",
+      "speaker": "leah",
+      "group": "argument-2",
+      "text": "We are losing the client's trust while everyone argues about screenshots. Can we roll back and send a clear message?",
+      "emotion": "angry"
+    },
+    {
+      "id": "T012",
+      "speaker": "daniel",
+      "group": "argument-2",
+      "text": "Rolling back the application will not undo the jobs already queued. That is exactly why I asked for a pause first.",
+      "emotion": "angry"
+    },
+    {
+      "id": "T013",
+      "speaker": "nikhil",
+      "group": "argument-2",
+      "text": "और token rotate करना अलग काम है। Rollback से exposed credential अपने आप सुरक्षित नहीं हो जाएगा।",
+      "emotion": "angry"
+    },
+    {
+      "id": "T014",
+      "speaker": "asha",
+      "text": "We are pausing checkout now. We are not deleting the queue. Daniel, isolate the three old workers and preserve the job IDs.",
+      "emotion": "calm"
+    },
+    {
+      "id": "T015",
+      "speaker": "daniel",
+      "text": "Yes. I will isolate those three workers by eighteen thirty. I need the failed job export before I touch the retry settings.",
+      "emotion": "calm"
+    },
+    {
+      "id": "T016",
+      "speaker": "hina",
+      "text": "मैं export भेजूँगी। पाँच मिनट दो। लेकिन checkout pause की permission Asha दे रही है, मैं अपनी तरफ़ से नहीं कर रही।",
+      "emotion": "calm"
+    },
+    {
+      "id": "T017",
+      "speaker": "marco",
+      "group": "argument-3",
+      "text": "I need the original job identifiers. A filtered spreadsheet is useless if it hides the duplicates we are trying to find.",
+      "emotion": "angry"
+    },
+    {
+      "id": "T018",
+      "speaker": "hina",
+      "group": "argument-3",
+      "text": "Filtered नहीं है! मैंने सिर्फ़ customer emails हटा दिए हैं। Job IDs और timestamps सब उसी में हैं।",
+      "emotion": "angry"
+    },
+    {
+      "id": "T019",
+      "speaker": "leah",
+      "group": "argument-3",
+      "text": "Good, remove the personal details. The client needs an incident count, not another file full of customer addresses.",
+      "emotion": "angry"
+    },
+    {
+      "id": "T020",
+      "speaker": "asha",
+      "text": "Use the redacted export, retain every job ID. Hina owns that export and the checkout pause. Read that back, please.",
+      "emotion": "calm"
+    },
+    {
+      "id": "T021",
+      "speaker": "hina",
+      "text": "ठीक है। मैं checkout pause करूँगी और redacted export भेजूँगी। Deadline अठारह बीस है। Emails हटेंगे, job IDs नहीं।",
+      "emotion": "calm"
+    },
+    {
+      "id": "T022",
+      "speaker": "marco",
+      "text": "I counted forty-six affected orders, but that includes retries that failed before charging. We must not call all forty-six double charges.",
+      "emotion": "calm"
+    },
+    {
+      "id": "T023",
+      "speaker": "leah",
+      "group": "argument-4",
+      "text": "You told me sixty-four ten minutes ago. I cannot send the client three different numbers in one afternoon!",
+      "emotion": "angry"
+    },
+    {
+      "id": "T024",
+      "speaker": "marco",
+      "group": "argument-4",
+      "text": "Forty-six orders to investigate. Sixty-four is the number of events. Orders and events are not the same unit.",
+      "emotion": "angry"
+    },
+    {
+      "id": "T025",
+      "speaker": "daniel",
+      "group": "argument-4",
+      "text": "And only twelve show a second settled charge in the logs I checked. That is provisional, not a final refund list.",
+      "emotion": "angry"
+    },
+    {
+      "id": "T026",
+      "speaker": "asha",
+      "text": "The confirmed statement is forty-six orders under review. Twelve possible duplicate settled charges, still being verified. Sixty-four events is not an order count.",
+      "emotion": "calm"
+    },
+    {
+      "id": "T027",
+      "speaker": "nikhil",
+      "text": "मुझे rotation के लिए दस मिनट चाहिए। उससे service थोड़ी देर reconnect करेगी। इसे outage समझकर कोई पुराना token वापस मत लगाना।",
+      "emotion": "calm"
+    },
+    {
+      "id": "T028",
+      "speaker": "daniel",
+      "group": "argument-5",
+      "text": "Wait, do not rotate during the worker drain. If the export fails halfway through, we will be comparing incomplete records.",
+      "emotion": "angry"
+    },
+    {
+      "id": "T029",
+      "speaker": "nikhil",
+      "group": "argument-5",
+      "text": "The token is exposed, Daniel. We cannot leave it valid for an hour just because the export is inconvenient.",
+      "emotion": "angry"
+    },
+    {
+      "id": "T030",
+      "speaker": "hina",
+      "group": "argument-5",
+      "text": "Export पूरा है! मैंने link भेज दिया। अब rotation कर सकते हो। सुनाई दे रहा है? पूरा export आ गया है।",
+      "emotion": "angry"
+    },
+    {
+      "id": "T031",
+      "speaker": "asha",
+      "text": "Then rotate now. Nikhil owns credential rotation by eighteen forty. Daniel must confirm that the replacement credential works before draining the last worker.",
+      "emotion": "calm"
+    },
+    {
+      "id": "T032",
+      "speaker": "leah",
+      "text": "My connection is awful. Did you say we can still launch at eight, or that eight is cancelled? I need that sentence clearly.",
+      "emotion": "calm"
+    },
+    {
+      "id": "T033",
+      "speaker": "asha",
+      "text": "Tonight's eight o'clock launch is cancelled. The new target is tomorrow at ten in the morning, conditional on Marco's verification. It is not a promise.",
+      "emotion": "calm"
+    },
+    {
+      "id": "T034",
+      "speaker": "daniel",
+      "group": "argument-6",
+      "text": "Tomorrow at ten may be possible, but I never agreed that a clean test means every customer's money is already corrected.",
+      "emotion": "angry"
+    },
+    {
+      "id": "T035",
+      "speaker": "marco",
+      "group": "argument-6",
+      "text": "Nor did I. I am verifying that the defect stops recurring. Finance has to approve the refunds separately.",
+      "emotion": "angry"
+    },
+    {
+      "id": "T036",
+      "speaker": "leah",
+      "group": "argument-6",
+      "text": "Fine, but somebody has to say who is talking to finance. We keep using the word separately to avoid assigning it.",
+      "emotion": "angry"
+    },
+    {
+      "id": "T037",
+      "speaker": "asha",
+      "text": "Fair point. Leah, please ask finance for a refund owner. Refund approval is unresolved; do not write that anyone on this call has authorized it.",
+      "emotion": "calm"
+    },
+    {
+      "id": "T038",
+      "speaker": "leah",
+      "text": "I can ask them by nineteen hundred. I will own the question, not approve payments. Those are two very different responsibilities.",
+      "emotion": "calm"
+    },
+    {
+      "id": "T039",
+      "speaker": "hina",
+      "text": "एक और correction। Emergency machines का खर्च तीन सौ बीस यूरो है। पहले जो दो हज़ार लिखा था, वह पूरा महीने का estimate था।",
+      "emotion": "calm"
+    },
+    {
+      "id": "T040",
+      "speaker": "marco",
+      "group": "argument-7",
+      "text": "I heard three thousand two hundred. Are we seriously approving that without procurement? Please repeat the number.",
+      "emotion": "angry"
+    },
+    {
+      "id": "T041",
+      "speaker": "hina",
+      "group": "argument-7",
+      "text": "तीन सौ बीस! Three hundred and twenty euros. Not three thousand. मेरी connection की वजह से बात कट रही है।",
+      "emotion": "angry"
+    },
+    {
+      "id": "T042",
+      "speaker": "leah",
+      "group": "argument-7",
+      "text": "And please do not put a guessed figure in the client message. They do not need our internal machine costs at all.",
+      "emotion": "angry"
+    },
+    {
+      "id": "T043",
+      "speaker": "asha",
+      "text": "The emergency infrastructure limit is three hundred and twenty euros. I approve that ceiling. It is an internal cost, not a customer refund amount.",
+      "emotion": "calm"
+    },
+    {
+      "id": "T044",
+      "speaker": "nikhil",
+      "text": "Rotation is complete. I revoked the exposed token and checked the replacement. Daniel, use the new secret reference, never the actual value in chat.",
+      "emotion": "calm"
+    },
+    {
+      "id": "T045",
+      "speaker": "daniel",
+      "group": "argument-8",
+      "text": "I have the reference. The old workers are isolated, but one job is still pending. Please do not mark the whole incident resolved yet.",
+      "emotion": "angry"
+    },
+    {
+      "id": "T046",
+      "speaker": "marco",
+      "group": "argument-8",
+      "text": "Exactly. My verification deadline is tomorrow at nine thirty. Until I sign off, the new release target remains conditional.",
+      "emotion": "angry"
+    },
+    {
+      "id": "T047",
+      "speaker": "nikhil",
+      "group": "argument-8",
+      "text": "हाँ, credential वाला काम पूरा हुआ है। Payment incident पूरा नहीं हुआ। Notes में दोनों को अलग रखना।",
+      "emotion": "angry"
+    },
+    {
+      "id": "T048",
+      "speaker": "leah",
+      "text": "I will send the client a holding update by nineteen fifteen today. It will say checkout is paused and tomorrow's ten o'clock target is conditional.",
+      "emotion": "calm"
+    },
+    {
+      "id": "T049",
+      "speaker": "asha",
+      "text": "Readback: Hina pauses checkout and sends the redacted export by eighteen twenty. Daniel isolates the three old workers by eighteen thirty.",
+      "emotion": "calm"
+    },
+    {
+      "id": "T050",
+      "speaker": "asha",
+      "text": "Nikhil has completed token rotation. Marco verifies the fix by nine thirty tomorrow. Leah sends today's client update by nineteen fifteen.",
+      "emotion": "calm"
+    },
+    {
+      "id": "T051",
+      "speaker": "asha",
+      "text": "Eight o'clock tonight is cancelled. Tomorrow at ten is conditional. Forty-six orders are under review, twelve possible duplicate charges are unconfirmed.",
+      "emotion": "calm"
+    },
+    {
+      "id": "T052",
+      "speaker": "hina",
+      "text": "और तीन सौ बीस यूरो internal खर्च की limit है। Refund approval अभी बाकी है। उसे approved मत लिखना। ठीक है?",
+      "emotion": "calm"
+    },
+    {
+      "id": "T053",
+      "speaker": "leah",
+      "text": "Yes. I will ask finance to name a refund owner by nineteen hundred. I am not promising a refund date to the client.",
+      "emotion": "calm"
+    },
+    {
+      "id": "T054",
+      "speaker": "asha",
+      "text": "Good. Leave the pending job and refund approval open. We meet again tomorrow at nine forty-five. That ends the exercise.",
+      "emotion": "calm"
+    }
+  ],
+  "facts": [
+    {
+      "id": "D1",
+      "kind": "decision",
+      "statement": "Tonight's 20:00 launch is cancelled; tomorrow 10:00 is conditional on verification.",
+      "sources": [
+        "T033",
+        "T046",
+        "T051"
+      ]
+    },
+    {
+      "id": "D2",
+      "kind": "decision",
+      "statement": "Pause checkout and preserve the queue; do not delete it.",
+      "sources": [
+        "T014",
+        "T020"
+      ]
+    },
+    {
+      "id": "D3",
+      "kind": "decision",
+      "statement": "Infrastructure spending ceiling is EUR 320, not EUR 2000 or 3200, and is not a refund amount.",
+      "sources": [
+        "T039",
+        "T041",
+        "T043",
+        "T052"
+      ]
+    },
+    {
+      "id": "F1",
+      "kind": "fact",
+      "statement": "46 orders under review; 64 counts events; 12 possible duplicate settled charges remain unconfirmed.",
+      "sources": [
+        "T022",
+        "T024",
+        "T025",
+        "T026",
+        "T051"
+      ]
+    },
+    {
+      "id": "A1",
+      "kind": "action",
+      "owner": "hina",
+      "statement": "Hina pauses checkout and sends a redacted export retaining job IDs by 18:20.",
+      "sources": [
+        "T020",
+        "T021",
+        "T049"
+      ]
+    },
+    {
+      "id": "A2",
+      "kind": "action",
+      "owner": "daniel",
+      "statement": "Daniel isolates three old workers by 18:30.",
+      "sources": [
+        "T014",
+        "T015",
+        "T049"
+      ]
+    },
+    {
+      "id": "A3",
+      "kind": "completed_action",
+      "owner": "nikhil",
+      "statement": "Nikhil completed exposed-token revocation and replacement credential verification.",
+      "sources": [
+        "T031",
+        "T044",
+        "T047",
+        "T050"
+      ]
+    },
+    {
+      "id": "A4",
+      "kind": "action",
+      "owner": "marco",
+      "statement": "Marco verifies the defect fix by 09:30 tomorrow.",
+      "sources": [
+        "T046",
+        "T050"
+      ]
+    },
+    {
+      "id": "A5",
+      "kind": "action",
+      "owner": "leah",
+      "statement": "Leah sends a client holding update by 19:15 today and asks finance for a refund owner by 19:00.",
+      "sources": [
+        "T038",
+        "T048",
+        "T053"
+      ]
+    },
+    {
+      "id": "O1",
+      "kind": "open_issue",
+      "statement": "Refund approval and a pending payment job remain unresolved; nobody on this call approved refunds.",
+      "sources": [
+        "T037",
+        "T045",
+        "T052",
+        "T054"
+      ]
+    }
+  ],
+  "audio_profile": {
+    "interruption_intensity": 0.6
+  }
+}

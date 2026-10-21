@@ -1,0 +1,232 @@
+import { ListView, ScrollView, TextEdit, ComboBox, AboutSlint } from "std-widgets.slint";
+import { Theme, Icons } from "theme.slint";
+import { State } from "state.slint";
+import { ActionButton, Field, Hint, Divider, SwitchControl, ReadingChoice, CheckControl, ChoiceControl } from "widgets.slint";
+import { TemplateEditor } from "templates.slint";
+
+// One point of a brief, with a link to the moment it came from when there is one.
+component BriefLine inherits HorizontalLayout {
+    in property <string> text;
+    in property <string> source;
+    in property <string> source-label;
+    spacing: 10px * Theme.scale;
+    Rectangle { width: 6px * Theme.scale;
+        Rectangle { y: 9px * Theme.scale; width: parent.width; height: self.width; border-radius: self.width / 2; background: Theme.muted; }
+    }
+    VerticalLayout { spacing: 0px;
+        Text { text: root.text; color: Theme.ink; font-size: 15px * Theme.scale; wrap: word-wrap; line-height-factor: 1.3; }
+        if root.source != "": HorizontalLayout { alignment: start;
+            ActionButton { text: root.source-label; icon: Icons.play; help: "Open the meeting at this moment"; compact: true; flat: true; foreground: Theme.teal; horizontal-padding: 6px * Theme.scale; height: 30px * Theme.scale; label-size: 13px * Theme.scale; clicked => { State.action("automation-brief-source", root.source); } }
+        }
+    }
+}
+
+component MenuOption inherits Rectangle {
+    in property <string> title;
+    in property <string> description;
+    in property <string> symbol;
+    in property <bool> destructive;
+    callback activate();
+    height: (description == "" ? 50px : 78px) * Theme.scale;
+    border-radius: 7px * Theme.scale;
+    background: area.has-hover || focus.has-focus ? Theme.selection : transparent;
+    border-width: focus.has-focus ? 1px : 0px;
+    border-color: Theme.teal;
+    accessible-role: button;
+    accessible-label: title + (description == "" ? "" : ". " + description);
+    accessible-action-default => { root.activate(); }
+    HorizontalLayout {
+        padding: 12px * Theme.scale; spacing: 14px * Theme.scale;
+        Rectangle {
+            width: 34px * Theme.scale; height: self.width; background: Theme.raised; border-radius: 7px * Theme.scale;
+            Image { width: 19px * Theme.scale; height: self.width; x: (parent.width - self.width) / 2; y: (parent.height - self.height) / 2;
+                source: root.symbol == "history" ? Icons.history : root.symbol == "shield" ? Icons.shield : root.symbol == "folder" ? Icons.folder : root.symbol == "audio" ? Icons.audio : root.symbol == "download" ? Icons.download : root.symbol == "share" ? Icons.share : root.symbol == "notes" ? Icons.notes : root.symbol == "edit" ? Icons.edit : root.symbol == "trash" ? Icons.trash : root.symbol == "calendar" ? Icons.calendar : root.symbol == "link" ? Icons.link : root.symbol == "person" ? Icons.person : root.symbol == "settings" ? Icons.settings : root.symbol == "play" ? Icons.play : root.symbol == "check" ? Icons.check : root.symbol == "close" ? Icons.close : Icons.chevron;
+                colorize: root.destructive ? Theme.danger : Theme.teal;
+            }
+        }
+        VerticalLayout { alignment: center; spacing: 4px * Theme.scale;
+            Text { text: root.title; color: root.destructive ? Theme.danger : Theme.ink; font-size: 16px * Theme.scale; font-weight: 500; overflow: elide; }
+            if root.description != "": Text { text: root.description; color: Theme.muted; font-size: 13px * Theme.scale; wrap: word-wrap; max-lines: 2; overflow: elide; }
+        }
+        Image { width: 14px * Theme.scale; height: self.width; source: @image-url("../assets/chevron-right.svg"); colorize: Theme.muted; }
+    }
+    area := TouchArea { mouse-cursor: pointer; pointer-event(event) => { if event.kind == PointerEventKind.down { focus.focus(); } } clicked => { root.activate(); } }
+    focus := FocusScope { focus-on-click: false; key-pressed(event) => { if event.text == " " || event.text == "\n" { root.activate(); return accept; } return reject; } }
+}
+
+// What a shared copy contains. It scrolls in a short window; the estimate and the
+// save button stay below it.
+component ShareChoices inherits ScrollView {
+    property <bool> page: State.share-kind == 0;
+    vertical-stretch: 1; min-height: 0px; horizontal-scrollbar-policy: always-off;
+    content-width: self.visible-width; content-height: share-layout.preferred-height;
+    share-layout := VerticalLayout { x: 0px; y: 0px; width: parent.visible-width; alignment: start; spacing: 8px * Theme.scale; padding-right: 14px * Theme.scale;
+        Text { text: "Format"; color: Theme.ink; font-size: 14px * Theme.scale; font-weight: 600; }
+        HorizontalLayout { spacing: 16px * Theme.scale;
+            ReadingChoice { horizontal-stretch: 1; text: "Web page"; description: "Opens in any browser, offline"; checked: root.page; clicked => { State.action("share-kind", "0"); } }
+            ReadingChoice { horizontal-stretch: 1; text: "Overtalk file"; description: "Opens in Overtalk with every source"; checked: !root.page; clicked => { State.action("share-kind", "1"); } }
+        }
+        HorizontalLayout { spacing: 12px * Theme.scale; padding-top: 6px * Theme.scale;
+            Text { text: "Audio"; color: Theme.ink; font-size: 14px * Theme.scale; font-weight: 600; vertical-alignment: center; width: 64px * Theme.scale; }
+            ChoiceControl {
+                horizontal-stretch: 1;
+                model: root.page ? ["Source clips", "Full recording", "No audio"] : ["Original recording", "Smaller copy", "No audio"];
+                current-index <=> State.share-audio;
+                selected(index) => { State.action("share-audio", "" + index); }
+            }
+        }
+        Hint { color: Theme.muted; font-size: 13px * Theme.scale;
+            text: State.share-audio == 2 ? "Sources show their time and transcript line without sound." : root.page ? (State.share-audio == 0 ? "A few seconds around each moment the notes cite." : "The whole recording, encoded for speech.") : (State.share-audio == 0 ? (State.share-ranges == "" ? "The recording exactly as it was saved." : "Silencing times needs a re-encoded copy, so the original is not included.") : "The whole recording, encoded for speech at a fraction of the size.");
+        }
+        VerticalLayout { padding-top: 6px * Theme.scale; Text { text: "Hide in this copy"; color: Theme.ink; font-size: 14px * Theme.scale; font-weight: 600; } }
+        Field { height: 38px * Theme.scale; text-size: 14px * Theme.scale; text <=> State.share-terms; placeholder: "Names or phrases, separated by commas"; accessible-name: "Names or phrases to hide"; }
+        HorizontalLayout { spacing: 16px * Theme.scale; alignment: start;
+            CheckControl { text: "Email addresses and phone numbers"; checked <=> State.share-contacts; }
+            CheckControl { text: "The notes"; checked <=> State.share-omit-notes; toggled => { State.action("share-changed", ""); } }
+        }
+        Field { height: 38px * Theme.scale; text-size: 14px * Theme.scale; text <=> State.share-ranges; placeholder: "Silence times, e.g. 00:12–00:24, 01:05–01:10"; accessible-name: "Time ranges to silence"; edited => { State.action("share-changed", ""); } }
+    }
+}
+
+export component WorkspaceDialog inherits Rectangle {
+    property <bool> long-message: State.matches-setting(State.modal-text, "\n");
+    background: #00000099;
+    TouchArea { }
+    Rectangle {
+        width: min((State.modal == "compare" ? 1100px : State.modal == "template" ? 900px : 640px) * Theme.scale, root.width - 32px * Theme.scale);
+        height: min((State.modal == "choice" ? 100px + (State.choice-total > 8 ? 54px : 0px) + max(50px, State.choice-height > 0 ? State.choice-height * 1px : State.modal-choices.length * 50px) : State.modal == "audio" ? 350px : State.modal == "share" ? 560px : State.modal == "task" ? 470px : State.modal == "field" || State.modal == "password" ? 248px + (State.modal-secondary-label != "" ? 86px : 0px) + (State.modal-has-date ? 86px : 0px) : State.modal == "confirm" ? (root.long-message ? 560px : 258px) : State.modal == "form" ? 200px + State.form-rows.length * 100px : State.modal == "about" ? 470px : 700px) * Theme.scale, root.height - 40px * Theme.scale);
+        x: (parent.width - self.width) / 2; y: (parent.height - self.height) / 2;
+        border-radius: 12px * Theme.scale; background: Theme.panel; border-width: 1px; border-color: Theme.line-strong;
+        VerticalLayout {
+            padding: 24px * Theme.scale; spacing: 14px * Theme.scale;
+            HorizontalLayout {
+                Text { text: State.modal-title; color: Theme.ink; font-size: 24px * Theme.scale; font-weight: 600; overflow: elide; vertical-alignment: center; }
+                ActionButton { icon: Icons.close; help: "Close dialog"; compact: true; flat: true; clicked => { State.action("modal-cancel", ""); } }
+            }
+            if State.modal-text != "" && !root.long-message: Hint { text: State.modal-text; }
+            // Long text starts at the top left and wraps to the dialog width.
+            if root.long-message: ScrollView { vertical-stretch: 1; horizontal-scrollbar-policy: always-off;
+                content-width: self.visible-width; content-height: long-text.preferred-height;
+                long-text := Text { x: 0px; y: 0px; width: parent.width; text: State.modal-text; color: Theme.secondary; font-size: Theme.small; wrap: word-wrap; }
+            }
+            if State.modal == "about": VerticalLayout {
+                spacing: 12px * Theme.scale;
+                Image { source: Icons.brand; width: 44px * Theme.scale; height: self.width; }
+                Text { text: "Overtalk"; color: Theme.ink; font-size: 24px * Theme.scale; font-weight: 600; }
+                Hint { text: "Your local-first meeting notebook. Capture conversations, review the source, and keep decisions moving."; }
+                // Slint's royalty-free licence requires this attribution in the About dialog.
+                AboutSlint { }
+            }
+            if State.modal == "template": TemplateEditor { }
+            if State.modal == "share": ShareChoices { }
+            if State.modal == "share": Hint { text: State.share-estimate; color: Theme.muted; font-size: 13px * Theme.scale; }
+            if State.modal == "compare": HorizontalLayout { spacing: 18px * Theme.scale;
+                VerticalLayout { spacing: 8px * Theme.scale; Text { text: "Current notes"; color: Theme.secondary; font-size: 16px * Theme.scale; font-weight: 600; } TextEdit { text: State.comparison-current; read-only: true; wrap: word-wrap; font-size: Theme.body; } }
+                VerticalLayout { spacing: 8px * Theme.scale; Text { text: "Selected version"; color: Theme.teal; font-size: 16px * Theme.scale; font-weight: 600; } TextEdit { text: State.comparison-selected; read-only: true; wrap: word-wrap; font-size: Theme.body; } }
+            }
+            if State.modal == "audio": VerticalLayout {
+                spacing: 16px * Theme.scale;
+                Hint { text: "Microphone"; }
+                ComboBox { model: State.mic-devices; current-index <=> State.mic-index; selected => { State.action("mic-device", ""); } }
+                Hint { text: "Call audio"; }
+                ComboBox { model: State.system-devices; current-index <=> State.system-index; selected => { State.action("system-device", ""); } }
+            }
+            if State.modal == "task" || State.modal == "edit" || State.modal == "json" || State.modal == "read": TextEdit {
+                max-height: State.modal == "task" ? 112px * Theme.scale : 100000px;
+                text <=> State.modal-value; read-only: State.modal == "read"; wrap: word-wrap; font-size: Theme.body;
+            }
+            if State.modal == "field" || State.modal == "password": Field { text <=> State.modal-value; accessible-name: State.modal-title; password: State.modal == "password"; }
+            if State.modal-secondary-label != "": VerticalLayout { vertical-stretch: 0; alignment: start; spacing: 6px * Theme.scale;
+                Hint { text: State.modal-secondary-label; }
+                Field { text <=> State.modal-secondary; accessible-name: State.modal-secondary-label; }
+            }
+            if State.modal-has-date: VerticalLayout { vertical-stretch: 0; alignment: start; spacing: 6px * Theme.scale;
+                Hint { text: "Due date (optional)"; }
+                Field { text <=> State.modal-date; placeholder: "YYYY-MM-DD"; }
+            }
+            if State.error != "": Text { text: State.error; color: Theme.danger; wrap: word-wrap; max-lines: 3; overflow: elide; font-size: Theme.small; }
+            if State.modal == "form": ListView { vertical-stretch: 1; min-height: 0px;
+                for row in State.form-rows: VerticalLayout {
+                    padding-top: 8px * Theme.scale; padding-bottom: 8px * Theme.scale; spacing: 6px * Theme.scale;
+                    HorizontalLayout {
+                        Text { text: row.label; color: Theme.ink; font-size: 14px * Theme.scale; font-weight: 500; }
+                        if row.kind == 1: SwitchControl { checked: row.value == "true"; toggled(value) => { State.form-edited(row.key, value ? "true" : "false"); } }
+                    }
+                    if row.kind == 0 || row.kind == 2: Field { text: row.value; accessible-name: row.label; password: row.kind == 2; edited(value) => { State.form-edited(row.key, value); } }
+                    if row.kind == 3: ComboBox {
+                        model: ["Explicit consent", "Applicable law (reviewed)"];
+                        current-index: row.value == "applicable_law" ? 1 : 0;
+                        selected(value) => { State.form-edited(row.key, value == "Explicit consent" ? "explicit_consent" : "applicable_law"); }
+                    }
+                    if row.kind == 4: ComboBox {
+                        model: ["They agreed in this meeting", "They agreed in writing", "They agreed another way"];
+                        current-index: row.value == "in_writing" ? 1 : row.value == "other" ? 2 : 0;
+                        selected(value) => { State.form-edited(row.key, value == "They agreed in writing" ? "in_writing" : value == "They agreed another way" ? "other" : "in_meeting"); }
+                    }
+                    if row.kind == 2 && (row.key == "/api_token" || row.key == "/cli_token" || row.key == "/mcp_token" || row.key == "/webhook_secret"): HorizontalLayout {
+                        spacing: 8px * Theme.scale;
+                        ActionButton { text: "Copy token"; icon: Icons.copy; compact: true; enabled: row.value != ""; clicked => { State.action("form-copy", row.key); } }
+                        ActionButton { text: "Regenerate on save"; compact: true; clicked => { State.action("form-reset", row.key); } }
+                    }
+                }
+            }
+            if State.modal == "choice" && State.choice-total > 8: Field { text <=> State.choice-query; icon: Icons.search; placeholder: "Filter options…"; edited(value) => { State.action("choice-search", value); } }
+            if State.modal == "choice": ListView { vertical-stretch: 1; min-height: 0px;
+                for row in State.modal-choices: MenuOption { title: row.title; description: row.description; symbol: row.value; destructive: row.checked; activate => { State.action("modal-choice", row.id); } }
+            }
+            if State.modal == "choice" && State.modal-choices.length == 0: Hint { text: "No matching options. Try another search."; }
+            if !root.long-message && State.modal != "choice" && State.modal != "template" && State.modal != "form" && State.modal != "read" && State.modal != "edit" && State.modal != "task" && State.modal != "compare" && State.modal != "json" && State.modal != "share": Rectangle { vertical-stretch: 1; }
+            if State.modal != "choice": HorizontalLayout {
+                alignment: end; spacing: 10px * Theme.scale;
+                ActionButton { text: State.modal == "audio" ? "Done" : State.modal == "read" || State.modal == "about" ? "Close" : "Cancel"; compact: true; clicked => { State.action("modal-cancel", ""); } }
+                if State.modal != "about" && State.modal != "read" && State.modal != "audio": ActionButton { text: State.modal-submit; primary: true; compact: true; clicked => { State.action("modal-save", ""); } }
+            }
+        }
+    }
+}
+
+// A brief sizes itself to its content, up to the space a long one needs.
+export component BriefDialog inherits Rectangle {
+    background: #00000099;
+    TouchArea { }
+    Rectangle {
+        width: min(760px * Theme.scale, root.width - 32px * Theme.scale);
+        height: min(780px * Theme.scale, root.height - 40px * Theme.scale, brief-layout.preferred-height);
+        x: (parent.width - self.width) / 2; y: (parent.height - self.height) / 2;
+        border-radius: 12px * Theme.scale; background: Theme.panel; border-width: 1px; border-color: Theme.line-strong;
+        brief-layout := VerticalLayout {
+            padding: 24px * Theme.scale; spacing: 14px * Theme.scale;
+            HorizontalLayout {
+                Text { text: State.modal-title; color: Theme.ink; font-size: 24px * Theme.scale; font-weight: 600; overflow: elide; vertical-alignment: center; horizontal-stretch: 1; }
+                ActionButton { icon: Icons.close; help: "Close brief"; compact: true; flat: true; clicked => { State.action("modal-cancel", ""); } }
+            }
+            if State.modal-text != "": Hint { text: State.modal-text; }
+            ScrollView { vertical-stretch: 1; min-height: 0px; preferred-height: brief-body.preferred-height; horizontal-scrollbar-policy: always-off;
+                brief-body := VerticalLayout { alignment: start; spacing: 18px * Theme.scale; padding-right: 12px * Theme.scale;
+                    if State.brief-note != "" && State.brief-note-first: Rectangle {
+                        background: Theme.amber.with-alpha(12%); border-radius: 8px * Theme.scale;
+                        min-height: brief-note.preferred-height + 20px * Theme.scale;
+                        brief-note := Hint { x: 12px * Theme.scale; y: 10px * Theme.scale; width: parent.width - 24px * Theme.scale; text: State.brief-note; color: Theme.ink; }
+                    }
+                    if State.brief-summary != "": Text { text: State.brief-summary; color: Theme.ink; font-size: 17px * Theme.scale; wrap: word-wrap; line-height-factor: 1.3; }
+                    for section in State.brief-sections: VerticalLayout { spacing: 8px * Theme.scale;
+                        Text { text: section.title; color: Theme.secondary; font-size: 16px * Theme.scale; font-weight: 600; wrap: word-wrap; }
+                        for item in section.items: BriefLine { text: item.text; source: item.source; source-label: item.source-label; }
+                    }
+                    if State.brief-agenda.length > 0: VerticalLayout { spacing: 8px * Theme.scale;
+                        Divider { }
+                        Text { text: "Suggested agenda"; color: Theme.teal; font-size: 16px * Theme.scale; font-weight: 600; }
+                        for item in State.brief-agenda: BriefLine { text: item.text; source: item.source; source-label: item.source-label; }
+                    }
+                    if State.brief-note != "" && !State.brief-note-first: Hint { text: State.brief-note; color: Theme.muted; font-size: 13px * Theme.scale; }
+                }
+            }
+            if State.error != "": Text { text: State.error; color: Theme.danger; wrap: word-wrap; max-lines: 3; overflow: elide; font-size: Theme.small; }
+            HorizontalLayout {
+                alignment: end; spacing: 10px * Theme.scale;
+                ActionButton { text: "Close"; compact: true; clicked => { State.action("modal-cancel", ""); } }
+                if State.brief-agenda.length > 0: ActionButton { text: "Copy agenda"; primary: true; compact: true; clicked => { State.action("modal-save", ""); } }
+            }
+        }
+    }
+}

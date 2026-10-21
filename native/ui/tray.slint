@@ -1,0 +1,19 @@
+export component AppTray inherits SystemTrayIcon {
+    in property <bool> recording: false;
+    in property <bool> paused: false;
+    callback open-requested();
+    callback record-requested();
+    callback pause-requested();
+    callback quit-requested();
+    icon: @image-url("../assets/brand-dark.svg");
+    tooltip: recording ? (paused ? "Overtalk · Recording paused" : "Overtalk · Recording") : "Overtalk";
+    title: "Overtalk";
+    visible: true;
+    clicked => { root.open-requested(); }
+    Menu {
+        MenuItem { title: "Open Overtalk"; activated => { root.open-requested(); } }
+        MenuItem { title: "Record a meeting"; enabled: !root.recording; activated => { root.record-requested(); } }
+        MenuItem { title: root.paused ? "Resume recording" : "Pause recording"; enabled: root.recording; activated => { root.pause-requested(); } }
+        MenuItem { title: "Quit Overtalk"; activated => { root.quit-requested(); } }
+    }
+}

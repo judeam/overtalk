@@ -1,0 +1,10 @@
+{
+  "manifest_version": 2,
+  "name": "Overtalk local meeting detection",
+  "version": "0.1.0",
+  "permissions": ["nativeMessaging", "storage"],
+  "background": { "scripts": ["background.js"] },
+  "browser_action": { "default_title": "Toggle Overtalk meeting detection" },
+  "browser_specific_settings": { "gecko": { "id": "meetings@overtalk.local" } },
+  "content_scripts": [{ "matches": ["https://meet.google.com/*", "https://*.zoom.us/*", "https://teams.microsoft.com/*", "https://teams.live.com/*", "https://*.webex.com/*"], "js": ["meeting.js"] }]
+}

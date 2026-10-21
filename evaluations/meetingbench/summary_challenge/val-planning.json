@@ -1,0 +1,70 @@
+{
+  "id": "val-planning",
+  "split": "validation",
+  "difficulty": "very_hard",
+  "language": "ja",
+  "domain": "release planning",
+  "provenance": "Newly authored synthetic diagnostic; no real personal data; not a recording.",
+  "transcript": "[00:00] 葵：議題は検索機能と請求機能の二つです。納期を混ぜないでください。\n[00:10] 蓮：検索のテストは終わりましたが、公開はまだです。\n[00:20] 美咲：請求機能のテストはまだ終わっていません。\n[00:30] 葵：検索を七月二日に公開する案は取り下げます。法務確認の後でないと公開できません。\n[00:40] 蓮：検索の説明資料を七月一日までに作ります。公開日ではありません。\n[00:50] 美咲：請求機能の不具合一覧は私が作ります。期限はまだ約束できません。\n[01:00] 葵：美咲さんの一覧を蓮さんの資料と一つにしないでください。\n[01:10] 蓮：分かりました。先週の議事録はもう送ってあります。\n[01:20] 美咲：法務担当は決まりましたか。\n[01:30] 葵：まだです。請求機能の公開日も未定です。\n[01:40] 蓮：検索の追加費用は二万円でしょうか。\n[01:50] 葵：送料を含め総額一万二千円までです。二万円は承認していません。\n[02:00] 美咲：請求機能にも同じ予算がありますか。\n[02:10] 葵：いいえ、請求機能の予算はこの会議では決めていません。",
+  "facts": [
+    {
+      "id": "F1",
+      "assertion": "Searchtestscompletebutnotreleased;billingtestsincomplete.",
+      "evidence": [
+        2,
+        3
+      ]
+    },
+    {
+      "id": "F2",
+      "assertion": "July2searchreleasedatewithdrawn;legalreviewrequired.",
+      "evidence": [
+        4
+      ]
+    },
+    {
+      "id": "F3",
+      "assertion": "RenpreparessearchdocumentationbyJuly1,notrelease.",
+      "evidence": [
+        5
+      ]
+    },
+    {
+      "id": "F4",
+      "assertion": "Misakiownsbillingbuglistwithnodeadline.",
+      "evidence": [
+        6,
+        7
+      ]
+    },
+    {
+      "id": "F5",
+      "assertion": "Legalreviewerandbillingreleasedateunknown.",
+      "evidence": [
+        9,
+        10
+      ]
+    },
+    {
+      "id": "F6",
+      "assertion": "SearchcapJPY12000includingshipping;JPY20000notapproved;billingbudgetunset.",
+      "evidence": [
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "id": "F7",
+      "assertion": "Lastweekminutesalreadysent.",
+      "evidence": [
+        8
+      ]
+    }
+  ],
+  "forbidden": [
+    "NoJuly1releasedate.",
+    "Donotcopysearchbudgettobilling."
+  ]
+}

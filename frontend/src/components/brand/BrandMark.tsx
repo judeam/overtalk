@@ -1,0 +1,11 @@
+import { type SVGProps } from 'react';
+
+/** Two soft speech shapes share an open seam: one voice talking over another. */
+export function BrandMark(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 68 68" fill="none" aria-hidden="true" {...props}>
+      <path fill="#0F9A9F" d="M20.6 19.5C10.5 21.2 3.5 28.8 3.5 38.3c0 5.6 2.5 10.6 6.8 14.1l-2.5 7.1c-.5 1.5 1 2.7 2.4 1.9l8.3-4.5c2.2.7 4.6 1.1 7.1 1.1 10.8 0 19.3-7.1 19.3-15.7 0-6.5-4.4-9.3-11.8-11.4C25.2 28.7 18.7 25.9 20.6 19.5Z" />
+      <path fill="#E0457B" d="M41.1 4.5c-10.3 0-17.7 6.9-17.7 15.1 0 5.6 4.6 8.1 11.9 10.2 8 2.3 12.8 6 12.8 12.6 0 .7-.1 1.4-.2 2.1 2-.4 3.8-1 5.5-1.9l7 4.4c1.4.9 2.8-.3 2.3-1.8l-2.9-9c3-3.3 4.7-7.5 4.7-12.1 0-10.9-10.5-19.6-23.4-19.6Z" />
+    </svg>
+  );
+}

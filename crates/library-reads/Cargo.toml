@@ -1,0 +1,16 @@
+[package]
+name = "overtalk-library-reads"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "Read-only views of the Overtalk meeting library, shared by the local API and overtalk-cli"
+
+[dependencies]
+serde_json = { workspace = true }
+# The app proves it holds a client's token before the client sends it (proof.rs).
+hmac = "0.12"
+sha2 = "0.10"
+
+[dev-dependencies]
+# The tests run every query against the app's real migrations.
+rusqlite = { version = "0.32.1", features = ["bundled"] }

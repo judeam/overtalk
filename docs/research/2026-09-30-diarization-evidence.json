@@ -1,0 +1,127 @@
+{
+  "evaluated_on": "2026-09-30",
+  "scope": "Offline API compatibility on generated speech; not a meeting-accuracy benchmark.",
+  "nemo_revision": "00278b0bd95bb2b8174b88012aa21b003c59d2e9",
+  "diarization_model_revision": "f667ed73aee57d40cc39428eb768b4fd87a0a29e",
+  "streaming_asr_revision": "ea30d66debe3740a08b573244286791d423d6b3e",
+  "python": "3.12.12",
+  "gpu_runtime": {
+    "nemo_toolkit": "3.1.0+00278b0bd",
+    "torch": "2.7.1+cu128",
+    "torchaudio": "2.7.1+cu128",
+    "transformers": "5.17.0",
+    "lightning": "2.4.0",
+    "numpy": "2.5.3"
+  },
+  "cpu_runtime": {
+    "torch": "2.7.1+cpu",
+    "torchaudio": "2.7.1+cpu",
+    "nemo_toolkit": "3.1.0+00278b0bd"
+  },
+  "hardware": "NVIDIA RTX 5090 Laptop GPU, 24 GB; driver 615.71.09",
+  "gpu_launcher": "GPU-sharing launcher: 85% of GPU threads, CPU nice +5, low I/O priority",
+  "cpu_threads": 4,
+  "network_policy": "Predownloaded pinned local artifacts, HF_HUB_OFFLINE=1, TRANSFORMERS_OFFLINE=1, HF_HUB_DISABLE_TELEMETRY=1, PYANNOTE_METRICS_ENABLED=0. No audio uploaded.",
+  "tests": {
+    "python_worker": 55,
+    "passed": 55
+  },
+  "cold_first_stream_step_seconds_before_prewarm": 13.7699,
+  "prewarm_policy": "Initialize maximum decoder batch before capture, then replace all session speaker/decoder state and reset step to zero. Warmup samples are excluded from the recording clock and transcript.",
+  "batch_cpu_smoke": {
+    "operation": "diarize",
+    "english_duration_seconds": 6.457460317460317,
+    "speaker_count": 1,
+    "interval_count": 3,
+    "last_speech_end_seconds": 6.1,
+    "wall_seconds_including_model_restore": 4.95,
+    "german_detected_speech": true
+  },
+  "streaming_gpu_fixtures": [
+    {
+      "fixture": "english",
+      "language": "en",
+      "samples_16000hz": 103320,
+      "duration_seconds": 6.4575,
+      "start_seconds_including_restore_and_prewarm": 55.494,
+      "maximum_audio_request_seconds": 0.597,
+      "is_partial_on_final": false,
+      "speakers": [
+        {
+          "id": "SPEAKER_00",
+          "name": "Speaker 1"
+        }
+      ],
+      "segments": [
+        {
+          "id": "SPEAKER_00:0.400",
+          "text": "The meeting,",
+          "start": 0.4,
+          "end": 0.88,
+          "speaker": "SPEAKER_00",
+          "speaker_confidence": null,
+          "overlap": false,
+          "is_partial": false
+        },
+        {
+          "id": "SPEAKER_00:2.400",
+          "text": "Alice will send the report on Friday. Bob will review the budget.",
+          "start": 2.4,
+          "end": 6.4,
+          "speaker": "SPEAKER_00",
+          "speaker_confidence": null,
+          "overlap": false,
+          "is_partial": false
+        }
+      ],
+      "all_final_timestamps_within_real_audio": true
+    },
+    {
+      "fixture": "german",
+      "language": "de",
+      "samples_16000hz": 105862,
+      "duration_seconds": 6.616375,
+      "start_seconds_including_restore_and_prewarm": 25.704,
+      "maximum_audio_request_seconds": 0.034,
+      "is_partial_on_final": false,
+      "speakers": [],
+      "segments": [],
+      "all_final_timestamps_within_real_audio": true
+    },
+    {
+      "fixture": "german-long",
+      "language": "de",
+      "samples_16000hz": 271284,
+      "duration_seconds": 16.95525,
+      "start_seconds_including_restore_and_prewarm": 27.509,
+      "maximum_audio_request_seconds": 0.525,
+      "is_partial_on_final": false,
+      "speakers": [
+        {
+          "id": "SPEAKER_00",
+          "name": "Speaker 1"
+        }
+      ],
+      "segments": [
+        {
+          "id": "SPEAKER_00:10.160",
+          "text": "Die neuen Aufgaben stehen in unserem Bericht beter besprechen wie jetzt die offenen Fragen und die wichtigsten Entscheidungen.",
+          "start": 10.16,
+          "end": 16.95525,
+          "speaker": "SPEAKER_00",
+          "speaker_confidence": null,
+          "overlap": false,
+          "is_partial": false
+        }
+      ],
+      "all_final_timestamps_within_real_audio": true
+    }
+  ],
+  "limitations": [
+    "Only single-voice synthetic fixtures; no multi-speaker DER, overlap attribution, named identification or microphone capture evaluation.",
+    "6.62s German fixture emits no text on CPU and CUDA.",
+    "English and longer German omit speech; direct unmasked CPU ASR also omits the earlier German sentences.",
+    "Wall times include imports, checkpoint restoration and lazy kernel compilation and are not throughput benchmarks.",
+    "Transitive dependencies were resolved at test time; only the listed runtime/source/model revisions were recorded."
+  ]
+}

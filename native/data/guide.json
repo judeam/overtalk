@@ -1,0 +1,320 @@
+[
+  {
+    "id": "sound",
+    "group": "Start",
+    "title": "Set up your sound",
+    "summary": "Choose the microphone and the call audio Overtalk listens to.",
+    "steps": [
+      {
+        "title": "Pick your microphone",
+        "body": "Open the recorder and choose your microphone. Your choice is remembered for future recordings."
+      },
+      {
+        "title": "Pick the call audio",
+        "body": "Choose the system-audio source in the recorder so the other people on the call are recorded too."
+      },
+      {
+        "title": "Check the levels",
+        "body": "Use Run setup check on Home. Record a 10-second sound check while speaking and playing call audio, listen to it, then confirm both sources are audible. Check model readiness before finishing setup."
+      }
+    ],
+    "tips": [
+      "Wearing headphones keeps your microphone from picking up the call twice."
+    ],
+    "action": "sound",
+    "action_label": "Open sound settings"
+  },
+  {
+    "id": "tour",
+    "group": "Start",
+    "title": "Know your way around",
+    "summary": "One screen holds everything: your meetings, the timeline, the transcript and the selected moment.",
+    "steps": [
+      {
+        "title": "Meetings",
+        "body": "Recordings and imports land here. Search, pin, archive and sort your meetings; waveform previews are optional."
+      },
+      {
+        "title": "Transport",
+        "body": "Record, play and stop, the clock, and the meeting title. Click the title to rename it."
+      },
+      {
+        "title": "Lanes",
+        "body": "The timeline opens with the meeting. Auto fit shows its lanes using the available height; hide it when you want more room to read."
+      },
+      {
+        "title": "Transcript",
+        "body": "Select a passage to inspect it. Play from starts at its timestamp; Edit lets you correct the words and speaker."
+      },
+      {
+        "title": "Inspector",
+        "body": "Whatever you select appears here, with Play from and Copy."
+      }
+    ],
+    "action": "meeting",
+    "action_label": "Open workspace"
+  },
+  {
+    "id": "record",
+    "group": "Record",
+    "title": "Record a meeting",
+    "summary": "Press record before the call starts; Overtalk transcribes as people speak.",
+    "steps": [
+      {
+        "title": "Press record",
+        "body": "Connect Google or Microsoft to see Coming up on Home. Join & take notes opens the meeting link in its normal app and begins a named recording. You can also record a spontaneous conversation."
+      },
+      {
+        "title": "Watch the clock",
+        "body": "The clock runs while you record. Pause keeps everything so far; stop saves the meeting."
+      },
+      {
+        "title": "Name it",
+        "body": "Type a title now or later. Untitled recordings are named by date and time."
+      },
+      {
+        "title": "Keep your own notes",
+        "body": "My notes stays available during the call. Personal writing saves separately. With automatic notes enabled, stopping queues any needed transcription and then generates notes, even after navigation or a restart."
+      }
+    ],
+    "tips": [
+      "Recording keeps going if you open another meeting. Choose Recording in the header to return to it."
+    ],
+    "keys": [
+      "Space plays or pauses a saved meeting"
+    ],
+    "action": "recorder",
+    "action_label": "Go to recorder"
+  },
+  {
+    "id": "marks",
+    "group": "Record",
+    "title": "Mark moments while you talk",
+    "summary": "Save a timestamp when something matters, then return to it after the call.",
+    "steps": [
+      {
+        "title": "Mark the moment",
+        "body": "Choose Mark moment on the timeline to save the current playback or recording position."
+      },
+      {
+        "title": "Name it if you like",
+        "body": "Give the bookmark a short name, such as “Budget agreed”, then save it."
+      },
+      {
+        "title": "Find it later",
+        "body": "Bookmarks appear as pins on the timeline. Open a pin and choose Jump to this moment to return to it."
+      }
+    ],
+    "action": "recorder",
+    "action_label": "Go to recorder"
+  },
+  {
+    "id": "read",
+    "group": "Review",
+    "title": "Read a meeting at a glance",
+    "summary": "See who spoke when, where people talked over each other, and what was decided.",
+    "steps": [
+      {
+        "title": "Move through the recording",
+        "body": "Click a speaker lane at the time you want to hear. Use the playback controls to play, pause or move ten seconds at a time."
+      },
+      {
+        "title": "Read the clips",
+        "body": "Each clip is one stretch of speech, drawn from the recording. Overlapping clips are people talking at once."
+      },
+      {
+        "title": "Follow the transcript",
+        "body": "Enable Follow playback to keep the current passage visible. Scrolling pauses following until you enable it again."
+      }
+    ],
+    "keys": [
+      "Space plays or pauses outside a text field"
+    ],
+    "action": "meeting",
+    "action_label": "Open workspace",
+    "tips": [
+      "The moving word highlight is a reading aid estimated from passage timestamps. It is not word-level forced alignment; pauses, overlap and mixed languages may drift."
+    ]
+  },
+  {
+    "id": "decisions",
+    "group": "Review",
+    "title": "Jump to a decision",
+    "summary": "Decisions and actions from your notes are placed at the moment they were said.",
+    "steps": [
+      {
+        "title": "Click a decision",
+        "body": "Amber clips are decisions; violet clips are actions. Select a clip to inspect it. A grouped clip opens all the nearby moments."
+      },
+      {
+        "title": "Read it in full",
+        "body": "The inspector separates the generated interpretation from the original transcript evidence."
+      },
+      {
+        "title": "Hear it",
+        "body": "Play from starts the recording at that moment, so you can check the exact words."
+      }
+    ],
+    "tips": [
+      "A decision only gets a clip when the notes point to a line of the transcript. Regenerate notes after editing the transcript."
+    ],
+    "action": "meeting",
+    "action_label": "Open workspace"
+  },
+  {
+    "id": "solo",
+    "group": "Review",
+    "title": "Listen to one person",
+    "summary": "Play only one speaker, or skip someone, without changing the recording.",
+    "steps": [
+      {
+        "title": "Select a speaker lane",
+        "body": "Click a speaker name on the timeline to reveal Only and Skip. Active playback filters remain visible."
+      },
+      {
+        "title": "Solo",
+        "body": "Only plays that speaker and skips the silence between their turns."
+      },
+      {
+        "title": "Mute",
+        "body": "Skip skips that speaker unless someone else is talking over them."
+      }
+    ],
+    "action": "meeting",
+    "action_label": "Open workspace"
+  },
+  {
+    "id": "speakers",
+    "group": "Review",
+    "title": "Name the speakers",
+    "summary": "Give voices real names, merge duplicates, or analyse the recording again.",
+    "steps": [
+      {
+        "title": "Open Speakers",
+        "body": "The Speakers tab sits next to Transcript."
+      },
+      {
+        "title": "Rename or merge",
+        "body": "Rename a speaker for this meeting, or merge two labels that are the same person."
+      },
+      {
+        "title": "Improve the transcript",
+        "body": "Open Meeting details for Analyse recording. It saves a recovery copy before transcribing again."
+      }
+    ],
+    "action": "speakers",
+    "action_label": "Open speakers"
+  },
+  {
+    "id": "notes",
+    "group": "Notes",
+    "title": "Write notes",
+    "summary": "Turn the transcript into notes with decisions and actions you can edit.",
+    "steps": [
+      {
+        "title": "Open the notes",
+        "body": "The Notes tab opens the notes for this meeting."
+      },
+      {
+        "title": "Generate",
+        "body": "Automatic notes starts after a recording when enabled. You can also choose Generate notes; Options contains the language, template and model. Processing status and Retry appear above the document."
+      },
+      {
+        "title": "Edit freely",
+        "body": "Your edits save automatically. A local draft protects changes while saving; Copy notes puts them on the clipboard."
+      }
+    ],
+    "tips": [
+      "Open Ask beside the notes for My notes, meeting-scoped questions and an editable follow-up draft. Personal notes guide emphasis but do not count as transcript evidence. Review source passages before sharing."
+    ],
+    "action": "notes",
+    "action_label": "Open notes"
+  },
+  {
+    "id": "export",
+    "group": "Notes",
+    "title": "Export and share",
+    "summary": "Save notes and transcript as Markdown, Word, PDF, text or JSON.",
+    "steps": [
+      {
+        "title": "Export",
+        "body": "Choose Export above the timeline, select a format, then choose where to save the meeting."
+      },
+      {
+        "title": "Copy a moment",
+        "body": "Select a passage and choose Copy in the inspector to copy its text. Copy transcript copies the full transcript."
+      },
+      {
+        "title": "Send notes to your tools",
+        "body": "Choose Send in Notes, select a connected account and destination, then review the content before publishing. Add accounts in Projects → Connections. Some providers need Overtalk’s publisher registration before account sign-in is available."
+      }
+    ],
+    "action": "meeting",
+    "action_label": "Open workspace"
+  },
+  {
+    "id": "search",
+    "group": "Find",
+    "title": "Search your meetings",
+    "summary": "Find a meeting by its title or by anything said in it.",
+    "steps": [
+      {
+        "title": "Open search",
+        "body": "Press Ctrl+K to open the library, or choose Library in the sidebar."
+      },
+      {
+        "title": "Type a word",
+        "body": "Search for a title or words from a transcript. Open a result to return to the source passage."
+      }
+    ],
+    "keys": [
+      "Ctrl+K opens the library"
+    ],
+    "action": "library",
+    "action_label": "Search meetings"
+  },
+  {
+    "id": "ask",
+    "group": "Find",
+    "title": "Ask across meetings",
+    "summary": "Ask a question and get an answer that quotes the lines it came from.",
+    "steps": [
+      {
+        "title": "Open the library",
+        "body": "Choose Library above the meeting list."
+      },
+      {
+        "title": "Build the index once",
+        "body": "Exact text search works immediately. Library settings can add a local semantic index for searching by meaning."
+      },
+      {
+        "title": "Search or ask",
+        "body": "Search finds passages; Ask writes an answer with citations. In a meeting, Notes → Ask limits questions to that meeting and can prepare a source-backed follow-up. Drafts stay local until you copy and send them."
+      }
+    ],
+    "action": "library",
+    "action_label": "Open library"
+  },
+  {
+    "id": "privacy",
+    "group": "Privacy",
+    "title": "What stays on this computer",
+    "summary": "Recordings, transcripts and notes are stored locally. Cloud AI is used only when you choose a cloud provider.",
+    "steps": [
+      {
+        "title": "Local by default",
+        "body": "Speech recognition and the default notes model run on this computer."
+      },
+      {
+        "title": "Your choice of model",
+        "body": "In Summary you can choose a cloud provider instead; meeting text is then sent to it."
+      },
+      {
+        "title": "Where files live",
+        "body": "General shows the recordings folder. Move meetings to Trash from their menu, then restore or permanently delete them in Trash."
+      }
+    ],
+    "action": "settings",
+    "action_label": "Open settings"
+  }
+]

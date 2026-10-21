@@ -1,0 +1,367 @@
+/* Full-window workspace. Type and controls scale together for the viewing distance. */
+:root { --u: calc(1rem / 16); --workspace-width: 100%; }
+html { scroll-behavior: auto; }
+.ot-app { grid-template-columns: 16.5rem minmax(0, 1fr); grid-template-rows: 3.25rem minmax(0, 1fr); font-variation-settings: 'wdth' 100; }
+.ot-app [hidden] { display: none !important; }
+:where(.ot-app) :is(button,input,select,textarea) { font: inherit; }
+.ot-app button { touch-action: manipulation; }
+.ot-app input, .ot-app textarea, .ot-app select { max-width: 100%; }
+.ot-app mark { background: var(--ot-amber-fill); color: var(--ot-ink); border-radius: 0.125rem; }
+.ot-header { padding: 0 1.25rem; gap: 0.5rem; }
+.ot-header .ot-brand { min-height: 2.5rem; }
+.ot-rail-container { grid-column: 1; grid-row: 2; min-width: 0; min-height: 0; background: var(--ot-rail); border-right: 1px solid var(--ot-line); }
+.ot-rail { position: static; display: flex; flex-direction: column; height: 100%; width: 100%; transform: none; border: 0; }
+.ot-rail-nav { display: grid; gap: 0.5rem; padding: 1.125rem 0.875rem 0.625rem; flex-shrink: 0; border-bottom: 1px solid var(--ot-line); }
+.ot-rail-nav > .ot-button { width: 100%; font-size: 0.9375rem; height: 2.625rem; }
+.ot-rail-nav > .ot-tool { justify-content: center; }
+.ot-workspace-links { display: grid; gap: 0.25rem; margin: 0.25rem 0; }
+.ot-workspace-links button { min-height: 2.375rem; display: flex; align-items: center; gap: 0.625rem; padding: 0.5rem 0.625rem; border-radius: 0.375rem; text-align: left; color: var(--ot-ink-2); font-size: 0.875rem; }
+.ot-workspace-links button:hover, .ot-workspace-links button[aria-current] { background: var(--ot-select); color: var(--ot-ink); }
+.ot-rail-search { width: 100%; min-height: 2.5rem; border: 1px solid var(--ot-line-strong); border-radius: 0.375rem; padding: 0 0.5rem; }
+.ot-rail-search input { width: 0; font-size: 0.875rem; }
+.ot-rail-filters { display: flex; justify-content: space-between; align-items: center; }
+.ot-rail-filters select { background: transparent; color: var(--ot-ink-2); padding: 0.5rem 0.25rem; min-width: 0; font-size: 0.875rem; }
+.ot-rail-list { padding: 0.5rem; flex: 1; min-height: 0; overflow-y: auto; }
+.ot-meeting { min-height: 0; height: auto; padding: 0; margin: 0.125rem 0; border-bottom: 0; border-radius: 0.4375rem; content-visibility: auto; contain-intrinsic-size: auto 4.75rem; }
+.ot-meeting-open { display: flex; flex-direction: column; justify-content: center; gap: 0.375rem; min-height: 4.75rem; width: 100%; padding: 0.75rem 2.375rem 0.75rem 0.75rem; }
+.ot-meeting-title { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; white-space: normal; font-size: 0.875rem; line-height: 1.4; overflow-wrap: anywhere; }
+.ot-meeting-title svg { display: inline; margin-right: 0.3125rem; }
+.ot-meeting-meta { font-size: 0.75rem; line-height: 1.4; }
+.ot-meeting .ot-meeting-more { right: 0.1875rem; top: 1.125rem; opacity: 1; box-shadow: none; width: 1.875rem; height: 2rem; background: transparent; }
+.ot-rail-match { display: grid; gap: 0.3125rem; width: 100%; text-align: left; padding: 0.625rem 0.75rem; font-size: 0.8125rem; line-height: 1.45; border-top: 1px solid var(--ot-line); }
+.ot-rail-match > span:last-child { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.ot-rail-match:hover { background: var(--ot-select); }
+.ot-main { min-height: 0; min-width: 0; }
+.ot-session { display: flex; flex-direction: column; height: 100%; max-width: var(--workspace-width); margin-inline: auto; overflow: hidden; }
+.ot-transport { flex-shrink: 0; min-height: 5.375rem; height: auto; padding: 1rem 1.5rem; gap: 1.125rem; flex-wrap: wrap; }
+.ot-heading { flex: 1 1 15rem; min-width: 10rem; }
+.ot-title-input { font-size: 1.25rem; width: 100%; }
+.ot-meta { font-size: 0.8125rem; line-height: 1.5; flex-wrap: wrap; }
+.ot-deck { gap: 0.5rem; }
+.ot-deck-button { width: 2.625rem; height: 2.625rem; }
+.ot-timecode { margin: 0; font-size: 1.875rem; }
+.ot-transport-divider { display: none; }
+.ot-transport-tools { margin-left: auto; gap: 0.625rem; }
+.ot-icon-button { min-width: 2rem; min-height: 2rem; }
+.ot-speed select { min-height: 2.25rem; border: 1px solid var(--ot-line-strong); background: var(--ot-panel); border-radius: 0.375rem; padding: 0.25rem 0.5rem; color: var(--ot-ink); font-size: 0.875rem; }
+.ot-review-toolbar { flex-shrink: 0; display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; border-bottom: 1px solid var(--ot-line); padding: 0 1.5rem; background: var(--ot-panel); }
+.ot-view-tabs { display: flex; gap: 1.25rem; }
+.ot-view-tabs button { min-height: 3rem; display: flex; align-items: center; gap: 0.4375rem; position: relative; font-size: 0.9375rem; color: var(--ot-ink-3); border-bottom: 0.125rem solid transparent; }
+.ot-view-tabs button[aria-selected=true] { color: var(--ot-ink); border-bottom-color: var(--ot-ink); font-weight: 600; }
+.ot-review-tools { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.ot-tool { min-height: 2.25rem; height: auto; font-size: 0.875rem; gap: 0.4375rem; white-space: normal; }
+.ot-playback-error { display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem 1rem; flex-shrink: 0; font-size: 0.875rem; line-height: 1.5; padding: 0.75rem 1.5rem; background: var(--ot-panel); border-bottom: 1px solid var(--ot-line-strong); }
+.ot-playback-error span { flex: 1 1 18.75rem; }
+.ot-timeline-panel { flex: 0 0 auto; min-height: 0; border-bottom: 1px solid var(--ot-line); }
+.ot-timeline-size { display: flex; justify-content: flex-end; align-items: center; gap: 0.625rem; padding: 0.375rem 1.5rem 0; font-size: 0.75rem; color: var(--ot-ink-3); }
+.ot-timeline-size input { width: 5.625rem; accent-color: var(--ot-ink); }
+.ot-arrangement { --head: 10rem; --lane-h: 4rem; --lane-gap: 0.375rem; max-height: min(var(--timeline-height, 15rem), 36dvh); padding: 0.625rem 0; margin: 0 1.5rem; overflow: auto; }
+.ot-ruler { touch-action: none; min-height: 2rem; }
+.ot-lane-name { font-size: 0.875rem; gap: 0.5rem; }
+.ot-lane-keys { padding-left: 1.75rem; gap: 0.375rem; }
+.ot-key { width: auto; min-width: 2.5rem; height: 1.625rem; font-size: 0.6875rem; padding: 0.125rem 0.375rem; }
+.ot-note { font-size: 0.8125rem; }
+.ot-meeting-view { flex: 1; min-height: 0; display: flex; }
+.ot-deck-lower { display: grid; width: 100%; height: 100%; min-height: 0; flex: 1; grid-template-columns: minmax(0, 1fr) minmax(16.875rem, 21.25rem); gap: 1rem; padding: 1.25rem 1.5rem; }
+.ot-deck-notes { grid-template-columns: minmax(0, 1fr); }
+.ot-sheet { min-height: 0; min-width: 0; }
+.ot-sheet-header { border-bottom: 1px solid var(--ot-line); flex-shrink: 0; }
+.ot-sheet-header .ot-tabs { border-bottom: 0; }
+.ot-transcript-tools { display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem 1rem; padding: 0.75rem 1rem; }
+.ot-find { display: flex; align-items: center; gap: 0.5rem; flex: 1 1 11.875rem; min-width: 0; color: var(--ot-ink-3); }
+.ot-find input { width: 100%; min-width: 0; background: transparent; padding: 0.4375rem 0.125rem; outline-offset: 0.25rem; font-size: 0.875rem; color: var(--ot-ink); }
+.ot-find button { min-width: 2rem; min-height: 2rem; }
+.ot-follow { display: inline-flex; align-items: center; gap: 0.4375rem; font-size: 0.8125rem; color: var(--ot-ink-2); }
+.ot-follow input { accent-color: var(--ot-ink); width: 1rem; height: 1rem; }
+.ot-sheet-body { padding: 0.75rem 1rem; overscroll-behavior: contain; }
+.ot-line { display: grid; grid-template-columns: 4.125rem 0.75rem 5.625rem minmax(0, 1fr); gap: 0.625rem; align-items: baseline; text-align: left; padding: 1rem 0.5rem; margin: 0; border-bottom: 1px solid var(--ot-line); font-size: 1rem; line-height: 1.65; cursor: auto; }
+.ot-line:last-child { border-bottom: 0; }
+.ot-line-time { font-size: 0.75rem; min-height: 2rem; text-align: left; text-decoration: underline; text-decoration-color: var(--ot-line-strong); text-underline-offset: 0.25rem; }
+.ot-line-speaker { font-size: 0.8125rem; padding-right: 0; overflow-wrap: anywhere; white-space: normal; }
+.ot-line-dot { width: 0.5rem; height: 0.5rem; align-self: baseline; background: var(--tone, var(--ot-line-strong)); }
+.ot-line-content { min-width: 0; }
+.ot-line-text { font-variation-settings: 'wdth' 100; letter-spacing: normal; max-width: 76ch; user-select: text; }
+.ot-edit-line { display: inline-flex; align-items: center; gap: 0.3125rem; font-size: 0.75rem; min-height: 1.875rem; color: var(--ot-ink-3); }
+.ot-edit-line:hover { color: var(--ot-ink); }
+.ot-line-editor, .ot-form-stack { display: grid; gap: 0.75rem; min-width: 0; }
+.ot-line-editor textarea, .ot-line-editor select, .ot-form-stack input, .ot-form-stack textarea, .ot-note-context textarea { width: 100%; border: 1px solid var(--ot-line-strong); padding: 0.625rem 0.75rem; border-radius: 0.375rem; color: var(--ot-ink); background: var(--ot-panel); font-size: 1rem; line-height: 1.5; }
+.ot-line-editor label, .ot-form-stack label { display: grid; gap: 0.375rem; font-size: 0.875rem; }
+.ot-search-passage { display: grid; grid-template-columns: 4rem minmax(0, 1fr); gap: 0.75rem; width: 100%; padding: 1rem 0.5rem; border-bottom: 1px solid var(--ot-line); text-align: left; font-size: 1rem; line-height: 1.6; }
+.ot-search-passage:hover { background: var(--ot-select); }
+.ot-inspector { padding: 1.25rem; max-height: none; min-height: 0; }
+.ot-quote { font-size: 1.1875rem; line-height: 1.5; max-width: none; font-variation-settings: 'wdth' 100; }
+.ot-inspector-title { font-size: 0.9375rem; }
+.ot-interpretation-label { color: var(--ot-ink-3); font-size: 0.75rem; margin-top: 1rem; }
+.ot-evidence { margin-top: 1rem; font-size: 0.875rem; line-height: 1.55; color: var(--ot-ink-2); }
+.ot-evidence .ot-link { font-size: 0.75rem; margin-bottom: 0.3125rem; }
+.ot-owner { font-size: 0.875rem; flex-wrap: wrap; }
+.ot-actions { display: flex; flex-wrap: wrap; }
+.ot-actions .ot-button { font-size: 0.875rem; min-height: 2.5rem; height: auto; padding: 0.625rem 0.75rem; }
+.ot-promote-action { font-size: 0.875rem; margin-top: 0.75rem; width: 100%; }
+.ot-context { grid-template-columns: 5.375rem minmax(0,1fr); font-size: 0.8125rem; line-height: 1.5; }
+.ot-context dt { font-size: 0.75rem; }
+.ot-meeting-details-panel { display: grid; grid-template-columns: minmax(12.5rem,1fr) minmax(0,2fr); gap: 1.5rem; padding: 1.25rem 1.5rem; max-height: 40dvh; overflow: auto; background: var(--ot-panel); border-bottom: 1px solid var(--ot-line); }
+.ot-notes { min-height: 0; }
+.ot-note-context { display: grid; grid-template-columns: 10rem minmax(0,1fr); align-items: start; gap: 0.75rem; padding: 1rem 1.5rem; font-size: 0.875rem; color: var(--ot-ink-2); border-bottom: 1px solid var(--ot-line); }
+.ot-note-context textarea { font-size: 0.875rem; resize: vertical; min-height: 3rem; max-height: 8.125rem; }
+.ot-notes-body { overflow-y: auto; }
+.ot-notes-toolbar { position: sticky; top: 0; z-index: 5; background: var(--ot-panel); padding: 0.875rem 1.5rem; }
+.ot-notes-actions { display: flex; flex-wrap: wrap; gap: 0.375rem; }
+.meeting-notes-document { max-width: 60rem; width: 100%; margin-inline: auto; padding: 2rem 3rem 4rem; }
+.ot-notes .bn-editor { font-size: 1.0625rem !important; line-height: 1.7 !important; font-variation-settings: 'wdth' 100; padding-inline: 0.75rem; }
+.ot-autosave { min-height: 1.75rem; display: flex; align-items: center; flex-wrap: wrap; gap: 0.625rem; color: var(--ot-ink-3); font-size: 0.75rem; margin-bottom: 1rem; }
+.ot-task-evidence { color: var(--ot-ink-2); font-size: 0.875rem; line-height: 1.5; padding: 0.75rem; background: var(--ot-chrome); border-radius: 0.375rem; }
+.ot-live-session .ot-arrangement { max-height: min(13.75rem, 28dvh); }
+.ot-live-session .ot-start { padding: 1.5rem; justify-content: start; text-align: left; }
+.ot-live-session .ot-start p { max-width: 60ch; }
+.ot-start-actions { flex-wrap: wrap; }
+.ot-live-session .ot-marks { max-height: none; }
+.ot-live-session[data-idle=true] .ot-deck-lower { grid-template-columns: 1fr; }
+.ot-live-session[data-idle=true] .ot-marks { display: none; }
+.ot-sources { gap: 0.75rem; }
+.ot-source { min-height: 2.25rem; font-size: 0.8125rem; }
+.ot-source span { max-width: 10.625rem; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
+.ot-marks-head { font-size: 1rem; padding: 1rem; }
+.ot-mark-title { font-size: 0.9375rem; }
+.ot-mark-quote { font-size: 0.875rem; }
+.settings-page, .library-page { overflow-y: auto; height: 100%; }
+.settings-shell, .library-shell { width: 100%; max-width: 97.5rem; margin-inline: auto; }
+.settings-layout { grid-template-columns: 11.875rem minmax(0,1fr); }
+.settings-content, .library-page { font-size: 0.9375rem; }
+.settings-path { overflow-wrap: anywhere; }
+.settings-inline-panel pre { max-width: 100%; overflow-x: auto; }
+.settings-page input, .settings-page textarea, .settings-page select { font-size: 0.9375rem; }
+.library-query-row { flex-wrap: wrap; }
+.library-query-row input { min-width: 10rem; flex: 1 1 15rem; }
+.library-filter-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 11.25rem), 1fr)); }
+.library-tabs { flex-wrap: wrap; height: auto; }
+.library-task, .library-calendar-event { min-width: 0; }
+.library-task > div, .library-calendar-event > div { min-width: 0; overflow-wrap: anywhere; }
+.ot-settings-save-hint { font-size: 0.8125rem; color: var(--ot-ink-3); margin-top: 0.75rem; }
+@media (min-width: 2300px) {
+  .ot-app { grid-template-columns: 18.75rem minmax(0,1fr); }
+  .ot-deck-lower { grid-template-columns: minmax(0,1fr) 26.25rem; padding: 1.75rem 2.5rem; gap: 1.75rem; }
+  .ot-deck-notes { grid-template-columns: minmax(0,1fr); }
+  .ot-line { grid-template-columns: 4.75rem 1rem 6.875rem minmax(0,1fr); font-size: 1.125rem; }
+  .ot-quote { font-size: 1.3125rem; }
+  .ot-title-input { font-size: 1.5rem; }
+}
+@media (max-width: 1279px) {
+  .ot-app { grid-template-columns: 14.5rem minmax(0,1fr); }
+  .ot-transport { gap: 0.75rem; padding: 0.75rem 1.125rem; }
+  .ot-transport .ot-heading { order: -1; flex-basis: calc(100% - 10rem); }
+  .ot-timecode { font-size: 1.625rem; }
+  .ot-deck-lower { grid-template-columns: minmax(0,1fr); padding: 1rem; }
+  .ot-review-session .ot-inspector { display: none; }
+  .ot-review-session .ot-inspector:has(.ot-inspector-title) { display: flex; max-height: 33dvh; }
+  .ot-review-session .ot-deck-lower:not(.ot-deck-notes) { grid-template-rows: minmax(11.25rem, 1fr) auto; gap: 0.75rem; overflow-y: auto; }
+  .ot-inspector .ot-context, .ot-inspector .ot-context-title { display: none; }
+  .ot-inspector { padding: 0.875rem 1.125rem; }
+  .ot-inspector .ot-rule { margin: 0.625rem 0; }
+  .ot-quote { font-size: 1rem; }
+  .ot-inspector .ot-evidence { display: none; }
+  .ot-actions { margin-top: 0.5rem; }
+  .ot-timeline-panel .ot-arrangement { max-height: min(12.5rem, 25dvh); }
+  .settings-shell { padding: 1.5rem; }
+  .settings-layout { gap: 1.5rem; grid-template-columns: 10rem minmax(0,1fr); }
+}
+@media (max-width: 1023px) {
+  .ot-app { grid-template-columns: minmax(0, 1fr); }
+  .ot-rail-toggle { display: grid; }
+  .ot-tagline { display: none; }
+  .ot-rail-container { position: fixed; top: 3.25rem; bottom: 0; left: 0; width: min(20rem, 88vw); z-index: 50; transform: translateX(-105%); visibility: hidden; }
+  .ot-rail-container .ot-rail { height: calc(100% - 2.75rem); }
+  .ot-app[data-rail-open=true] .ot-rail-container { transform: none; visibility: visible; box-shadow: 0.75rem 0 2.5rem rgb(0 0 0 / 0.16); }
+  .ot-rail-close { margin-left: auto; height: 2.75rem; }
+  .ot-app[data-rail-open=true] .ot-scrim { display: block; position: fixed; inset: 3.25rem 0 0; z-index: 45; background: rgb(0 0 0 / 0.24); }
+  .ot-session .ot-source span, .ot-session .ot-source svg:last-child { display: initial; }
+  .ot-live-session .ot-deck-lower { grid-template-columns: minmax(0,1fr) 17.5rem; }
+  .ot-title-input { font-size: 1.125rem; }
+}
+@media (max-width: 700px) {
+  .ot-transport { gap: 0.625rem; padding: 0.75rem; }
+  .ot-transport .ot-heading { flex-basis: 100%; order: -2; }
+  .ot-transport-tools { gap: 0.375rem; }
+  .ot-deck { gap: 0.125rem; }
+  .ot-timecode { font-size: 1.5rem; }
+  .ot-meta > :not(:first-child) { display: initial; }
+  .ot-review-toolbar { padding-inline: 0.875rem; gap: 0; }
+  .ot-view-tabs { flex: 1; justify-content: space-between; gap: 0.75rem; }
+  .ot-view-tabs button { font-size: 0.875rem; }
+  .ot-review-tools { justify-content: space-between; width: 100%; padding-bottom: 0.375rem; }
+  .ot-deck-lower { padding: 0.625rem; gap: 0.625rem; }
+  .ot-review-session .ot-inspector:has(.ot-inspector-title) { max-height: 26dvh; }
+  .ot-inspector .ot-owner, .ot-inspector .ot-interpretation-label { display: none; }
+  .ot-inspector .ot-quote { margin-top: 0.5rem; }
+  .ot-transcript-tools { padding: 0.5rem 0.75rem; gap: 0.25rem 0.75rem; }
+  .ot-find { flex-basis: 100%; }
+  .ot-sheet-body { padding: 0.375rem 0.625rem; }
+  .ot-line { grid-template-columns: 3.875rem minmax(0,1fr); gap: 0.125rem 0.625rem; padding: 0.75rem 0.25rem; font-size: 1rem; }
+  .ot-line .ot-line-dot { display: none; }
+  .ot-line-speaker { grid-column: 2; grid-row: 1; align-self: center; }
+  .ot-line-content, .ot-line-editor { grid-column: 2; }
+  .ot-line-text { grid-column: auto; }
+  .ot-edit-line { min-height: 2.25rem; }
+  .ot-note-context { grid-template-columns: minmax(0,1fr); padding: 0.75rem 1rem; gap: 0.375rem; }
+  .ot-notes-toolbar { padding: 0.75rem; }
+  .meeting-notes-document { padding: 1.25rem 0.75rem 2.5rem; }
+  .ot-notes .bn-editor { font-size: 1rem !important; padding-inline: 0.5rem; }
+  .ot-timeline-panel .ot-arrangement { margin-inline: 0.75rem; --head: 7.8125rem; }
+  .ot-meeting-details-panel { grid-template-columns: minmax(0,1fr); padding: 1rem; }
+  .ot-live-session .ot-deck-lower { grid-template-columns: minmax(0,1fr); grid-template-rows: minmax(13.75rem, 1fr) auto; overflow-y: auto; }
+  .ot-live-session .ot-marks { max-height: 30dvh; }
+  .ot-live-session .ot-source span { max-width: 6.25rem; }
+  .ot-live-session .ot-sources { gap: 0.3125rem; }
+  .settings-shell { padding: 1.25rem 1rem; }
+  .settings-layout { grid-template-columns: minmax(0,1fr); }
+  .settings-navigation { flex-direction: row; overflow-x: auto; position: static; }
+  .settings-tab { flex: 0 0 auto; width: auto; min-height: 2.75rem; }
+  .settings-row { align-items: start; gap: 1rem; }
+  .settings-inline-panel { padding: 0.75rem; }
+  .library-page { padding: 1.25rem 1rem; }
+  .library-section-heading { flex-wrap: wrap; gap: 0.75rem; }
+  .library-tabs [role=tab] { min-height: 2.75rem; }
+  .ot-setup-main { padding-top: 1.75rem; }
+  .ot-setup-head { padding: 0.875rem; }
+}
+@media (max-height: 760px) {
+  .ot-timeline-panel .ot-arrangement, .ot-live-session .ot-arrangement { max-height: 10.625rem; }
+  .ot-inspector .ot-context, .ot-inspector .ot-context-title { display: none; }
+  .ot-transport { min-height: 4.5rem; }
+}
+@media (pointer: coarse) {
+  .ot-app .ot-icon-button, .ot-app .ot-tool, .ot-app .ot-key, .ot-app .ot-deck-button, .ot-app .ot-line-time { min-width: 2.75rem; min-height: 2.75rem; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .ot-rail-container { transition: transform 180ms var(--ot-ease), visibility 180ms; }
+}
+.ot-readiness { width: 100%; max-width: 47.5rem; margin: 0.5rem 0 1.125rem; border-block: 1px solid var(--ot-line); padding: 1.125rem 0; }
+.ot-readiness dl { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1.5rem; text-align: left; }
+.ot-readiness dt { display: flex; align-items: center; gap: 0.375rem; font-size: 0.8125rem; color: var(--ot-ink-3); }
+.ot-readiness dd { font-size: 0.875rem; line-height: 1.6; margin-top: 0.375rem; overflow-wrap: anywhere; }
+.ot-readiness dd .ot-link { display: block; font-size: 0.75rem; }
+.ot-sound-check { display: flex; gap: 0.75rem; align-items: center; justify-content: space-between; margin-top: 1.25rem; text-align: left; }
+.ot-start .ot-sound-check p { font-size: 0.8125rem; }
+.ot-sound-check button { flex-shrink: 0; }
+.ot-live-tools { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; padding: 0.5rem 1.5rem; font-size: 0.75rem; color: var(--ot-ink-3); }
+.ot-live-session[data-idle=true] .ot-sheet-header { display: none; }
+.ot-live-session[data-idle=true] .ot-sheet-body { display: flex; align-items: center; justify-content: center; padding: 1.5rem; }
+.ot-live-session[data-idle=true] .ot-start { align-items: start; gap: 1rem; padding: 0; width: 100%; max-width: 47.5rem; }
+.ot-live-session[data-idle=true] .ot-start-help { font-size: 0.8125rem; }
+@media(max-width: 700px) { .ot-readiness dl { grid-template-columns: minmax(0,1fr); gap: 0.75rem; } .ot-sound-check { align-items: start; flex-direction: column; } .ot-live-session[data-idle=true] .ot-sheet-body { align-items: start; padding: 1rem; } }
+.library-search-kind { display: flex; width: fit-content; gap: 0.25rem; padding: 0.25rem; margin-bottom: 0.75rem; background: var(--ot-key); border-radius: 0.5rem; }
+.library-search-kind button { padding: 0.5625rem 0.875rem; border-radius: 0.3125rem; font-size: 0.875rem; }
+.library-search-kind button[aria-pressed=true] { background: var(--ot-panel); color: var(--ot-ink); box-shadow: 0 1px 0.1875rem rgb(0 0 0 / .08); }
+.library-trash-row { display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; padding: 1.125rem 0; border-bottom: 1px solid var(--ot-line); }
+.library-trash-row > div { flex: 1 1 13.75rem; }
+.library-trash-row p { color: var(--ot-ink-3); font-size: 0.8125rem; }
+html, body { background: var(--ot-ground); }
+.ot-app { width: 100%; max-width: none; margin: 0; }
+.ot-notes-empty { display: grid; align-content: start; justify-items: center; gap: 1.25rem; padding: 1.75rem; }
+:root[data-reading-size=large] .ot-line { font-size: 1.125rem; }
+:root[data-reading-size=large] .ot-notes .bn-editor { font-size: 1.1875rem !important; }
+:root[data-reading-size=extra-large] .ot-line { font-size: 1.3125rem; }
+:root[data-reading-size=extra-large] .ot-notes .bn-editor { font-size: 1.375rem !important; }
+
+.settings-page [hidden] { display: none !important; }
+.ot-engine-guide { margin-bottom: 1.5rem; }
+.ot-engine-guide h3 { font-size: 1.0625rem; font-weight: 600; }
+.ot-engine-guide p { margin: 0.5rem 0 1rem; color: var(--ot-ink-3); font-size: 0.875rem; line-height: 1.6; }
+.ot-engine-choices { display: flex; flex-direction: column; gap: 0.125rem; border-block: 1px solid var(--ot-line); }
+.ot-engine-choices button { display: grid; grid-template-columns: minmax(9.375rem,1fr) minmax(0,2fr); gap: 1rem; text-align: left; padding: 1rem 0.75rem; color: var(--ot-ink-2); border-left: 0.125rem solid transparent; }
+.ot-engine-choices button[aria-pressed=true] { background: var(--ot-select); border-left-color: var(--ot-ink); }
+.ot-engine-choices span { font-size: 0.8125rem; line-height: 1.5; }
+.ot-engine-choices strong { font-size: 0.875rem; font-weight: 500; }
+@media(max-width:700px) { .ot-engine-choices button { grid-template-columns: minmax(0,1fr); gap: 0.375rem; } }
+.ot-note-editor a { color: var(--ot-ink); text-decoration: underline; text-underline-offset: 0.1875rem; }
+.ot-engine-choices button { border-left: 0; }
+.ot-inspector-dock { display: contents; }
+.ot-open-inspector { display: none; }
+.ot-note-context { display: block; padding: 0.75rem 1.5rem; }
+.ot-note-context summary { cursor: pointer; font-size: 0.8125rem; }
+.ot-note-context textarea { margin-top: 0.75rem; }
+.ot-moment-dialog { max-height: calc(100dvh - 2rem); overflow-y: auto; color: var(--ot-ink); background: var(--ot-panel); }
+.ot-moment-dialog .ot-inspector { padding: 0; box-shadow: none; border: 0; max-height: none; }
+.ot-moment-dialog .ot-inspector .ot-evidence, .ot-moment-dialog .ot-inspector .ot-owner, .ot-moment-dialog .ot-inspector .ot-interpretation-label { display: block; }
+@media(max-width:1279px) {
+ .ot-open-inspector { display: inline-flex; }
+ .ot-inspector-dock { display: none; }
+ .ot-review-session .ot-deck-lower:not(.ot-deck-notes) { grid-template-rows: minmax(0,1fr); overflow: hidden; }
+}
+@media(max-width:700px) {
+ .ot-note-context { padding: 0.625rem 0.875rem; }
+ .ot-notes-heading span { display: none; }
+ .ot-review-tools .ot-tool { font-size: 0.75rem; padding-inline: 0.3125rem; }
+}
+
+/* A little larger on laptops, with room-sized controls on high-resolution displays. */
+html { font-size: clamp(18px, calc(14px + .21vw), 24px); }
+.ot-app { max-width: none; border-inline: 0; }
+.ot-session { width: 100%; max-width: none; }
+.ot-line { font-size: 1.125rem; }
+:root[data-reading-size=large] .ot-line { font-size: 1.25rem; }
+:root[data-reading-size=extra-large] .ot-line { font-size: 1.5rem; }
+:root[data-reading-size=large] .ot-notes .bn-editor { font-size: 1.25rem !important; }
+:root[data-reading-size=extra-large] .ot-notes .bn-editor { font-size: 1.5rem !important; }
+.ot-app :is(button,a,label) > svg:not(.ot-pattern) { width: 1.15em; height: 1.15em; flex-shrink: 0; }
+.ot-view-tabs button[aria-selected=true] { color: var(--ui-teal); border-bottom-color: var(--ui-teal); }
+.ot-review-tools button[aria-expanded=true] { color: var(--ui-teal); background: color-mix(in srgb, var(--ui-teal) 8%, var(--ot-panel)); }
+.ot-timeline-panel { background: color-mix(in srgb, var(--ui-teal) 2%, var(--ot-panel)); }
+.ot-line[aria-current=true] { background: color-mix(in srgb, var(--tone-wave, var(--ui-teal)) 10%, var(--ot-panel)); }
+.ot-line-speaker { color: var(--tone-wave, var(--ot-ink-2)); }
+.ot-dense-clips { position: absolute; inset: 0; width: 100%; height: 100%; padding: 0; border: 0; background: transparent; color: var(--tone-wave); cursor: pointer; }
+.ot-dense-clips canvas { display: block; width: 100%; height: 100%; pointer-events: none; }
+.ot-lane[data-muted=true] .ot-dense-clips { opacity: .38; }
+.ot-inspector[data-kind=decision] .ot-inspector-title { color: var(--ui-amber); }
+.ot-inspector[data-kind=action] .ot-inspector-title { color: var(--ui-violet); }
+.ot-inspector[data-kind=transcript] .ot-inspector-title { color: var(--ui-teal); }
+.ot-inspector[data-kind=decision] { background: color-mix(in srgb, var(--ui-amber) 3%, var(--ot-panel)); }
+.ot-actions .ot-button-primary:not(:disabled) { background: var(--ui-teal-action); color: var(--ui-on-teal); }
+@media (min-width: 2300px) {
+  .ot-deck-lower { grid-template-columns: minmax(0,1fr) minmax(23rem,28rem); }
+  .ot-deck-notes { grid-template-columns: minmax(0,1fr); }
+  .ot-line { font-size: 1.125rem; }
+  .ot-line-time { font-size: .85rem; }
+  .ot-line-speaker { font-size: .95rem; }
+}
+@media (max-height: 800px) {
+  .ot-timeline-panel .ot-arrangement, .ot-live-session .ot-arrangement { max-height: min(150px,23dvh); }
+  .ot-deck-lower { padding: .75rem 1rem; }
+}
+@media (max-width: 700px) {
+  html { font-size: 16px; }
+  .ot-line { font-size: 1rem; }
+}
+
+/* Fit the actual lanes on tall screens instead of forcing an internal scrollbar. */
+.ot-review-session[data-timeline-sizing=auto] .ot-arrangement { max-height: min(52dvh,70rem); }
+.ot-review-session[data-timeline-sizing=manual] .ot-arrangement { max-height: min(var(--timeline-height),65dvh); }
+.ot-timeline-size { min-height: 2.5rem; }
+.ot-timeline-size label { display: flex; align-items: center; gap: .75rem; }
+.ot-timeline-size .ot-tool { font-size: .75rem; min-height: 1.75rem; }
+.ot-timeline-size .ot-tool[aria-pressed=true] { color: var(--ui-teal); background: color-mix(in srgb,var(--ui-teal) 8%,var(--ot-panel)); }
+.ot-live-session .ot-arrangement { max-height: min(45dvh,55rem); }
+@media (max-height: 800px) {
+ .ot-review-session[data-timeline-sizing=auto] .ot-arrangement,
+ .ot-review-session[data-timeline-sizing=manual] .ot-arrangement,
+ .ot-live-session .ot-arrangement { max-height: min(150px,23dvh); }
+}
+
+/* Reserve a usable reading pane; let the timeline yield only when height is scarce. */
+.ot-timeline-panel { display: flex; flex-direction: column; flex: 0 1 auto; min-height: 0; overflow: hidden; }
+.ot-timeline-size { flex-shrink: 0; }
+.ot-timeline-panel .ot-arrangement { flex: 0 1 auto; min-height: 0; }
+.ot-meeting-view { flex: 1 0 min(24rem,42dvh); min-height: min(24rem,42dvh); }
+.ot-live-session > .ot-arrangement { flex-shrink: 1; min-height: 0; }
+@media (max-height: 800px) {
+ .ot-timeline-size { min-height: 1.75rem; padding-top: 0; }
+ .ot-timeline-panel .ot-arrangement { --lane-h: 2.5rem; --lane-gap: .25rem; padding-block: .25rem; }
+ .ot-timeline-panel .ot-lane-head { flex-direction: row; align-items: center; gap: .5rem; }
+ .ot-timeline-panel .ot-lane-keys { padding-left: 0; }
+ .ot-timeline-panel .ot-key { min-width: 1.75rem; height: 1.25rem; font-size: .65rem; padding: 0 .2rem; }
+}
+@media (max-width: 1439px) {
+ .ot-inspector-dock { display: none; }
+ .ot-open-inspector { display: inline-flex; }
+ .ot-review-session .ot-deck-lower:not(.ot-deck-notes) { grid-template-columns: minmax(0,1fr); grid-template-rows: minmax(0,1fr); }
+}

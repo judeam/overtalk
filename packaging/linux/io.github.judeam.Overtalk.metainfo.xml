@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.judeam.Overtalk</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+
+  <name>Overtalk</name>
+  <summary>Record meetings and keep notes you can trace to the source</summary>
+  <developer id="io.github.judeam">
+    <name>Jude Mingay</name>
+  </developer>
+
+  <description>
+    <p>
+      Overtalk is a meeting notebook that runs on your computer. It records your
+      microphone and call audio, transcribes the conversation, and turns it into
+      notes where each point links back to the passage it came from.
+    </p>
+    <ul>
+      <li>Record or import a meeting, pause and resume, and recover interrupted work</li>
+      <li>Search timestamped transcripts, follow playback and name speakers</li>
+      <li>Generate and edit notes, check the cited passage, and export PDF, DOCX, Markdown, TXT or JSON</li>
+      <li>Group meetings by project and ask questions across your library with sources you can open</li>
+    </ul>
+    <p>
+      Meetings and settings are stored locally. Speech and summary models are
+      downloaded when you choose them and run on your computer. Cloud AI providers are
+      optional and receive content only when you choose them. Telemetry and
+      automatic updates are disabled.
+    </p>
+  </description>
+
+  <launchable type="desktop-id">io.github.judeam.Overtalk.desktop</launchable>
+  <provides>
+    <binary>overtalk</binary>
+  </provides>
+
+  <url type="homepage">https://github.com/judeam/overtalk</url>
+  <url type="bugtracker">https://github.com/judeam/overtalk/issues</url>
+  <url type="vcs-browser">https://github.com/judeam/overtalk</url>
+
+  <screenshots>
+    <screenshot type="default">
+      <caption>Speaker lanes above editable notes, with source-linked decisions beside the document</caption>
+      <image>https://raw.githubusercontent.com/judeam/overtalk/main/docs/media/notes.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Timestamped transcript with named, colour-coded speakers and their audio lanes</caption>
+      <image>https://raw.githubusercontent.com/judeam/overtalk/main/docs/media/transcript.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Library search with matching meeting passages</caption>
+      <image>https://raw.githubusercontent.com/judeam/overtalk/main/docs/media/library.png</image>
+    </screenshot>
+  </screenshots>
+
+  <categories>
+    <category>Office</category>
+  </categories>
+  <keywords>
+    <keyword>meeting</keyword>
+    <keyword>transcription</keyword>
+    <keyword>notes</keyword>
+    <keyword>minutes</keyword>
+    <keyword>recorder</keyword>
+  </keywords>
+
+  <requires>
+    <display_length compare="ge">768</display_length>
+  </requires>
+  <supports>
+    <control>pointing</control>
+    <control>keyboard</control>
+  </supports>
+
+  <content_rating type="oars-1.1"/>
+
+  <releases>
+    <release version="0.1.0" date="2026-10-20">
+      <description>
+        <p>First Linux packages of the native desktop app.</p>
+      </description>
+    </release>
+  </releases>
+</component>

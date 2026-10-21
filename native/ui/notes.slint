@@ -1,0 +1,206 @@
+import { ScrollView, TextEdit } from "std-widgets.slint";
+import { State } from "state.slint";
+import { Theme, Icons } from "theme.slint";
+import { ActionButton, Hint, Divider, ChoiceControl } from "widgets.slint";
+import { MeetingCompanion } from "workflow.slint";
+
+component GenerateNotesButton inherits ActionButton {
+    property <angle> orbit: 0deg;
+    property <bool> animating: State.notes-generating && !State.reduced-motion;
+    init => { if self.animating { self.orbit += 360deg; } }
+    changed animating => { if self.animating { self.orbit += 360deg; } else { self.orbit = 0deg; } }
+    Timer { interval: 1800ms; running: root.animating; triggered => { root.orbit += 360deg; } }
+    animate orbit { duration: root.animating ? 1800ms : 0ms; easing: linear; }
+    icon: State.notes-generating ? @image-url("../assets/notes-orbit.svg") : @image-url("../assets/sparkles.svg");
+    icon-rotation: self.orbit;
+    width: (State.window-width < 1100 ? 164px : 192px) * Theme.scale;
+    opacity: 1;
+    icon-size: (State.notes-generating ? 21px : 17px) * Theme.scale;
+    text: State.notes-generating ? "Generating…" : State.notes == "" ? "Generate notes" : "Regenerate notes";
+    help: State.notes-generating ? "Generating notes from the complete transcript" : "Generate notes using " + State.selected-template;
+    primary: true; compact: true; height: 34px * Theme.scale; label-size: 15px * Theme.scale;
+    horizontal-padding: 14px * Theme.scale; enabled: !State.notes-generating;
+    clicked => { State.action("generate", ""); }
+}
+
+component NotesOptions inherits ActionButton {
+    text: "Options"; icon: Icons.sliders; help: "Notes model, template, language and context";
+    compact: true; flat: true; label-size: 14px * Theme.scale;
+    clicked => { options.show(); }
+    options := PopupWindow {
+        x: root.width - self.width; y: root.height + 6px * Theme.scale;
+        width: 300px * Theme.scale; height: 334px * Theme.scale;
+        close-policy: close-on-click-outside;
+        Rectangle {
+            background: Theme.panel; border-radius: 8px * Theme.scale; border-width: 1px; border-color: Theme.line-strong;
+            VerticalLayout {
+                padding: 12px * Theme.scale; spacing: 8px * Theme.scale;
+                Text { text: "Generation options"; color: Theme.ink; font-size: 16px * Theme.scale; font-weight: 600; }
+                ActionButton { text: "Meeting tools…"; icon: Icons.more; compact: true; flat: true; left-aligned: true; clicked => { options.close(); State.action("hub-meeting-tools", ""); } }
+                HorizontalLayout {
+                    Hint { text: "Language"; vertical-alignment: center; }
+                    ChoiceControl { icon: @image-url("../assets/languages.svg"); model: ["Auto", "English", "Português", "Deutsch", "Español", "Français", "Other…"]; current-index <=> State.notes-language-index; width: 160px * Theme.scale; selected(index) => { State.action("notes-language", "" + index); if index == 6 { options.close(); } } }
+                }
+                ActionButton { text: "Summary model"; icon: Icons.gear; compact: true; flat: true; left-aligned: true; clicked => { options.close(); State.action("settings", "3"); } }
+                ActionButton { text: "Template · " + State.selected-template; help: "Choose notes template"; icon: @image-url("../assets/template.svg"); enabled: !State.notes-generating; compact: true; flat: true; left-aligned: true; clicked => { options.close(); State.action("choose-template", ""); } }
+                ActionButton { text: "Edit templates"; icon: Icons.edit; compact: true; flat: true; left-aligned: true; clicked => { options.close(); State.action("template-editor", ""); } }
+                ActionButton { text: "My notes & context"; icon: Icons.notes; compact: true; flat: true; left-aligned: true; clicked => { options.close(); State.action("workflow-panel", "1"); } }
+            }
+        }
+    }
+}
+
+component NotesHighlights inherits Rectangle {
+    background: Theme.chrome;
+    VerticalLayout {
+        padding: 18px * Theme.scale; spacing: 14px * Theme.scale;
+        Text { text: "Decisions & actions"; color: Theme.ink; font-size: 17px * Theme.scale; font-weight: 600; }
+        Hint { text: "Linked to what was said"; font-size: 12px * Theme.scale; }
+        ScrollView {
+            VerticalLayout {
+                spacing: 12px * Theme.scale;
+                if State.notes-highlights.length == 0: Hint { text: "Source-linked decisions and actions will appear here when they are included in your notes."; }
+                for item in State.notes-highlights: Rectangle {
+                    min-height: highlight-content.preferred-height;
+                    border-radius: 6px * Theme.scale; border-width: 1px; border-color: Theme.line;
+                    background: State.selected-note-id == item.id ? Theme.selection : Theme.panel;
+                    highlight-content := VerticalLayout {
+                        padding: 12px * Theme.scale; spacing: 8px * Theme.scale;
+                        HorizontalLayout {
+                            Image { source: item.kind == 1 ? Icons.check : Icons.tasks; colorize: item.kind == 1 ? Theme.amber : Theme.violet; width: 15px * Theme.scale; height: self.width; }
+                            Text { text: item.kind == 1 ? "Decision" : "Action"; color: item.kind == 1 ? Theme.amber : Theme.violet; font-size: 12px * Theme.scale; font-weight: 600; }
+                            Rectangle { horizontal-stretch: 1; }
+                            Hint { text: item.stamp; font-size: 12px * Theme.scale; }
+                        }
+                        Text { text: item.body; color: Theme.ink; font-size: 15px * Theme.scale; wrap: word-wrap; }
+                        ActionButton { text: "Review source"; icon: Icons.transcript; compact: true; flat: true; left-aligned: true; foreground: Theme.teal; label-size: 12px * Theme.scale; clicked => { State.action("select-note", item.id); State.action("show-inspector", ""); } }
+                    }
+                }
+                Rectangle { vertical-stretch: 1; }
+            }
+        }
+    }
+}
+
+component NotesActions inherits HorizontalLayout {
+    in property <bool> narrow;
+    in property <bool> rail-available;
+    spacing: 6px * Theme.scale;
+    GenerateNotesButton { }
+    NotesOptions { }
+    ActionButton { text: "Send"; help: "Send notes to a connected tool"; icon: @image-url("../assets/arrow-right.svg"); compact: true; flat: true; enabled: State.notes != ""; label-size: 14px * Theme.scale; clicked => { State.action("hub-share-notes", ""); } }
+    ActionButton { text: root.narrow ? "" : "Copy"; help: "Copy notes"; icon: Icons.copy; compact: true; flat: true; label-size: 14px * Theme.scale; clicked => { State.action("copy-notes", ""); } }
+    ActionButton { text: State.editing-notes ? "Done" : "Edit"; help: State.editing-notes ? "Done editing" : "Edit document"; icon: Icons.edit; compact: true; flat: true; label-size: 14px * Theme.scale; clicked => { State.action("notes-mode", ""); } }
+    ActionButton { text: "Ask"; icon: @image-url("../assets/sparkles.svg"); help: "Questions, personal notes and follow-up"; selected: State.companion-open; compact: true; flat: true; clicked => { State.action("workflow-panel", "2"); } }
+    ActionButton { icon: Icons.tasks; help: "Decisions and actions"; compact: true; flat: true; selected: root.rail-available && State.notes-highlights-open; clicked => { if root.rail-available { State.companion-open = false; State.notes-highlights-open = !State.notes-highlights-open; } else { State.action("browse-note-highlights", ""); } } }
+    if State.notes-generating: ActionButton { text: "Stop"; compact: true; clicked => { State.action("cancel-generation", ""); } }
+}
+
+export component NotesPanel inherits Rectangle {
+    width: max(1px, State.window-width * 1px - ((State.window-width < 1100 ? 0px : State.window-width >= 2300 ? 300px : State.window-width >= 1280 ? 264px : 232px) + (State.window-height <= 800 ? 32px : State.window-width >= 2300 ? 80px : 48px)) * Theme.scale);
+    background: Theme.panel; border-width: 1px; border-color: Theme.line; border-radius: 8px * Theme.scale;
+    property <bool> short: State.window-height <= 600;
+    property <bool> rail-available: self.width >= 1040px * Theme.scale;
+    property <bool> rail-visible: rail-available && State.notes-highlights-open && !State.editing-notes && !State.companion-open;
+    VerticalLayout {
+        spacing: 0px;
+        Rectangle {
+            height: (root.width < 760px * Theme.scale ? 90px : root.short ? 42px : 58px) * Theme.scale;
+            VerticalLayout {
+                padding-left: 20px * Theme.scale; padding-right: 20px * Theme.scale;
+                padding-top: (root.short ? 4px : 10px) * Theme.scale; padding-bottom: (root.short ? 4px : 10px) * Theme.scale; spacing: 8px * Theme.scale;
+                HorizontalLayout {
+                    spacing: 12px * Theme.scale;
+                    Text { text: root.short && State.note-blocks.length > 0 && State.note-blocks[0].kind == 1 ? State.note-blocks[0].text : "Notes"; max-width: (root.short ? 180px : 1000px) * Theme.scale; overflow: elide; color: Theme.ink; font-size: (root.short ? 16px : 18px) * Theme.scale; font-weight: 600; vertical-alignment: center; }
+                    if root.width >= 1180px * Theme.scale: Hint { text: State.selected-template; color: Theme.muted; font-size: 13px * Theme.scale; vertical-alignment: center; }
+                    Rectangle { horizontal-stretch: 1; }
+                    if root.width >= 760px * Theme.scale: NotesActions { narrow: root.width < 980px * Theme.scale; rail-available: root.rail-available; }
+                }
+                if root.width < 760px * Theme.scale: HorizontalLayout { NotesActions { narrow: true; rail-available: false; } Rectangle { horizontal-stretch: 1; } }
+            }
+        }
+        Divider { }
+        if State.completion-status != "": HorizontalLayout {
+            padding: 10px * Theme.scale; spacing: 10px * Theme.scale;
+            Hint { text: State.completion-status; color: State.completion-retry ? Theme.amber : Theme.teal; font-size: 13px * Theme.scale; }
+            if State.completion-retry: ActionButton { text: "Retry"; compact: true; flat: true; clicked => { State.action("workflow-retry", ""); } }
+        }
+        if State.editing-notes: VerticalLayout {
+            padding: 24px * Theme.scale;
+            spacing: 10px * Theme.scale;
+            Hint { text: "Write with Markdown: # headings, **bold**, - lists and [links](url). Changes save automatically."; }
+            TextEdit { text <=> State.notes; wrap: word-wrap; font-size: Theme.body; edited => { State.notes-edited(self.text); } }
+            Hint { text: State.notes-status; }
+        }
+        if !State.editing-notes: HorizontalLayout {
+            spacing: 0px;
+            padding-left: State.companion-open ? 0px : max(0px, (root.width - (root.rail-visible ? 1220px : 900px) * Theme.scale) / 2);
+            padding-right: State.companion-open ? 0px : max(0px, (root.width - (root.rail-visible ? 1220px : 900px) * Theme.scale) / 2);
+            if !State.companion-open || root.rail-available: ScrollView {
+            horizontal-stretch: 1;
+            HorizontalLayout {
+                alignment: center;
+                document := VerticalLayout {
+                    width: min(900px * Theme.scale, root.width - (State.companion-open ? 374px * Theme.scale : root.rail-visible ? 320px * Theme.scale : 0px));
+                    padding: (root.short ? 12px : 32px) * Theme.scale; padding-top: (root.short ? 8px : 20px) * Theme.scale; padding-bottom: 40px * Theme.scale;
+                    spacing: 0px;
+                    if !root.short || State.note-edit-index >= 0 || (State.notes-status != "" && State.notes-status != "All changes saved"): Hint { text: State.note-edit-index >= 0 ? "Editing…" : State.notes-status == "" ? "All changes saved" : State.notes-status; color: Theme.muted; font-size: 12px * Theme.scale; height: 28px * Theme.scale; vertical-alignment: top; }
+                    if State.note-blocks.length == 0: VerticalLayout {
+                        spacing: 16px * Theme.scale;
+                        Hint { text: "Write your own notes or generate a draft from the transcript."; }
+                        ActionButton { text: "Write notes"; icon: Icons.edit; clicked => { State.action("notes-mode", ""); } }
+                    }
+                    for block[index] in State.note-blocks: VerticalLayout {
+                      if !root.short || index != 0 || block.kind != 1: VerticalLayout {
+                        padding-bottom: (root.short ? 4px : block.kind >= 1 && block.kind <= 6 ? 24px : 12px) * Theme.scale;
+                        spacing: 8px * Theme.scale;
+                        if State.note-edit-index != block.id: Rectangle {
+                            min-height: max((root.short && block.kind >= 1 && block.kind <= 6 ? 0px : 32px) * Theme.scale, block.kind == 10 ? table.preferred-height : block.kind == 9 ? code.preferred-height + 24px * Theme.scale : block.kind >= 1 && block.kind <= 6 ? heading.preferred-height : styled.preferred-height);
+                            TouchArea { mouse-cursor: text; clicked => { State.action("note-edit", "" + block.id); } }
+                            if block.kind == 7 || block.kind == 8: Text { x: 6px * Theme.scale; text: block.kind == 7 ? "·" : "1."; color: Theme.ink; font-size: 18px * Theme.scale; }
+                            code := Text {
+                                visible: block.kind == 9;
+                                x: 12px * Theme.scale; y: 12px * Theme.scale; width: parent.width - 24px * Theme.scale;
+                                text: block.text; font-family: "monospace"; font-size: 14px * Theme.scale; color: Theme.ink; wrap: word-wrap;
+                            }
+                            table := VerticalLayout {
+                                visible: block.kind == 10; spacing: 0px;
+                                for row[index] in block.table: HorizontalLayout {
+                                    spacing: 0px;
+                                    for cell in row.cells: Rectangle {
+                                        width: table.width / max(1, row.cells.length);
+                                        preferred-height: cell-text.preferred-height + 16px * Theme.scale;
+                                        border-width: 1px; border-color: Theme.line;
+                                        background: index == 0 ? Theme.chrome : Theme.panel;
+                                        cell-text := Text { x: 8px * Theme.scale; y: 8px * Theme.scale; width: parent.width - 16px * Theme.scale; text: cell; wrap: word-wrap; color: Theme.ink; font-size: 15px * Theme.scale; font-weight: index == 0 ? 600 : 400; }
+                                    }
+                                }
+                            }
+                            heading := Text { visible: block.kind >= 1 && block.kind <= 6; width: parent.width; text: block.text; color: Theme.ink; font-size: (block.kind == 1 ? 28px : block.kind == 2 ? 20px : 18px) * Theme.scale; font-weight: 650; letter-spacing: -0.025 * self.font-size; wrap: word-wrap; }
+                            styled := StyledText {
+                                visible: !(block.kind >= 1 && block.kind <= 6) && block.kind < 9;
+                                x: (block.kind >= 7 ? 22px : 0px) * Theme.scale;
+                                width: parent.width - self.x;
+                                text: block.rich; default-color: Theme.ink;
+                                default-font-size: (block.kind == 1 ? 28px : block.kind == 2 ? 20px : block.kind >= 3 && block.kind <= 6 ? 18px : [17px,20px,24px][State.reading-size]) * Theme.scale;
+                                link-color: Theme.dark ? #bb9ae7 : #7751a0;
+                                link-clicked(url) => { State.action("open-note-link", url); }
+                            }
+                        }
+                        if State.note-edit-index == block.id: VerticalLayout {
+                            spacing: 6px * Theme.scale;
+                            TextEdit { text <=> State.note-edit-value; edited => { State.action("note-input", self.text); } font-size: (block.kind == 1 ? 28px : block.kind == 2 ? 20px : 17px) * Theme.scale; height: max(70px * Theme.scale, self.preferred-height); wrap: word-wrap; }
+                            ActionButton { text: "Done"; compact: true; clicked => { State.action("note-save", ""); } }
+                        }
+                      }
+                    }
+                    Rectangle { vertical-stretch: 1; }
+                }
+            }
+            }
+            if root.rail-visible: Rectangle { width: 1px; background: Theme.line; }
+            if root.rail-visible: NotesHighlights { width: 320px * Theme.scale; }
+            if State.companion-open: MeetingCompanion { width: root.rail-available ? 374px * Theme.scale : root.width; }
+        }
+    }
+}

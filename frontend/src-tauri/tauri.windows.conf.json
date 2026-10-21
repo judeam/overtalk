@@ -1,0 +1,12 @@
+{
+  "build": {
+    "beforeDevCommand": "python ../scripts/worker_build.py --debug && pnpm dev",
+    "beforeBuildCommand": "python ../scripts/worker_build.py && pnpm build"
+  },
+  "bundle": {
+    "resources": {
+      "templates": "templates",
+      "binaries/onnxruntime": "."
+    }
+  }
+}

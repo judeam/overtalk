@@ -1,0 +1,33 @@
+[package]
+name = "overtalk-native"
+version = "0.1.0"
+edition = "2021"
+rust-version.workspace = true
+license = "MIT"
+build = "build.rs"
+
+[[bin]]
+name = "overtalk"
+path = "src/main.rs"
+
+[dependencies]
+slint = { version = "=1.18.1", default-features = false, features = ["std", "compat-1-18", "backend-winit", "renderer-femtovg", "renderer-software", "accessibility", "system-tray"] }
+overtalk-protocol = { path = "../crates/desktop-protocol" }
+overtalk-documents = { path = "../crates/meeting-documents" }
+serde = { workspace = true }
+serde_json = { workspace = true }
+dirs = "5.0.1"
+fs2 = "0.4"
+tempfile = "3.3"
+tiny-skia = { version = "0.11.4", default-features = false, features = ["std", "simd"] }
+chrono = "0.4"
+
+[target.'cfg(windows)'.dependencies]
+# Opening at sign-in writes the per-user Run key.
+windows-sys = { version = "0.61", features = ["Win32_Foundation", "Win32_Security", "Win32_System_Registry"] }
+
+[build-dependencies]
+slint-build = "=1.18.1"
+
+[dev-dependencies]
+image = { version = "0.25", default-features = false, features = ["png"] }

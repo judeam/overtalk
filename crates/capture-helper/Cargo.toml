@@ -1,0 +1,15 @@
+[package]
+name = "overtalk-capture"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+
+[dependencies]
+scap = "=0.0.8"
+serde_json = "1.0"
+overtalk-worker-sandbox = { path = "../worker-sandbox" }
+
+[target.'cfg(target_os = "windows")'.dependencies]
+# scap 0.0.8 needs the Context-based handler and five-argument Settings API.
+# Its broad requirement also permits 1.5, which changed that API incompatibly.
+windows-capture = "=1.4.2"

@@ -1,0 +1,98 @@
+import { Theme, Icons } from "theme.slint";
+import { State } from "state.slint";
+import { ActionButton, Hint, SectionHeading } from "widgets.slint";
+
+export component PrivacySettings inherits VerticalLayout {
+    spacing: 18px * Theme.scale;
+    Rectangle {
+        min-height: max(132px * Theme.scale, hero-content.preferred-height);
+        background: (State.privacy-encrypted ? Theme.teal : Theme.amber).with-alpha(9%);
+        border-radius: 10px * Theme.scale;
+        border-width: 1px;
+        border-color: (State.privacy-encrypted ? Theme.teal : Theme.amber).with-alpha(35%);
+        hero-content := HorizontalLayout { padding: 20px * Theme.scale; spacing: 16px * Theme.scale;
+            Image { source: Icons.shield; width: 28px * Theme.scale; height: 28px * Theme.scale; colorize: State.privacy-encrypted ? Theme.teal : Theme.amber; }
+            VerticalLayout { spacing: 7px * Theme.scale;
+                SectionHeading { text: "Your privacy controls"; }
+                Hint { text: State.privacy-summary; }
+                Hint { text: "These controls support your privacy obligations. They do not certify legal compliance."; font-size: 12px * Theme.scale; }
+            }
+        }
+    }
+    for item[index] in ["Recording & data rules", "Voice authorizations", "Find a person’s data", "Retention & deletion", "Security activity", "Your usage report"]: Rectangle {
+        min-height: max(98px * Theme.scale, row-content.preferred-height); background: Theme.panel;
+        border-width: 1px; border-color: Theme.line; border-radius: 9px * Theme.scale;
+        row-content := HorizontalLayout { padding: 18px * Theme.scale; spacing: 14px * Theme.scale;
+            VerticalLayout { spacing: 7px * Theme.scale;
+                Text { text: item; color: Theme.ink; font-size: 17px * Theme.scale; font-weight: 600; wrap: word-wrap; }
+                Hint { text: ["Choose local processing, approved destinations and protected mode.","Record permission before identifying returning voices. Review or withdraw it later.","Review matching meetings before handling an access or erasure request.","Preview expired meetings. Held records are excluded; deletion removes managed media.","Review content-free access and change events, and verify their integrity.","Counts of what you did in Overtalk, kept on this computer. Nothing is sent; save it as a file if you choose to share it."][index]; }
+            }
+            ActionButton { max-width: 150px * Theme.scale; horizontal-stretch: 0; text: ["Configure", "Review", "Find", "Preview", "Open", "Open"][index]; compact: true; icon: [Icons.settings,Icons.speakers,Icons.search,Icons.trash,Icons.history,Icons.sliders][index]; clicked => { State.action(["privacy-policy","privacy-voices","privacy-subject","privacy-retention","privacy-audit","privacy-usage"][index],""); } }
+        }
+    }
+    if State.privacy-credentials > 0: Rectangle {
+        min-height: 85px * Theme.scale; background: Theme.amber.with-alpha(8%); border-radius: 8px * Theme.scale;
+        HorizontalLayout { padding: 16px * Theme.scale; spacing: 12px * Theme.scale;
+            Hint { text: State.privacy-credentials + " saved keys still need migration. Unlock your OS keychain, then retry."; }
+            ActionButton { text: "Secure saved keys"; compact: true; clicked => { State.action("privacy-migrate-keys",""); } }
+        }
+    }
+    if State.privacy-pending > 0: Rectangle {
+        min-height: 85px * Theme.scale; background: Theme.amber.with-alpha(8%); border-radius: 8px * Theme.scale;
+        HorizontalLayout { padding: 16px * Theme.scale; spacing: 12px * Theme.scale;
+            Hint { text: State.privacy-pending + " media deletions need retry. Database removal has already completed."; }
+            ActionButton { text: "Retry deletion"; compact: true; clicked => { State.action("privacy-retry",""); } }
+        }
+    }
+    VerticalLayout { spacing: 10px * Theme.scale;
+        HorizontalLayout { alignment: start; spacing: 12px * Theme.scale;
+            ActionButton { text: "Refresh checks"; compact: true; clicked => { State.action("privacy-refresh",""); } }
+            ActionButton { text: "Retention holds…"; compact: true; clicked => { State.action("privacy-holds",""); } }
+        }
+        HorizontalLayout { alignment: start; spacing: 12px * Theme.scale;
+            ActionButton { text: "Clear diagnostic logs…"; compact: true; clicked => { State.action("privacy-clear-logs",""); } }
+            ActionButton { text: "Verify audit integrity"; compact: true; clicked => { State.action("privacy-verify",""); } }
+        }
+    }
+    Hint { text: "Exports and copies held by other services or people must be handled separately. Keep your device locked when unattended."; font-size: 13px * Theme.scale; }
+}
+
+// The step before a recording: one sentence to paste into the call chat or read
+// aloud, worded for where this recording's content goes. Each choice is recorded.
+export component RecordingNoticeDialog inherits Rectangle {
+    background: #00000099;
+    TouchArea { }
+    Rectangle {
+        width: min(640px * Theme.scale, root.width - 32px * Theme.scale);
+        height: min(root.height - 40px * Theme.scale, notice-layout.preferred-height);
+        x: (parent.width - self.width) / 2; y: (parent.height - self.height) / 2;
+        border-radius: 12px * Theme.scale; background: Theme.panel; border-width: 1px; border-color: Theme.line-strong;
+        notice-layout := VerticalLayout {
+            padding: 24px * Theme.scale; spacing: 14px * Theme.scale;
+            HorizontalLayout {
+                Text { text: State.modal-title; color: Theme.ink; font-size: 24px * Theme.scale; font-weight: 600; overflow: elide; vertical-alignment: center; horizontal-stretch: 1; }
+                ActionButton { icon: Icons.close; help: "Close without recording"; compact: true; flat: true; clicked => { State.action("modal-cancel", ""); } }
+            }
+            Hint { text: State.modal-text; }
+            Rectangle {
+                min-height: notice-text.preferred-height + 32px * Theme.scale;
+                background: Theme.raised; border-radius: 8px * Theme.scale;
+                notice-text := Text { x: 16px * Theme.scale; y: 16px * Theme.scale; width: parent.width - 32px * Theme.scale; text: State.recording-notice-text; color: Theme.ink; font-size: 18px * Theme.scale; wrap: word-wrap; line-height-factor: 1.35; }
+            }
+            HorizontalLayout { spacing: 8px * Theme.scale;
+                Image { source: State.recording-notice-route == "local" ? Icons.shield : Icons.link; width: 16px * Theme.scale; height: self.width; y: 2px * Theme.scale; colorize: State.recording-notice-route == "local" ? Theme.teal : Theme.amber; }
+                VerticalLayout { spacing: 4px * Theme.scale;
+                    Hint { text: State.recording-notice-detail; font-size: 13px * Theme.scale; color: Theme.secondary; }
+                    Hint { text: "Change the wording in Settings › Privacy › Recording & data rules."; font-size: 13px * Theme.scale; color: Theme.muted; }
+                }
+            }
+            if State.error != "": Text { text: State.error; color: Theme.danger; wrap: word-wrap; max-lines: 3; overflow: elide; font-size: Theme.small; }
+            HorizontalLayout { spacing: 10px * Theme.scale;
+                ActionButton { text: "Record without notice"; help: "Start recording; the meeting records that the notice was skipped"; compact: true; flat: true; clicked => { State.action("privacy-notice", "skipped"); } }
+                Rectangle { horizontal-stretch: 1; }
+                ActionButton { text: "Read it aloud & record"; compact: true; clicked => { State.action("privacy-notice", "read_aloud"); } }
+                ActionButton { text: "Copy & record"; help: "Copy the notice for the call chat and start recording"; icon: Icons.copy; primary: true; compact: true; clicked => { State.action("privacy-notice", "copied"); } }
+            }
+        }
+    }
+}

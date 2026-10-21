@@ -1,0 +1,30 @@
+version: 2
+updates:
+  - package-ecosystem: cargo
+    directory: /
+    schedule: { interval: weekly }
+    cooldown: { default-days: 7 }
+    open-pull-requests-limit: 5
+    # One pull request per ecosystem for routine updates; majors stay separate.
+    groups: { routine: { update-types: [minor, patch] } }
+  - package-ecosystem: npm
+    directory: /frontend
+    schedule: { interval: weekly }
+    cooldown: { default-days: 7 }
+    open-pull-requests-limit: 5
+    # One pull request per ecosystem for routine updates; majors stay separate.
+    groups: { routine: { update-types: [minor, patch] } }
+  - package-ecosystem: pip
+    directory: /speech-worker
+    schedule: { interval: weekly }
+    cooldown: { default-days: 7 }
+    open-pull-requests-limit: 5
+    # One pull request per ecosystem for routine updates; majors stay separate.
+    groups: { routine: { update-types: [minor, patch] } }
+  - package-ecosystem: github-actions
+    directory: /
+    schedule: { interval: weekly }
+    cooldown: { default-days: 7 }
+    open-pull-requests-limit: 5
+    # One pull request per ecosystem for routine updates; majors stay separate.
+    groups: { routine: { update-types: [minor, patch] } }

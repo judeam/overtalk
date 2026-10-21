@@ -1,0 +1,103 @@
+name: Draft release
+# Started by hand. Builds and smoke-tests the Linux, Windows and macOS packages
+# (package.yml), then attaches them to a *draft* GitHub release with one
+# combined SHA256SUMS. It never publishes: the owner reviews the draft and
+# publishes it, which is when GitHub creates the tag. Signing uses the owner's
+# secrets when they are set (docs/PLATFORMS.md#signing).
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Tag for the draft, such as v0.1.0 (created only when the draft is published)
+        required: true
+        type: string
+permissions:
+  contents: read
+concurrency:
+  group: release-${{ inputs.tag }}
+  cancel-in-progress: false
+jobs:
+  version:
+    name: Check the release tag
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - id: version
+        env:
+          TAG: ${{ inputs.tag }}
+        run: |
+          if ! [[ "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.]+)?$ ]]; then
+            echo "::error::Use a tag such as v0.1.0 or v0.2.0-rc.1"
+            exit 1
+          fi
+          echo "version=${TAG#v}" >> "$GITHUB_OUTPUT"
+
+  package:
+    name: Package
+    needs: version
+    # zizmor prefers the newer `$/` form, which the pinned actionlint 1.7.12 rejects.
+    uses: ./.github/workflows/package.yml # zizmor: ignore[self-repository]
+    with:
+      version: ${{ needs.version.outputs.version }}
+      sign: true
+    secrets:
+      WINDOWS_CERTIFICATE_PFX_BASE64: ${{ secrets.WINDOWS_CERTIFICATE_PFX_BASE64 }}
+      WINDOWS_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
+      MACOS_CERTIFICATE_P12_BASE64: ${{ secrets.MACOS_CERTIFICATE_P12_BASE64 }}
+      MACOS_CERTIFICATE_PASSWORD: ${{ secrets.MACOS_CERTIFICATE_PASSWORD }}
+      MACOS_SIGN_IDENTITY: ${{ secrets.MACOS_SIGN_IDENTITY }}
+      APPLE_ID: ${{ secrets.APPLE_ID }}
+      APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+      APPLE_APP_PASSWORD: ${{ secrets.APPLE_APP_PASSWORD }}
+
+  draft:
+    name: Attach the packages to a draft release
+    needs: [version, package]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: write # create or update a draft release; this job never publishes one
+    steps:
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          pattern: overtalk-*
+          path: packages
+      - name: Collect the files and one SHA256SUMS
+        run: |
+          mkdir upload
+          find packages -type f ! -name SHA256SUMS ! -name 'SHA256SUMS.*' -exec cp -n {} upload/ \;
+          (cd upload && sha256sum -- * > SHA256SUMS)
+          cat upload/SHA256SUMS
+      - name: Create or update the draft
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          TAG: ${{ inputs.tag }}
+          TARGET: ${{ github.sha }}
+          VERSION: ${{ needs.version.outputs.version }}
+        run: |
+          {
+            echo "Overtalk $VERSION, built from $TARGET by the Draft release workflow."
+            echo
+            echo "- Linux: \`.deb\` (Ubuntu 24.04+, Debian 13+) and AppImage, x86-64-v3 CPUs."
+            echo "- Windows 10/11 x64: per-user installer and portable zip."
+            echo "- macOS 14.2+ (Apple silicon): \`.dmg\`."
+            echo
+            echo "Verify downloads with \`sha256sum -c --ignore-missing SHA256SUMS\`."
+            echo "Check each build record (\`*-build-info.json\`) for its signature state before publishing:"
+            echo "unsigned Windows installers trigger SmartScreen, and ad-hoc signed macOS apps need"
+            echo "System Settings > Privacy & Security > Open Anyway."
+          } > notes.md
+          if draft=$(gh release view "$TAG" --repo "$REPOSITORY" --json isDraft --jq .isDraft 2>/dev/null); then
+            if [ "$draft" != "true" ]; then
+              echo "::error::$TAG is already published; this workflow only prepares drafts"
+              exit 1
+            fi
+            gh release upload "$TAG" upload/* --repo "$REPOSITORY" --clobber
+            gh release edit "$TAG" --repo "$REPOSITORY" --draft --target "$TARGET" --notes-file notes.md
+          else
+            gh release create "$TAG" upload/* --repo "$REPOSITORY" --draft --target "$TARGET" \
+              --title "Overtalk $VERSION" --notes-file notes.md
+          fi

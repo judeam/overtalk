@@ -1,0 +1,121 @@
+{
+    "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
+    "productName": "Overtalk",
+    "version": "0.1.0",
+    "identifier": "com.judeam.sonefold",
+    "build": {
+        "frontendDist": "../out",
+        "devUrl": "http://localhost:3118",
+        "beforeDevCommand": "python3 ../scripts/worker_build.py --debug && pnpm dev",
+        "beforeBuildCommand": "python3 ../scripts/worker_build.py && pnpm build"
+    },
+    "app": {
+        "windows": [
+            {
+                "title": "Overtalk",
+                "width": 1100,
+                "height": 700,
+                "resizable": true,
+                "fullscreen": false,
+                "theme": "Light",
+                "decorations": true
+            }
+        ],
+        "macOSPrivateApi": true,
+        "security": {
+            "csp": {
+                "default-src": "'self'",
+                "style-src": "'self' 'unsafe-inline'",
+                "img-src": "'self' asset: https://asset.localhost data:",
+                "connect-src": "'self' http://localhost:11434 https://api.ollama.ai",
+                "media-src": "'self' asset: https://asset.localhost blob: http://127.0.0.1:*"
+            },
+            "assetProtocol": {
+                "enable": true,
+                "scope": []
+            },
+            "capabilities": [
+                {
+                    "identifier": "main",
+                    "description": "Main window capability with file system and media access",
+                    "windows": [
+                        "main"
+                    ],
+                    "permissions": [
+                        "core:path:default",
+                        "core:event:default",
+                        "core:window:default",
+                        "core:app:default",
+                        "core:resources:default",
+                        "core:menu:default",
+                        "core:tray:default",
+                        "core:window:allow-set-title",
+                        "store:default",
+                        "notification:default",
+                        "notification:allow-is-permission-granted",
+                        "process:default",
+                        "dialog:allow-confirm"
+                    ]
+                }
+            ]
+        }
+    },
+    "bundle": {
+        "active": true,
+        "targets": [
+            "deb",
+            "appimage",
+            "msi",
+            "nsis",
+            "app",
+            "dmg"
+        ],
+        "createUpdaterArtifacts": false,
+        "icon": [
+            "icons/icon.png",
+            "icons/icon.icns",
+            "icons/icon.ico"
+        ],
+        "resources": {
+            "templates/*.json": "templates/",
+            "../../speech-worker/sonefold_speech/*.py": "speech-worker/sonefold_speech/",
+            "../../LICENSE.md": "licenses/sonefold-MIT.md",
+            "../../integrations/sonefold.py": "integrations/sonefold.py",
+            "../../NOTICE.md": "licenses/NOTICE.md",
+            "../../crates/voice-memory/LICENSE": "licenses/voice-memory-Apache-2.0.txt",
+            "../../crates/voice-memory/README.md": "licenses/voice-memory-model.md",
+            "../public/fonts/OFL-Noto-CJK.txt": "licenses/fonts/OFL-Noto-CJK.txt",
+            "../public/fonts/OFL-Noto.txt": "licenses/fonts/OFL-Noto.txt",
+            "../public/fonts/overtalk/OFL-InstrumentSans.txt": "licenses/fonts/OFL-InstrumentSans.txt",
+            "../public/fonts/overtalk/OFL-Phudu.txt": "licenses/fonts/OFL-Phudu.txt",
+            "../../speech-worker/sonefold_speech/vendor/*.py": "speech-worker/sonefold_speech/vendor/",
+            "../../speech-worker/sonefold_speech/vendor/qwen_asr/*.py": "speech-worker/sonefold_speech/vendor/qwen_asr/",
+            "../../speech-worker/sonefold_speech/vendor/qwen_asr/LICENSE": "speech-worker/sonefold_speech/vendor/qwen_asr/LICENSE",
+            "../../speech-worker/sonefold_speech/vendor/qwen_asr/NOTICE": "speech-worker/sonefold_speech/vendor/qwen_asr/NOTICE",
+            "../../speech-worker/sonefold_speech/vendor/qwen_asr/core/vllm_backend/*.py": "speech-worker/sonefold_speech/vendor/qwen_asr/core/vllm_backend/",
+            "../../speech-worker/sonefold_speech/vendor/qwen_asr/core/transformers_backend/*.py": "speech-worker/sonefold_speech/vendor/qwen_asr/core/transformers_backend/",
+            "../../speech-worker/sonefold_speech/vendor/qwen_asr/inference/*.py": "speech-worker/sonefold_speech/vendor/qwen_asr/inference/",
+            "../../speech-worker/sonefold_speech/vendor/qwen_asr/inference/assets/*.dict": "speech-worker/sonefold_speech/vendor/qwen_asr/inference/assets/",
+            "../../speech-worker/sonefold_speech/vendor/moss/*.py": "speech-worker/sonefold_speech/vendor/moss/",
+            "../../speech-worker/sonefold_speech/vendor/moss/LICENSE": "speech-worker/sonefold_speech/vendor/moss/LICENSE",
+            "../../speech-worker/sonefold_speech/vendor/moss/PROVENANCE.md": "speech-worker/sonefold_speech/vendor/moss/PROVENANCE.md"
+        },
+        "externalBin": [
+            "binaries/llama-helper",
+            "binaries/overtalk-worker",
+            "binaries/ffmpeg"
+        ],
+        "macOS": {
+            "entitlements": "entitlements.plist",
+            "signingIdentity": "-",
+            "hardenedRuntime": true
+        },
+        "windows": {},
+        "linux": {
+            "appimage": {
+                "bundleMediaFramework": true
+            }
+        }
+    },
+    "plugins": {}
+}

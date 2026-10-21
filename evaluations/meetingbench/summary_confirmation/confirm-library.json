@@ -1,0 +1,62 @@
+{
+  "id": "confirm-library",
+  "split": "holdout",
+  "difficulty": "normal",
+  "language": "en",
+  "domain": "public library",
+  "provenance": "New synthetic confirmation case, authored after v5 stability failures and sealed before v6 inference; not a population-random sample.",
+  "transcript": "[00:00] Amina: We lent out 72 tablets last month; that is loans, not 72 different people.\n[00:10] Chris: The overdue notices have already gone out.\n[00:20] Jo: Shall we charge everyone a replacement fee?\n[00:30] Amina: No blanket charge. Check each returned device first; no replacement purchases have been approved.\n[00:40] Chris: I will count the chargers by Wednesday afternoon.\n[00:50] Jo: I can review the count, but I have not agreed to a review date.\n[01:00] Amina: Agreed. Wednesday belongs only to counting.\n[01:10] Chris: We still don't know how many spare chargers we need.",
+  "facts": [
+    {
+      "id": "F1",
+      "assertion": "72tabletloanslastmonth,not72distinctborrowers.",
+      "evidence": [
+        1
+      ]
+    },
+    {
+      "id": "F2",
+      "assertion": "Overduenoticesalreadyout.",
+      "evidence": [
+        2
+      ]
+    },
+    {
+      "id": "F3",
+      "assertion": "Noblanketreplacementfee;checkreturnedeachdevicefirst.",
+      "evidence": [
+        3,
+        4
+      ]
+    },
+    {
+      "id": "F4",
+      "assertion": "Noreplacementpurchaseapproved.",
+      "evidence": [
+        4
+      ]
+    },
+    {
+      "id": "F5",
+      "assertion": "ChriscountschargersbyWednesdayafternoon.",
+      "evidence": [
+        5
+      ]
+    },
+    {
+      "id": "F6",
+      "assertion": "Joreviewswithoutagreeddate;Wednesdayonlycounting.",
+      "evidence": [
+        6,
+        7
+      ]
+    },
+    {
+      "id": "F7",
+      "assertion": "Neededsparechargercountunknown.",
+      "evidence": [
+        8
+      ]
+    }
+  ]
+}

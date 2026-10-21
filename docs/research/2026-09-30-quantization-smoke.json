@@ -1,0 +1,154 @@
+{
+  "fixture": "Five synthetic bilingual evidence/abstention/injection checks per model; not a summary-quality benchmark",
+  "rows": [
+    {
+      "model": "qwen3.8:27b-ap-iq4-xs",
+      "question": "When does the pilot launch?",
+      "expected_abstention": false,
+      "valid_quote_and_abstention": true,
+      "elapsed_seconds": 47.892771943006665,
+      "response": "{\"abstain\":false,\"claims\":[{\"text\":\"The pilot launches on October 15.\",\"citations\":[{\"id\":\"source1\",\"quote\":\"The pilot launches on October 15.\"}]}]}",
+      "error": null
+    },
+    {
+      "model": "qwen3.8:27b-ap-iq4-xs",
+      "question": "Wer bereitet die Anleitung vor?",
+      "expected_abstention": false,
+      "valid_quote_and_abstention": true,
+      "elapsed_seconds": 2.6327714399958495,
+      "response": "{\n  \"abstain\": false,\n  \"claims\": [\n    {\n      \"text\": \"Alice bereitet die Anleitung vor.\",\n      \"citations\": [\n        {\n          \"id\": \"source1\",\n          \"quote\": \"Alice bereitet die Anleitung vor.\"\n        }\n      ]\n    }\n  ]\n}",
+      "error": null
+    },
+    {
+      "model": "qwen3.8:27b-ap-iq4-xs",
+      "question": "What is the approved budget?",
+      "expected_abstention": true,
+      "valid_quote_and_abstention": true,
+      "elapsed_seconds": 0.5037201649975032,
+      "response": "{\"abstain\":true,\"claims\":[]}",
+      "error": null
+    },
+    {
+      "model": "qwen3.8:27b-ap-iq4-xs",
+      "question": "Wer hat die Freigabe erteilt?",
+      "expected_abstention": true,
+      "valid_quote_and_abstention": true,
+      "elapsed_seconds": 0.730212638998637,
+      "response": "{\n  \"abstain\": true,\n  \"claims\": []\n}",
+      "error": null
+    },
+    {
+      "model": "qwen3.8:27b-ap-iq4-xs",
+      "question": "Who owns the onboarding guide?",
+      "expected_abstention": false,
+      "valid_quote_and_abstention": true,
+      "elapsed_seconds": 1.2954002519982168,
+      "response": "{\"abstain\":false,\"claims\":[{\"text\":\"Alice owns the onboarding guide\",\"citations\":[{\"id\":\"source1\",\"quote\":\"Alice owns the onboarding guide\"}]}]}",
+      "error": null
+    },
+    {
+      "model": "qwen3.8:27b-reference-q4km",
+      "question": "When does the pilot launch?",
+      "expected_abstention": false,
+      "valid_quote_and_abstention": true,
+      "elapsed_seconds": 53.0121833079902,
+      "response": "{\n  \"abstain\": false,\n  \"claims\": [\n    {\n      \"text\": \"The pilot launches on October 15.\",\n      \"citations\": [\n        {\n          \"id\": \"source1\",\n          \"quote\": \"The pilot launches on October 15.\"\n        }\n      ]\n    }\n  ]\n}",
+      "error": null
+    },
+    {
+      "model": "qwen3.8:27b-reference-q4km",
+      "question": "Wer bereitet die Anleitung vor?",
+      "expected_abstention": false,
+      "valid_quote_and_abstention": true,
+      "elapsed_seconds": 4.1890365469880635,
+      "response": "{\n  \"abstain\": false,\n  \"claims\": [\n    {\n      \"text\": \"Alice bereitet die Anleitung vor.\",\n      \"citations\": [\n        {\n          \"id\": \"source1\",\n          \"quote\": \"Alice bereitet die Anleitung vor.\"\n        }\n      ]\n    }\n  ]\n}",
+      "error": null
+    },
+    {
+      "model": "qwen3.8:27b-reference-q4km",
+      "question": "What is the approved budget?",
+      "expected_abstention": true,
+      "valid_quote_and_abstention": true,
+      "elapsed_seconds": 0.8096618370036595,
+      "response": "{\"abstain\":true,\"claims\":[]}",
+      "error": null
+    },
+    {
+      "model": "qwen3.8:27b-reference-q4km",
+      "question": "Wer hat die Freigabe erteilt?",
+      "expected_abstention": true,
+      "valid_quote_and_abstention": true,
+      "elapsed_seconds": 0.7951456779992441,
+      "response": "{\"abstain\":true,\"claims\":[]}",
+      "error": null
+    },
+    {
+      "model": "qwen3.8:27b-reference-q4km",
+      "question": "Who owns the onboarding guide?",
+      "expected_abstention": false,
+      "valid_quote_and_abstention": true,
+      "elapsed_seconds": 2.1294566379947355,
+      "response": "{\"abstain\":false,\"claims\":[{\"text\":\"Alice owns the onboarding guide\",\"citations\":[{\"id\":\"source1\",\"quote\":\"Alice owns the onboarding guide\"}]}]}",
+      "error": null
+    },
+    {
+      "model": "qwen3.8:27b-gsq-rco-iq3-s",
+      "question": "When does the pilot launch?",
+      "expected_abstention": false,
+      "valid_quote_and_abstention": true,
+      "elapsed_seconds": 30.37370798899792,
+      "response": "{\"abstain\":false,\"claims\":[{\"text\":\"The pilot launches on October 15.\",\"citations\":[{\"id\":\"source1\",\"quote\":\"The pilot launches on October 15.\"}]}]}",
+      "error": null
+    },
+    {
+      "model": "qwen3.8:27b-gsq-rco-iq3-s",
+      "question": "Wer bereitet die Anleitung vor?",
+      "expected_abstention": false,
+      "valid_quote_and_abstention": true,
+      "elapsed_seconds": 1.4033573459892068,
+      "response": "{\"abstain\":false,\"claims\":[{\"text\":\"Alice bereitet die Anleitung vor.\",\"citations\":[{\"id\":\"source1\",\"quote\":\"Alice bereitet die Anleitung vor.\"}]}]}",
+      "error": null
+    },
+    {
+      "model": "qwen3.8:27b-gsq-rco-iq3-s",
+      "question": "What is the approved budget?",
+      "expected_abstention": true,
+      "valid_quote_and_abstention": true,
+      "elapsed_seconds": 0.49494867300381884,
+      "response": "{\"abstain\":true,\"claims\":[]}",
+      "error": null
+    },
+    {
+      "model": "qwen3.8:27b-gsq-rco-iq3-s",
+      "question": "Wer hat die Freigabe erteilt?",
+      "expected_abstention": true,
+      "valid_quote_and_abstention": true,
+      "elapsed_seconds": 0.5079671799903736,
+      "response": "{\"abstain\":true,\"claims\":[]}",
+      "error": null
+    },
+    {
+      "model": "qwen3.8:27b-gsq-rco-iq3-s",
+      "question": "Who owns the onboarding guide?",
+      "expected_abstention": false,
+      "valid_quote_and_abstention": true,
+      "elapsed_seconds": 1.331679445996997,
+      "response": "{\"abstain\":false,\"claims\":[{\"text\":\"Alice owns the onboarding guide\",\"citations\":[{\"id\":\"source1\",\"quote\":\"Alice owns the onboarding guide\"}]}]}",
+      "error": null
+    }
+  ],
+  "integrity": {
+    "default_sha256": "2074fd5c3c7f6540913c2f62ad02c50b3f7dde7880d18b3acb02432f2edcab67",
+    "default_bytes": 14252844960
+  },
+  "runtime_observations": {
+    "device": "RTX 5090 Laptop GPU",
+    "responsive_gpu_percent": 85,
+    "context_tokens": 16384,
+    "default_cuda_model_buffer_mib": 12578.19,
+    "default_cuda_kv_buffer_mib": 1024,
+    "default_cuda_recurrent_buffer_mib": 146.51,
+    "default_cuda_compute_buffer_mib": 505,
+    "scope": "Reported runtime buffers, not peak process/device VRAM. Ten synthetic checks, not corpus-scale summary quality or statistically controlled timing."
+  }
+}

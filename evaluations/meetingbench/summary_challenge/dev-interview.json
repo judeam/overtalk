@@ -1,0 +1,69 @@
+{
+  "id": "dev-interview",
+  "split": "development",
+  "difficulty": "hard",
+  "language": "es",
+  "domain": "user research",
+  "provenance": "Newly authored synthetic diagnostic; no real personal data; not a recording.",
+  "transcript": "[00:00] Lucía: En esta entrevista quiero entender su experiencia, no aprobar funciones.\n[00:10] Cliente: Tardo unos veinte minutos en cerrar cada factura. Me gustaría un botón automático.\n[00:20] Lucía: ¿Veinte minutos para todas las facturas juntas?\n[00:30] Cliente: No, por factura. No medí el promedio; es una estimación.\n[00:40] Lucía: Lo anoté. Ya grabé su consentimiento para el análisis interno, no para publicar su voz.\n[00:50] Diego: Podríamos prometerle una solución en mayo.\n[01:00] Lucía: No. No hemos decidido construirla ni prometido ninguna fecha.\n[01:10] Cliente: De acuerdo. ¿Se podrá probar sin tarjeta?\n[01:20] Lucía: No sé. Esa pregunta queda sin respuesta; esta entrevista no asigna tareas.",
+  "facts": [
+    {
+      "id": "F1",
+      "assertion": "This is a research interview, not feature approval.",
+      "evidence": [
+        1
+      ]
+    },
+    {
+      "id": "F2",
+      "assertion": "Customer estimates20minutes per invoice, not total or measured average.",
+      "evidence": [
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "id": "F3",
+      "assertion": "Automatic-button request is a customer desire, not committed delivery.",
+      "evidence": [
+        2,
+        7
+      ]
+    },
+    {
+      "id": "F4",
+      "assertion": "Consent covers internal analysis only, not voice publication.",
+      "evidence": [
+        5
+      ]
+    },
+    {
+      "id": "F5",
+      "assertion": "Consent is already recorded.",
+      "evidence": [
+        5
+      ]
+    },
+    {
+      "id": "F6",
+      "assertion": "May delivery was explicitly rejected; no date approved.",
+      "evidence": [
+        6,
+        7
+      ]
+    },
+    {
+      "id": "F7",
+      "assertion": "Trial without card remains unanswered; no tasks were assigned.",
+      "evidence": [
+        8,
+        9
+      ]
+    }
+  ],
+  "forbidden": [
+    "No future tasks for Lucía or Diego.",
+    "No guaranteed20minute savings."
+  ]
+}

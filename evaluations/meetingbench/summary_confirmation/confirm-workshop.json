@@ -1,0 +1,63 @@
+{
+  "id": "confirm-workshop",
+  "split": "holdout",
+  "difficulty": "hard",
+  "language": "en",
+  "domain": "bilingual workshop",
+  "provenance": "New synthetic confirmation case, authored after v5 stability failures and sealed before v6 inference; not a population-random sample.",
+  "transcript": "[00:00] Farid: Workshop budget 640 pounds total hai, per person nahi. Thirty people registered.\n[00:10] Mina: Maine room reservation kal confirm kar di thi. That's already done.\n[00:20] Alex: Let's print forty handbooks then.\n[00:30] Farid: Not agreed. Sirf confirmed thirty ke liye digital copy, printing par decision baad mein.\n[00:40] Mina: I'll email the digital handbook by Monday evening. Main translation ka commitment nahi kar rahi.\n[00:50] Alex: Kya Monday tak workshop bhi ho jayega?\n[01:00] Mina: No. Monday sirf email ki deadline hai. Workshop date abhi fixed nahi.\n[01:10] Farid: Accessibility review ke bina handbook send mat karna. Reviewer abhi named nahi hai.\n[01:20] Alex: Do we need transport vouchers?\n[01:30] Farid: Open question. Nobody has taken that task yet.",
+  "facts": [
+    {
+      "id": "F1",
+      "assertion": "GBP640totalnotperperson;30registrations.",
+      "evidence": [
+        1
+      ]
+    },
+    {
+      "id": "F2",
+      "assertion": "Roomreservationalreadyconfirmed.",
+      "evidence": [
+        2
+      ]
+    },
+    {
+      "id": "F3",
+      "assertion": "Digitalhandbookfor30agreed;40printedcopiesnotapproved.",
+      "evidence": [
+        3,
+        4
+      ]
+    },
+    {
+      "id": "F4",
+      "assertion": "MinaemailsdigitalhandbookbyMondayevening,nottranslation.",
+      "evidence": [
+        5
+      ]
+    },
+    {
+      "id": "F5",
+      "assertion": "Workshopdatenotfixed;Mondayonlyemaildeadline.",
+      "evidence": [
+        6,
+        7
+      ]
+    },
+    {
+      "id": "F6",
+      "assertion": "Accessibilityreviewbeforeemail;reviewerunknown.",
+      "evidence": [
+        8
+      ]
+    },
+    {
+      "id": "F7",
+      "assertion": "Transportvouchersquestionunresolvedandunassigned.",
+      "evidence": [
+        9,
+        10
+      ]
+    }
+  ]
+}

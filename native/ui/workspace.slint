@@ -1,0 +1,503 @@
+import { ListView, ScrollView, ComboBox, CheckBox } from "std-widgets.slint";
+import { Theme, Icons } from "theme.slint";
+import { State } from "state.slint";
+import { PrivacySettings } from "privacy.slint";
+import { CloudCredits } from "cloud-credits.slint";
+import {
+    ActionButton,
+    Field,
+    SectionHeading,
+    Hint,
+    Divider,
+    ReviewTab,
+    PageHeading,
+    CheckControl,
+    ReadingChoice,
+    SwitchControl,
+    ChoiceControl,
+} from "widgets.slint";
+
+component AutomationChoice inherits HorizontalLayout {
+    in property <string> title;
+    in property <string> description;
+    in property <[string]> model;
+    in-out property <int> current-index;
+    callback selected(int);
+    spacing: 16px * Theme.scale;
+    VerticalLayout { spacing: 4px * Theme.scale; alignment: center;
+        Text { text: root.title; color: Theme.ink; font-size: 16px * Theme.scale; }
+        Hint { text: root.description; }
+    }
+    VerticalLayout { alignment: center;
+        ChoiceControl { width: 240px * Theme.scale; model: root.model; current-index <=> root.current-index; selected(index) => { root.selected(index); } }
+    }
+}
+
+export component LibraryScreen inherits Rectangle {
+    background: Theme.ground;
+    ScrollView {
+        VerticalLayout {
+            width: min(root.width,1840px * Theme.scale);
+            x: (root.width - self.width) / 2;
+            padding-left: max(24px * Theme.scale, min(64px * Theme.scale, State.window-width * 0.03px));
+            padding-right: max(24px * Theme.scale, min(64px * Theme.scale, State.window-width * 0.03px));
+            padding-top: 28px * Theme.scale;
+            padding-bottom: 40px * Theme.scale;
+            spacing: 18px * Theme.scale;
+            HorizontalLayout {
+                VerticalLayout { spacing: 10px * Theme.scale;
+                    PageHeading { text: State.view == 5 ? "Trash" : State.view == 6 ? "Actions" : State.view == 7 ? "Calendar" : "Library"; }
+                    Hint { text: State.view == 5 ? "Restore a meeting or remove it permanently." : State.view == 6 ? "Turn meeting decisions into completed work." : State.view == 7 ? "Your connected calendars, ready for the next conversation." : "Search every meeting or ask a question with linked sources."; color: Theme.muted; font-size: 16px * Theme.scale; }
+                }
+                Rectangle { horizontal-stretch: 1; }
+                if State.view == 2: ActionButton { text: "Saved answers"; icon: Icons.notes; compact: true; clicked => { State.action("saved-answers", ""); } }
+                ActionButton { text: "Library settings"; icon: Icons.settings; compact: true; height: 38px * Theme.scale; background: Theme.panel; border-width: 1px; border-color: Theme.line; clicked => { State.action("settings", "4"); } }
+            }
+            HorizontalLayout {
+                spacing: 24px * Theme.scale;
+                for name[index] in ["Browse & search", "Actions", "Trash", "Calendar"]: ReviewTab { text: name; label-size: 16px * Theme.scale; icon: [Icons.library,Icons.tasks,Icons.trash,Icons.calendar][index]; selected: State.view == [2,6,5,7][index]; clicked => { State.action("navigate", "" + [2,6,5,7][index]); } }
+                Rectangle { horizontal-stretch: 1; }
+            }
+            if State.view == 2: Rectangle {
+                height: (State.filters-open ? 254px : 190px) * Theme.scale;
+                background: Theme.panel; border-width: 1px; border-color: Theme.line; border-radius: 12px * Theme.scale;
+                VerticalLayout {
+                    padding: 24px * Theme.scale;
+                    spacing: 16px * Theme.scale;
+                    HorizontalLayout {
+                        spacing: 24px * Theme.scale;
+                        VerticalLayout {
+                            width: 130px * Theme.scale; spacing: 6px * Theme.scale; alignment: center;
+                            ActionButton { text: "Find passages"; compact: true; flat: true; height: 44px * Theme.scale; label-size: 15px * Theme.scale; label-weight: !State.library-ask ? 600 : 400; selected: !State.library-ask; selected-background: Theme.dark ? #1d2e32 : #e1f0ed; foreground: !State.library-ask ? Theme.teal : Theme.ink; left-aligned: true; clicked => { State.library-ask = false; } }
+                            ActionButton { text: "Ask a question"; compact: true; flat: true; height: 44px * Theme.scale; label-size: 15px * Theme.scale; label-weight: State.library-ask ? 600 : 400; selected: State.library-ask; selected-background: Theme.dark ? #1d2e32 : #e1f0ed; foreground: State.library-ask ? Theme.teal : Theme.ink; left-aligned: true; clicked => { State.library-ask = true; } }
+                        }
+                        Rectangle { width: 1px; background: Theme.line; }
+                        VerticalLayout {
+                            spacing: 10px * Theme.scale;
+                            Text { text: State.library-ask ? "What would you like to know?" : "What are you looking for?"; color: Theme.ink; font-size: 17px * Theme.scale; font-weight: 600; }
+                            HorizontalLayout {
+                                spacing: 10px * Theme.scale;
+                                Field {
+                                    property <bool> focus-request: State.search-focus;
+                                    changed focus-request => { if self.focus-request { self.focus-control(); State.search-focus = false; } }
+                                    init => { if State.search-focus { self.focus-control(); State.search-focus = false; } }
+                                    text <=> State.query; placeholder: State.library-ask ? "Ask a question about your meetings" : "Search names, topics or exact phrases"; text-size: 17px * Theme.scale; border-color: Theme.line-strong; height: 52px * Theme.scale; accepted(value) => { State.action(State.library-ask ? "ask" : "search", value); } }
+                                ActionButton { text: State.library-ask ? "Ask" : "Search"; icon: Icons.search; primary: true; label-size: 15px * Theme.scale; horizontal-padding: 24px * Theme.scale; height: 52px * Theme.scale; enabled: State.query != "" && !State.busy; clicked => { State.action(State.library-ask ? "ask" : "search", State.query); } }
+                            }
+                            Hint { text: "Search across transcripts and notes. Select a result to read it in context."; font-size: 13px * Theme.scale; }
+                        }
+                    }
+                    Divider { }
+                    ActionButton { text: "Filter by date or tag"; icon: State.filters-open ? Icons.chevron : Icons.chevron-right; compact: true; flat: true; left-aligned: true; label-size: 13px * Theme.scale; height: 22px * Theme.scale; clicked => { State.filters-open = !State.filters-open; } }
+                    if State.filters-open: HorizontalLayout {
+                        spacing: 10px * Theme.scale;
+                        Field { text <=> State.filter-after; placeholder: "From: YYYY-MM-DD"; }
+                        Field { text <=> State.filter-before; placeholder: "To: YYYY-MM-DD"; }
+                        Field { text <=> State.filter-tag; placeholder: "Tag"; }
+                        ActionButton { text: "Apply"; compact: true; clicked => { State.action("search", State.query); } }
+                    }
+                }
+            }
+            if State.view == 2 && State.answer-text != "": Rectangle {
+                height: 260px * Theme.scale; background: Theme.panel;
+                border-radius: 10px * Theme.scale; border-width: 1px; border-color: Theme.line;
+                VerticalLayout { padding: 20px * Theme.scale; spacing: 12px * Theme.scale;
+                    HorizontalLayout {
+                        Text { text: "Answer"; color: Theme.ink; font-size: 20px * Theme.scale; font-weight: 600; }
+                        Rectangle { horizontal-stretch: 1; }
+                        ActionButton { icon: Icons.copy; help: "Copy answer"; compact: true; flat: true; clicked => { State.action("copy-answer", ""); } }
+                        ActionButton { icon: Icons.trash; help: "Delete saved answer"; enabled: State.answer-id != ""; compact: true; flat: true; clicked => { State.action("delete-answer", State.answer-id); } }
+                    }
+                    if State.answer-stale: Hint { text: "Some source passages have changed since this answer was saved. Review the current transcript."; color: Theme.amber; }
+                    ScrollView { StyledText { text: State.answer-content; default-color: Theme.ink; default-font-size: 17px * Theme.scale; link-color: Theme.teal; link-clicked(url) => { State.action("answer-source", url); } } }
+                }
+            }
+            if State.view != 2: HorizontalLayout {
+                SectionHeading { text: State.view == 5 ? "Trash" : State.view == 6 ? "Actions" : "Calendar"; font-size: 24px * Theme.scale; }
+                Rectangle { horizontal-stretch: 1; }
+                if State.view == 7: ActionButton { text: "Sync calendars"; compact: true; clicked => { State.action("hub-calendar-sync", ""); } }
+                ActionButton { text: State.view == 6 ? "Add action" : State.view == 7 ? "Import calendar" : "Refresh"; compact: true; clicked => { State.action(State.view == 6 ? "new-task" : State.view == 7 ? "import-calendar" : "navigate", "5"); } }
+            }
+            HorizontalLayout {
+                spacing: 28px * Theme.scale;
+                VerticalLayout {
+                    alignment: start;
+                    spacing: 18px * Theme.scale;
+                    HorizontalLayout {
+                        height: 30px * Theme.scale;
+                        Text { text: State.view == 2 ? (State.query == "" ? "Recent meetings" : "Search results") : ""; color: Theme.ink; font-size: 19px * Theme.scale; font-weight: 600; }
+                        Hint { text: State.result-summary; font-size: 12px * Theme.scale; }
+                    }
+                    if State.loading: Hint { text: "Loading…"; }
+                    if !State.loading && State.results.length == 0: Hint { text: State.view == 5 ? "Trash is empty." : State.view == 6 ? "No actions yet. Add one here or from your meeting notes." : State.view == 7 ? "No upcoming meetings. Sync a connected calendar or import an .ics file." : "No passages found. Try another phrase."; }
+                    ListView {
+                        height: max(360px * Theme.scale, State.window-height * 1px - 590px * Theme.scale);
+                        for row in State.results: Rectangle {
+                            height: (row.group-title == "" ? 110px : 175px) * Theme.scale;
+                            VerticalLayout {
+                                alignment: start; spacing: 4px * Theme.scale;
+                                if row.group-title != "": VerticalLayout {
+                                    height: 52px * Theme.scale;
+                                    padding: 12px * Theme.scale;
+                                    padding-top: 0px; padding-bottom: 10px * Theme.scale;
+                                    spacing: 4px * Theme.scale;
+                                    Text { text: row.group-title; color: Theme.ink; font-size: 15px * Theme.scale; font-weight: 600; overflow: elide; }
+                                    Hint { text: row.subtitle; font-size: 12px * Theme.scale; }
+                                }
+                                Rectangle {
+                                    height: 110px * Theme.scale;
+                                    border-radius: 8px * Theme.scale;
+                                    border-width: row.id == State.preview-id ? 1px : 0px;
+                                    border-color: Theme.line-strong;
+                                    background: row.id == State.preview-id ? (Theme.dark ? #1c2c30 : #e7f3f1) : transparent;
+                                    TouchArea { mouse-cursor: pointer; clicked => { State.action(State.view == 2 ? (root.width >= 1050px * Theme.scale ? "select-result" : "result-open") : State.view == 6 ? "edit-task" : State.view == 7 ? "hub-calendar-details" : "result-open", row.id); } }
+                                    VerticalLayout {
+                                        padding: 14px * Theme.scale;
+                                        padding-right: (State.view == 5 || State.view == 6 || State.view == 7 ? 190px : 14px) * Theme.scale;
+                                        spacing: 8px * Theme.scale;
+                                        Hint { text: State.view == 2 ? row.kind + " · " + row.stamp + "  ↗" : row.title; color: State.view == 2 ? Theme.teal : Theme.ink; font-size: 12px * Theme.scale; }
+                                        Text { text: State.view == 2 ? row.body : row.subtitle + " · " + row.body; color: Theme.secondary; font-size: 15px * Theme.scale; wrap: word-wrap; overflow: elide; max-lines: 2; }
+                                    }
+                                    if State.view == 6: ActionButton { x: parent.width - 56px * Theme.scale; y: 72px * Theme.scale; icon: Icons.calendar; help: "Set a reminder"; compact: true; flat: true; clicked => { State.action("hub-task-reminder", row.id); } }
+                                    if State.view == 6: ActionButton {
+                                        x: parent.width - self.width - 12px * Theme.scale;
+                                        y: 36px * Theme.scale;
+                                        text: row.body == "done" ? "Reopen" : "Complete";
+                                        icon: Icons.check; compact: true;
+                                        clicked => { State.action(row.body == "done" ? "reopen-task" : "complete-task", row.id); }
+                                    }
+                                    if State.view == 5: HorizontalLayout {
+                                        x: parent.width - self.width - 12px * Theme.scale;
+                                        y: 36px * Theme.scale;
+                                        ActionButton { text: "Restore"; compact: true; clicked => { State.action("result-open", row.id); } }
+                                        ActionButton { icon: Icons.trash; help: "Delete permanently"; destructive: true; compact: true; clicked => { State.action("delete-permanently", row.id); } }
+                                    }
+                                    if State.view == 7: HorizontalLayout {
+                                        x: parent.width - self.width - 12px * Theme.scale;
+                                        y: 36px * Theme.scale;
+                                        ActionButton { text: "Join"; enabled: row.kind != ""; help: row.kind == "" ? "No meeting link on this event" : "Open meeting in its default app"; compact: true; primary: true; clicked => { State.action("join-calendar", row.id); } }
+                                        ActionButton { icon: Icons.trash; help: "Remove calendar event"; compact: true; clicked => { State.action("calendar-remove", row.id); } }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                if State.view == 2 && root.width >= 1050px * Theme.scale: Rectangle {
+                    width: max(240px * Theme.scale, (State.window-width * 1px - (State.window-width >= 2300 ? 300px : State.window-width >= 1280 ? 264px : 232px) * Theme.scale - 96px * Theme.scale) * 0.55);
+                    height: max(440px * Theme.scale, State.window-height * 1px - 485px * Theme.scale);
+                    background: Theme.panel; border-width: 1px; border-color: Theme.line; border-radius: 12px * Theme.scale;
+                    VerticalLayout {
+                        padding: 28px * Theme.scale; spacing: 16px * Theme.scale;
+                        Rectangle { height: 28px * Theme.scale; width: preview-kind.preferred-width + 20px * Theme.scale; background: Theme.dark ? #1d2e32 : #e1f0ed; border-radius: 5px * Theme.scale; preview-kind := Text { x: 10px * Theme.scale; height: parent.height; text: State.preview-kind; color: Theme.teal; font-size: 13px * Theme.scale; vertical-alignment: center; } }
+                        Text { text: State.preview-title == "" ? "Select a passage" : State.preview-title; color: Theme.ink; font-size: 23px * Theme.scale; font-weight: 600; letter-spacing: -0.575px * Theme.scale; wrap: word-wrap; }
+                        Hint { text: State.preview-date; }
+                        Divider { }
+                        Text { text: State.preview-body == "" ? "Choose a result to read it in the context of your meeting." : State.preview-body; color: Theme.ink; font-size: 18px * Theme.scale; wrap: word-wrap; line-height-factor: 1.3; }
+                        Rectangle { vertical-stretch: 1; }
+                        ActionButton { text: "Open at " + State.preview-stamp; primary: true; enabled: State.preview-id != ""; clicked => { State.action("result-open", State.preview-id); } }
+                        ActionButton { text: "Copy passage"; compact: true; flat: true; enabled: State.preview-id != ""; clicked => { State.action("copy-passage", ""); } }
+                    }
+                }
+            }
+        }
+    }
+}
+
+export component SettingsScreen inherits Rectangle {
+    background: Theme.ground;
+    property <bool> narrow: root.width < 900px * Theme.scale;
+    property <[string]> categories: ["General", "Recording", "Transcription", "Notes & AI", "Library & backups", "Automation", "Experimental", "Privacy & security"];
+    VerticalLayout {
+        padding: 24px * Theme.scale; spacing: 18px * Theme.scale;
+        HorizontalLayout {
+            PageHeading { text: "Settings"; }
+            Rectangle { horizontal-stretch: 1; }
+            ActionButton { text: "Connections"; icon: Icons.link; compact: true; flat: true; clicked => { State.action("hub-tab", "8"); } }
+        }
+        if root.narrow: ComboBox { model: root.categories; current-index <=> State.settings-tab; selected(value) => { State.action("settings", "" + self.current-index); } }
+        HorizontalLayout {
+            spacing: 28px * Theme.scale;
+            if !root.narrow: VerticalLayout {
+                width: 212px * Theme.scale; spacing: 5px * Theme.scale;
+                Field { text <=> State.settings-query; icon: Icons.search; text-size: 14px * Theme.scale; placeholder: "Find a category…"; }
+                for name[index] in root.categories: ActionButton {
+                    visible: State.matches-setting(name, State.settings-query);
+                    height: self.visible ? 44px * Theme.scale : 0px;
+                    text: name; icon: [Icons.settings,Icons.microphone,Icons.audio,Icons.notes,Icons.drive,Icons.link,Icons.help,Icons.shield][index];
+                    compact: true; flat: true; left-aligned: true; selected: State.settings-tab == index;
+                    selected-background: Theme.dark ? #1d2e32 : #e1f0ed;
+                    clicked => { State.action("settings", "" + index); }
+                }
+                Rectangle { vertical-stretch: 1; }
+            }
+            ScrollView { horizontal-stretch: 1;
+                VerticalLayout { spacing: 20px * Theme.scale; padding-right: 8px * Theme.scale; alignment: start;
+                    VerticalLayout { vertical-stretch: 0; alignment: start; spacing: 8px * Theme.scale; padding-top: 0px; padding-bottom: 2px * Theme.scale;
+                        if !root.narrow: Text { text: ["General", "Recording", "Transcription", "Notes & AI", "Library & backups", "Automation", "Experimental", "Privacy & security"][State.settings-tab]; color: Theme.ink; font-size: 24px * Theme.scale; font-weight: 600; }
+                        Hint { text: State.settings-tab == 5 && (State.edition-auto-assign || State.edition-briefs) ? "File meetings and prepare for the next one. Give your assistant and scripts deliberate, revocable access." : ["Make the workspace comfortable, choose what is saved, and control notifications.","Choose your audio sources and how recordings are saved.","Choose the engine that turns your audio into a transcript.","Set the language and model used to turn transcripts into notes.","Semantic search, encrypted backups and local runtime diagnostics.","Give your assistant and scripts deliberate, revocable access.","Try features that are still being refined.","Protect recordings, manage authorizations and review data handling."][State.settings-tab]; font-size: 14px * Theme.scale; line-height-factor: 1.3; }
+                        Hint { text: State.settings-tab == 2 || State.settings-tab == 3 ? "Save your provider settings after making changes." : "Changes save automatically unless a Save button is shown."; font-size: 12px * Theme.scale; }
+                    }
+                    Divider { }
+                if State.settings-tab == 7: PrivacySettings {}
+                if State.settings-tab == 0: VerticalLayout {
+                    spacing: 12px * Theme.scale;
+                    Text { text: "Reading & display"; color: Theme.ink; font-size: 18px * Theme.scale; font-weight: 600; }
+                    Hint { text: "See more at a glance, or give the words more room."; }
+                    Rectangle {
+                        min-height: 280px * Theme.scale;
+                        background: Theme.panel; border-radius: 10px * Theme.scale; border-width: 1px; border-color: Theme.line;
+                        HorizontalLayout {
+                            padding: 24px * Theme.scale; spacing: 28px * Theme.scale;
+                            VerticalLayout {
+                                alignment: start; vertical-stretch: 0; spacing: 12px * Theme.scale;
+                                Text { text: "Text size"; color: Theme.ink; font-size: 16px * Theme.scale; font-weight: 600; }
+                                Hint { text: "Choose a comfortable size for transcripts and notes."; font-size: 13px * Theme.scale; }
+                                for name[index] in ["Comfortable", "Large", "Extra large"]: ReadingChoice { text: name; description: ["More content in view","A little more breathing room","Easier reading at a distance"][index]; checked: State.reading-size == index; clicked => { State.action("reading-size", "" + index); } }
+                            }
+                            Rectangle {
+                                visible: root.width > 1200px * Theme.scale; width: self.visible ? 230px * Theme.scale : 0px; background: Theme.dark ? #1b292e : #edf7f6; border-radius: 8px * Theme.scale;
+                                VerticalLayout {
+                                    padding: 26px * Theme.scale; spacing: 18px * Theme.scale;
+                                    Hint { text: "Text preview"; font-size: 11px * Theme.scale; }
+                                    Text { text: "A clearer view of the conversation"; color: Theme.ink; font-size: [19.8px,22px,26.4px][State.reading-size] * Theme.scale; font-weight: 600; wrap: word-wrap; }
+                                    Text { text: "Keep the important details close. Read the transcript, check the source, and pick up where you left off."; color: Theme.secondary; font-size: [18px,20px,24px][State.reading-size] * Theme.scale; wrap: word-wrap; line-height-factor: 1.3; }
+                                    Hint { text: "Transcript · 02:14"; color: Theme.teal; }
+                                }
+                            }
+                        }
+                    }
+                    Text { text: "Notifications"; color: Theme.ink; font-size: 18px * Theme.scale; font-weight: 600; }
+                    Rectangle {
+                        height: 96px * Theme.scale; background: Theme.panel; border-width: 1px; border-color: Theme.line; border-radius: 10px * Theme.scale;
+                        HorizontalLayout { padding: 24px * Theme.scale; spacing: 16px * Theme.scale;
+                            VerticalLayout { Text { text: "Meeting notifications"; color: Theme.ink; font-size: 16px * Theme.scale; } Hint { text: "Let me know when a recording starts or stops."; } }
+                            VerticalLayout { alignment: center; SwitchControl { checked <=> State.notifications; toggled(value) => { State.action("notifications", value ? "true" : "false"); } } }
+                        }
+                    }
+                    Text { text: "Storage"; color: Theme.ink; font-size: 18px * Theme.scale; font-weight: 600; }
+                    Hint { text: "Your meeting files are saved on this device."; }
+                    Rectangle {
+                        background: Theme.panel; border-width: 1px; border-color: Theme.line; border-radius: 10px * Theme.scale;
+                        VerticalLayout { padding: 24px * Theme.scale; spacing: 16px * Theme.scale;
+                            HorizontalLayout { VerticalLayout { Text { text: "Meeting recordings"; color: Theme.ink; font-size: 16px * Theme.scale; } Hint { text: State.folder; } } ActionButton { text: "Open folder"; icon: Icons.library; compact: true; clicked => { State.action("open-recording-folder", ""); } } }
+                            Divider { }
+                            HorizontalLayout { VerticalLayout { Text { text: "Transcripts & notes"; color: Theme.ink; font-size: 16px * Theme.scale; } Hint { text: "Open the application folder containing your meeting database."; } } ActionButton { text: "Open folder"; compact: true; clicked => { State.action("open-database-folder", ""); } } }
+                        }
+                    }
+                    Text { text: "Privacy"; color: Theme.ink; font-size: 18px * Theme.scale; font-weight: 600; }
+                    Hint { text: "Overtalk does not collect usage telemetry. External AI providers and connections run only when you configure them."; }
+                    Text { text: "Motion"; color: Theme.ink; font-size: 18px * Theme.scale; font-weight: 600; }
+                    Hint { text: "Subtle feedback for controls and important changes. System preference is read when Overtalk starts."; }
+                    ChoiceControl { model: ["Follow system", "Reduced motion", "Full motion"]; current-index <=> State.motion-mode; selected(index) => { State.action("motion-mode", "" + index); } }
+                    Text { text: "Keep Overtalk in the system tray"; color: Theme.ink; font-size: 18px * Theme.scale; font-weight: 600; }
+                    Hint { text: "Closing the window keeps recording and background work running. Use Quit Overtalk in the tray to exit."; }
+                    SwitchControl { checked <=> State.close-to-tray; }
+                    if State.autostart-available: VerticalLayout { spacing: 12px * Theme.scale;
+                        Text { text: "Open Overtalk when you sign in"; color: Theme.ink; font-size: 18px * Theme.scale; font-weight: 600; }
+                        Hint { text: "Reminders and briefs before meetings need Overtalk running."; }
+                        SwitchControl { checked <=> State.autostart; toggled(value) => { State.action("automation-autostart", value ? "true" : "false"); } }
+                    }
+                    Text { text: "Edition"; color: Theme.ink; font-size: 18px * Theme.scale; font-weight: 600; }
+                    Hint { text: State.edition-detail == "" ? State.edition-name : State.edition-name + " · " + State.edition-detail; }
+                }
+                if State.settings-tab == 1: VerticalLayout {
+                    spacing: 12px;
+                    Hint {
+                        text: "Recordings folder";
+                    }
+
+                    Text {
+                        text: State.folder;
+                        color: Theme.ink;
+                        font-size: Theme.body;
+                        wrap: word-wrap;
+                    }
+
+                    HorizontalLayout {
+                        alignment: start;
+                        spacing: 8px;
+                        ActionButton {
+                            text: "Change folder";
+                            clicked => { State.action("recording-folder", ""); }
+                        }
+
+                        ActionButton {
+                            text: "Open folder";
+                            clicked => { State.action("open-recording-folder", ""); }
+                        }
+                    }
+                }
+                if State.settings-tab == 3: VerticalLayout {
+                    spacing: 10px;
+                    Text { text: "After a meeting"; color: Theme.ink; font-size: 18px * Theme.scale; font-weight: 600; }
+                    HorizontalLayout { Hint { text: "Generate notes automatically after saving a recording"; } SwitchControl { checked <=> State.auto-summary; } }
+                    Hint { text: "Default notes language (auto, en, de, pt, es, fr, or another language code)"; }
+                    Field { text <=> State.default-summary-language; placeholder: "auto"; }
+                    CloudCredits { }
+                }
+                if State.settings-tab == 2 || State.settings-tab == 3: VerticalLayout {
+                    vertical-stretch: 0;
+                    alignment: start;
+                    spacing: 12px;
+                    Hint {
+                        text: "Provider";
+                    }
+
+                    ActionButton {
+                        text: State.provider == "" ? "Choose provider" : State.provider == "privatemode" ? "Privatemode · encrypted cloud AI" : State.provider == "overtalk-cloud" ? "Private AI summaries" : State.provider;
+                        icon: Icons.chevron; left-aligned: true;
+                        clicked => { State.action("choose-provider", ""); }
+                    }
+
+                    Hint {
+                        text: "Model";
+                    }
+
+                    Field {
+                        text <=> State.model;
+                        placeholder: "Model name";
+                    }
+
+                    if State.provider == "privatemode": Rectangle {
+                        background: Theme.teal.with-alpha(10%);
+                        border-radius: 8px;
+                        min-height: 74px;
+                        VerticalLayout {
+                            padding: 12px;
+                            spacing: 6px;
+                            Text { text: "Private cloud models"; color: Theme.teal; font-weight: 600; font-size: 15px * Theme.scale; }
+                            Text { text: "Use the official Privatemode proxy on this device. It verifies and encrypts requests before they leave your computer."; color: Theme.muted; wrap: word-wrap; font-size: 13px * Theme.scale; }
+                        }
+                    }
+                    if State.provider == "ollama" || State.provider == "custom-openai" || State.provider == "privatemode": VerticalLayout {
+                        vertical-stretch: 0;
+                        alignment: start;
+                        spacing: 8px;
+                        Hint { text: State.provider == "privatemode" ? "Local proxy address" : "Provider endpoint"; }
+                        Field { text <=> State.endpoint; placeholder: State.provider == "ollama" ? "http://localhost:11434" : State.provider == "privatemode" ? "http://127.0.0.1:8080/v1" : "https://provider.example/v1"; }
+                    }
+                    if State.provider != "" && State.provider != "localWhisper" && State.provider != "localSpeech" && State.provider != "parakeet" && State.provider != "builtin-ai" && State.provider != "ollama" && State.provider != "overtalk-cloud": VerticalLayout {
+                        vertical-stretch: 0;
+                        alignment: start;
+                        spacing: 8px;
+                        Hint { text: "API key · stored in your OS keychain"; }
+                        Field { text <=> State.api-key; password: true; placeholder: State.provider == "privatemode" ? "Leave empty to use the saved key or proxy's key" : "Leave empty to keep the saved key"; }
+                    }
+
+                    if State.provider == "custom-openai": ActionButton { text: "Advanced generation settings"; clicked => { State.action("advanced-provider", ""); } }
+                    HorizontalLayout {
+                        alignment: start;
+                        spacing: 8px;
+                        ActionButton {
+                            text: "Save provider";
+                            enabled: State.provider != "" && State.model != "";
+                            primary: true;
+                            clicked => { State.action("save-provider", ""); }
+                        }
+
+                        ActionButton {
+                            text: State.provider == "privatemode" ? "Connect & list models" : "Manage models";
+                            clicked => { State.action("manage-models", ""); }
+                        }
+                    }
+                    if State.provider == "privatemode": ActionButton {
+                        text: "Proxy setup guide";
+                        clicked => { State.action("privatemode-help", ""); }
+                    }
+                }
+                if State.settings-tab == 4: VerticalLayout {
+                    spacing: 10px;
+                    ActionButton {
+                        text: "Create encrypted backup";
+                        clicked => { State.action("create-backup", ""); }
+                    }
+
+                    ActionButton {
+                        text: "Restore backup";
+                        clicked => { State.action("restore-backup", ""); }
+                    }
+
+                    ActionButton {
+                        text: "Rebuild search index";
+                        clicked => { State.action("index-library", ""); }
+                    }
+                }
+                if State.settings-tab == 5 && (State.edition-auto-assign || State.edition-briefs): VerticalLayout {
+                    spacing: 12px * Theme.scale;
+                    Text { text: "Meetings and projects"; color: Theme.ink; font-size: 18px * Theme.scale; font-weight: 600; }
+                    Hint { text: "Every automatic choice shows its reason, and your own choice always wins."; }
+                    Rectangle {
+                        background: Theme.panel; border-width: 1px; border-color: Theme.line; border-radius: 10px * Theme.scale;
+                        VerticalLayout { padding: 24px * Theme.scale; spacing: 16px * Theme.scale;
+                            if State.edition-auto-assign: AutomationChoice { title: "Automatic filing"; description: "Files meetings in a project from invitees, organisation, title and recurring series."; model: ["When confident", "Suggest only", "Off"]; current-index <=> State.automation-assign; selected(index) => { State.action("automation-assign", "" + index); } }
+                            if State.edition-auto-assign && State.edition-briefs: Divider { }
+                            if State.edition-briefs: AutomationChoice { title: "Briefs before meetings"; description: "Decisions, open actions and questions from earlier meetings."; model: ["Project meetings", "All meetings with invitees", "Off"]; current-index <=> State.automation-briefs; selected(index) => { State.action("automation-briefs", "" + index); } }
+                            if State.edition-briefs: Divider { }
+                            if State.edition-briefs: AutomationChoice { title: "Reminder"; description: "A notice before the meeting starts, with its brief."; model: State.automation-reminders; current-index <=> State.automation-reminder; selected(index) => { State.action("automation-reminder", "" + index); } }
+                        }
+                    }
+                }
+                for row in State.details: Rectangle {
+                    min-height: 90px * Theme.scale;
+                    background: Theme.panel;
+                    border-radius: 7px;
+                    HorizontalLayout {
+                        padding: 14px;
+                        spacing: 12px;
+                        VerticalLayout {
+                            spacing: 5px;
+                            Text {
+                                text: row.title;
+                                color: Theme.ink;
+                                font-size: Theme.body;
+                                font-weight: 500;
+                                wrap: word-wrap;
+                            }
+
+                            Hint {
+                                text: row.description;
+                            }
+
+                            if row.value != "": Hint {
+                                text: row.value;
+                            }
+                        }
+
+                        ActionButton {
+                            text: row.checked ? "On" : "Configure";
+                            compact: true;
+                            clicked => { State.action("setting-row", row.id); }
+                        }
+                    }
+                }
+                if State.settings-tab == 5: VerticalLayout {
+                    spacing: 12px * Theme.scale;
+                    Text { text: "AI assistants"; color: Theme.ink; font-size: 18px * Theme.scale; font-weight: 600; }
+                    Hint { text: State.assistants-on ? "Run one command in a terminal to add Overtalk to an assistant, then restart it. Its other settings are kept. It reads only what you allow in Connections, and your meetings stay on this computer." : "Off. To let an assistant such as Claude Code or Cursor read your meetings, turn on MCP access or Command line access in Connections and choose what it may read."; }
+                    if State.assistants-on: Rectangle {
+                        background: Theme.panel; border-width: 1px; border-color: Theme.line; border-radius: 10px * Theme.scale;
+                        VerticalLayout { padding: 24px * Theme.scale; spacing: 14px * Theme.scale;
+                            for row[index] in State.assistant-commands: VerticalLayout {
+                                spacing: 14px * Theme.scale;
+                                if index > 0: Divider { }
+                                HorizontalLayout { spacing: 16px * Theme.scale;
+                                    VerticalLayout { spacing: 4px * Theme.scale; alignment: center; horizontal-stretch: 1;
+                                        Text { text: row.title; color: Theme.ink; font-size: 16px * Theme.scale; }
+                                        if row.description != "": Hint { text: row.description; }
+                                        Text { text: row.value; color: Theme.ink; font-family: "monospace"; font-size: 13px * Theme.scale; wrap: word-wrap; }
+                                    }
+                                    VerticalLayout { alignment: center;
+                                        ActionButton { text: "Copy"; help: "Copy the command for " + row.title; icon: Icons.copy; compact: true; clicked => { State.action("assistant-copy", row.id); } }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                }
+            }
+        }
+    }
+}

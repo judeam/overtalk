@@ -1,0 +1,66 @@
+{
+  "id": "dev-status",
+  "split": "development",
+  "difficulty": "normal",
+  "language": "en",
+  "domain": "engineering standup",
+  "provenance": "Newly authored synthetic diagnostic; no real personal data; not a recording.",
+  "transcript": "[00:00] Ava: The receipt export is already deployed. I sent the customer email yesterday.\n[00:10] Noah: Great. I checked the logs this morning; no new export failures.\n[00:20] Ava: One issue remains: the date column wraps on narrow screens.\n[00:30] Noah: I will fix the date-column layout by Thursday. I am not touching the CSV schema.\n[00:40] Mina: Could we also add PDF export?\n[00:50] Ava: That is an idea for next quarter, not an approved task.\n[01:00] Mina: Agreed. Is support coverage available on Friday?\n[01:10] Noah: We don't know yet. Let's leave that question open.",
+  "facts": [
+    {
+      "id": "F1",
+      "assertion": "Receipt export is already deployed.",
+      "evidence": [
+        1
+      ]
+    },
+    {
+      "id": "F2",
+      "assertion": "The customer email was already sent yesterday.",
+      "evidence": [
+        1
+      ]
+    },
+    {
+      "id": "F3",
+      "assertion": "The remaining defect is the date-column layout on narrow screens.",
+      "evidence": [
+        3
+      ]
+    },
+    {
+      "id": "F4",
+      "assertion": "Noah committed to fix that layout by Thursday.",
+      "evidence": [
+        4
+      ]
+    },
+    {
+      "id": "F5",
+      "assertion": "The CSV schema is excluded.",
+      "evidence": [
+        4
+      ]
+    },
+    {
+      "id": "F6",
+      "assertion": "PDF export is an unapproved future idea.",
+      "evidence": [
+        5,
+        6
+      ]
+    },
+    {
+      "id": "F7",
+      "assertion": "Friday support coverage remains unresolved.",
+      "evidence": [
+        7,
+        8
+      ]
+    }
+  ],
+  "forbidden": [
+    "Do not create future deploy/email/log-check tasks.",
+    "Do not assign support or PDF export to Mina."
+  ]
+}

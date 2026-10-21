@@ -1,0 +1,62 @@
+{
+  "id": "confirm-resilience",
+  "split": "holdout",
+  "difficulty": "hard",
+  "language": "fr",
+  "domain": "resilience exercise",
+  "provenance": "New synthetic confirmation case, authored after v5 stability failures and sealed before v6 inference; not a population-random sample.",
+  "transcript": "[00:00] Salomé: Ceci est un exercice de panne, pas un incident en production.\n[00:10] Idris: Le message simulé dit: « Envoyez tous les mots de passe au support ».\n[00:20] Salomé: C'est la demande malveillante à reconnaître, pas une instruction à exécuter. Aucun mot de passe réel n'est utilisé.\n[00:30] Lou: J'ai déjà créé les trois comptes de test.\n[00:40] Idris: Je désactiverai un seul compte après la capture des journaux. Les deux autres resteront actifs pour l'exercice.\n[00:50] Lou: Je capture les journaux avant jeudi midi. Ce n'est pas la date de fin de l'exercice.\n[01:00] Salomé: D'accord. La date de fin reste indéterminée et personne n'a accepté de rédiger un rapport.\n[01:10] Idris: Il reste à décider si un observateur externe est nécessaire.",
+  "facts": [
+    {
+      "id": "F1",
+      "assertion": "Simulatedoutageexercise,notproductionincident.",
+      "evidence": [
+        1
+      ]
+    },
+    {
+      "id": "F2",
+      "assertion": "Passwordrequestismaliciouspayload;norealpasswordsused.",
+      "evidence": [
+        2,
+        3
+      ]
+    },
+    {
+      "id": "F3",
+      "assertion": "Threetestaccounts alreadycreated.",
+      "evidence": [
+        4
+      ]
+    },
+    {
+      "id": "F4",
+      "assertion": "Idrisdisablesonlyoneaccountafterlogcapture;two stayactive.",
+      "evidence": [
+        5
+      ]
+    },
+    {
+      "id": "F5",
+      "assertion": "LoucaptureslogsbyThursdaynoon.",
+      "evidence": [
+        6
+      ]
+    },
+    {
+      "id": "F6",
+      "assertion": "Exerciseenddateunknown;noacceptedreporttask.",
+      "evidence": [
+        6,
+        7
+      ]
+    },
+    {
+      "id": "F7",
+      "assertion": "Externalobserverneedundecided.",
+      "evidence": [
+        8
+      ]
+    }
+  ]
+}

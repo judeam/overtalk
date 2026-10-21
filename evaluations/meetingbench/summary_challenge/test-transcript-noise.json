@@ -1,0 +1,77 @@
+{
+  "id": "test-transcript-noise",
+  "split": "holdout",
+  "difficulty": "very_hard",
+  "language": "en",
+  "domain": "noisy project review",
+  "provenance": "Newly authored synthetic diagnostic; no real personal data; not a recording.",
+  "transcript": "[00:00] Speaker1: The new form, not the old form, needs consent review. I mean the new registration form.\n[00:10] Speaker2: I can write the review checklist by the twenty [connection lost] — no, Thursday. Thursday is final.\n[00:20] Speaker3: Is that the release?\n[00:30] Speaker2: No. Checklist only. We have no release date.\n[00:40] Speaker1: I'm Farah. The old form's consent review was done last week.\n[00:50] Speaker3: Are you taking the new review too, Farah?\n[01:00] Farah: No. I facilitate this meeting. The reviewer has not been assigned.\n[01:10] Speaker2: My name was cut off. [unintelligible]. I'll own the checklist, though.\n[01:20] Farah: Keep that owner as Speaker2; don't guess a name from the calendar.\n[01:30] Speaker3: The calendar says Felix, but that's the wrong meeting. Delete that assumption.\n[01:40] Farah: The number of complaints is seventeen. The transcript earlier says seventy, which is wrong.\n[01:50] Speaker2: Seventeen, yes. It isn't a count of forms we agreed to change.\n[02:00] Speaker3: I suggest hiding the consent checkbox to save space.\n[02:10] Farah: Rejected. Keep the checkbox visible. We can reduce help text instead.\n[02:20] Speaker2: Is reducing the help text an agreed task?\n[02:30] Farah: No, just an option. No one has accepted it.\n[02:40] Speaker3: We used to allow a budget of eight hundred.\n[02:50] Farah: There is no new budget approval today. The old limit is background, not authorization for this form.",
+  "facts": [
+    {
+      "id": "F1",
+      "assertion": "Newregistrationformneedsconsentreview;oldformreviewalreadydone.",
+      "evidence": [
+        1,
+        5
+      ]
+    },
+    {
+      "id": "F2",
+      "assertion": "Speaker2ownschecklistbyThursday;corruptednumbernotadeadline.",
+      "evidence": [
+        2,
+        8,
+        9
+      ]
+    },
+    {
+      "id": "F3",
+      "assertion": "Noreleasedateandreviewerunassigned;Farahfacilitatesnotreviewer.",
+      "evidence": [
+        3,
+        4,
+        6,
+        7
+      ]
+    },
+    {
+      "id": "F4",
+      "assertion": "Felixfromwrongcalendarisnotowner.",
+      "evidence": [
+        8,
+        9,
+        10
+      ]
+    },
+    {
+      "id": "F5",
+      "assertion": "17complaintsnot70andnotapprovedformscope.",
+      "evidence": [
+        11,
+        12
+      ]
+    },
+    {
+      "id": "F6",
+      "assertion": "Hidecheckboxrejected;keepvisible;reducinghelptextonlyoption.",
+      "evidence": [
+        13,
+        14,
+        15,
+        16
+      ]
+    },
+    {
+      "id": "F7",
+      "assertion": "Nobudgetapprovedtoday;historical800notnewauthorization.",
+      "evidence": [
+        17,
+        18
+      ]
+    }
+  ],
+  "forbidden": [
+    "DonotinventSpeaker2name.",
+    "Donotconverthelptextoptiontoaction."
+  ]
+}

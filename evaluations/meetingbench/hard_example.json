@@ -1,0 +1,332 @@
+{
+  "id": "hard_example",
+  "title": "[Synthetic hard] Bristol shipment — English + German, five speakers",
+  "count_toward_200": false,
+  "reference_status": "Assistant-authored synthetic listening trial; not native-speaker validated",
+  "people": [
+    {
+      "id": "anna",
+      "name": "Anna",
+      "voice": "Leda",
+      "style": "Adult woman logistics manager, fluent German and English, native German accent, firm and slightly impatient, spontaneous conversation."
+    },
+    {
+      "id": "lukas",
+      "name": "Lukas",
+      "voice": "Puck",
+      "style": "Adult man warehouse lead, native German, fluent English with German accent, defensive when interrupted, natural conversation."
+    },
+    {
+      "id": "priya",
+      "name": "Priya",
+      "voice": "Kore",
+      "style": "Adult woman customer lead, clear Indian English, urgent but professional, natural conversation."
+    },
+    {
+      "id": "ben",
+      "name": "Ben",
+      "voice": "Charon",
+      "style": "Adult man finance analyst, Scottish English accent, low register, precise, sometimes frustrated, natural conversation."
+    },
+    {
+      "id": "eva",
+      "name": "Eva",
+      "voice": "Aoede",
+      "style": "Adult woman quality specialist, native German, fluent English with German accent, emphatic and technical, natural conversation."
+    }
+  ],
+  "turns": [
+    {
+      "id": "T001",
+      "speaker": "anna",
+      "text": "Anna hier. Wir müssen die Lieferung nach Bristol klären. Bitte keine Vermutungen als Fakten weitergeben. Priya, what has the customer actually been told?",
+      "emotion": "calm"
+    },
+    {
+      "id": "T002",
+      "speaker": "priya",
+      "text": "Priya speaking. They were promised forty-eight crates on Thursday morning. Their installation team is already booked. They want a yes or no before five today.",
+      "emotion": "calm"
+    },
+    {
+      "id": "T003",
+      "speaker": "lukas",
+      "text": "Lukas hier. Vierundachtzig Kisten stehen auf der Liste, nicht achtundvierzig. Ich habe den Auftrag vor mir. Das Problem ist der falsche Lieferschein.",
+      "group": "counts",
+      "emotion": "angry"
+    },
+    {
+      "id": "T004",
+      "speaker": "priya",
+      "text": "No, forty-eight is the customer order. Eighty-four is the stock transfer. Those are different jobs. Please don't send the whole warehouse to Bristol.",
+      "group": "counts",
+      "emotion": "angry"
+    },
+    {
+      "id": "T005",
+      "speaker": "eva",
+      "text": "Eva hier. Genau. Achtundvierzig bestellt, vierundachtzig im internen Transfer. Aber sechs der achtundvierzig Kisten haben noch kein Prüfsiegel.",
+      "emotion": "calm"
+    },
+    {
+      "id": "T006",
+      "speaker": "ben",
+      "text": "Ben here. I heard sixty untested crates. If that's right, we cannot ship anything. Can someone repeat the number without talking over each other?",
+      "emotion": "calm"
+    },
+    {
+      "id": "T007",
+      "speaker": "eva",
+      "text": "Six, not sixty. Sechs Kisten sind noch nicht freigegeben. Zweiundvierzig haben die Prüfung bestanden. Ich spreche langsam, weil die Verbindung schlecht ist.",
+      "emotion": "calm"
+    },
+    {
+      "id": "T008",
+      "speaker": "anna",
+      "text": "Danke. Forty-eight ordered, forty-two approved, six awaiting inspection. Lukas, can the forty-two leave today, without mixing in the six?",
+      "emotion": "calm"
+    },
+    {
+      "id": "T009",
+      "speaker": "lukas",
+      "text": "Ja, wenn wir die sechs sofort sperren. Aber die Palette ist schon foliert. Neu sortieren dauert ungefähr eine Stunde. Der normale Laster fährt in vierzig Minuten.",
+      "emotion": "calm"
+    },
+    {
+      "id": "T010",
+      "speaker": "priya",
+      "text": "Could we send the six now and email the certificates later? The customer says their team can inspect them on arrival.",
+      "group": "inspection",
+      "emotion": "angry"
+    },
+    {
+      "id": "T011",
+      "speaker": "eva",
+      "text": "Nein. Das ist keine Dokumentenfrage. Bei zwei Kisten gibt es einen offenen Temperaturbefund. Ohne Prüfung werden die sechs nicht versandt.",
+      "group": "inspection",
+      "emotion": "angry"
+    },
+    {
+      "id": "T012",
+      "speaker": "anna",
+      "text": "Agreed. Sending unapproved crates is rejected. Lukas, quarantine those six and prepare the forty-two separately. Don't relabel anything as approved.",
+      "emotion": "calm"
+    },
+    {
+      "id": "T013",
+      "speaker": "ben",
+      "text": "The draft says express transport costs nine thousand six hundred euros. We can't approve that against this order's margin.",
+      "emotion": "calm"
+    },
+    {
+      "id": "T014",
+      "speaker": "lukas",
+      "text": "Das Angebot war für den gesamten Transfer. Für Bristol allein sind es neunhundertsechzig Euro. Neunhundertsechzig, nicht neuntausendsechshundert.",
+      "emotion": "calm"
+    },
+    {
+      "id": "T015",
+      "speaker": "ben",
+      "text": "Okay, nine hundred and sixty for this shipment. Is that the final invoice, or just a ceiling? The notes need to distinguish those.",
+      "emotion": "calm"
+    },
+    {
+      "id": "T016",
+      "speaker": "anna",
+      "text": "A ceiling. I approve up to nine hundred and sixty euros for the forty-two cleared crates. Any amount above that comes back to me before booking.",
+      "emotion": "calm"
+    },
+    {
+      "id": "T017",
+      "speaker": "priya",
+      "text": "Then I'll tell the customer forty-two crates arrive Thursday morning and the remaining six arrive Friday. That at least gives them something firm.",
+      "emotion": "calm"
+    },
+    {
+      "id": "T018",
+      "speaker": "eva",
+      "text": "Freitag ist noch nicht bestätigt. Die Prüfung kann morgen fertig werden, aber wenn der Temperaturbefund bleibt, müssen wir Ersatz suchen.",
+      "emotion": "calm"
+    },
+    {
+      "id": "T019",
+      "speaker": "anna",
+      "text": "Please don't promise Friday. The forty-two can be planned for Thursday only after the carrier confirms. There is no delivery commitment for the remaining six.",
+      "emotion": "calm"
+    },
+    {
+      "id": "T020",
+      "speaker": "ben",
+      "text": "Who is booking the carrier? I wrote down Priya, but she seems to own the customer conversation rather than transport.",
+      "emotion": "calm"
+    },
+    {
+      "id": "T021",
+      "speaker": "lukas",
+      "text": "Ich buche den Transport. Priya spricht mit dem Kunden. Ich brauche die schriftliche Freigabe und die Palettennummern bis sechzehn Uhr dreißig.",
+      "emotion": "calm"
+    },
+    {
+      "id": "T022",
+      "speaker": "eva",
+      "text": "Ich schicke dir die Liste der zweiundvierzig freigegebenen Kisten bis sechzehn Uhr fünfzehn. Die sechs gesperrten stehen separat auf einer zweiten Liste.",
+      "emotion": "calm"
+    },
+    {
+      "id": "T023",
+      "speaker": "anna",
+      "text": "Good. Lukas books by sixteen thirty, once Eva's approved list is in. Priya, send the customer update by seventeen fifteen, and copy me.",
+      "emotion": "calm"
+    },
+    {
+      "id": "T024",
+      "speaker": "priya",
+      "text": "Seventeen fifteen is later than the customer's request for five. I can send an interim update at sixteen forty-five, then the final transport details at seventeen fifteen.",
+      "emotion": "calm"
+    },
+    {
+      "id": "T025",
+      "speaker": "anna",
+      "text": "Yes. Interim update at sixteen forty-five, confirmed transport details by seventeen fifteen. Explain that the six crates remain under inspection, with no promised arrival date.",
+      "emotion": "calm"
+    },
+    {
+      "id": "T026",
+      "speaker": "ben",
+      "text": "I've just received the carrier note. It says nine hundred and sixty excludes a two hundred euro fuel charge. So the current quote is eleven hundred and sixty.",
+      "group": "cost",
+      "emotion": "angry"
+    },
+    {
+      "id": "T027",
+      "speaker": "lukas",
+      "text": "Dann passt das Angebot nicht zur Freigabe. Ich kann einen anderen Anbieter anrufen. Bitte nicht einfach die Grenze erhöhen, bevor wir verglichen haben.",
+      "group": "cost",
+      "emotion": "angry"
+    },
+    {
+      "id": "T028",
+      "speaker": "anna",
+      "text": "Keep the ceiling at nine hundred and sixty. Lukas, ask for an all-inclusive quote. If no carrier accepts, escalate to me; don't book over the limit.",
+      "emotion": "calm"
+    },
+    {
+      "id": "T029",
+      "speaker": "eva",
+      "text": "Die sechs Kisten sind jetzt im System gesperrt. Das ist erledigt. Die Liste für die zweiundvierzig fehlt noch; die schicke ich wie vereinbart um sechzehn Uhr fünfzehn.",
+      "emotion": "calm"
+    },
+    {
+      "id": "T030",
+      "speaker": "ben",
+      "text": "So quarantining the six is completed, but the approved list and transport booking are still open. I'll record the extra fuel charge as an unapproved proposal.",
+      "emotion": "calm"
+    },
+    {
+      "id": "T031",
+      "speaker": "priya",
+      "text": "And the customer's installation cancellation fee? They mentioned it in their message, but I haven't accepted responsibility or agreed to pay it.",
+      "emotion": "calm"
+    },
+    {
+      "id": "T032",
+      "speaker": "anna",
+      "text": "Leave that unresolved. Send the claim to legal for review, Priya, by tomorrow at ten. This call does not approve compensation.",
+      "emotion": "calm"
+    },
+    {
+      "id": "T033",
+      "speaker": "eva",
+      "text": "Zur Zusammenfassung: achtundvierzig bestellt, zweiundvierzig freigegeben, sechs gesperrt. Für die sechs gibt es noch keinen Liefertermin. Keine Freigabe ohne Prüfung.",
+      "emotion": "calm"
+    },
+    {
+      "id": "T034",
+      "speaker": "lukas",
+      "text": "Ich hole ein Angebot inklusive aller Zuschläge und buche bis sechzehn Uhr dreißig, wenn es unter neunhundertsechzig Euro bleibt. Sonst melde ich mich bei Anna.",
+      "emotion": "calm"
+    },
+    {
+      "id": "T035",
+      "speaker": "priya",
+      "text": "I send an interim customer update at sixteen forty-five, transport details by seventeen fifteen, and the compensation claim to legal by ten tomorrow. No promise for the six.",
+      "emotion": "calm"
+    },
+    {
+      "id": "T036",
+      "speaker": "anna",
+      "text": "Exactly. The Thursday plan for forty-two crates depends on carrier confirmation. Quarantine is done, inspection and booking are still open. We'll regroup at sixteen thirty-five.",
+      "emotion": "calm"
+    }
+  ],
+  "languages": [
+    "en",
+    "de"
+  ],
+  "difficulty": "hard",
+  "audio_profile": {
+    "snr_db": 19,
+    "remote_speakers": [
+      "eva"
+    ],
+    "echo_speakers": [],
+    "packet_loss": 0.025,
+    "interruption_intensity": 0.6
+  },
+  "facts": [
+    {
+      "id": "F1",
+      "text": "48 ordered, 84 internal transfer, 42 approved, 6 unapproved; six not sixty.",
+      "sources": [
+        "T003",
+        "T004",
+        "T007",
+        "T033"
+      ]
+    },
+    {
+      "id": "D1",
+      "text": "Unapproved six may not ship; quarantine completed; their delivery date remains unknown.",
+      "sources": [
+        "T012",
+        "T029",
+        "T033"
+      ]
+    },
+    {
+      "id": "D2",
+      "text": "EUR 960 all-inclusive spending ceiling unchanged; EUR 1160 including fuel unapproved.",
+      "sources": [
+        "T026",
+        "T028"
+      ]
+    },
+    {
+      "id": "A1",
+      "text": "Eva sends approved list by 16:15; Lukas books by 16:30 only within ceiling, otherwise escalates to Anna.",
+      "sources": [
+        "T022",
+        "T023",
+        "T034"
+      ]
+    },
+    {
+      "id": "A2",
+      "text": "Priya interim 16:45, transport details 17:15; legal compensation referral by 10:00 tomorrow.",
+      "sources": [
+        "T025",
+        "T032",
+        "T035"
+      ]
+    },
+    {
+      "id": "O1",
+      "text": "Thursday for 42 depends on carrier; Friday for six rejected; compensation not approved.",
+      "sources": [
+        "T019",
+        "T032",
+        "T036"
+      ]
+    }
+  ]
+}

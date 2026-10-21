@@ -1,0 +1,47 @@
+{
+  "id": "pilot-en-hi-release-review",
+  "count_toward_200": false,
+  "reference_status": "assistant-authored; synthetic speech not yet independently verified",
+  "date": "2026-06-15",
+  "languages": ["en", "hi"],
+  "title": "Release review: a corrected date and a security condition",
+  "people": [
+    {"id": "S1", "name": "Asha", "role": "project manager", "language": "en-IN", "description": "An adult woman with a warm medium-low voice and a natural Indian English accent. Clear conversational speech."},
+    {"id": "S2", "name": "Daniel", "role": "engineer", "language": "en-GB", "description": "An adult man with a light British English accent, medium pitch and a slightly dry vocal texture. Relaxed conversational speech."},
+    {"id": "S3", "name": "Maya", "role": "security reviewer", "language": "en-IN", "description": "An adult woman with a crisp medium-high voice and an Indian English accent. Precise, steady conversational speech."},
+    {"id": "S4", "name": "Vikram", "role": "customer support", "language": "hi-IN", "description": "An adult man with a natural Delhi Hindi accent, medium-low pitch and a lightly breathy voice. Comfortable switching between Hindi and English."}
+  ],
+  "facts": [
+    {"id": "D1", "kind": "decision", "statement": "Target release is Tuesday 23 June, conditional on security approval; Monday is not confirmed.", "sources": ["T019", "T020"]},
+    {"id": "D2", "kind": "decision", "statement": "The test-device budget ceiling is 800 euros, not 1800 euros.", "sources": ["T011", "T012", "T013"]},
+    {"id": "D3", "kind": "rejected", "statement": "Skipping the security review was rejected.", "sources": ["T007", "T008", "T009"]},
+    {"id": "A1", "kind": "action", "statement": "Daniel will fix the token refresh bug by Thursday 18 June at noon.", "owner": "S2", "due": "2026-06-18T12:00:00", "sources": ["T004", "T005"]},
+    {"id": "A2", "kind": "action", "statement": "Maya will finish the security review by Friday 19 June at 15:00.", "owner": "S3", "due": "2026-06-19T15:00:00", "sources": ["T015", "T016"]},
+    {"id": "A3", "kind": "action", "statement": "Vikram will send customers the confirmed plan by Friday 19 June at 17:00.", "owner": "S4", "due": "2026-06-19T17:00:00", "sources": ["T017", "T018"]},
+    {"id": "O1", "kind": "open_issue", "statement": "The mobile Safari login issue still needs an owner and is not resolved.", "sources": ["T021", "T022"]}
+  ],
+  "turns": [
+    {"id":"T001","speaker":"S1","emotion":"calm","text":"Before we start, I want to settle the release date, the security review, and what we tell customers. Please correct me if I have an old date."},
+    {"id":"T002","speaker":"S4","emotion":"concerned","text":"ग्राहक सोमवार की उम्मीद कर रहे हैं। हमने पिछले हफ़्ते कहा था कि सोमवार को तैयार हो जाएगा। अब मैं उन्हें क्या बताऊँ?"},
+    {"id":"T003","speaker":"S2","emotion":"uncertain","text":"The desktop build is ready, but the token refresh bug is still open. I would not promise Monday while that can log people out in the middle of a call."},
+    {"id":"T004","speaker":"S1","emotion":"firm","text":"Daniel, can you own that fix? I need an actual deadline, not just this week."},
+    {"id":"T005","speaker":"S2","emotion":"calm","text":"Yes. I will fix token refresh by noon on Thursday, the eighteenth of June. Maya can review that build after lunch."},
+    {"id":"T006","speaker":"S3","emotion":"firm","text":"After lunch is fine for starting. It is not a promise that the entire review will be done on Thursday."},
+    {"id":"T007","speaker":"S4","emotion":"frustrated","overlap_previous_seconds":0.8,"text":"लेकिन अगर review में इतना समय लगा, तो क्या हम इसे बाद में कर सकते हैं? Customers are already angry."},
+    {"id":"T008","speaker":"S3","emotion":"frustrated","overlap_previous_seconds":1.1,"text":"No. We are not skipping security approval. An angry customer is a problem; exposing their meeting recordings would be a much bigger problem."},
+    {"id":"T009","speaker":"S1","emotion":"firm","text":"Agreed. Security review stays a release condition. Vikram, I understand the pressure, but please do not offer Monday as a confirmed date."},
+    {"id":"T010","speaker":"S4","emotion":"calm","text":"ठीक है। मैं सोमवार का वादा नहीं करूँगा। बस मुझे शुक्रवार तक एक साफ़ जवाब चाहिए।"},
+    {"id":"T011","speaker":"S2","emotion":"calm","text":"There is one cost question. I wrote eighteen hundred euros for the test devices in the draft. That includes buying two extra phones."},
+    {"id":"T012","speaker":"S1","emotion":"firm","text":"That figure is too high. We can borrow the phones. Eight hundred euros is the ceiling, including delivery. Please correct the draft."},
+    {"id":"T013","speaker":"S2","emotion":"relieved","text":"Right, eight hundred, not eighteen hundred. I had missed the loan arrangement. I will update the draft after this call."},
+    {"id":"T014","speaker":"S1","emotion":"calm","text":"Maya, assuming Daniel hands over the fix on Thursday at noon, when can you give the final security decision?"},
+    {"id":"T015","speaker":"S3","emotion":"calm","text":"Friday the nineteenth, by three in the afternoon. If I find a critical issue, I will report it sooner. Approval is not automatic just because we reached the deadline."},
+    {"id":"T016","speaker":"S1","emotion":"calm","text":"Thanks. I have Maya owning the review, Friday at fifteen hundred. We will make the customer announcement after that decision."},
+    {"id":"T017","speaker":"S4","emotion":"calm","text":"मैं Friday, उन्नीस जून को शाम पाँच बजे तक customers को confirmed plan भेज दूँगा। Maya की approval से पहले कोई announcement नहीं जाएगी।"},
+    {"id":"T018","speaker":"S1","emotion":"warm","text":"Yes, Vikram sends the confirmed plan by five on Friday. If approval is missing, the message explains the delay instead of promising a release."},
+    {"id":"T019","speaker":"S2","emotion":"curious","text":"Then should the new target be Tuesday, the twenty-third? That gives us Monday for the final packaging checks."},
+    {"id":"T020","speaker":"S1","emotion":"firm","text":"Tuesday the twenty-third is our target, conditional on security approval. Monday is packaging day, not release day. Let us keep that distinction clear."},
+    {"id":"T021","speaker":"S3","emotion":"concerned","text":"One last thing: mobile Safari login still has no owner. I am not claiming that issue is fixed, and it is separate from Daniel's token refresh work."},
+    {"id":"T022","speaker":"S1","emotion":"calm","text":"Leave Safari login under open issues with no owner for now. I will bring the staffing question to tomorrow's triage. Those are the decisions for this call."}
+  ]
+}

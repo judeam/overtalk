@@ -1,0 +1,323 @@
+{
+  "date": "2026-10-01",
+  "input": "espeak-ng English synthetic speech, first 1.7 seconds",
+  "gpu_wrapper": "GPU-sharing launcher at 85% of GPU threads, 68 SMs visible",
+  "original": [
+    {
+      "load_seconds": 4.686,
+      "device": "cuda:0",
+      "dtype": "torch.bfloat16",
+      "torch": "2.14.0+cu130",
+      "cuda": "13.0",
+      "attention": "sdpa",
+      "gpu": "NVIDIA GeForce RTX 5090 Laptop GPU",
+      "sm_count": 68,
+      "stages": [
+        {
+          "stage": "torch_and_cuda",
+          "seconds": 0.966
+        },
+        {
+          "stage": "load_or_cache",
+          "seconds": 4.661
+        }
+      ]
+    },
+    {
+      "run": 0,
+      "elapsed_seconds": 1.979,
+      "audio_seconds": 1.7,
+      "words": 5,
+      "stages": [
+        {
+          "stage": "load_or_cache",
+          "seconds": 0.0
+        },
+        {
+          "stage": "asr_inference",
+          "seconds": 1.212
+        },
+        {
+          "stage": "aligner_load_or_cache",
+          "seconds": 0.634
+        },
+        {
+          "stage": "alignment_inference",
+          "seconds": 0.061
+        }
+      ]
+    },
+    {
+      "run": 1,
+      "elapsed_seconds": 0.099,
+      "audio_seconds": 1.7,
+      "words": 5,
+      "stages": [
+        {
+          "stage": "load_or_cache",
+          "seconds": 0.0
+        },
+        {
+          "stage": "asr_inference",
+          "seconds": 0.08
+        },
+        {
+          "stage": "aligner_load_or_cache",
+          "seconds": 0.0
+        },
+        {
+          "stage": "alignment_inference",
+          "seconds": 0.018
+        }
+      ]
+    },
+    {
+      "run": 2,
+      "elapsed_seconds": 0.135,
+      "audio_seconds": 1.7,
+      "words": 5,
+      "stages": [
+        {
+          "stage": "load_or_cache",
+          "seconds": 0.0
+        },
+        {
+          "stage": "asr_inference",
+          "seconds": 0.08
+        },
+        {
+          "stage": "aligner_load_or_cache",
+          "seconds": 0.0
+        },
+        {
+          "stage": "alignment_inference",
+          "seconds": 0.054
+        }
+      ]
+    }
+  ],
+  "text_only": {
+    "model": "qwen3-asr-1.7b",
+    "device": "cuda:0",
+    "dtype": "torch.bfloat16",
+    "torch": "2.14.0+cu130",
+    "load_seconds": 4.715280998003436,
+    "language_hint": "en",
+    "word_timestamps": false,
+    "load_stages": [
+      {
+        "stage": "torch_and_device",
+        "seconds": 0.9309535860083997
+      },
+      {
+        "stage": "model_load_or_cache",
+        "seconds": 4.715270276006777
+      }
+    ],
+    "runs": [
+      {
+        "index": 0,
+        "first_inference": true,
+        "seconds": 1.508144577004714,
+        "audio_seconds": 1.7,
+        "real_time_factor": 0.8871438688263024,
+        "segments": 1,
+        "aligner_loaded": false,
+        "stages": [
+          {
+            "stage": "model_load_or_cache",
+            "seconds": 1.2959935702383518e-06
+          },
+          {
+            "stage": "recognition",
+            "seconds": 1.4646804750082083
+          }
+        ]
+      },
+      {
+        "index": 1,
+        "first_inference": false,
+        "seconds": 0.13454285298939794,
+        "audio_seconds": 1.7,
+        "real_time_factor": 0.07914285469964585,
+        "segments": 1,
+        "aligner_loaded": false,
+        "stages": [
+          {
+            "stage": "model_load_or_cache",
+            "seconds": 1.0950025171041489e-06
+          },
+          {
+            "stage": "recognition",
+            "seconds": 0.1332945589965675
+          }
+        ]
+      },
+      {
+        "index": 2,
+        "first_inference": false,
+        "seconds": 0.15203238600224722,
+        "audio_seconds": 1.7,
+        "real_time_factor": 0.08943081529543954,
+        "segments": 1,
+        "aligner_loaded": false,
+        "stages": [
+          {
+            "stage": "model_load_or_cache",
+            "seconds": 7.460039341822267e-07
+          },
+          {
+            "stage": "recognition",
+            "seconds": 0.15083671300089918
+          }
+        ]
+      },
+      {
+        "index": 3,
+        "first_inference": false,
+        "seconds": 0.15054501200211234,
+        "audio_seconds": 1.7,
+        "real_time_factor": 0.08855588941300727,
+        "segments": 1,
+        "aligner_loaded": false,
+        "stages": [
+          {
+            "stage": "model_load_or_cache",
+            "seconds": 8.399947546422482e-07
+          },
+          {
+            "stage": "recognition",
+            "seconds": 0.1491886949952459
+          }
+        ]
+      },
+      {
+        "index": 4,
+        "first_inference": false,
+        "seconds": 0.136043962003896,
+        "audio_seconds": 1.7,
+        "real_time_factor": 0.08002586000229177,
+        "segments": 1,
+        "aligner_loaded": false,
+        "stages": [
+          {
+            "stage": "model_load_or_cache",
+            "seconds": 7.369962986558676e-07
+          },
+          {
+            "stage": "recognition",
+            "seconds": 0.13468690399895422
+          }
+        ]
+      }
+    ],
+    "limitations": "Repeated clips measure startup and adapter latency, not meeting accuracy or end-to-end file processing.",
+    "gpu": "NVIDIA GeForce RTX 5090 Laptop GPU",
+    "sm_count": 68
+  },
+  "stdio_jobs": {
+    "model": "qwen3-asr-1.7b",
+    "jobs": [
+      {
+        "index": 0,
+        "seconds": 6.580763308011228,
+        "load_seconds": 4.78052427599323,
+        "segment_seconds": [
+          1.3789203610067489,
+          0.08453360699058976,
+          0.0840567289997125,
+          0.08424292699783109,
+          0.08369073100038804,
+          0.08471465000184253
+        ],
+        "text_consistent": true
+      },
+      {
+        "index": 1,
+        "seconds": 0.6232316980022006,
+        "load_seconds": 0.00025254501088056713,
+        "segment_seconds": [
+          0.1444134000048507,
+          0.14136267099820543,
+          0.08670528698712587,
+          0.08377535699401051,
+          0.08365735800180119,
+          0.08299587600049563
+        ],
+        "text_consistent": true
+      }
+    ],
+    "segments_per_job": 6
+  },
+  "limitations": "Warm repeats use the same synthetic clip; filesystem caches were not flushed. This does not measure meeting accuracy, end-to-end retranscription, or long-recording throughput.",
+  "isolated_desktop": {
+    "audio_seconds": 8.841224489795918,
+    "jobs": [
+      {
+        "kind": "import",
+        "seconds": 13.154000000000007,
+        "loaded_model": "qwen3-asr-1.7b"
+      },
+      {
+        "kind": "retranscription",
+        "seconds": 0.707,
+        "loaded_before": "qwen3-asr-1.7b",
+        "loaded_after": "qwen3-asr-1.7b"
+      }
+    ],
+    "retranscription_progress": [
+      {
+        "stage": "decoding",
+        "message": "Decoding audio file...",
+        "seconds_from_start": 0.0
+      },
+      {
+        "stage": "decoding",
+        "message": "Converting audio format...",
+        "seconds_from_start": 0.0
+      },
+      {
+        "stage": "vad",
+        "message": "Detecting speech segments...",
+        "seconds_from_start": 0.017
+      },
+      {
+        "stage": "transcribing",
+        "message": "Loading or reusing the transcription model...",
+        "seconds_from_start": 0.075
+      },
+      {
+        "stage": "transcribing",
+        "message": "Transcribing segment 1 of 1 (8.8s of audio)...",
+        "seconds_from_start": 0.076
+      },
+      {
+        "stage": "saving",
+        "message": "Saving transcripts...",
+        "seconds_from_start": 0.589
+      },
+      {
+        "stage": "saving",
+        "message": "Writing transcript files...",
+        "seconds_from_start": 0.6330000000000146
+      },
+      {
+        "stage": "complete",
+        "message": "Retranscription complete",
+        "seconds_from_start": 0.6330000000000146
+      }
+    ],
+    "idle_expiry": [
+      {
+        "idle_seconds": 90.00299999999999,
+        "loaded_model": "qwen3-asr-1.7b"
+      },
+      {
+        "idle_seconds": 125.05299999999998,
+        "loaded_model": null
+      }
+    ],
+    "profile": "Temporary empty profile; user meetings were not accessed",
+    "native_executable_sha256": "81219ffea7390afceb37bc7641a4cdafcc92b95be81eebbeaddba4d4117a59f7"
+  }
+}

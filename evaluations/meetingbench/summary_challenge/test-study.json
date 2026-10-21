@@ -1,0 +1,67 @@
+{
+  "id": "test-study",
+  "split": "holdout",
+  "difficulty": "hard",
+  "language": "en",
+  "domain": "research study",
+  "provenance": "Newly authored synthetic diagnostic; no real personal data; not a recording.",
+  "transcript": "[00:00] Nadia: These are preliminary results: eleven of twenty participants improved. There is no control group.\n[00:10] Leo: So the treatment is proven effective?\n[00:20] Nadia: No. We cannot infer efficacy or causation from this study.\n[00:30] Marta: I already removed names from the working dataset.\n[00:40] Nadia: Good. Publication still needs ethics approval. Names removed does not make consent unnecessary.\n[00:50] Leo: I will prepare the limitations section by September3.\n[01:00] Marta: I suggested we publish September4, but I withdraw it. No publication date is agreed.\n[01:10] Nadia: I can review Leo's section, though I cannot commit to a review date.\n[01:20] Leo: The next sample size might be50 or80.\n[01:30] Nadia: Neither is approved; funding for another study is also unresolved.",
+  "facts": [
+    {
+      "id": "F1",
+      "assertion": "Preliminary11of20improved;nocontrolgroup.",
+      "evidence": [
+        1
+      ]
+    },
+    {
+      "id": "F2",
+      "assertion": "Noprovenefficacyorcausation.",
+      "evidence": [
+        2,
+        3
+      ]
+    },
+    {
+      "id": "F3",
+      "assertion": "Namesalreadyremovedfromworkingdataset.",
+      "evidence": [
+        4
+      ]
+    },
+    {
+      "id": "F4",
+      "assertion": "Publicationrequiresethicsapproval/consentstillneeded.",
+      "evidence": [
+        5
+      ]
+    },
+    {
+      "id": "F5",
+      "assertion": "LeowriteslimitationsbySeptember3.",
+      "evidence": [
+        6
+      ]
+    },
+    {
+      "id": "F6",
+      "assertion": "Nadiaoffersreviewwithnodeadline;September4publicationwithdrawn/nodate.",
+      "evidence": [
+        7,
+        8
+      ]
+    },
+    {
+      "id": "F7",
+      "assertion": "50or80samplesandfuturefundingunapproved/unresolved.",
+      "evidence": [
+        9,
+        10
+      ]
+    }
+  ],
+  "forbidden": [
+    "Noefficacyclaim.",
+    "NadiahasnoSeptember3reviewdeadline."
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "id": "confirm-procurement",
+  "split": "holdout",
+  "difficulty": "normal",
+  "language": "de",
+  "domain": "procurement review",
+  "provenance": "New synthetic confirmation case, authored after v5 stability failures and sealed before v6 inference; not a population-random sample.",
+  "transcript": "[00:00] Anja: Die Bestellung für zwölf Tische ist schon bezahlt, aber noch nicht geliefert.\n[00:10] Ben: Ich dachte, der Preis von 1800 Euro gilt pro Tisch.\n[00:20] Anja: Nein, 1800 Euro ist der Gesamtpreis für alle zwölf, inklusive Lieferung.\n[00:30] Mira: Ich frage den Lieferanten morgen früh nach dem Lieferstatus. Einen Liefertermin verspreche ich nicht.\n[00:40] Ben: Sollen wir sechs weitere Tische kaufen?\n[00:50] Anja: Das ist nicht beschlossen. Es gibt keine Freigabe für zusätzliche Tische.\n[01:00] Mira: Die Rechnung habe ich bereits abgelegt.\n[01:10] Ben: Ob wir die alten Stühle behalten, ist noch offen.",
+  "facts": [
+    {
+      "id": "F1",
+      "assertion": "12tablesalready paidbutnotdelivered.",
+      "evidence": [
+        1
+      ]
+    },
+    {
+      "id": "F2",
+      "assertion": "EUR1800totalforall12includingdelivery,notpertable.",
+      "evidence": [
+        2,
+        3
+      ]
+    },
+    {
+      "id": "F3",
+      "assertion": "Miraasksupplierfordeliverystatustomorrowmorning.",
+      "evidence": [
+        4
+      ]
+    },
+    {
+      "id": "F4",
+      "assertion": "Nodeliverydatepromised.",
+      "evidence": [
+        4
+      ]
+    },
+    {
+      "id": "F5",
+      "assertion": "Sixextratablesnotapproved.",
+      "evidence": [
+        5,
+        6
+      ]
+    },
+    {
+      "id": "F6",
+      "assertion": "Invoicealreadyfiled.",
+      "evidence": [
+        7
+      ]
+    },
+    {
+      "id": "F7",
+      "assertion": "Keepingoldchairsunresolved.",
+      "evidence": [
+        8
+      ]
+    }
+  ]
+}

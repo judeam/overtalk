@@ -1,0 +1,3 @@
+# Optional CPU-only multilingual timing fallback. Requires the existing Qwen
+# Torch/Transformers runtime and explicitly predownloaded, verified Omni v1 files.
+sentencepiece==0.2.1

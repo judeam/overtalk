@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Name=Overtalk
+GenericName=Meeting Notebook
+Comment=Record meetings and keep notes you can trace to the source
+Exec=overtalk
+TryExec=overtalk
+Icon=io.github.judeam.Overtalk
+Terminal=false
+Categories=Office;
+Keywords=meeting;transcription;transcript;notes;minutes;recorder;
+StartupNotify=true
+StartupWMClass=overtalk

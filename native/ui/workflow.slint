@@ -1,0 +1,171 @@
+import { ScrollView, TextEdit, LineEdit, CheckBox } from "std-widgets.slint";
+import { State } from "state.slint";
+import { Theme, Icons } from "theme.slint";
+import { ActionButton, Hint, Divider } from "widgets.slint";
+
+component SetupRow inherits VerticalLayout {
+    in property <string> title;
+    in property <string> detail;
+    in property <bool> ready;
+    in property <image> icon;
+    in property <string> action;
+    callback clicked();
+    spacing: 8px * Theme.scale;
+    HorizontalLayout {
+        spacing: 12px * Theme.scale;
+        Image { source: root.ready ? Icons.check : root.icon; colorize: root.ready ? Theme.teal : Theme.muted; width: 20px * Theme.scale; height: self.width; }
+        VerticalLayout {
+            spacing: 3px * Theme.scale;
+            Text { text: root.title; color: Theme.ink; font-size: 16px * Theme.scale; font-weight: 600; }
+            Hint { text: root.detail; font-size: 13px * Theme.scale; }
+        }
+        ActionButton { text: root.action; compact: true; flat: true; clicked => { root.clicked(); } }
+    }
+    Divider { }
+}
+export component SetupChecklist inherits Rectangle {
+    background: Theme.chrome; border-radius: 10px * Theme.scale;
+    min-height: setup-content.preferred-height;
+    setup-content := VerticalLayout {
+        padding: 20px * Theme.scale; spacing: 16px * Theme.scale;
+        HorizontalLayout {
+            Text { text: "Ready for your first meeting"; color: Theme.ink; font-size: 22px * Theme.scale; font-weight: 600; }
+            Rectangle { horizontal-stretch: 1; }
+            ActionButton { icon: Icons.close; help: "Set up later"; compact: true; flat: true; clicked => { State.action("workflow-later", ""); } }
+        }
+        Hint { text: "Check your audio and models once. Your choices carry into every call."; }
+        SetupRow { title: "Microphone & call audio"; icon: Icons.microphone; ready: State.setup-audio-confirmed; detail: State.setup-audio-confirmed ? "Sound check confirmed" : State.setup-audio-detail; action: State.recording ? "Recording…" : "Sound check"; clicked => { if !State.recording { State.action("sound-check", ""); } } }
+        if State.setup-test-done && !State.setup-audio-confirmed: CheckBox { text: "I listened and could hear my voice and the call audio"; checked <=> State.setup-audio-confirmed; }
+        SetupRow { title: "Transcription"; icon: Icons.transcript; ready: State.setup-speech-ready; detail: State.setup-speech-detail; action: "Speech settings"; clicked => { State.action("settings", "2"); } }
+        SetupRow { title: "Meeting notes"; icon: Icons.notes; ready: State.setup-notes-ready; detail: State.setup-notes-detail; action: "Notes settings"; clicked => { State.action("settings", "3"); } }
+        Hint { text: "You can record while the models download: Overtalk keeps the audio and transcribes it as soon as the speech model is ready. Notes start with the small Qwen 3.5 2B model; choose a larger one later in Notes settings."; font-size: 13px * Theme.scale; wrap: word-wrap; }
+        HorizontalLayout { spacing: 8px * Theme.scale;
+            if !(State.setup-speech-ready || State.setup-speech-downloading) || !(State.setup-notes-ready || State.setup-notes-downloading): ActionButton { text: "Download models"; icon: Icons.download; compact: true; enabled: !State.setup-checking; clicked => { State.action("workflow-download", ""); } }
+            ActionButton { text: State.setup-checking ? "Checking…" : "Check readiness"; icon: Icons.check; compact: true; enabled: !State.setup-checking && !State.recording; clicked => { State.action("workflow-check", ""); } }
+            ActionButton { text: "Finish setup"; primary: true; compact: true; enabled: State.setup-audio-confirmed && (State.setup-speech-ready || State.setup-speech-downloading) && (State.setup-notes-ready || State.setup-notes-downloading); clicked => { State.action("workflow-finish", ""); } }
+            Rectangle { horizontal-stretch: 1; }
+        }
+    }
+}
+
+export component PersonalNotepad inherits Rectangle {
+    background: Theme.chrome;
+    border-radius: 8px * Theme.scale;
+    VerticalLayout {
+        padding: 16px * Theme.scale; spacing: 10px * Theme.scale;
+        HorizontalLayout { spacing: 8px * Theme.scale;
+            Image { source: Icons.edit; colorize: Theme.teal; width: 18px * Theme.scale; height: self.width; }
+            Text { text: "My notes"; color: Theme.ink; font-size: 17px * Theme.scale; font-weight: 600; }
+            Rectangle { horizontal-stretch: 1; }
+            Hint { text: State.personal-status; font-size: 11px * Theme.scale; }
+        }
+        Hint { text: State.recording ? "Capture a thought without leaving the call." : "Questions, reminders and context. Kept separately from generated notes."; font-size: 13px * Theme.scale; }
+        TextEdit { min-height: 70px * Theme.scale; text <=> State.personal-notes; wrap: word-wrap; font-size: 16px * Theme.scale; enabled: !State.busy; edited => { State.action("workflow-personal", self.text); } }
+        if State.personal-status != "Saved on this device" && State.personal-status != "Saving…": ActionButton { text: "Retry saving"; compact: true; clicked => { State.action("workflow-retry-save", ""); } }
+    }
+}
+
+export component UpcomingMeetings inherits Rectangle {
+    min-height: upcoming-content.preferred-height;
+    background: transparent;
+    upcoming-content := VerticalLayout {
+        spacing: 14px * Theme.scale;
+        HorizontalLayout {
+            Text { text: "Coming up"; color: Theme.ink; font-size: 22px * Theme.scale; font-weight: 600; }
+            Rectangle { horizontal-stretch: 1; }
+            ActionButton { icon: Icons.calendar; help: "Refresh connected calendars"; text: State.calendar-syncing ? "Syncing…" : "Refresh"; enabled: !State.calendar-syncing; flat: true; compact: true; clicked => { State.action("workflow-refresh", ""); } }
+        }
+        Hint { text: State.calendar-status; font-size: 13px * Theme.scale; }
+        if State.upcoming-meetings.length == 0: VerticalLayout {
+            spacing: 12px * Theme.scale; padding-top: 12px * Theme.scale; padding-bottom: 16px * Theme.scale;
+            Text { text: State.calendar-connected ? "No meetings in the next seven days" : "Your next meeting, one click away"; color: Theme.ink; font-size: 17px * Theme.scale; font-weight: 500; }
+            Hint { text: State.calendar-connected ? "You can still record a spontaneous conversation below." : "Connect your calendar to see invites, participants and meeting links here."; }
+            HorizontalLayout { alignment: start;
+                ActionButton { text: "Connect a calendar"; icon: Icons.calendar; compact: true; clicked => { State.action("hub", ""); State.action("hub-tab", "8"); State.action("hub-connection-options", ""); } }
+            }
+        }
+        for event in State.upcoming-meetings: Rectangle {
+            min-height: event-content.preferred-height;
+            background: Theme.chrome; border-radius: 8px * Theme.scale;
+            event-content := VerticalLayout {
+                padding: 14px * Theme.scale; spacing: 10px * Theme.scale;
+                HorizontalLayout { spacing: 10px * Theme.scale;
+                    Image { source: event.provider == "google" ? @image-url("../assets/connections/google.png") : event.provider == "microsoft" ? @image-url("../assets/connections/microsoft.png") : Icons.calendar; width: 20px * Theme.scale; height: self.width; }
+                    Text { text: event.title; color: Theme.ink; font-size: 18px * Theme.scale; font-weight: 600; wrap: word-wrap; }
+                }
+                Hint { text: event.description; font-size: 13px * Theme.scale; }
+                // The project line is also the control that changes it.
+                VerticalLayout { spacing: 0px;
+                    HorizontalLayout { alignment: start;
+                        ActionButton {
+                            text: event.project == "" ? "Project" : event.project; icon: Icons.folder; compact: true; flat: true; horizontal-padding: 8px * Theme.scale;
+                            help: event.project == "" ? "Choose a project for this meeting" : event.project + " · choose a project";
+                            foreground: event.project-state == "automatic" ? Theme.teal : event.project-state == "suggested" ? Theme.amber : Theme.secondary;
+                            clicked => { State.action("automation-event", event.id); }
+                        }
+                    }
+                    // An explicit width lets long reasons wrap to their real height.
+                    if event.reason != "": Rectangle { min-height: event-reason.preferred-height;
+                        event-reason := Hint { x: 8px * Theme.scale; y: 0px; width: parent.width - self.x; height: self.preferred-height; text: event.reason; color: Theme.muted; font-size: 12px * Theme.scale; max-lines: 2; overflow: elide; }
+                    }
+                }
+                HorizontalLayout { spacing: 8px * Theme.scale;
+                    ActionButton { text: "Join & take notes"; icon: Icons.play; primary: true; compact: true; enabled: event.joinable && !State.busy && !State.recording; clicked => { State.action("workflow-join", event.id); } }
+                    ActionButton { text: "Participants"; icon: Icons.speakers; compact: true; flat: true; clicked => { State.action("workflow-attendees", event.id); } }
+                    if event.brief == "facts" || event.brief == "ready": ActionButton { text: "Brief"; icon: Icons.notes; help: "Open the brief for this meeting"; compact: true; flat: true; clicked => { State.action("automation-brief", event.id); } }
+                    Rectangle { horizontal-stretch: 1; }
+                }
+                if !event.joinable: Hint { text: "This invite has no supported meeting link."; font-size: 12px * Theme.scale; }
+            }
+        }
+    }
+}
+
+export component MeetingCompanion inherits Rectangle {
+    background: Theme.chrome;
+    VerticalLayout {
+        padding: 14px * Theme.scale; spacing: 12px * Theme.scale;
+        HorizontalLayout { spacing: 4px * Theme.scale;
+            ActionButton { text: "My notes"; compact: true; flat: true; selected: State.companion-tab == 1; clicked => { State.companion-tab = 1; } }
+            ActionButton { text: "Ask"; compact: true; flat: true; selected: State.companion-tab == 2; clicked => { State.companion-tab = 2; } }
+            ActionButton { text: "Follow-up"; compact: true; flat: true; selected: State.companion-tab == 3; clicked => { State.companion-tab = 3; } }
+            Rectangle { horizontal-stretch: 1; }
+            ActionButton { icon: Icons.close; help: "Close companion"; compact: true; flat: true; clicked => { State.companion-open = false; } }
+        }
+        Divider { }
+        if State.companion-tab == 1: PersonalNotepad { }
+        if State.companion-tab == 2: VerticalLayout {
+            spacing: 12px * Theme.scale;
+            Text { text: "Ask this meeting"; color: Theme.ink; font-size: 19px * Theme.scale; font-weight: 600; }
+            if State.window-height >= 650: Hint { text: "Answers cite the transcript and notes from this meeting."; font-size: 13px * Theme.scale; }
+            LineEdit { text <=> State.assist-query; placeholder-text: "What did we agree to do next?"; accepted => { State.action("workflow-ask", self.text); } }
+            HorizontalLayout { spacing: 8px * Theme.scale;
+                ActionButton { text: State.assist-busy ? "Checking sources…" : "Ask"; primary: true; compact: true; enabled: !State.assist-busy && State.assist-query != ""; clicked => { State.action("workflow-ask", State.assist-query); } }
+                if State.assist-busy: ActionButton { text: "Stop"; compact: true; flat: true; clicked => { State.action("workflow-cancel-ask", ""); } }
+                Rectangle { horizontal-stretch: 1; }
+            }
+            Hint { text: State.assist-status; font-size: 12px * Theme.scale; }
+            ScrollView { VerticalLayout { spacing: 14px * Theme.scale;
+                Text { text: State.assist-answer; color: Theme.ink; font-size: 16px * Theme.scale; wrap: word-wrap; }
+                for source in State.assist-sources: ActionButton { text: source.title; help: source.description; flat: true; compact: true; foreground: Theme.teal; left-aligned: true; clicked => { State.action("workflow-source", source.id); } }
+                Rectangle { vertical-stretch: 1; }
+            } }
+        }
+        if State.companion-tab == 3: VerticalLayout {
+            spacing: 12px * Theme.scale;
+            Text { text: "A follow-up you can review"; color: Theme.ink; font-size: 19px * Theme.scale; font-weight: 600; wrap: word-wrap; }
+            if State.window-height >= 650: Hint { text: "Uses supported outcomes from this meeting. Edit before copying or sending."; font-size: 13px * Theme.scale; }
+            HorizontalLayout { spacing: 8px * Theme.scale;
+                ActionButton { text: State.assist-busy ? "Drafting…" : State.followup-ready ? "Redraft" : "Draft follow-up"; primary: true; compact: true; enabled: !State.assist-busy; clicked => { State.action("workflow-followup", ""); } }
+                if State.assist-busy: ActionButton { text: "Stop"; compact: true; flat: true; clicked => { State.action("workflow-cancel-ask", ""); } }
+                Rectangle { horizontal-stretch: 1; }
+            }
+            Hint { text: State.assist-status; font-size: 12px * Theme.scale; }
+            TextEdit { min-height: 70px * Theme.scale; text <=> State.followup-draft; enabled: !State.assist-busy; wrap: word-wrap; font-size: 15px * Theme.scale; edited => { State.action("workflow-followup-edit", self.text); } }
+            HorizontalLayout { spacing: 8px * Theme.scale;
+                ActionButton { text: "Copy draft"; icon: Icons.copy; compact: true; enabled: State.followup-draft != ""; clicked => { State.action("workflow-copy-followup", ""); } }
+                Hint { text: "Saved locally · nothing sent automatically"; font-size: 11px * Theme.scale; }
+            }
+        }
+    }
+}

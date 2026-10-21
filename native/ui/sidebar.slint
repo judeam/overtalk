@@ -1,0 +1,58 @@
+import { ListView } from "std-widgets.slint";
+import { Theme, Icons } from "theme.slint";
+import { State } from "state.slint";
+import { ActionButton, Field, Hint, Divider } from "widgets.slint";
+
+export component Sidebar inherits Rectangle {
+    background: Theme.rail;
+    VerticalLayout {
+        spacing: 0px;
+        Rectangle {
+            height: 350px * Theme.scale;
+            ActionButton { x: 12px * Theme.scale; y: 14px * Theme.scale; width: parent.width - 24px * Theme.scale; text: State.recording ? "Back to recording" : "New recording"; icon: Icons.microphone; primary: true; accent: Theme.magenta; height: 40px * Theme.scale; label-size: 15px * Theme.scale; clicked => { State.action("new-recording", ""); } }
+            ActionButton { x: 12px * Theme.scale; y: 60px * Theme.scale; width: parent.width - 66px * Theme.scale; text: "Import audio"; icon: Icons.upload; flat: true; compact: true; clicked => { State.action("import", ""); } }
+            ActionButton { x: parent.width - self.width - 12px * Theme.scale; y: 60px * Theme.scale; width: 36px * Theme.scale; icon: Icons.folder; help: "Open a shared meeting…"; flat: true; compact: true; clicked => { State.action("share-open", ""); } }
+            for name[index] in ["Home", "Library", "Projects", "Actions", "Calendar"]: ActionButton {
+                x: 12px * Theme.scale; y: (104px + index * 34px) * Theme.scale;
+                width: parent.width - 24px * Theme.scale; height: 32px * Theme.scale;
+                text: name; icon: [Icons.home, Icons.library, Icons.folder, Icons.tasks, Icons.calendar][index];
+                compact: true; flat: true; left-aligned: true;
+                selected: index == 2 ? State.view == 8 && (State.hub-tab < 5 || State.hub-tab == 9) : State.view == [0,2,8,6,7][index];
+                selected-background: Theme.dark ? #1d2e32 : #e1f0ed;
+                clicked => { if index == 0 { State.action("home", ""); } else if index == 2 { State.action("hub-tab", "0"); } else { State.action("navigate", "" + [0,2,8,6,7][index]); } }
+            }
+            Field { x: 12px * Theme.scale; y: 282px * Theme.scale; width: parent.width - 24px * Theme.scale; text <=> State.list-query; icon: Icons.search; text-size: 14px * Theme.scale; placeholder: "Filter meetings"; height: 34px * Theme.scale; background: Theme.panel; border-color: Theme.line-strong; edited(value) => { State.action("filter-meetings", value); } }
+            Hint { x: 16px * Theme.scale; y: 328px * Theme.scale; width: parent.width - 64px * Theme.scale; text: State.list-filter-label; font-size: 11px * Theme.scale; wrap: no-wrap; overflow: elide; }
+            ActionButton { x: parent.width - self.width - 12px * Theme.scale; y: 320px * Theme.scale; width: 30px * Theme.scale; height: self.width; icon: Icons.more; help: "Sort and filter meetings"; compact: true; flat: true; clicked => { State.action("list-options", ""); } }
+        }
+        Divider { }
+        VerticalLayout {
+            padding: 8px * Theme.scale;
+            ListView {
+                for row in State.meetings: Rectangle {
+                    height: 80px * Theme.scale;
+                    Rectangle {
+                        y: 2px * Theme.scale; height: 76px * Theme.scale;
+                        width: parent.width; border-radius: 7px * Theme.scale;
+                        background: row.id == State.selected-id && State.view == 1 ? Theme.selection : touch.has-hover ? Theme.raised : transparent;
+                        touch := TouchArea { mouse-cursor: pointer; clicked => { State.action("open-meeting", row.id); } }
+                        VerticalLayout {
+                            padding-left: 12px * Theme.scale; padding-right: 38px * Theme.scale;
+                            padding-top: 12px * Theme.scale; padding-bottom: 12px * Theme.scale;
+                            spacing: 6px * Theme.scale; alignment: center;
+                            Text { text: row.title; color: Theme.ink; font-size: 14px * Theme.scale; font-weight: 600; wrap: word-wrap; overflow: elide; max-lines: 2; max-height: 39.2px * Theme.scale; }
+                            Hint { text: row.subtitle; color: Theme.muted; font-size: 12px * Theme.scale; }
+                        }
+                        ActionButton { x: parent.width - self.width - 3px * Theme.scale; y: 18px * Theme.scale; width: 30px * Theme.scale; height: 32px * Theme.scale; icon-size: 18.4px * Theme.scale; icon: Icons.more; help: "Meeting options"; compact: true; flat: true; clicked => { State.action("row-options", row.id); } }
+                    }
+                }
+            }
+        }
+        Divider { }
+        HorizontalLayout { padding: 8px * Theme.scale; spacing: 2px * Theme.scale;
+            ActionButton { text: "Connections"; icon: Icons.link; label-size: 12px * Theme.scale; compact: true; flat: true; horizontal-stretch: 1; selected: State.view == 8 && State.hub-tab == 8; clicked => { State.action("hub-tab", "8"); } }
+            ActionButton { text: "Settings"; icon: Icons.settings; label-size: 12px * Theme.scale; compact: true; flat: true; horizontal-stretch: 1; selected: State.view == 3; clicked => { State.action("settings", "0"); } }
+        }
+        if !State.engine-ready: Hint { text: "Opening your workspace…"; }
+    }
+}

@@ -1,0 +1,1609 @@
+{
+ "corpus": {
+  "name": "AMI Meeting Corpus",
+  "licence": "CC BY 4.0",
+  "attribution": "AMI Meeting Corpus, University of Edinburgh et al., CC BY 4.0",
+  "annotations": [
+   {
+    "file": "ami_public_manual_1.6.2.zip",
+    "sha256": "b56e5babb2496b8795deeeda7e71178d7fbc9963f94276cf2a3f4b56ebbc9f9d"
+   }
+  ],
+  "partition": "AMI full-corpus ASR test set",
+  "meetings": [
+   "EN2002a",
+   "EN2002b",
+   "EN2002c",
+   "EN2002d",
+   "ES2004a",
+   "ES2004b",
+   "ES2004c",
+   "ES2004d",
+   "IS1009a",
+   "IS1009b",
+   "IS1009c",
+   "IS1009d",
+   "TS3003a",
+   "TS3003b",
+   "TS3003c",
+   "TS3003d"
+  ]
+ },
+ "scoring": {
+  "normalisation": "Whisper EnglishTextNormalizer (openai-whisper 20250625, vendored): lowercase; bracketed text removed; fillers hmm/mm/mhm/mmm/uh/um removed; contractions expanded; spelled numbers to digits; British to American spelling; punctuation and symbols removed. Applied per reference utterance and per hypothesis segment.",
+  "reference": "All <w> words except punctuation, truncated fragments included; AMI letter acronyms joined (T_V_ -> TV); utterances in start-time order.",
+  "hypothesis": "All transcript segments of the imported meeting in start-time order.",
+  "metric": "One global Levenshtein alignment per meeting; pooled WER = total errors / total reference words. Speaker attribution is not scored.",
+  "utterance_kinds": "no_saved_row: the utterance midpoint lies outside every transcript row the app saved (the VAD dropped that audio or the model returned no text for the chunk); overlapped: other participants speak words during more than 20% of the utterance; clear: the rest. Insertions cannot be attributed to a reference utterance."
+ },
+ "run": {
+  "date": "2026-10-20",
+  "git_commit": "d27d780a696ab5baf251df0ee33fca707e151028",
+  "git_dirty": false,
+  "binary_sha256": "35ab66a49941ff1e0460570f4233760c3406015eddd544695371426894e2dcd0",
+  "model": "parakeet-tdt-0.6b-v3-int8",
+  "model_files_sha256": {
+   "decoder_joint-model.int8.onnx": "eea7483ee3d1a30375daedc8ed83e3960c91b098812127a0d99d1c8977667a70",
+   "encoder-model.int8.onnx": "6139d2fa7e1b086097b277c7149725edbab89cc7c7ae64b23c741be4055aff09",
+   "nemo128.onnx": "a9fde1486ebfcc08f328d75ad4610c67835fea58c73ba57e3209a6f6cf019e9f",
+   "vocab.txt": "d58544679ea4bc6ac563d1f545eb7d474bd6cfa467f0a6e2c1dc1c7d37e3c35d"
+  },
+  "engine": "Parakeet TDT (ONNX Runtime via the ort crate, CPUExecutionProvider)",
+  "code_path": "start_import_audio_command -> audio::import::run_import (provider parakeet)",
+  "cpu": "Intel(R) Core(TM) Ultra 9 275HX",
+  "logical_cpus": 24,
+  "os": "Linux 7.0.0-28-generic",
+  "command": [
+   "python3",
+   "evaluations/ami/run_overtalk.py",
+   "--binary",
+   "target/release/sonefold-service",
+   "--audio-dir",
+   "$OVERTALK_EVAL_CACHE/ami/audio",
+   "--profile",
+   "$SCRATCH/ami/profile",
+   "--output",
+   "$SCRATCH/ami/hyp-parakeet"
+  ]
+ },
+ "conditions": {
+  "farfield": {
+   "complete": true,
+   "missing": [],
+   "failed": [],
+   "meetings": [
+    {
+     "reference_words": 7791,
+     "hypothesis_words": 4537,
+     "substitutions": 508,
+     "deletions": 3292,
+     "insertions": 38,
+     "errors": 3838,
+     "wer": 0.492619689385188,
+     "meeting": "EN2002a",
+     "audio_seconds": 2142.709375,
+     "wall_seconds": 217.45021695100877,
+     "real_time_factor": 0.10148376606183877,
+     "segments": 122,
+     "ami_truncated_words": 102,
+     "wer_fragments_removed_from_reference": 0.4882299388737157,
+     "by_utterance_kind": {
+      "clear": {
+       "reference_words": 2184,
+       "substitutions": 129,
+       "deletions": 401
+      },
+      "overlapped": {
+       "reference_words": 5055,
+       "substitutions": 353,
+       "deletions": 2463
+      },
+      "no_saved_row": {
+       "reference_words": 552,
+       "substitutions": 26,
+       "deletions": 428
+      }
+     },
+     "load_average_1_5_15": {
+      "before": [
+       15.43798828125,
+       14.5361328125,
+       13.0556640625
+      ],
+      "after": [
+       36.11572265625,
+       26.01513671875,
+       17.96826171875
+      ]
+     }
+    },
+    {
+     "reference_words": 6208,
+     "hypothesis_words": 3404,
+     "substitutions": 433,
+     "deletions": 2840,
+     "insertions": 36,
+     "errors": 3309,
+     "wer": 0.5330219072164949,
+     "meeting": "EN2002b",
+     "audio_seconds": 1786.848,
+     "wall_seconds": 155.3845733000053,
+     "real_time_factor": 0.08696015178683654,
+     "segments": 94,
+     "ami_truncated_words": 81,
+     "wer_fragments_removed_from_reference": 0.5276644361024971,
+     "by_utterance_kind": {
+      "clear": {
+       "reference_words": 1598,
+       "substitutions": 93,
+       "deletions": 360
+      },
+      "overlapped": {
+       "reference_words": 3893,
+       "substitutions": 286,
+       "deletions": 2033
+      },
+      "no_saved_row": {
+       "reference_words": 717,
+       "substitutions": 54,
+       "deletions": 447
+      }
+     },
+     "load_average_1_5_15": {
+      "before": [
+       36.11572265625,
+       26.01513671875,
+       17.96826171875
+      ],
+      "after": [
+       36.708984375,
+       29.73876953125,
+       20.56103515625
+      ]
+     }
+    },
+    {
+     "reference_words": 10945,
+     "hypothesis_words": 6903,
+     "substitutions": 715,
+     "deletions": 4234,
+     "insertions": 192,
+     "errors": 5141,
+     "wer": 0.4697121973503883,
+     "meeting": "EN2002c",
+     "audio_seconds": 2972.256,
+     "wall_seconds": 282.5846021680045,
+     "real_time_factor": 0.09507411278436464,
+     "segments": 163,
+     "ami_truncated_words": 193,
+     "wer_fragments_removed_from_reference": 0.4645083263559401,
+     "by_utterance_kind": {
+      "clear": {
+       "reference_words": 3366,
+       "substitutions": 180,
+       "deletions": 624
+      },
+      "overlapped": {
+       "reference_words": 6108,
+       "substitutions": 466,
+       "deletions": 2749
+      },
+      "no_saved_row": {
+       "reference_words": 1471,
+       "substitutions": 69,
+       "deletions": 861
+      }
+     },
+     "load_average_1_5_15": {
+      "before": [
+       36.708984375,
+       29.73876953125,
+       20.56103515625
+      ],
+      "after": [
+       32.486328125,
+       32.48095703125,
+       24.22900390625
+      ]
+     }
+    },
+    {
+     "reference_words": 8029,
+     "hypothesis_words": 4406,
+     "substitutions": 526,
+     "deletions": 3667,
+     "insertions": 44,
+     "errors": 4237,
+     "wer": 0.5277120438410761,
+     "meeting": "EN2002d",
+     "audio_seconds": 2209.8986875,
+     "wall_seconds": 169.43308718700428,
+     "real_time_factor": 0.07667007005587186,
+     "segments": 128,
+     "ami_truncated_words": 147,
+     "wer_fragments_removed_from_reference": 0.5215074229158736,
+     "by_utterance_kind": {
+      "clear": {
+       "reference_words": 1950,
+       "substitutions": 114,
+       "deletions": 492
+      },
+      "overlapped": {
+       "reference_words": 5475,
+       "substitutions": 370,
+       "deletions": 2757
+      },
+      "no_saved_row": {
+       "reference_words": 604,
+       "substitutions": 42,
+       "deletions": 418
+      }
+     },
+     "load_average_1_5_15": {
+      "before": [
+       32.486328125,
+       32.48095703125,
+       24.22900390625
+      ],
+      "after": [
+       33.9892578125,
+       32.392578125,
+       25.5068359375
+      ]
+     }
+    },
+    {
+     "reference_words": 2669,
+     "hypothesis_words": 1814,
+     "substitutions": 196,
+     "deletions": 878,
+     "insertions": 23,
+     "errors": 1097,
+     "wer": 0.4110153615586362,
+     "meeting": "ES2004a",
+     "audio_seconds": 1049.3546875,
+     "wall_seconds": 74.38372606100165,
+     "real_time_factor": 0.07088520873548931,
+     "segments": 48,
+     "ami_truncated_words": 36,
+     "wer_fragments_removed_from_reference": 0.4052411697683251,
+     "by_utterance_kind": {
+      "clear": {
+       "reference_words": 1242,
+       "substitutions": 73,
+       "deletions": 156
+      },
+      "overlapped": {
+       "reference_words": 1105,
+       "substitutions": 114,
+       "deletions": 426
+      },
+      "no_saved_row": {
+       "reference_words": 322,
+       "substitutions": 9,
+       "deletions": 296
+      }
+     },
+     "load_average_1_5_15": {
+      "before": [
+       33.9892578125,
+       32.392578125,
+       25.5068359375
+      ],
+      "after": [
+       33.8017578125,
+       32.4716796875,
+       26.056640625
+      ]
+     }
+    },
+    {
+     "reference_words": 6779,
+     "hypothesis_words": 5605,
+     "substitutions": 385,
+     "deletions": 1268,
+     "insertions": 94,
+     "errors": 1747,
+     "wer": 0.25770762649358314,
+     "meeting": "ES2004b",
+     "audio_seconds": 2345.493375,
+     "wall_seconds": 226.3155823059933,
+     "real_time_factor": 0.09648954233605256,
+     "segments": 98,
+     "ami_truncated_words": 84,
+     "wer_fragments_removed_from_reference": 0.25332337565347274,
+     "by_utterance_kind": {
+      "clear": {
+       "reference_words": 4620,
+       "substitutions": 232,
+       "deletions": 382
+      },
+      "overlapped": {
+       "reference_words": 1890,
+       "substitutions": 129,
+       "deletions": 698
+      },
+      "no_saved_row": {
+       "reference_words": 269,
+       "substitutions": 24,
+       "deletions": 188
+      }
+     },
+     "load_average_1_5_15": {
+      "before": [
+       33.8017578125,
+       32.4716796875,
+       26.056640625
+      ],
+      "after": [
+       37.45751953125,
+       34.9599609375,
+       28.404296875
+      ]
+     }
+    },
+    {
+     "reference_words": 7067,
+     "hypothesis_words": 5641,
+     "substitutions": 442,
+     "deletions": 1532,
+     "insertions": 106,
+     "errors": 2080,
+     "wer": 0.29432573935191736,
+     "meeting": "ES2004c",
+     "audio_seconds": 2334.368,
+     "wall_seconds": 181.55873037099082,
+     "real_time_factor": 0.0777763961684665,
+     "segments": 104,
+     "ami_truncated_words": 135,
+     "wer_fragments_removed_from_reference": 0.2867859203693018,
+     "by_utterance_kind": {
+      "clear": {
+       "reference_words": 4479,
+       "substitutions": 248,
+       "deletions": 492
+      },
+      "overlapped": {
+       "reference_words": 2498,
+       "substitutions": 190,
+       "deletions": 964
+      },
+      "no_saved_row": {
+       "reference_words": 90,
+       "substitutions": 4,
+       "deletions": 76
+      }
+     },
+     "load_average_1_5_15": {
+      "before": [
+       37.45751953125,
+       34.9599609375,
+       28.404296875
+      ],
+      "after": [
+       35.39501953125,
+       34.10888671875,
+       29.17333984375
+      ]
+     }
+    },
+    {
+     "reference_words": 6274,
+     "hypothesis_words": 3943,
+     "substitutions": 358,
+     "deletions": 2374,
+     "insertions": 43,
+     "errors": 2775,
+     "wer": 0.4423015620019127,
+     "meeting": "ES2004d",
+     "audio_seconds": 2222.2906875,
+     "wall_seconds": 173.830224772988,
+     "real_time_factor": 0.07822119120183192,
+     "segments": 117,
+     "ami_truncated_words": 95,
+     "wer_fragments_removed_from_reference": 0.4367816091954023,
+     "by_utterance_kind": {
+      "clear": {
+       "reference_words": 2558,
+       "substitutions": 126,
+       "deletions": 374
+      },
+      "overlapped": {
+       "reference_words": 2637,
+       "substitutions": 193,
+       "deletions": 1074
+      },
+      "no_saved_row": {
+       "reference_words": 1079,
+       "substitutions": 39,
+       "deletions": 926
+      }
+     },
+     "load_average_1_5_15": {
+      "before": [
+       35.39501953125,
+       34.10888671875,
+       29.17333984375
+      ],
+      "after": [
+       40.08642578125,
+       37.26953125,
+       31.23046875
+      ]
+     }
+    },
+    {
+     "reference_words": 1948,
+     "hypothesis_words": 1540,
+     "substitutions": 115,
+     "deletions": 431,
+     "insertions": 23,
+     "errors": 569,
+     "wer": 0.29209445585215604,
+     "meeting": "IS1009a",
+     "audio_seconds": 838.9973125,
+     "wall_seconds": 71.9727735399938,
+     "real_time_factor": 0.08578427185366436,
+     "segments": 39,
+     "ami_truncated_words": 31,
+     "wer_fragments_removed_from_reference": 0.2863849765258216,
+     "by_utterance_kind": {
+      "clear": {
+       "reference_words": 1186,
+       "substitutions": 63,
+       "deletions": 118
+      },
+      "overlapped": {
+       "reference_words": 725,
+       "substitutions": 50,
+       "deletions": 280
+      },
+      "no_saved_row": {
+       "reference_words": 37,
+       "substitutions": 2,
+       "deletions": 33
+      }
+     },
+     "load_average_1_5_15": {
+      "before": [
+       40.08642578125,
+       37.26953125,
+       31.23046875
+      ],
+      "after": [
+       36.15673828125,
+       36.39599609375,
+       31.3759765625
+      ]
+     }
+    },
+    {
+     "reference_words": 5954,
+     "hypothesis_words": 5204,
+     "substitutions": 213,
+     "deletions": 837,
+     "insertions": 87,
+     "errors": 1137,
+     "wer": 0.19096405777628486,
+     "meeting": "IS1009b",
+     "audio_seconds": 2052.4373125,
+     "wall_seconds": 195.81104827299714,
+     "real_time_factor": 0.09540415538172356,
+     "segments": 87,
+     "ami_truncated_words": 88,
+     "wer_fragments_removed_from_reference": 0.18800068177944435,
+     "by_utterance_kind": {
+      "clear": {
+       "reference_words": 4371,
+       "substitutions": 133,
+       "deletions": 199
+      },
+      "overlapped": {
+       "reference_words": 1512,
+       "substitutions": 76,
+       "deletions": 574
+      },
+      "no_saved_row": {
+       "reference_words": 71,
+       "substitutions": 4,
+       "deletions": 64
+      }
+     },
+     "load_average_1_5_15": {
+      "before": [
+       36.15673828125,
+       36.39599609375,
+       31.3759765625
+      ],
+      "after": [
+       42.14404296875,
+       36.98291015625,
+       32.40771484375
+      ]
+     }
+    },
+    {
+     "reference_words": 4222,
+     "hypothesis_words": 3804,
+     "substitutions": 188,
+     "deletions": 440,
+     "insertions": 22,
+     "errors": 650,
+     "wer": 0.15395547134059687,
+     "meeting": "IS1009c",
+     "audio_seconds": 1820.842625,
+     "wall_seconds": 135.28230711199285,
+     "real_time_factor": 0.07429654010433376,
+     "segments": 83,
+     "ami_truncated_words": 118,
+     "wer_fragments_removed_from_reference": 0.14327485380116958,
+     "by_utterance_kind": {
+      "clear": {
+       "reference_words": 3641,
+       "substitutions": 158,
+       "deletions": 186
+      },
+      "overlapped": {
+       "reference_words": 565,
+       "substitutions": 29,
+       "deletions": 241
+      },
+      "no_saved_row": {
+       "reference_words": 16,
+       "substitutions": 1,
+       "deletions": 13
+      }
+     },
+     "load_average_1_5_15": {
+      "before": [
+       42.14404296875,
+       36.98291015625,
+       32.40771484375
+      ],
+      "after": [
+       34.025390625,
+       35.32763671875,
+       32.3916015625
+      ]
+     }
+    },
+    {
+     "reference_words": 4551,
+     "hypothesis_words": 3845,
+     "substitutions": 188,
+     "deletions": 754,
+     "insertions": 48,
+     "errors": 990,
+     "wer": 0.21753460777851022,
+     "meeting": "IS1009d",
+     "audio_seconds": 1944.6613125,
+     "wall_seconds": 162.78588421099994,
+     "real_time_factor": 0.08370911847972497,
+     "segments": 98,
+     "ami_truncated_words": 81,
+     "wer_fragments_removed_from_reference": 0.21140939597315436,
+     "by_utterance_kind": {
+      "clear": {
+       "reference_words": 3171,
+       "substitutions": 118,
+       "deletions": 173
+      },
+      "overlapped": {
+       "reference_words": 1247,
+       "substitutions": 68,
+       "deletions": 496
+      },
+      "no_saved_row": {
+       "reference_words": 133,
+       "substitutions": 2,
+       "deletions": 85
+      }
+     },
+     "load_average_1_5_15": {
+      "before": [
+       34.025390625,
+       35.32763671875,
+       32.3916015625
+      ],
+      "after": [
+       35.78173828125,
+       34.7470703125,
+       32.5546875
+      ]
+     }
+    },
+    {
+     "reference_words": 2511,
+     "hypothesis_words": 1220,
+     "substitutions": 111,
+     "deletions": 1300,
+     "insertions": 9,
+     "errors": 1420,
+     "wer": 0.5655117483074472,
+     "meeting": "TS3003a",
+     "audio_seconds": 1505.642625,
+     "wall_seconds": 69.58015465800418,
+     "real_time_factor": 0.04621292828901159,
+     "segments": 55,
+     "ami_truncated_words": 17,
+     "wer_fragments_removed_from_reference": 0.5639278557114229,
+     "by_utterance_kind": {
+      "clear": {
+       "reference_words": 1323,
+       "substitutions": 87,
+       "deletions": 336
+      },
+      "overlapped": {
+       "reference_words": 100,
+       "substitutions": 3,
+       "deletions": 59
+      },
+      "no_saved_row": {
+       "reference_words": 1088,
+       "substitutions": 21,
+       "deletions": 905
+      }
+     },
+     "load_average_1_5_15": {
+      "before": [
+       35.78173828125,
+       34.7470703125,
+       32.5546875
+      ],
+      "after": [
+       34.7451171875,
+       34.33056640625,
+       32.5498046875
+      ]
+     }
+    },
+    {
+     "reference_words": 4627,
+     "hypothesis_words": 3609,
+     "substitutions": 242,
+     "deletions": 1065,
+     "insertions": 47,
+     "errors": 1354,
+     "wer": 0.29263021396153016,
+     "meeting": "TS3003b",
+     "audio_seconds": 2210.304,
+     "wall_seconds": 177.78869201500493,
+     "real_time_factor": 0.08043630741065705,
+     "segments": 115,
+     "ami_truncated_words": 54,
+     "wer_fragments_removed_from_reference": 0.2863079615048119,
+     "by_utterance_kind": {
+      "clear": {
+       "reference_words": 3338,
+       "substitutions": 165,
+       "deletions": 427
+      },
+      "overlapped": {
+       "reference_words": 636,
+       "substitutions": 45,
+       "deletions": 282
+      },
+      "no_saved_row": {
+       "reference_words": 653,
+       "substitutions": 32,
+       "deletions": 356
+      }
+     },
+     "load_average_1_5_15": {
+      "before": [
+       34.7451171875,
+       34.33056640625,
+       32.5498046875
+      ],
+      "after": [
+       34.021484375,
+       34.31787109375,
+       32.82666015625
+      ]
+     }
+    },
+    {
+     "reference_words": 4287,
+     "hypothesis_words": 3399,
+     "substitutions": 236,
+     "deletions": 936,
+     "insertions": 48,
+     "errors": 1220,
+     "wer": 0.284581292278983,
+     "meeting": "TS3003c",
+     "audio_seconds": 2570.0,
+     "wall_seconds": 167.48603834499954,
+     "real_time_factor": 0.06516966472568075,
+     "segments": 114,
+     "ami_truncated_words": 76,
+     "wer_fragments_removed_from_reference": 0.27719714964370545,
+     "by_utterance_kind": {
+      "clear": {
+       "reference_words": 3123,
+       "substitutions": 182,
+       "deletions": 318
+      },
+      "overlapped": {
+       "reference_words": 679,
+       "substitutions": 43,
+       "deletions": 290
+      },
+      "no_saved_row": {
+       "reference_words": 485,
+       "substitutions": 11,
+       "deletions": 328
+      }
+     },
+     "load_average_1_5_15": {
+      "before": [
+       34.021484375,
+       34.31787109375,
+       32.82666015625
+      ],
+      "after": [
+       36.6435546875,
+       34.51513671875,
+       33.068359375
+      ]
+     }
+    },
+    {
+     "reference_words": 5185,
+     "hypothesis_words": 2993,
+     "substitutions": 280,
+     "deletions": 2238,
+     "insertions": 46,
+     "errors": 2564,
+     "wer": 0.49450337512054005,
+     "meeting": "TS3003d",
+     "audio_seconds": 2618.2,
+     "wall_seconds": 173.12488168900018,
+     "real_time_factor": 0.06612362756435726,
+     "segments": 145,
+     "ami_truncated_words": 83,
+     "wer_fragments_removed_from_reference": 0.4894159153273226,
+     "by_utterance_kind": {
+      "clear": {
+       "reference_words": 2622,
+       "substitutions": 148,
+       "deletions": 550
+      },
+      "overlapped": {
+       "reference_words": 1443,
+       "substitutions": 93,
+       "deletions": 777
+      },
+      "no_saved_row": {
+       "reference_words": 1120,
+       "substitutions": 39,
+       "deletions": 911
+      }
+     },
+     "load_average_1_5_15": {
+      "before": [
+       36.6435546875,
+       34.51513671875,
+       33.068359375
+      ],
+      "after": [
+       41.91943359375,
+       36.7177734375,
+       34.06396484375
+      ]
+     }
+    }
+   ],
+   "pooled": {
+    "reference_words": 89047,
+    "hypothesis_words": 61867,
+    "substitutions": 5136,
+    "deletions": 28086,
+    "insertions": 906,
+    "errors": 34128,
+    "audio_seconds": 32624.304,
+    "wall_seconds": 2634.772522959989,
+    "by_utterance_kind": {
+     "clear": {
+      "reference_words": 44772,
+      "substitutions": 2249,
+      "deletions": 5588,
+      "share_of_reference_words": 0.5027906611115478,
+      "deletion_rate": 0.1248101492003931,
+      "substitution_rate": 0.05023228803716608
+     },
+     "overlapped": {
+      "reference_words": 35568,
+      "substitutions": 2508,
+      "deletions": 16163,
+      "share_of_reference_words": 0.3994295147506373,
+      "deletion_rate": 0.45442532613585246,
+      "substitution_rate": 0.07051282051282051
+     },
+     "no_saved_row": {
+      "reference_words": 8707,
+      "substitutions": 379,
+      "deletions": 6335,
+      "share_of_reference_words": 0.09777982413781486,
+      "deletion_rate": 0.7275755139542897,
+      "substitution_rate": 0.04352819570460549
+     }
+    },
+    "wer": 0.3832582793356317,
+    "substitution_rate": 0.05767740631351983,
+    "deletion_rate": 0.3154064707401709,
+    "insertion_rate": 0.010174402281940997,
+    "real_time_factor": 0.08076103395063966,
+    "mean_meeting_wer": 0.3700119593509528
+   }
+  },
+  "headset": {
+   "complete": true,
+   "missing": [],
+   "failed": [],
+   "meetings": [
+    {
+     "reference_words": 7791,
+     "hypothesis_words": 4604,
+     "substitutions": 358,
+     "deletions": 3240,
+     "insertions": 53,
+     "errors": 3651,
+     "wer": 0.4686176357335387,
+     "meeting": "EN2002a",
+     "audio_seconds": 2142.709375,
+     "wall_seconds": 209.54026623199752,
+     "real_time_factor": 0.09779220116213731,
+     "segments": 102,
+     "ami_truncated_words": 102,
+     "wer_fragments_removed_from_reference": 0.46390948107686303,
+     "by_utterance_kind": {
+      "clear": {
+       "reference_words": 2392,
+       "substitutions": 100,
+       "deletions": 298
+      },
+      "overlapped": {
+       "reference_words": 5232,
+       "substitutions": 246,
+       "deletions": 2817
+      },
+      "no_saved_row": {
+       "reference_words": 167,
+       "substitutions": 12,
+       "deletions": 125
+      }
+     },
+     "load_average_1_5_15": {
+      "before": [
+       41.91943359375,
+       36.7177734375,
+       34.06396484375
+      ],
+      "after": [
+       35.4580078125,
+       35.63134765625,
+       34.1025390625
+      ]
+     }
+    },
+    {
+     "reference_words": 6208,
+     "hypothesis_words": 3924,
+     "substitutions": 336,
+     "deletions": 2354,
+     "insertions": 70,
+     "errors": 2760,
+     "wer": 0.44458762886597936,
+     "meeting": "EN2002b",
+     "audio_seconds": 1786.848,
+     "wall_seconds": 156.7956395939982,
+     "real_time_factor": 0.08774984754942682,
+     "segments": 75,
+     "ami_truncated_words": 81,
+     "wer_fragments_removed_from_reference": 0.44067243349110496,
+     "by_utterance_kind": {
+      "clear": {
+       "reference_words": 2091,
+       "substitutions": 87,
+       "deletions": 358
+      },
+      "overlapped": {
+       "reference_words": 3992,
+       "substitutions": 246,
+       "deletions": 1876
+      },
+      "no_saved_row": {
+       "reference_words": 125,
+       "substitutions": 3,
+       "deletions": 120
+      }
+     },
+     "load_average_1_5_15": {
+      "before": [
+       35.4580078125,
+       35.63134765625,
+       34.1025390625
+      ],
+      "after": [
+       33.5400390625,
+       34.28466796875,
+       33.7802734375
+      ]
+     }
+    },
+    {
+     "reference_words": 10945,
+     "hypothesis_words": 7425,
+     "substitutions": 579,
+     "deletions": 3688,
+     "insertions": 168,
+     "errors": 4435,
+     "wer": 0.405207857469164,
+     "meeting": "EN2002c",
+     "audio_seconds": 2972.256,
+     "wall_seconds": 240.05429999998887,
+     "real_time_factor": 0.08076501485739751,
+     "segments": 126,
+     "ami_truncated_words": 193,
+     "wer_fragments_removed_from_reference": 0.40013024467392316,
+     "by_utterance_kind": {
+      "clear": {
+       "reference_words": 4174,
+       "substitutions": 216,
+       "deletions": 644
+      },
+      "overlapped": {
+       "reference_words": 6616,
+       "substitutions": 357,
+       "deletions": 2989
+      },
+      "no_saved_row": {
+       "reference_words": 155,
+       "substitutions": 6,
+       "deletions": 55
+      }
+     },
+     "load_average_1_5_15": {
+      "before": [
+       33.5400390625,
+       34.28466796875,
+       33.7802734375
+      ],
+      "after": [
+       33.568359375,
+       32.85009765625,
+       33.162109375
+      ]
+     }
+    },
+    {
+     "reference_words": 8029,
+     "hypothesis_words": 4841,
+     "substitutions": 420,
+     "deletions": 3256,
+     "insertions": 68,
+     "errors": 3744,
+     "wer": 0.4663096275999502,
+     "meeting": "EN2002d",
+     "audio_seconds": 2209.8986875,
+     "wall_seconds": 216.46558650299266,
+     "real_time_factor": 0.09795271960990866,
+     "segments": 101,
+     "ami_truncated_words": 147,
+     "wer_fragments_removed_from_reference": 0.4594594594594595,
+     "by_utterance_kind": {
+      "clear": {
+       "reference_words": 2212,
+       "substitutions": 109,
+       "deletions": 376
+      },
+      "overlapped": {
+       "reference_words": 5737,
+       "substitutions": 306,
+       "deletions": 2808
+      },
+      "no_saved_row": {
+       "reference_words": 80,
+       "substitutions": 5,
+       "deletions": 72
+      }
+     },
+     "load_average_1_5_15": {
+      "before": [
+       33.568359375,
+       32.85009765625,
+       33.162109375
+      ],
+      "after": [
+       34.87744140625,
+       33.99365234375,
+       33.533203125
+      ]
+     }
+    },
+    {
+     "reference_words": 2669,
+     "hypothesis_words": 1857,
+     "substitutions": 81,
+     "deletions": 823,
+     "insertions": 11,
+     "errors": 915,
+     "wer": 0.34282502810041215,
+     "meeting": "ES2004a",
+     "audio_seconds": 1049.3546875,
+     "wall_seconds": 72.33942128099443,
+     "real_time_factor": 0.06893705449902461,
+     "segments": 53,
+     "ami_truncated_words": 36,
+     "wer_fragments_removed_from_reference": 0.33611849601215343,
+     "by_utterance_kind": {
+      "clear": {
+       "reference_words": 1364,
+       "substitutions": 46,
+       "deletions": 189
+      },
+      "overlapped": {
+       "reference_words": 1228,
+       "substitutions": 35,
+       "deletions": 558
+      },
+      "no_saved_row": {
+       "reference_words": 77,
+       "substitutions": 0,
+       "deletions": 76
+      }
+     },
+     "load_average_1_5_15": {
+      "before": [
+       34.87744140625,
+       33.99365234375,
+       33.533203125
+      ],
+      "after": [
+       32.5439453125,
+       33.4580078125,
+       33.37548828125
+      ]
+     }
+    },
+    {
+     "reference_words": 6779,
+     "hypothesis_words": 5283,
+     "substitutions": 198,
+     "deletions": 1563,
+     "insertions": 67,
+     "errors": 1828,
+     "wer": 0.26965629148842013,
+     "meeting": "ES2004b",
+     "audio_seconds": 2345.493375,
+     "wall_seconds": 179.85652667599788,
+     "real_time_factor": 0.07668174576532236,
+     "segments": 97,
+     "ami_truncated_words": 84,
+     "wer_fragments_removed_from_reference": 0.2658700522778193,
+     "by_utterance_kind": {
+      "clear": {
+       "reference_words": 4669,
+       "substitutions": 133,
+       "deletions": 459
+      },
+      "overlapped": {
+       "reference_words": 1875,
+       "substitutions": 61,
+       "deletions": 900
+      },
+      "no_saved_row": {
+       "reference_words": 235,
+       "substitutions": 4,
+       "deletions": 204
+      }
+     },
+     "load_average_1_5_15": {
+      "before": [
+       32.5439453125,
+       33.4580078125,
+       33.37548828125
+      ],
+      "after": [
+       34.14208984375,
+       33.1552734375,
+       33.20166015625
+      ]
+     }
+    },
+    {
+     "reference_words": 7067,
+     "hypothesis_words": 5518,
+     "substitutions": 267,
+     "deletions": 1633,
+     "insertions": 84,
+     "errors": 1984,
+     "wer": 0.28074147445875197,
+     "meeting": "ES2004c",
+     "audio_seconds": 2334.368,
+     "wall_seconds": 185.3502227840072,
+     "real_time_factor": 0.07940060126938306,
+     "segments": 97,
+     "ami_truncated_words": 135,
+     "wer_fragments_removed_from_reference": 0.27466820542412,
+     "by_utterance_kind": {
+      "clear": {
+       "reference_words": 4518,
+       "substitutions": 147,
+       "deletions": 584
+      },
+      "overlapped": {
+       "reference_words": 2516,
+       "substitutions": 116,
+       "deletions": 1026
+      },
+      "no_saved_row": {
+       "reference_words": 33,
+       "substitutions": 4,
+       "deletions": 23
+      }
+     },
+     "load_average_1_5_15": {
+      "before": [
+       34.14208984375,
+       33.1552734375,
+       33.20166015625
+      ],
+      "after": [
+       30.90576171875,
+       32.04931640625,
+       32.7451171875
+      ]
+     }
+    },
+    {
+     "reference_words": 6274,
+     "hypothesis_words": 4411,
+     "substitutions": 210,
+     "deletions": 1901,
+     "insertions": 38,
+     "errors": 2149,
+     "wer": 0.342524705132292,
+     "meeting": "ES2004d",
+     "audio_seconds": 2222.2906875,
+     "wall_seconds": 174.72030640000594,
+     "real_time_factor": 0.07862171559408379,
+     "segments": 104,
+     "ami_truncated_words": 95,
+     "wer_fragments_removed_from_reference": 0.3375424963574551,
+     "by_utterance_kind": {
+      "clear": {
+       "reference_words": 3215,
+       "substitutions": 85,
+       "deletions": 480
+      },
+      "overlapped": {
+       "reference_words": 2946,
+       "substitutions": 118,
+       "deletions": 1331
+      },
+      "no_saved_row": {
+       "reference_words": 113,
+       "substitutions": 7,
+       "deletions": 90
+      }
+     },
+     "load_average_1_5_15": {
+      "before": [
+       30.90576171875,
+       32.04931640625,
+       32.7451171875
+      ],
+      "after": [
+       31.15283203125,
+       32.072265625,
+       32.6416015625
+      ]
+     }
+    },
+    {
+     "reference_words": 1948,
+     "hypothesis_words": 1139,
+     "substitutions": 44,
+     "deletions": 827,
+     "insertions": 18,
+     "errors": 889,
+     "wer": 0.4563655030800821,
+     "meeting": "IS1009a",
+     "audio_seconds": 838.8333125,
+     "wall_seconds": 60.02023045098758,
+     "real_time_factor": 0.07155203489964829,
+     "segments": 33,
+     "ami_truncated_words": 31,
+     "wer_fragments_removed_from_reference": 0.45122587376108503,
+     "by_utterance_kind": {
+      "clear": {
+       "reference_words": 1065,
+       "substitutions": 24,
+       "deletions": 234
+      },
+      "overlapped": {
+       "reference_words": 714,
+       "substitutions": 20,
+       "deletions": 430
+      },
+      "no_saved_row": {
+       "reference_words": 169,
+       "substitutions": 0,
+       "deletions": 163
+      }
+     },
+     "load_average_1_5_15": {
+      "before": [
+       31.15283203125,
+       32.072265625,
+       32.6416015625
+      ],
+      "after": [
+       31.17041015625,
+       31.9140625,
+       32.5478515625
+      ]
+     }
+    },
+    {
+     "reference_words": 5954,
+     "hypothesis_words": 5009,
+     "substitutions": 161,
+     "deletions": 1011,
+     "insertions": 66,
+     "errors": 1238,
+     "wer": 0.207927443735304,
+     "meeting": "IS1009b",
+     "audio_seconds": 2052.3333125,
+     "wall_seconds": 161.26646524800162,
+     "real_time_factor": 0.07857713182638877,
+     "segments": 87,
+     "ami_truncated_words": 88,
+     "wer_fragments_removed_from_reference": 0.20572694733253793,
+     "by_utterance_kind": {
+      "clear": {
+       "reference_words": 4425,
+       "substitutions": 130,
+       "deletions": 257
+      },
+      "overlapped": {
+       "reference_words": 1518,
+       "substitutions": 27,
+       "deletions": 750
+      },
+      "no_saved_row": {
+       "reference_words": 11,
+       "substitutions": 4,
+       "deletions": 4
+      }
+     },
+     "load_average_1_5_15": {
+      "before": [
+       31.17041015625,
+       31.9140625,
+       32.5478515625
+      ],
+      "after": [
+       31.91552734375,
+       32.08642578125,
+       32.5048828125
+      ]
+     }
+    },
+    {
+     "reference_words": 4222,
+     "hypothesis_words": 3663,
+     "substitutions": 128,
+     "deletions": 585,
+     "insertions": 26,
+     "errors": 739,
+     "wer": 0.17503552818569398,
+     "meeting": "IS1009c",
+     "audio_seconds": 1820.8333125,
+     "wall_seconds": 136.7367183489987,
+     "real_time_factor": 0.07509568141702082,
+     "segments": 80,
+     "ami_truncated_words": 118,
+     "wer_fragments_removed_from_reference": 0.16764132553606237,
+     "by_utterance_kind": {
+      "clear": {
+       "reference_words": 3653,
+       "substitutions": 108,
+       "deletions": 285
+      },
+      "overlapped": {
+       "reference_words": 565,
+       "substitutions": 20,
+       "deletions": 297
+      },
+      "no_saved_row": {
+       "reference_words": 4,
+       "substitutions": 0,
+       "deletions": 3
+      }
+     },
+     "load_average_1_5_15": {
+      "before": [
+       31.91552734375,
+       32.08642578125,
+       32.5048828125
+      ],
+      "after": [
+       33.67578125,
+       31.9482421875,
+       32.322265625
+      ]
+     }
+    },
+    {
+     "reference_words": 4551,
+     "hypothesis_words": 3485,
+     "substitutions": 103,
+     "deletions": 1112,
+     "insertions": 46,
+     "errors": 1261,
+     "wer": 0.27708196000878926,
+     "meeting": "IS1009d",
+     "audio_seconds": 1944.5,
+     "wall_seconds": 147.15913763199933,
+     "real_time_factor": 0.07567967993417296,
+     "segments": 94,
+     "ami_truncated_words": 81,
+     "wer_fragments_removed_from_reference": 0.27360178970917226,
+     "by_utterance_kind": {
+      "clear": {
+       "reference_words": 3209,
+       "substitutions": 71,
+       "deletions": 353
+      },
+      "overlapped": {
+       "reference_words": 1199,
+       "substitutions": 32,
+       "deletions": 617
+      },
+      "no_saved_row": {
+       "reference_words": 143,
+       "substitutions": 0,
+       "deletions": 142
+      }
+     },
+     "load_average_1_5_15": {
+      "before": [
+       33.67578125,
+       31.9482421875,
+       32.322265625
+      ],
+      "after": [
+       34.19921875,
+       32.59033203125,
+       32.4931640625
+      ]
+     }
+    },
+    {
+     "reference_words": 2511,
+     "hypothesis_words": 1965,
+     "substitutions": 89,
+     "deletions": 572,
+     "insertions": 26,
+     "errors": 687,
+     "wer": 0.2735961768219833,
+     "meeting": "TS3003a",
+     "audio_seconds": 1505.642625,
+     "wall_seconds": 149.6049250500073,
+     "real_time_factor": 0.09936283854211905,
+     "segments": 75,
+     "ami_truncated_words": 17,
+     "wer_fragments_removed_from_reference": 0.27214428857715434,
+     "by_utterance_kind": {
+      "clear": {
+       "reference_words": 2153,
+       "substitutions": 81,
+       "deletions": 305
+      },
+      "overlapped": {
+       "reference_words": 273,
+       "substitutions": 4,
+       "deletions": 187
+      },
+      "no_saved_row": {
+       "reference_words": 85,
+       "substitutions": 4,
+       "deletions": 80
+      }
+     },
+     "load_average_1_5_15": {
+      "before": [
+       34.19921875,
+       32.59033203125,
+       32.4931640625
+      ],
+      "after": [
+       46.16796875,
+       38.71142578125,
+       34.7880859375
+      ]
+     }
+    },
+    {
+     "reference_words": 4627,
+     "hypothesis_words": 3789,
+     "substitutions": 179,
+     "deletions": 893,
+     "insertions": 55,
+     "errors": 1127,
+     "wer": 0.24357034795763993,
+     "meeting": "TS3003b",
+     "audio_seconds": 2210.304,
+     "wall_seconds": 193.84889624798961,
+     "real_time_factor": 0.08770236865516672,
+     "segments": 95,
+     "ami_truncated_words": 54,
+     "wer_fragments_removed_from_reference": 0.2399387576552931,
+     "by_utterance_kind": {
+      "clear": {
+       "reference_words": 3944,
+       "substitutions": 139,
+       "deletions": 562
+      },
+      "overlapped": {
+       "reference_words": 648,
+       "substitutions": 33,
+       "deletions": 313
+      },
+      "no_saved_row": {
+       "reference_words": 35,
+       "substitutions": 7,
+       "deletions": 18
+      }
+     },
+     "load_average_1_5_15": {
+      "before": [
+       46.16796875,
+       38.71142578125,
+       34.7880859375
+      ],
+      "after": [
+       42.609375,
+       38.65283203125,
+       35.35498046875
+      ]
+     }
+    },
+    {
+     "reference_words": 4287,
+     "hypothesis_words": 3248,
+     "substitutions": 148,
+     "deletions": 1097,
+     "insertions": 58,
+     "errors": 1303,
+     "wer": 0.3039421506881269,
+     "meeting": "TS3003c",
+     "audio_seconds": 2570.0,
+     "wall_seconds": 187.8997608040081,
+     "real_time_factor": 0.07311274739455569,
+     "segments": 103,
+     "ami_truncated_words": 76,
+     "wer_fragments_removed_from_reference": 0.298812351543943,
+     "by_utterance_kind": {
+      "clear": {
+       "reference_words": 3469,
+       "substitutions": 126,
+       "deletions": 561
+      },
+      "overlapped": {
+       "reference_words": 708,
+       "substitutions": 20,
+       "deletions": 428
+      },
+      "no_saved_row": {
+       "reference_words": 110,
+       "substitutions": 2,
+       "deletions": 108
+      }
+     },
+     "load_average_1_5_15": {
+      "before": [
+       42.609375,
+       38.65283203125,
+       35.35498046875
+      ],
+      "after": [
+       32.541015625,
+       35.56005859375,
+       34.71533203125
+      ]
+     }
+    },
+    {
+     "reference_words": 5185,
+     "hypothesis_words": 3189,
+     "substitutions": 200,
+     "deletions": 2036,
+     "insertions": 40,
+     "errors": 2276,
+     "wer": 0.4389585342333655,
+     "meeting": "TS3003d",
+     "audio_seconds": 2618.2,
+     "wall_seconds": 215.71812985200086,
+     "real_time_factor": 0.08239176909785383,
+     "segments": 134,
+     "ami_truncated_words": 83,
+     "wer_fragments_removed_from_reference": 0.43394747157977265,
+     "by_utterance_kind": {
+      "clear": {
+       "reference_words": 3235,
+       "substitutions": 112,
+       "deletions": 782
+      },
+      "overlapped": {
+       "reference_words": 1758,
+       "substitutions": 81,
+       "deletions": 1086
+      },
+      "no_saved_row": {
+       "reference_words": 192,
+       "substitutions": 7,
+       "deletions": 168
+      }
+     },
+     "load_average_1_5_15": {
+      "before": [
+       32.541015625,
+       35.56005859375,
+       34.71533203125
+      ],
+      "after": [
+       34.3359375,
+       34.5625,
+       34.404296875
+      ]
+     }
+    }
+   ],
+   "pooled": {
+    "reference_words": 89047,
+    "hypothesis_words": 63350,
+    "substitutions": 3501,
+    "deletions": 26591,
+    "insertions": 894,
+    "errors": 30986,
+    "audio_seconds": 32623.865374999998,
+    "wall_seconds": 2687.376533103976,
+    "by_utterance_kind": {
+     "clear": {
+      "reference_words": 49788,
+      "substitutions": 1714,
+      "deletions": 6727,
+      "share_of_reference_words": 0.5591204644738172,
+      "deletion_rate": 0.13511287860528642,
+      "substitution_rate": 0.034425966096248095
+     },
+     "overlapped": {
+      "reference_words": 37525,
+      "substitutions": 1722,
+      "deletions": 18413,
+      "share_of_reference_words": 0.4214066728806136,
+      "deletion_rate": 0.49068620919387074,
+      "substitution_rate": 0.045889407061958695
+     },
+     "no_saved_row": {
+      "reference_words": 1734,
+      "substitutions": 65,
+      "deletions": 1451,
+      "share_of_reference_words": 0.019472862645569192,
+      "deletion_rate": 0.8367935409457901,
+      "substitution_rate": 0.03748558246828143
+     }
+    },
+    "wer": 0.3479735420620571,
+    "substitution_rate": 0.039316316102732264,
+    "deletion_rate": 0.2986175839725089,
+    "insertion_rate": 0.01003964198681595,
+    "real_time_factor": 0.08237455930538937,
+    "mean_meeting_wer": 0.33730924334746837
+   }
+  }
+ }
+}

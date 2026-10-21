@@ -1,0 +1,66 @@
+{
+  "id": "test-contract",
+  "split": "holdout",
+  "difficulty": "hard",
+  "language": "ar",
+  "domain": "contract discussion",
+  "provenance": "Newly authored synthetic diagnostic; no real personal data; not a recording.",
+  "transcript": "[00:00] ليلى: هذه مراجعة لمسودة العقد، وليست موافقة على التوقيع.\n[00:10] عمر: اقترحت أن تكون الدفعة الأولى أربعين بالمئة.\n[00:20] ليلى: اتفقنا على عشرين بالمئة فقط، بعد قبول نتائج الاختبار. اقتراح الأربعين مرفوض.\n[00:30] سارة: سأرسل المسودة المعدلة إلى عمر قبل ظهر الخميس.\n[00:40] عمر: سأراجعها، لكنني لا أستطيع الالتزام بموعد للمراجعة.\n[00:50] ليلى: الخميس موعد إرسال المسودة، لا موعد التوقيع أو الدفع.\n[01:00] سارة: أرسلت شهادة التأمين أمس بالفعل.\n[01:10] عمر: هل يشمل السعر التدريب؟\n[01:20] ليلى: لم يحسم ذلك، ولم يوافق أحد على شراء تدريب إضافي.",
+  "facts": [
+    {
+      "id": "F1",
+      "assertion": "Draftreviewdoesnotapprovesigning.",
+      "evidence": [
+        1
+      ]
+    },
+    {
+      "id": "F2",
+      "assertion": "20%initialpaymentaftertestacceptance;40%rejected.",
+      "evidence": [
+        2,
+        3
+      ]
+    },
+    {
+      "id": "F3",
+      "assertion": "SarasendsreviseddrafttoOmarbeforeThursdaynoon.",
+      "evidence": [
+        4
+      ]
+    },
+    {
+      "id": "F4",
+      "assertion": "Omarreviewswithnodeadline.",
+      "evidence": [
+        5
+      ]
+    },
+    {
+      "id": "F5",
+      "assertion": "Thursdayisnotsigningorpaymentdeadline.",
+      "evidence": [
+        6
+      ]
+    },
+    {
+      "id": "F6",
+      "assertion": "Insurancecertificatealreadysent.",
+      "evidence": [
+        7
+      ]
+    },
+    {
+      "id": "F7",
+      "assertion": "Traininginclusionunresolved;noextratrainingpurchaseapproved.",
+      "evidence": [
+        8,
+        9
+      ]
+    }
+  ],
+  "forbidden": [
+    "Donotconfusesendingwithsigningorpayment.",
+    "No40%payment."
+  ]
+}

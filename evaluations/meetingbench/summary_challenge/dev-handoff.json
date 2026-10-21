@@ -1,0 +1,79 @@
+{
+  "id": "dev-handoff",
+  "split": "development",
+  "difficulty": "very_hard",
+  "language": "en",
+  "domain": "cross-team handoff",
+  "provenance": "Newly authored synthetic diagnostic; no real personal data; not a recording.",
+  "transcript": "[00:00] Ruth: Two workstreams today: the search patch and the billing migration. Keep them separate.\n[00:10] Eli: Search patch: the performance test passed. The patch itself has not shipped.\n[00:20] Sam: Billing: the schema review is still blocked by the tax mapping.\n[00:30] Ruth: I proposed Friday for shipping search, but that was before the regression.\n[00:40] Eli: I will write the search rollback checklist by Wednesday. That is a checklist deadline, not a ship date.\n[00:50] Sam: For billing I proposed deleting old invoices.\n[01:00] Ruth: Rejected. Retain every old invoice; no deletion is allowed.\n[01:10] Eli: Can we reuse billing's migration checklist for search?\n[01:20] Sam: It is incomplete. Do not treat that document as approved.\n[01:30] Ruth: Search may ship only after accessibility review. We have not chosen its reviewer.\n[01:40] Sam: I'll send the tax mapping to Priya by Monday. Priya has not agreed to review it by then.\n[01:50] Ruth: Correct. Monday is Sam's send deadline only.\n[02:00] Eli: Search's old Friday target is cancelled. Search has no ship date.\n[02:10] Sam: Billing still has no migration date. We should keep that visible.\n[02:20] Ruth: One last correction: Eli owns the search checklist, not Sam.\n[02:30] Eli: Confirmed. I already uploaded the test logs, so that is done.\n[02:40] Sam: Could we bring in an external tax adviser?\n[02:50] Ruth: Budget and adviser availability remain open; no purchase is authorized.",
+  "facts": [
+    {
+      "id": "F1",
+      "assertion": "Search performance test passed; patch is not shipped.",
+      "evidence": [
+        2
+      ]
+    },
+    {
+      "id": "F2",
+      "assertion": "Billing schema review is blocked by tax mapping.",
+      "evidence": [
+        3
+      ]
+    },
+    {
+      "id": "F3",
+      "assertion": "Eli owns search rollback checklist due Wednesday, not release.",
+      "evidence": [
+        5,
+        15,
+        16
+      ]
+    },
+    {
+      "id": "F4",
+      "assertion": "Deleting old invoices was rejected; retain all.",
+      "evidence": [
+        6,
+        7
+      ]
+    },
+    {
+      "id": "F5",
+      "assertion": "Search requires accessibility review with reviewer unknown; Friday cancelled/no ship date.",
+      "evidence": [
+        10,
+        13
+      ]
+    },
+    {
+      "id": "F6",
+      "assertion": "Sam sends tax mapping to Priya by Monday; no Priya review deadline.",
+      "evidence": [
+        11,
+        12
+      ]
+    },
+    {
+      "id": "F7",
+      "assertion": "Billing migration date and external-adviser budget/availability remain open.",
+      "evidence": [
+        14,
+        17,
+        18
+      ]
+    },
+    {
+      "id": "F8",
+      "assertion": "Test logs already uploaded.",
+      "evidence": [
+        16
+      ]
+    }
+  ],
+  "forbidden": [
+    "Do not mix workstreams.",
+    "No Priya Monday review commitment.",
+    "No authorization to buy advice."
+  ]
+}

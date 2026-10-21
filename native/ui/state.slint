@@ -1,0 +1,341 @@
+export struct MeetingRow { id: string, title: string, subtitle: string, pinned: bool }
+export struct TranscriptRow { id: string, stamp: string, speaker: string, body: string, translation: string, tone: color, ink: color }
+export struct NoteTableRow { cells: [string] }
+export struct NoteBlock { id: int, kind: int, text: string, rich: styled-text, table: [NoteTableRow] }
+export struct NoteHighlight { id: string, body: string, stamp: string, kind: int }
+export struct ClipRow { id: string, label: string, body: string, start: float, end: float, position: float, span: float, members: string, count: int }
+export struct TickRow { position: float, label: string }
+export struct LaneRow { id: string, name: string, tone: color, waveform: image, kind: int, solo: bool, muted: bool, clips: [ClipRow] }
+export struct ResultRow { id: string, title: string, subtitle: string, body: string, group-title: string, kind: string, stamp: string }
+export struct DetailRow { id: string, title: string, description: string, value: string, checked: bool }
+export struct FormRow { key: string, label: string, value: string, kind: int }
+export struct TemplateSectionRow { index: int, title: string, instruction: string, format: int, item-format: string }
+export struct GuideChapter { index: int, title: string, summary: string, group: string, starts-group: bool, read: bool }
+export struct GuideStep { title: string, body: string }
+// `project` is the display label; `project-state` is manual, automatic, suggested or empty.
+export struct EventCard { id: string, title: string, description: string, provider: string, joinable: bool, project: string, project-state: string, reason: string, brief: string }
+// `source` indexes the controller's brief sources; empty when an item has none.
+export struct BriefItem { text: string, source: string, source-label: string }
+export struct BriefSection { title: string, items: [BriefItem] }
+
+export global State {
+    in-out property <bool> recording-setup: false;
+    in-out property <bool> search-focus: false;
+    in-out property <string> choice-query;
+    in-out property <int> choice-total: 0;
+    in-out property <int> choice-height: 0;
+    in-out property <[EventCard]> upcoming-meetings;
+    in-out property <bool> edition-auto-assign: false;
+    in-out property <bool> edition-briefs: false;
+    in-out property <string> edition-name: "Open edition";
+    in-out property <string> edition-detail;
+    in-out property <string> capture-project-next: "No project";
+    in-out property <string> capture-project: "No project";
+    in-out property <string> capture-project-detail;
+    in-out property <string> capture-project-state;
+    in-out property <string> brief-summary;
+    in-out property <string> brief-note;
+    // A note about missing talking points leads; a note about finished ones follows them.
+    in-out property <bool> brief-note-first: true;
+    in-out property <[BriefSection]> brief-sections;
+    in-out property <[BriefItem]> brief-agenda;
+    in-out property <int> automation-assign: 0;
+    in-out property <int> automation-briefs: 0;
+    in-out property <int> automation-reminder: 2;
+    in-out property <[string]> automation-reminders: ["Off", "5 minutes before", "10 minutes before", "15 minutes before"];
+    in-out property <bool> autostart-available: false;
+    in-out property <bool> autostart: false;
+    // A toast action applies only while the toast shows the message it was set for.
+    in-out property <string> message-action-for;
+    in-out property <string> message-action-label;
+    in-out property <string> message-action;
+    in-out property <string> message-action-value;
+    in-out property <string> list-filter-label: "MEETINGS";
+    in-out property <bool> calendar-syncing: false;
+    in-out property <string> calendar-status: "Connect Google or Microsoft to see your next meetings.";
+    in-out property <bool> calendar-connected: false;
+    in-out property <bool> setup-checking: false;
+    in-out property <bool> setup-speech-ready: false;
+    in-out property <bool> setup-notes-ready: false;
+    // Model downloads started from the setup checklist; recording may begin meanwhile.
+    in-out property <bool> setup-speech-downloading: false;
+    in-out property <bool> setup-notes-downloading: false;
+    in-out property <string> setup-speech-detail: "Check the speech runtime and downloaded model.";
+    in-out property <string> setup-notes-detail: "Choose a notes model, then check readiness.";
+    in-out property <bool> setup-audio-confirmed: false;
+    in-out property <bool> setup-test-done: false;
+    in-out property <string> setup-audio-detail: "Record a sound check, then listen for yourself and the call.";
+    changed setup-audio-confirmed => { self.preferences-changed(); }
+    in-out property <string> personal-notes;
+    in-out property <string> personal-status: "Saved on this device";
+    in-out property <string> completion-status;
+    in-out property <bool> completion-retry: false;
+    in-out property <int> companion-tab: 0;
+    in-out property <bool> companion-open: false;
+    in-out property <string> assist-query;
+    in-out property <bool> assist-busy: false;
+    in-out property <string> assist-status;
+    in-out property <string> assist-answer;
+    in-out property <[DetailRow]> assist-sources;
+    in-out property <string> followup-draft;
+    in-out property <bool> followup-ready: false;
+    in-out property <[GuideChapter]> guide-chapters;
+    in-out property <[string]> guide-titles;
+    in-out property <[GuideStep]> guide-steps;
+    in-out property <[string]> guide-read;
+    in-out property <string> guide-query;
+    in-out property <int> guide-index: 0;
+    in-out property <int> guide-return-view: 0;
+    in-out property <int> guide-read-count: 0;
+    in-out property <string> guide-title;
+    in-out property <string> guide-summary;
+    in-out property <string> guide-tip;
+    in-out property <string> guide-keys;
+    in-out property <string> guide-action-label;
+    in-out property <bool> guide-is-read: false;
+    in-out property <int> guide-revision: 0;
+    in-out property <string> connection-provider;
+    in-out property <bool> connection-busy: false;
+    in-out property <bool> connection-browser: false;
+    in-out property <bool> connection-google-ready: false;
+    in-out property <bool> connection-ready: false;
+    in-out property <string> connection-filter;
+    in-out property <string> connection-code;
+    in-out property <string> connection-attempt;
+    in-out property <bool> watch-enabled: false;
+    in-out property <bool> video-enabled: false;
+    in-out property <bool> has-video: false;
+    in-out property <bool> video-recording: false;
+    in-out property <bool> video-starting: false;
+    in-out property <bool> widget-visible: false;
+    in-out property <string> widget-title;
+    in-out property <string> widget-description;
+    in-out property <string> widget-url;
+    callback widget-updated();
+    changed widget-visible => { self.widget-updated(); }
+    changed widget-title => { self.widget-updated(); }
+    changed widget-description => { self.widget-updated(); }
+    changed widget-url => { self.widget-updated(); }
+    in-out property <[string]> project-names;
+    in-out property <int> project-index: 0;
+    in-out property <string> project-id;
+    in-out property <string> project-name: "All projects";
+    in-out property <string> project-context;
+    in-out property <string> project-brief;
+    in-out property <string> meeting-project-id;
+    in-out property <string> meeting-project-name;
+    in-out property <string> meeting-project-state;
+    in-out property <string> meeting-project-reason;
+    in-out property <int> hub-tab: 0;
+    in-out property <[DetailRow]> hub-rows;
+    in-out property <string> hub-selected;
+    in-out property <string> hub-job-state;
+    in-out property <bool> hub-inspector-open: false;
+    in-out property <string> hub-heading: "Meetings";
+    in-out property <string> hub-description;
+    in-out property <string> hub-detail;
+    in-out property <string> hub-primary: "New project";
+    in-out property <bool> hub-loading: false;
+    in-out property <float> microphone-level: 0;
+    in-out property <float> system-level: 0;
+    in-out property <string> recording-health;
+    in-out property <int> reading-mode: 0;
+    in-out property <string> reading-language: "English";
+    in-out property <bool> reading-ready: false;
+    in-out property <bool> reduced-motion: false;
+    in-out property <int> motion-mode: 0;
+    in-out property <bool> system-reduced-motion: false;
+    in-out property <string> speaking-id;
+    callback action(string, string);
+    callback ui-style-changed();
+    callback preferences-changed();
+    in-out property <bool> auto-summary: true;
+    in-out property <string> default-summary-language: "auto";
+    in-out property <string> summary-template-id: "standard_meeting";
+    changed auto-summary => { self.preferences-changed(); }
+    changed default-summary-language => { self.preferences-changed(); }
+    changed summary-template-id => { self.preferences-changed(); }
+    changed dark => { self.preferences-changed(); }
+    changed zoom => { self.preferences-changed(); }
+    changed reading-size => { self.preferences-changed(); }
+    changed motion-mode => { self.preferences-changed(); }
+    changed timeline-open => { self.preferences-changed(); }
+    changed notes-timeline-fraction => { self.preferences-changed(); }
+    changed notes-highlights-open => { self.preferences-changed(); }
+    changed close-to-tray => { self.preferences-changed(); }
+    callback notes-edited(string);
+    callback form-edited(string, string);
+    pure callback note-group-contains(string, string) -> bool;
+    pure callback matches-setting(string, string) -> bool;
+    in-out property <float> window-width: 1440;
+    in-out property <float> window-height: 900;
+    in-out property <int> view: 0;
+    in-out property <int> meeting-tab: 0;
+    in-out property <int> settings-tab: 0;
+    in-out property <string> privacy-summary: "Checking privacy controls…";
+    in-out property <bool> privacy-encrypted: false;
+    in-out property <int> privacy-pending: 0;
+    in-out property <int> privacy-credentials: 0;
+    in-out property <string> settings-query;
+    in-out property <int> reading-size: 0;
+    in-out property <bool> notifications: false;
+    in-out property <bool> engine-ready: false;
+    in-out property <bool> setup-needed: false;
+    in-out property <bool> loading: false;
+    in-out property <bool> busy: false;
+    in-out property <bool> notes-generating: false;
+    in-out property <bool> transcribing: false;
+    in-out property <bool> playing: false;
+    in-out property <bool> recording: false;
+    in-out property <bool> close-to-tray: false;
+    callback recording-state-changed();
+    changed recording => { self.recording-state-changed(); self.widget-updated(); }
+    changed recording-paused => { self.recording-state-changed(); }
+    in-out property <bool> recording-paused: false;
+    in-out property <bool> recording-save-pending: false;
+    in-out property <bool> timeline-open: true;
+    in-out property <bool> dark: true;
+    in-out property <float> zoom: 1;
+    in-out property <float> progress: 0;
+    in-out property <float> playhead: 0;
+    in-out property <int> active-transcript-index: -1;
+    in-out property <string> active-transcript-id;
+    in-out property <int> active-word-start: -1;
+    in-out property <int> active-word-end: -1;
+    in-out property <length> transcript-viewport-height;
+    in-out property <string> selected-note-id;
+    in-out property <float> inspector-position: 0;
+    in-out property <float> timeline-duration: 1;
+    in-out property <bool> timeline-auto: true;
+    in-out property <float> timeline-height: 600;
+    in-out property <float> notes-timeline-fraction: 0;
+    in-out property <string> selected-lane-id;
+    in-out property <bool> notes-highlights-open: true;
+    in-out property <[NoteHighlight]> notes-highlights;
+    in-out property <length> transcript-scroll-y: 0px;
+    in-out property <bool> has-more: false;
+    in-out property <float> audio-level: 0;
+    in-out property <bool> monitoring: false;
+    in-out property <bool> follow-playback: true;
+    in-out property <bool> latin-devanagari: true;
+    in-out property <bool> has-devanagari: false;
+    in-out property <bool> voice-ready: false;
+    in-out property <bool> voice-busy: false;
+    in-out property <[DetailRow]> voice-profiles;
+    in-out property <int> playback-rate-index: 1;
+    in-out property <string> clock: "00:00:00";
+    in-out property <string> title: "Record a meeting";
+    in-out property <string> recording-title: "New meeting";
+    in-out property <string> recording-date;
+    in-out property <string> meeting-date;
+    in-out property <string> meeting-duration;
+    in-out property <string> meeting-people;
+    in-out property <string> subtitle: "Capture the conversation. Keep what matters.";
+    in-out property <string> selected-id;
+    in-out property <string> list-query;
+    in-out property <string> query;
+    in-out property <bool> library-ask: false;
+    in-out property <string> answer-id;
+    in-out property <string> answer-text;
+    in-out property <styled-text> answer-content;
+    in-out property <bool> answer-stale: false;
+    in-out property <bool> filters-open: false;
+    in-out property <string> filter-after;
+    in-out property <string> filter-before;
+    in-out property <string> filter-tag;
+    in-out property <[DetailRow]> modal-choices;
+    in-out property <[string]> template-names;
+    in-out property <int> template-index;
+    in-out property <bool> template-custom: false;
+    in-out property <string> template-name;
+    in-out property <string> template-description;
+    in-out property <[TemplateSectionRow]> template-sections;
+    in-out property <[ClipRow]> markers;
+    in-out property <string> result-summary;
+    in-out property <string> preview-id;
+    in-out property <string> preview-title;
+    in-out property <string> preview-date;
+    in-out property <string> preview-body;
+    in-out property <string> preview-stamp;
+    in-out property <string> preview-kind: "Transcript";
+    in-out property <string> message;
+    in-out property <string> error;
+    in-out property <string> notes;
+    in-out property <[NoteBlock]> note-blocks;
+    in-out property <int> note-edit-index: -1;
+    in-out property <string> note-edit-value;
+    in-out property <bool> notes-context-open: false;
+    in-out property <string> notes-context;
+    in-out property <int> notes-language-index: 0;
+    in-out property <string> notes-language-code: "auto";
+    in-out property <styled-text> notes-preview;
+    in-out property <bool> editing-notes: false;
+    in-out property <string> notes-status;
+    in-out property <string> inspector-kind: "transcript";
+    in-out property <string> inspector-stamp: "00:00";
+    in-out property <string> inspector-owner;
+    in-out property <color> inspector-tone: #0f9a9f;
+    in-out property <[DetailRow]> inspector-evidence;
+    in-out property <string> inspector-title: "Meeting details";
+    in-out property <string> inspector-body: "Select a passage or a moment in the timeline to review it here.";
+    in-out property <string> modal;
+    in-out property <string> modal-title;
+    in-out property <string> modal-text;
+    in-out property <string> comparison-current;
+    in-out property <string> comparison-selected;
+    in-out property <string> modal-value;
+    in-out property <string> modal-secondary;
+    in-out property <string> modal-secondary-label;
+    in-out property <string> modal-date;
+    in-out property <bool> modal-has-date: false;
+    in-out property <string> modal-submit: "Save";
+    in-out property <[FormRow]> form-rows;
+    in-out property <[MeetingRow]> meetings;
+    in-out property <[TranscriptRow]> transcripts;
+    in-out property <[LaneRow]> lanes;
+    in-out property <[TickRow]> ruler-ticks;
+    in-out property <[ResultRow]> results;
+    in-out property <[DetailRow]> details;
+    // Settings → Automation: a setup command per AI assistant, while CLI or MCP access is on.
+    in-out property <bool> assistants-on: false;
+    in-out property <[DetailRow]> assistant-commands;
+    in-out property <[string]> templates;
+    in-out property <[string]> mic-devices;
+    in-out property <[string]> system-devices;
+    in-out property <int> mic-index: 0;
+    in-out property <int> system-index: 0;
+    in-out property <string> speech-model: "Local speech";
+    in-out property <string> summary-model: "Local AI";
+    in-out property <string> selected-template: "Meeting notes";
+    in-out property <string> provider;
+    in-out property <bool> cloud-available: false;
+    in-out property <bool> cloud-connected: false;
+    in-out property <bool> cloud-can-use: false;
+    in-out property <bool> cloud-loading: false;
+    in-out property <string> cloud-balance;
+    in-out property <string> cloud-recovery;
+    in-out property <string> cloud-held;
+    // Private summaries: the account's route ("end-to-end" or the legacy "gateway").
+    in-out property <bool> cloud-end-to-end: false;
+    in-out property <string> cloud-notice: "Cloud plans are not available yet. Your local models and personal provider connections keep working.";
+    in-out property <string> model;
+    in-out property <string> endpoint;
+    in-out property <string> api-key;
+    in-out property <string> folder;
+    // Recording notice: the step before capture and the open meeting's record.
+    // `recording-notice-route` is local or external; `meeting-notice` is empty without a record.
+    in-out property <string> recording-notice-text;
+    in-out property <string> recording-notice-route;
+    in-out property <string> recording-notice-detail;
+    in-out property <string> meeting-notice;
+    // Share a copy: kind 0 is a page, 1 an .overtalk file. Audio 0 is source clips
+    // (pages) or the original recording (files), 1 the whole recording made smaller,
+    // 2 none. Terms and time ranges are what the copy hides; the estimate is its size.
+    in-out property <int> share-kind: 0;
+    in-out property <int> share-audio: 0;
+    in-out property <string> share-terms;
+    in-out property <bool> share-contacts: false;
+    in-out property <bool> share-omit-notes: false;
+    in-out property <string> share-ranges;
+    in-out property <string> share-estimate;
+}

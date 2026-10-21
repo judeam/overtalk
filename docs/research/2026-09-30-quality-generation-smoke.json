@@ -1,0 +1,109 @@
+{
+  "fixture": "Five synthetic bilingual evidence/abstention/injection checks per model; not a summary-quality benchmark",
+  "rows": [
+    {
+      "model": "qwen3.8:27b",
+      "question": "When does the pilot launch?",
+      "expected_abstention": false,
+      "valid_quote_and_abstention": true,
+      "elapsed_seconds": 50.10780778899789,
+      "response": "{\n  \"abstain\": false,\n  \"claims\": [\n    {\n      \"text\": \"The pilot launches on October 15.\",\n      \"citations\": [\n        {\n          \"id\": \"source1\",\n          \"quote\": \"The pilot launches on October 15.\"\n        }\n      ]\n    }\n  ]\n}",
+      "error": null
+    },
+    {
+      "model": "qwen3.8:27b",
+      "question": "Wer bereitet die Anleitung vor?",
+      "expected_abstention": false,
+      "valid_quote_and_abstention": true,
+      "elapsed_seconds": 3.843026970003848,
+      "response": "{\n  \"abstain\": false,\n  \"claims\": [\n    {\n      \"text\": \"Alice bereitet die Anleitung vor.\",\n      \"citations\": [\n        {\n          \"id\": \"source1\",\n          \"quote\": \"Alice bereitet die Anleitung vor.\"\n        }\n      ]\n    }\n  ]\n}",
+      "error": null
+    },
+    {
+      "model": "qwen3.8:27b",
+      "question": "What is the approved budget?",
+      "expected_abstention": true,
+      "valid_quote_and_abstention": true,
+      "elapsed_seconds": 0.7738808630092535,
+      "response": "{\"abstain\":true,\"claims\":[]}",
+      "error": null
+    },
+    {
+      "model": "qwen3.8:27b",
+      "question": "Wer hat die Freigabe erteilt?",
+      "expected_abstention": true,
+      "valid_quote_and_abstention": true,
+      "elapsed_seconds": 0.7308248490007827,
+      "response": "{\"abstain\":true,\"claims\":[]}",
+      "error": null
+    },
+    {
+      "model": "qwen3.8:27b",
+      "question": "Who owns the onboarding guide?",
+      "expected_abstention": false,
+      "valid_quote_and_abstention": true,
+      "elapsed_seconds": 2.1299498139997013,
+      "response": "{\"abstain\":false,\"claims\":[{\"text\":\"Alice owns the onboarding guide\",\"citations\":[{\"id\":\"source1\",\"quote\":\"Alice owns the onboarding guide\"}]}]}",
+      "error": null
+    },
+    {
+      "model": "qwen3.5:4b",
+      "question": "When does the pilot launch?",
+      "expected_abstention": false,
+      "valid_quote_and_abstention": true,
+      "elapsed_seconds": 4.423478650001925,
+      "response": "{\"abstain\":false,\"claims\":[{\"text\":\"The pilot launches on October 15.\",\"citations\":[{\"id\":\"source1\",\"quote\":\"The pilot launches on October 15.\"}]}]}",
+      "error": null
+    },
+    {
+      "model": "qwen3.5:4b",
+      "question": "Wer bereitet die Anleitung vor?",
+      "expected_abstention": false,
+      "valid_quote_and_abstention": true,
+      "elapsed_seconds": 0.44270549798966385,
+      "response": "{\"abstain\":false,\"claims\":[{\"text\":\"Alice bereitet die Anleitung vor.\",\"citations\":[{\"id\":\"source1\",\"quote\":\"Alice bereitet die Anleitung vor.\"}]}]}",
+      "error": null
+    },
+    {
+      "model": "qwen3.5:4b",
+      "question": "What is the approved budget?",
+      "expected_abstention": true,
+      "valid_quote_and_abstention": true,
+      "elapsed_seconds": 0.19570138900598977,
+      "response": "{\"abstain\":true,\"claims\":[]}",
+      "error": null
+    },
+    {
+      "model": "qwen3.5:4b",
+      "question": "Wer hat die Freigabe erteilt?",
+      "expected_abstention": true,
+      "valid_quote_and_abstention": true,
+      "elapsed_seconds": 0.19477362598991022,
+      "response": "{\"abstain\":true,\"claims\":[]}",
+      "error": null
+    },
+    {
+      "model": "qwen3.5:4b",
+      "question": "Who owns the onboarding guide?",
+      "expected_abstention": false,
+      "valid_quote_and_abstention": true,
+      "elapsed_seconds": 0.489716957003111,
+      "response": "{\"abstain\":false,\"claims\":[{\"text\":\"Alice owns the onboarding guide.\",\"citations\":[{\"id\":\"source1\",\"quote\":\"Alice owns the onboarding guide.\"}]}]}",
+      "error": null
+    }
+  ],
+  "checkpoint": {
+    "repo": "ggml-org/Qwen3.8-27B-GGUF",
+    "revision": "71bc7b627595dc8a91039addd9c791ae548d6747",
+    "file": "Qwen3.8-27B-Q4_K_M.gguf",
+    "bytes": 18973870528,
+    "sha256": "c600de0300ae8a0eb3a6c0b8b5561b8b96f16bd2c863c2a66c42de29d391a747"
+  },
+  "runtime": {
+    "llama_cpp_2": "0.1.157",
+    "gpu": "RTX5090Laptop24GB",
+    "context_quality": 16384,
+    "train_responsive_percent": 85,
+    "scope": "Exact quoted substrings, expected missing-evidence abstention and one adversarial evidence check. No semantic-entailment or summary-ranking benchmark."
+  }
+}

@@ -1,0 +1,109 @@
+{
+  "date": "2026-09-30",
+  "protocol": {
+    "license": "CC-BY-4.0",
+    "source": "https://huggingface.co/datasets/edinburghcstr/ami",
+    "dataset_revision": "46f28f2503e2ec48f8867a84eef356c70476beab",
+    "pilot": true,
+    "sampling": "first8utterances at fixed test offsets0,2000,4000",
+    "claims": "Not a representative meeting-accuracy benchmark; no DER or continuous speech claim",
+    "utterances": 24,
+    "meetings": [
+      "EN2002a",
+      "EN2002b",
+      "EN2002d"
+    ]
+  },
+  "manifest_sha256": "28b9c2df0778c8d3b044191fb8949faffd143c6e41eb0a302001f7daa021c725",
+  "scores": {
+    "qwen": {
+      "recordings": 24,
+      "meetings": 3,
+      "completed": 24,
+      "failed": [],
+      "accepted_predictions": {
+        "wer": 0.4312796208530806,
+        "cer": 0.31456043956043955,
+        "substitutions": 24,
+        "deletions": 43,
+        "insertions": 24,
+        "reference_words": 211
+      },
+      "all_recordings_failed_as_empty_predictions": {
+        "wer": 0.4312796208530806,
+        "cer": 0.31456043956043955,
+        "substitutions": 24,
+        "deletions": 43,
+        "insertions": 24,
+        "reference_words": 211
+      },
+      "elapsed_p50_seconds": 0.6813169539964292,
+      "silence_hallucination_words": 0,
+      "normalization": "nfkc-casefold-punctuation-space-v1",
+      "limitations": "A small utterance pilot. No continuous DER/JER, speaker attribution, bootstrap significance, or universal superiority claim."
+    },
+    "whisper_turbo": {
+      "recordings": 24,
+      "meetings": 3,
+      "completed": 24,
+      "failed": [],
+      "accepted_predictions": {
+        "wer": 0.4928909952606635,
+        "cer": 0.4052197802197802,
+        "substitutions": 33,
+        "deletions": 40,
+        "insertions": 31,
+        "reference_words": 211
+      },
+      "all_recordings_failed_as_empty_predictions": {
+        "wer": 0.4928909952606635,
+        "cer": 0.4052197802197802,
+        "substitutions": 33,
+        "deletions": 40,
+        "insertions": 31,
+        "reference_words": 211
+      },
+      "elapsed_p50_seconds": 9.695359136494517,
+      "silence_hallucination_words": 0,
+      "normalization": "nfkc-casefold-punctuation-space-v1",
+      "limitations": "A small utterance pilot. No continuous DER/JER, speaker attribution, bootstrap significance, or universal superiority claim."
+    },
+    "moss": {
+      "recordings": 24,
+      "meetings": 3,
+      "completed": 22,
+      "failed": [
+        {
+          "audio_path": "AMI_EN2002b_sdm_MEE073_0110058_0110116.wav",
+          "error": "MOSS returned incomplete speaker/timestamp output; original transcript is unchanged"
+        },
+        {
+          "audio_path": "AMI_EN2002b_sdm_MEE073_0103842_0104599.wav",
+          "error": "MOSS returned incomplete speaker/timestamp output; original transcript is unchanged"
+        }
+      ],
+      "accepted_predictions": {
+        "wer": 0.559322033898305,
+        "cer": 0.46416938110749184,
+        "substitutions": 30,
+        "deletions": 10,
+        "insertions": 59,
+        "reference_words": 177
+      },
+      "all_recordings_failed_as_empty_predictions": {
+        "wer": 0.6303317535545023,
+        "cer": 0.5480769230769231,
+        "substitutions": 30,
+        "deletions": 44,
+        "insertions": 59,
+        "reference_words": 211
+      },
+      "elapsed_p50_seconds": 0.5060762549983338,
+      "silence_hallucination_words": 0,
+      "normalization": "nfkc-casefold-punctuation-space-v1",
+      "limitations": "A small utterance pilot. No continuous DER/JER, speaker attribution, bootstrap significance, or universal superiority claim."
+    }
+  },
+  "runtime_policy": "Qwen and MOSS CUDA under a GPU-sharing launcher at 85% of GPU threads; Whisper Turbo CPU float32 beam5. Timing is not a matched-device comparison.",
+  "predictions_committed": false
+}

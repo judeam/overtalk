@@ -1,0 +1,2 @@
+# Evaluation only: do not add this to the running speech/model environment.
+meeteval==0.4.3

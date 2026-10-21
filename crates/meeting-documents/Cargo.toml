@@ -1,0 +1,14 @@
+[package]
+name = "overtalk-documents"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+
+[dependencies]
+serde = { workspace = true }
+serde_json = { workspace = true }
+pdf-writer = "0.15.0"
+ttf-parser = "0.25.1"
+zip = { version = "9.0.0", default-features = false, features = ["deflate"] }
+pulldown-cmark = { version = "0.13.4", default-features = false }
+roxmltree = "0.21.1"

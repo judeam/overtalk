@@ -1,0 +1,69 @@
+{
+  "id": "val-sales",
+  "split": "validation",
+  "difficulty": "hard",
+  "language": "pt",
+  "domain": "customer renewal",
+  "provenance": "Newly authored synthetic diagnostic; no real personal data; not a recording.",
+  "transcript": "[00:00] Beatriz: O cliente usa quarenta licenças; pediu preço para sessenta, mas não comprou mais vinte.\n[00:10] Rui: Ofereci desconto de quinze por cento na conversa anterior.\n[00:20] Beatriz: Não foi aprovado. A proposta autorizada é cinco por cento, só para contrato anual.\n[00:30] Rui: Vou mandar essa proposta até amanhã às dez. Não é um contrato assinado.\n[00:40] Cliente: Talvez eu aceite se houver suporte aos domingos.\n[00:50] Beatriz: Não temos aprovação para suporte aos domingos. Isso continua em aberto.\n[01:00] Rui: A fatura antiga já foi paga.\n[01:10] Cliente: E quando começa a renovação?\n[01:20] Beatriz: Ainda não há data; dependemos da aceitação por escrito.",
+  "facts": [
+    {
+      "id": "F1",
+      "assertion": "40currentlicenses;60ispricingrequest,notpurchase.",
+      "evidence": [
+        1
+      ]
+    },
+    {
+      "id": "F2",
+      "assertion": "Approveddiscount5%annualonly;15%notapproved.",
+      "evidence": [
+        2,
+        3
+      ]
+    },
+    {
+      "id": "F3",
+      "assertion": "Rui sendsproposalbytomorrow10am.",
+      "evidence": [
+        4
+      ]
+    },
+    {
+      "id": "F4",
+      "assertion": "No signed/acceptedrenewal.",
+      "evidence": [
+        4,
+        5,
+        9
+      ]
+    },
+    {
+      "id": "F5",
+      "assertion": "Sundaysupportunapproved/unresolved.",
+      "evidence": [
+        5,
+        6
+      ]
+    },
+    {
+      "id": "F6",
+      "assertion": "Oldinvoicealreadypaid.",
+      "evidence": [
+        7
+      ]
+    },
+    {
+      "id": "F7",
+      "assertion": "Renewalstartunknownpendingwrittenacceptance.",
+      "evidence": [
+        8,
+        9
+      ]
+    }
+  ],
+  "forbidden": [
+    "Do not state60licensespurchased.",
+    "Do not taskRuiwithpayingoldinvoice."
+  ]
+}

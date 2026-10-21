@@ -1,0 +1,3 @@
+# MOSS local runtime
+
+Inference subset vendored from https://github.com/OpenMOSS/MOSS-Transcribe-Diarize/tree/61bc29cd4120be7b5d3b761b64cd5dff57263642 (2026-09-02), Apache-2.0; full LICENSE retained. The package initializer omits subtitles/server/application modules. Configuration, modeling, processing, helpers and parser retain upstream contents except a minimal fix in process_audio_info that chooses the first non-None audio input instead of applying boolean truth to a NumPy array. The Sonefold adapter constructs the model and processor explicitly with locally cached weights and rejects remote audio and incomplete structured output; it does not enable trust_remote_code.

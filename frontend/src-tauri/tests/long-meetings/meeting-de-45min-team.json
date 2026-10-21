@@ -1,0 +1,3210 @@
+{
+ "name": "de-45min-team",
+ "language": "de",
+ "minutes": 48,
+ "people": [
+  "Jonas",
+  "Clara",
+  "Mehmet",
+  "Sofia"
+ ],
+ "lines": [
+  {
+   "t": 0,
+   "speaker": "Jonas",
+   "text": "Okay, dann zu das Kestrel-Dashboard."
+  },
+  {
+   "t": 3,
+   "speaker": "Clara",
+   "text": "Kannst du kurz deinen Bildschirm teilen?"
+  },
+  {
+   "t": 7,
+   "speaker": "Mehmet",
+   "text": "Rund 1.800 Kunden öffnen Kestrel jede Woche."
+  },
+  {
+   "t": 12,
+   "speaker": "Jonas",
+   "text": "Kannst du das wiederholen? Dein Ton war kurz weg."
+  },
+  {
+   "t": 17,
+   "speaker": "Mehmet",
+   "text": "Das größte Risiko ist ehrlich gesagt immer noch der Zeitplan."
+  },
+  {
+   "t": 22,
+   "speaker": "Mehmet",
+   "text": "Das Kestrel-Dashboard lädt im Schnitt in 4,2 Sekunden."
+  },
+  {
+   "t": 27,
+   "speaker": "Clara",
+   "text": "Sollen wir das dunkle Design ganz weglassen?"
+  },
+  {
+   "t": 32,
+   "speaker": "Jonas",
+   "text": "Das würde ich heute nicht entscheiden, erst brauchen wir die Umfrage."
+  },
+  {
+   "t": 38,
+   "speaker": "Jonas",
+   "text": "Hat jemand den Link zum Planungsdokument?"
+  },
+  {
+   "t": 42,
+   "speaker": "Sofia",
+   "text": "Ein Wettbewerber hat letzten Monat etwas Ähnliches gestartet."
+  },
+  {
+   "t": 47,
+   "speaker": "Clara",
+   "text": "Kannst du das wiederholen? Dein Ton war kurz weg."
+  },
+  {
+   "t": 52,
+   "speaker": "Mehmet",
+   "text": "Ich würde es für die erste Version einfach halten."
+  },
+  {
+   "t": 57,
+   "speaker": "Mehmet",
+   "text": "Hm."
+  },
+  {
+   "t": 59,
+   "speaker": "Clara",
+   "text": "Technisch ist das nicht besonders schwer."
+  },
+  {
+   "t": 63,
+   "speaker": "Sofia",
+   "text": "Ich bin Freitagnachmittag übrigens nicht da."
+  },
+  {
+   "t": 67,
+   "speaker": "Mehmet",
+   "text": "Wir sollten die Finanzabteilung einbeziehen, bevor wir etwas Teures zusagen."
+  },
+  {
+   "t": 73,
+   "speaker": "Jonas",
+   "text": "Ich habe gestern mit dem Design-Team gesprochen, die hatten ein paar Bedenken."
+  },
+  {
+   "t": 79,
+   "speaker": "Sofia",
+   "text": "Hm."
+  },
+  {
+   "t": 81,
+   "speaker": "Clara",
+   "text": "Ich bin nicht sicher, ob die Daten das schon hergeben."
+  },
+  {
+   "t": 87,
+   "speaker": "Sofia",
+   "text": "Ähm."
+  },
+  {
+   "t": 89,
+   "speaker": "Sofia",
+   "text": "Bei der Formulierung gegenüber Kunden müssen wir vorsichtig sein."
+  },
+  {
+   "t": 94,
+   "speaker": "Clara",
+   "text": "Lass uns da jetzt nicht zu tief einsteigen."
+  },
+  {
+   "t": 99,
+   "speaker": "Jonas",
+   "text": "Ich schaue kurz in meine Notizen, das kam in der letzten Retro auch schon."
+  },
+  {
+   "t": 106,
+   "speaker": "Clara",
+   "text": "Es gibt auch eine Abhängigkeit zum Plattform-Team, die wir nicht vergessen sollten."
+  },
+  {
+   "t": 113,
+   "speaker": "Mehmet",
+   "text": "Ähm."
+  },
+  {
+   "t": 115,
+   "speaker": "Mehmet",
+   "text": "Ich habe gestern mit dem Design-Team gesprochen, die hatten ein paar Bedenken."
+  },
+  {
+   "t": 121,
+   "speaker": "Mehmet",
+   "text": "Ich bin Freitagnachmittag übrigens nicht da."
+  },
+  {
+   "t": 125,
+   "speaker": "Jonas",
+   "text": "Dann ist es beschlossen: Das neue Kestrel-Dashboard kommt erst nach der Messe im März."
+  },
+  {
+   "t": 132,
+   "speaker": "Mehmet",
+   "text": "Gut, so machen wir es."
+  },
+  {
+   "t": 136,
+   "speaker": "Sofia",
+   "text": "Ich bin nicht sicher, ob die Daten das schon hergeben."
+  },
+  {
+   "t": 142,
+   "speaker": "Mehmet",
+   "text": "Klar, Moment, ich suche das richtige Fenster."
+  },
+  {
+   "t": 146,
+   "speaker": "Mehmet",
+   "text": "Ich hätte gern eine grobe Schätzung, bevor wir weitermachen."
+  },
+  {
+   "t": 151,
+   "speaker": "Clara",
+   "text": "Aha."
+  },
+  {
+   "t": 153,
+   "speaker": "Mehmet",
+   "text": "Ich habe mir die Zahlen nochmal angeschaut, die liegen ungefähr da, wo wir dachten."
+  },
+  {
+   "t": 161,
+   "speaker": "Mehmet",
+   "text": "Ähm."
+  },
+  {
+   "t": 162,
+   "speaker": "Mehmet",
+   "text": "Hat jemand den Link zum Planungsdokument?"
+  },
+  {
+   "t": 166,
+   "speaker": "Clara",
+   "text": "Ich hätte gern eine grobe Schätzung, bevor wir weitermachen."
+  },
+  {
+   "t": 172,
+   "speaker": "Jonas",
+   "text": "Die Richtung finde ich gut, ich mache mir nur Sorgen um den Aufwand."
+  },
+  {
+   "t": 179,
+   "speaker": "Jonas",
+   "text": "Clara, kannst du die Kestrel-Entwürfe an die Design-Runde schicken, bis Donnerstag?"
+  },
+  {
+   "t": 185,
+   "speaker": "Clara",
+   "text": "Okay, übernehme ich, Donnerstag passt."
+  },
+  {
+   "t": 188,
+   "speaker": "Jonas",
+   "text": "Ähm."
+  },
+  {
+   "t": 190,
+   "speaker": "Mehmet",
+   "text": "Beim letzten Mal hat das doppelt so lange gedauert wie geplant."
+  },
+  {
+   "t": 196,
+   "speaker": "Mehmet",
+   "text": "Guter Punkt, aber die Kunden haben sich darüber eigentlich nicht beschwert."
+  },
+  {
+   "t": 202,
+   "speaker": "Clara",
+   "text": "Das Kennzahlen-Dashboard war heute früh down, die Zahlen sind von gestern."
+  },
+  {
+   "t": 208,
+   "speaker": "Sofia",
+   "text": "Beim letzten Mal hat das doppelt so lange gedauert wie geplant."
+  },
+  {
+   "t": 215,
+   "speaker": "Clara",
+   "text": "Ich habe gestern mit dem Design-Team gesprochen, die hatten ein paar Bedenken."
+  },
+  {
+   "t": 221,
+   "speaker": "Sofia",
+   "text": "Beim letzten Mal hat das doppelt so lange gedauert wie geplant."
+  },
+  {
+   "t": 227,
+   "speaker": "Clara",
+   "text": "Ich habe dazu keine starke Meinung."
+  },
+  {
+   "t": 231,
+   "speaker": "Mehmet",
+   "text": "Hm."
+  },
+  {
+   "t": 233,
+   "speaker": "Clara",
+   "text": "Die Richtung finde ich gut, ich mache mir nur Sorgen um den Aufwand."
+  },
+  {
+   "t": 240,
+   "speaker": "Clara",
+   "text": "Ich glaube, das Team schafft das, wenn wir den Umfang etwas kürzen."
+  },
+  {
+   "t": 246,
+   "speaker": "Jonas",
+   "text": "Lass uns da jetzt nicht zu tief einsteigen."
+  },
+  {
+   "t": 251,
+   "speaker": "Jonas",
+   "text": "Danke, hab ihn."
+  },
+  {
+   "t": 254,
+   "speaker": "Sofia",
+   "text": "Ich würde es für die erste Version einfach halten."
+  },
+  {
+   "t": 259,
+   "speaker": "Mehmet",
+   "text": "Aus Sicht des Supports ist das eine der häufigsten Beschwerden."
+  },
+  {
+   "t": 265,
+   "speaker": "Mehmet",
+   "text": "Lass uns das im Auge behalten und nochmal drauf schauen, wenn es schlimmer wird."
+  },
+  {
+   "t": 272,
+   "speaker": "Clara",
+   "text": "Die Dokumentation dazu ist übrigens ziemlich veraltet."
+  },
+  {
+   "t": 277,
+   "speaker": "Mehmet",
+   "text": "Es gibt auch eine Abhängigkeit zum Plattform-Team, die wir nicht vergessen sollten."
+  },
+  {
+   "t": 283,
+   "speaker": "Jonas",
+   "text": "Ich habe dazu keine starke Meinung."
+  },
+  {
+   "t": 287,
+   "speaker": "Clara",
+   "text": "Es gibt auch eine Abhängigkeit zum Plattform-Team, die wir nicht vergessen sollten."
+  },
+  {
+   "t": 294,
+   "speaker": "Clara",
+   "text": "Mhm, ja."
+  },
+  {
+   "t": 296,
+   "speaker": "Jonas",
+   "text": "Es gibt auch eine Abhängigkeit zum Plattform-Team, die wir nicht vergessen sollten."
+  },
+  {
+   "t": 303,
+   "speaker": "Sofia",
+   "text": "Wir haben das letzte Woche mit dem Customer-Success-Team besprochen."
+  },
+  {
+   "t": 308,
+   "speaker": "Clara",
+   "text": "Hab ihn gerade in den Chat gestellt."
+  },
+  {
+   "t": 312,
+   "speaker": "Clara",
+   "text": "Die Richtung finde ich gut, ich mache mir nur Sorgen um den Aufwand."
+  },
+  {
+   "t": 319,
+   "speaker": "Jonas",
+   "text": "Hm."
+  },
+  {
+   "t": 321,
+   "speaker": "Clara",
+   "text": "Hab ihn gerade in den Chat gestellt."
+  },
+  {
+   "t": 325,
+   "speaker": "Clara",
+   "text": "Sorry, ich war stummgeschaltet."
+  },
+  {
+   "t": 329,
+   "speaker": "Sofia",
+   "text": "Ein Wettbewerber hat letzten Monat etwas Ähnliches gestartet."
+  },
+  {
+   "t": 333,
+   "speaker": "Jonas",
+   "text": "Ich hätte gern eine grobe Schätzung, bevor wir weitermachen."
+  },
+  {
+   "t": 339,
+   "speaker": "Jonas",
+   "text": "Mhm, ja."
+  },
+  {
+   "t": 341,
+   "speaker": "Clara",
+   "text": "Ich glaube, das Team schafft das, wenn wir den Umfang etwas kürzen."
+  },
+  {
+   "t": 348,
+   "speaker": "Jonas",
+   "text": "Mhm."
+  },
+  {
+   "t": 349,
+   "speaker": "Jonas",
+   "text": "Bei der Formulierung gegenüber Kunden müssen wir vorsichtig sein."
+  },
+  {
+   "t": 355,
+   "speaker": "Sofia",
+   "text": "Mhm, ja."
+  },
+  {
+   "t": 357,
+   "speaker": "Sofia",
+   "text": "Mein Bauchgefühl sagt, dass wir das zerdenken."
+  },
+  {
+   "t": 361,
+   "speaker": "Clara",
+   "text": "Okay, dann zu den Rechnungsexport für Bauer GmbH."
+  },
+  {
+   "t": 366,
+   "speaker": "Mehmet",
+   "text": "Ähm."
+  },
+  {
+   "t": 368,
+   "speaker": "Sofia",
+   "text": "Lass uns das im Auge behalten und nochmal drauf schauen, wenn es schlimmer wird."
+  },
+  {
+   "t": 376,
+   "speaker": "Clara",
+   "text": "Mhm, ja."
+  },
+  {
+   "t": 378,
+   "speaker": "Clara",
+   "text": "Aus Sicht des Supports ist das eine der häufigsten Beschwerden."
+  },
+  {
+   "t": 384,
+   "speaker": "Sofia",
+   "text": "Lass uns da jetzt nicht zu tief einsteigen."
+  },
+  {
+   "t": 388,
+   "speaker": "Jonas",
+   "text": "Ich glaube, das Team schafft das, wenn wir den Umfang etwas kürzen."
+  },
+  {
+   "t": 395,
+   "speaker": "Mehmet",
+   "text": "Ich habe mir die Zahlen nochmal angeschaut, die liegen ungefähr da, wo wir dachten."
+  },
+  {
+   "t": 402,
+   "speaker": "Sofia",
+   "text": "Mhm."
+  },
+  {
+   "t": 404,
+   "speaker": "Jonas",
+   "text": "Lass uns das im Auge behalten und nochmal drauf schauen, wenn es schlimmer wird."
+  },
+  {
+   "t": 411,
+   "speaker": "Mehmet",
+   "text": "Das Kennzahlen-Dashboard war heute früh down, die Zahlen sind von gestern."
+  },
+  {
+   "t": 418,
+   "speaker": "Jonas",
+   "text": "Kannst du das wiederholen? Dein Ton war kurz weg."
+  },
+  {
+   "t": 423,
+   "speaker": "Sofia",
+   "text": "Lass uns da jetzt nicht zu tief einsteigen."
+  },
+  {
+   "t": 428,
+   "speaker": "Sofia",
+   "text": "Mein Bauchgefühl sagt, dass wir das zerdenken."
+  },
+  {
+   "t": 432,
+   "speaker": "Sofia",
+   "text": "Ich hätte gern eine grobe Schätzung, bevor wir weitermachen."
+  },
+  {
+   "t": 437,
+   "speaker": "Mehmet",
+   "text": "Mhm, ja."
+  },
+  {
+   "t": 440,
+   "speaker": "Clara",
+   "text": "Ein Wettbewerber hat letzten Monat etwas Ähnliches gestartet."
+  },
+  {
+   "t": 444,
+   "speaker": "Clara",
+   "text": "Ich bin nicht sicher, ob die Daten das schon hergeben."
+  },
+  {
+   "t": 450,
+   "speaker": "Clara",
+   "text": "Hat jemand den Link zum Planungsdokument?"
+  },
+  {
+   "t": 454,
+   "speaker": "Jonas",
+   "text": "Bei der Formulierung gegenüber Kunden müssen wir vorsichtig sein."
+  },
+  {
+   "t": 459,
+   "speaker": "Mehmet",
+   "text": "Ähm."
+  },
+  {
+   "t": 461,
+   "speaker": "Clara",
+   "text": "Lass uns da jetzt nicht zu tief einsteigen."
+  },
+  {
+   "t": 466,
+   "speaker": "Jonas",
+   "text": "Das größte Risiko ist ehrlich gesagt immer noch der Zeitplan."
+  },
+  {
+   "t": 472,
+   "speaker": "Mehmet",
+   "text": "Ich würde es für die erste Version einfach halten."
+  },
+  {
+   "t": 477,
+   "speaker": "Jonas",
+   "text": "Der PDF-Export bricht bei Tabellen über zwei Seiten."
+  },
+  {
+   "t": 482,
+   "speaker": "Sofia",
+   "text": "Mhm, ja."
+  },
+  {
+   "t": 484,
+   "speaker": "Jonas",
+   "text": "Klar, Moment, ich suche das richtige Fenster."
+  },
+  {
+   "t": 489,
+   "speaker": "Clara",
+   "text": "Bauer GmbH schickt uns ungefähr 600 Rechnungen im Monat."
+  },
+  {
+   "t": 494,
+   "speaker": "Sofia",
+   "text": "Sollen wir Bauer auch einen Excel-Export anbieten?"
+  },
+  {
+   "t": 498,
+   "speaker": "Mehmet",
+   "text": "Nein, Excel ist in diesem Quartal nicht drin."
+  },
+  {
+   "t": 503,
+   "speaker": "Clara",
+   "text": "Beschluss: Wir reparieren zuerst das PDF-Layout für lange Tabellen, bevor wir neue Formate bauen."
+  },
+  {
+   "t": 510,
+   "speaker": "Sofia",
+   "text": "Gut, so machen wir es."
+  },
+  {
+   "t": 514,
+   "speaker": "Clara",
+   "text": "Danke, hab ihn."
+  },
+  {
+   "t": 517,
+   "speaker": "Mehmet",
+   "text": "Wir sollten die Finanzabteilung einbeziehen, bevor wir etwas Teures zusagen."
+  },
+  {
+   "t": 522,
+   "speaker": "Sofia",
+   "text": "Lass uns da jetzt nicht zu tief einsteigen."
+  },
+  {
+   "t": 527,
+   "speaker": "Sofia",
+   "text": "Mehmet, kannst du Bauer anrufen und die Rechnungsvorlage bestätigen lassen? Am besten bis Montag."
+  },
+  {
+   "t": 535,
+   "speaker": "Mehmet",
+   "text": "Klar, das schaffe ich bis Montag."
+  },
+  {
+   "t": 539,
+   "speaker": "Jonas",
+   "text": "Das Kennzahlen-Dashboard war heute früh down, die Zahlen sind von gestern."
+  },
+  {
+   "t": 545,
+   "speaker": "Sofia",
+   "text": "Kaffeepause bald? Wir sind schon eine Weile dran."
+  },
+  {
+   "t": 550,
+   "speaker": "Sofia",
+   "text": "Hat jemand den Link zum Planungsdokument?"
+  },
+  {
+   "t": 554,
+   "speaker": "Clara",
+   "text": "Das größte Risiko ist ehrlich gesagt immer noch der Zeitplan."
+  },
+  {
+   "t": 559,
+   "speaker": "Mehmet",
+   "text": "Wir haben das letzte Woche mit dem Customer-Success-Team besprochen."
+  },
+  {
+   "t": 564,
+   "speaker": "Jonas",
+   "text": "Mein Bauchgefühl sagt, dass wir das zerdenken."
+  },
+  {
+   "t": 569,
+   "speaker": "Clara",
+   "text": "Lass uns das im Auge behalten und nochmal drauf schauen, wenn es schlimmer wird."
+  },
+  {
+   "t": 576,
+   "speaker": "Jonas",
+   "text": "Lass uns das im Auge behalten und nochmal drauf schauen, wenn es schlimmer wird."
+  },
+  {
+   "t": 584,
+   "speaker": "Jonas",
+   "text": "Ähm."
+  },
+  {
+   "t": 585,
+   "speaker": "Clara",
+   "text": "Kannst du kurz deinen Bildschirm teilen?"
+  },
+  {
+   "t": 589,
+   "speaker": "Mehmet",
+   "text": "Lass uns das Thema noch fertig machen, dann fünf Minuten Pause."
+  },
+  {
+   "t": 596,
+   "speaker": "Clara",
+   "text": "Ähm."
+  },
+  {
+   "t": 597,
+   "speaker": "Jonas",
+   "text": "Die Richtung finde ich gut, ich mache mir nur Sorgen um den Aufwand."
+  },
+  {
+   "t": 604,
+   "speaker": "Jonas",
+   "text": "Ich würde es für die erste Version einfach halten."
+  },
+  {
+   "t": 610,
+   "speaker": "Clara",
+   "text": "Ich bin Freitagnachmittag übrigens nicht da."
+  },
+  {
+   "t": 614,
+   "speaker": "Clara",
+   "text": "Das Kennzahlen-Dashboard war heute früh down, die Zahlen sind von gestern."
+  },
+  {
+   "t": 620,
+   "speaker": "Mehmet",
+   "text": "Ich würde es für die erste Version einfach halten."
+  },
+  {
+   "t": 625,
+   "speaker": "Clara",
+   "text": "Lass uns das Thema noch fertig machen, dann fünf Minuten Pause."
+  },
+  {
+   "t": 631,
+   "speaker": "Clara",
+   "text": "Ich bin nicht sicher, ob die Daten das schon hergeben."
+  },
+  {
+   "t": 637,
+   "speaker": "Jonas",
+   "text": "Lass uns das im Auge behalten und nochmal drauf schauen, wenn es schlimmer wird."
+  },
+  {
+   "t": 644,
+   "speaker": "Mehmet",
+   "text": "Aus Sicht des Supports ist das eine der häufigsten Beschwerden."
+  },
+  {
+   "t": 650,
+   "speaker": "Mehmet",
+   "text": "Kaffeepause bald? Wir sind schon eine Weile dran."
+  },
+  {
+   "t": 655,
+   "speaker": "Clara",
+   "text": "Ein Wettbewerber hat letzten Monat etwas Ähnliches gestartet."
+  },
+  {
+   "t": 659,
+   "speaker": "Jonas",
+   "text": "Das betrifft übrigens auch die App, nicht nur das Web."
+  },
+  {
+   "t": 665,
+   "speaker": "Mehmet",
+   "text": "Das größte Risiko ist ehrlich gesagt immer noch der Zeitplan."
+  },
+  {
+   "t": 671,
+   "speaker": "Jonas",
+   "text": "Ich bin nicht sicher, ob die Daten das schon hergeben."
+  },
+  {
+   "t": 676,
+   "speaker": "Jonas",
+   "text": "Mhm, ja."
+  },
+  {
+   "t": 679,
+   "speaker": "Jonas",
+   "text": "Lass uns das Thema noch fertig machen, dann fünf Minuten Pause."
+  },
+  {
+   "t": 685,
+   "speaker": "Clara",
+   "text": "Kaffeepause bald? Wir sind schon eine Weile dran."
+  },
+  {
+   "t": 690,
+   "speaker": "Sofia",
+   "text": "Ich hätte gern eine grobe Schätzung, bevor wir weitermachen."
+  },
+  {
+   "t": 695,
+   "speaker": "Clara",
+   "text": "Kannst du das wiederholen? Dein Ton war kurz weg."
+  },
+  {
+   "t": 700,
+   "speaker": "Mehmet",
+   "text": "Mhm, ja."
+  },
+  {
+   "t": 702,
+   "speaker": "Jonas",
+   "text": "Das Kennzahlen-Dashboard war heute früh down, die Zahlen sind von gestern."
+  },
+  {
+   "t": 709,
+   "speaker": "Mehmet",
+   "text": "Die Richtung finde ich gut, ich mache mir nur Sorgen um den Aufwand."
+  },
+  {
+   "t": 715,
+   "speaker": "Sofia",
+   "text": "Mein Bauchgefühl sagt, dass wir das zerdenken."
+  },
+  {
+   "t": 720,
+   "speaker": "Mehmet",
+   "text": "Jonas, du wolltest noch über die Rufbereitschaft sprechen?"
+  },
+  {
+   "t": 725,
+   "speaker": "Jonas",
+   "text": "Kannst du das wiederholen? Dein Ton war kurz weg."
+  },
+  {
+   "t": 730,
+   "speaker": "Clara",
+   "text": "Kaffeepause bald? Wir sind schon eine Weile dran."
+  },
+  {
+   "t": 735,
+   "speaker": "Mehmet",
+   "text": "Mhm."
+  },
+  {
+   "t": 737,
+   "speaker": "Mehmet",
+   "text": "Wir haben vor zwei Jahren etwas Ähnliches versucht, das lief nicht gut."
+  },
+  {
+   "t": 743,
+   "speaker": "Jonas",
+   "text": "Mhm, ja."
+  },
+  {
+   "t": 746,
+   "speaker": "Mehmet",
+   "text": "Ähm."
+  },
+  {
+   "t": 747,
+   "speaker": "Jonas",
+   "text": "Das größte Risiko ist ehrlich gesagt immer noch der Zeitplan."
+  },
+  {
+   "t": 753,
+   "speaker": "Clara",
+   "text": "Ähm."
+  },
+  {
+   "t": 755,
+   "speaker": "Mehmet",
+   "text": "Bei der Formulierung gegenüber Kunden müssen wir vorsichtig sein."
+  },
+  {
+   "t": 760,
+   "speaker": "Jonas",
+   "text": "Danke, hab ihn."
+  },
+  {
+   "t": 763,
+   "speaker": "Jonas",
+   "text": "Aha."
+  },
+  {
+   "t": 765,
+   "speaker": "Mehmet",
+   "text": "Technisch ist das nicht besonders schwer."
+  },
+  {
+   "t": 769,
+   "speaker": "Clara",
+   "text": "Ich bin Freitagnachmittag übrigens nicht da."
+  },
+  {
+   "t": 773,
+   "speaker": "Mehmet",
+   "text": "Das betrifft übrigens auch die App, nicht nur das Web."
+  },
+  {
+   "t": 779,
+   "speaker": "Sofia",
+   "text": "Mhm."
+  },
+  {
+   "t": 781,
+   "speaker": "Mehmet",
+   "text": "Es gibt auch eine Abhängigkeit zum Plattform-Team, die wir nicht vergessen sollten."
+  },
+  {
+   "t": 787,
+   "speaker": "Sofia",
+   "text": "Das Kennzahlen-Dashboard war heute früh down, die Zahlen sind von gestern."
+  },
+  {
+   "t": 793,
+   "speaker": "Mehmet",
+   "text": "Die Richtung finde ich gut, ich mache mir nur Sorgen um den Aufwand."
+  },
+  {
+   "t": 800,
+   "speaker": "Jonas",
+   "text": "Ich würde es für die erste Version einfach halten."
+  },
+  {
+   "t": 805,
+   "speaker": "Clara",
+   "text": "Ich bin Freitagnachmittag übrigens nicht da."
+  },
+  {
+   "t": 809,
+   "speaker": "Mehmet",
+   "text": "Wir hatten letzten Monat 14 Alarme außerhalb der Arbeitszeit."
+  },
+  {
+   "t": 815,
+   "speaker": "Jonas",
+   "text": "Ähm."
+  },
+  {
+   "t": 816,
+   "speaker": "Clara",
+   "text": "Zwei davon waren Fehlalarme vom Festplattenmonitor."
+  },
+  {
+   "t": 820,
+   "speaker": "Clara",
+   "text": "Ich glaube, das Team schafft das, wenn wir den Umfang etwas kürzen."
+  },
+  {
+   "t": 827,
+   "speaker": "Jonas",
+   "text": "Ich habe dazu keine starke Meinung."
+  },
+  {
+   "t": 831,
+   "speaker": "Sofia",
+   "text": "Ich habe mir die Zahlen nochmal angeschaut, die liegen ungefähr da, wo wir dachten."
+  },
+  {
+   "t": 838,
+   "speaker": "Clara",
+   "text": "Die Richtung finde ich gut, ich mache mir nur Sorgen um den Aufwand."
+  },
+  {
+   "t": 845,
+   "speaker": "Jonas",
+   "text": "Mhm, ja."
+  },
+  {
+   "t": 848,
+   "speaker": "Mehmet",
+   "text": "Hm."
+  },
+  {
+   "t": 849,
+   "speaker": "Jonas",
+   "text": "Ich bin nicht sicher, ob die Daten das schon hergeben."
+  },
+  {
+   "t": 855,
+   "speaker": "Clara",
+   "text": "Könnten wir einen Wochenendbonus zahlen?"
+  },
+  {
+   "t": 859,
+   "speaker": "Sofia",
+   "text": "Das muss die Personalabteilung entscheiden, nicht wir hier."
+  },
+  {
+   "t": 864,
+   "speaker": "Clara",
+   "text": "Kannst du das wiederholen? Dein Ton war kurz weg."
+  },
+  {
+   "t": 869,
+   "speaker": "Mehmet",
+   "text": "Lass uns da jetzt nicht zu tief einsteigen."
+  },
+  {
+   "t": 874,
+   "speaker": "Mehmet",
+   "text": "Einverstanden, die Rufbereitschaft wechselt ab November auf Wochenschichten."
+  },
+  {
+   "t": 878,
+   "speaker": "Jonas",
+   "text": "Ja, passt für mich."
+  },
+  {
+   "t": 882,
+   "speaker": "Jonas",
+   "text": "Kannst du kurz deinen Bildschirm teilen?"
+  },
+  {
+   "t": 886,
+   "speaker": "Mehmet",
+   "text": "Kannst du kurz deinen Bildschirm teilen?"
+  },
+  {
+   "t": 890,
+   "speaker": "Jonas",
+   "text": "Ich habe dazu keine starke Meinung."
+  },
+  {
+   "t": 894,
+   "speaker": "Sofia",
+   "text": "Wir haben vor zwei Jahren etwas Ähnliches versucht, das lief nicht gut."
+  },
+  {
+   "t": 900,
+   "speaker": "Sofia",
+   "text": "Jonas, kannst du den PagerDuty-Plan anpassen? Am besten bis Freitag."
+  },
+  {
+   "t": 906,
+   "speaker": "Jonas",
+   "text": "Okay, übernehme ich, Freitag passt."
+  },
+  {
+   "t": 909,
+   "speaker": "Sofia",
+   "text": "Das betrifft übrigens auch die App, nicht nur das Web."
+  },
+  {
+   "t": 915,
+   "speaker": "Clara",
+   "text": "Ich habe gestern mit dem Design-Team gesprochen, die hatten ein paar Bedenken."
+  },
+  {
+   "t": 922,
+   "speaker": "Mehmet",
+   "text": "Ähm."
+  },
+  {
+   "t": 923,
+   "speaker": "Mehmet",
+   "text": "Sorry, ich war stummgeschaltet."
+  },
+  {
+   "t": 927,
+   "speaker": "Jonas",
+   "text": "Kaffeepause bald? Wir sind schon eine Weile dran."
+  },
+  {
+   "t": 931,
+   "speaker": "Mehmet",
+   "text": "Sorry, ich war stummgeschaltet."
+  },
+  {
+   "t": 935,
+   "speaker": "Clara",
+   "text": "Kaffeepause bald? Wir sind schon eine Weile dran."
+  },
+  {
+   "t": 939,
+   "speaker": "Clara",
+   "text": "Mhm."
+  },
+  {
+   "t": 941,
+   "speaker": "Sofia",
+   "text": "Lass uns da jetzt nicht zu tief einsteigen."
+  },
+  {
+   "t": 946,
+   "speaker": "Sofia",
+   "text": "Mein Bauchgefühl sagt, dass wir das zerdenken."
+  },
+  {
+   "t": 951,
+   "speaker": "Sofia",
+   "text": "Aha."
+  },
+  {
+   "t": 952,
+   "speaker": "Sofia",
+   "text": "Ich habe mir die Zahlen nochmal angeschaut, die liegen ungefähr da, wo wir dachten."
+  },
+  {
+   "t": 960,
+   "speaker": "Jonas",
+   "text": "Ich hätte gern eine grobe Schätzung, bevor wir weitermachen."
+  },
+  {
+   "t": 965,
+   "speaker": "Clara",
+   "text": "Das Kennzahlen-Dashboard war heute früh down, die Zahlen sind von gestern."
+  },
+  {
+   "t": 971,
+   "speaker": "Jonas",
+   "text": "Hm."
+  },
+  {
+   "t": 973,
+   "speaker": "Clara",
+   "text": "Lass uns das im Auge behalten und nochmal drauf schauen, wenn es schlimmer wird."
+  },
+  {
+   "t": 980,
+   "speaker": "Jonas",
+   "text": "Die Dokumentation dazu ist übrigens ziemlich veraltet."
+  },
+  {
+   "t": 985,
+   "speaker": "Mehmet",
+   "text": "Beim letzten Mal hat das doppelt so lange gedauert wie geplant."
+  },
+  {
+   "t": 991,
+   "speaker": "Sofia",
+   "text": "Das größte Risiko ist ehrlich gesagt immer noch der Zeitplan."
+  },
+  {
+   "t": 997,
+   "speaker": "Jonas",
+   "text": "Wir haben vor zwei Jahren etwas Ähnliches versucht, das lief nicht gut."
+  },
+  {
+   "t": 1003,
+   "speaker": "Mehmet",
+   "text": "Mhm, ja."
+  },
+  {
+   "t": 1005,
+   "speaker": "Mehmet",
+   "text": "Lass uns da jetzt nicht zu tief einsteigen."
+  },
+  {
+   "t": 1010,
+   "speaker": "Mehmet",
+   "text": "Hm."
+  },
+  {
+   "t": 1012,
+   "speaker": "Jonas",
+   "text": "Ein Wettbewerber hat letzten Monat etwas Ähnliches gestartet."
+  },
+  {
+   "t": 1017,
+   "speaker": "Clara",
+   "text": "Hat jemand den Link zum Planungsdokument?"
+  },
+  {
+   "t": 1021,
+   "speaker": "Jonas",
+   "text": "Guter Punkt, aber die Kunden haben sich darüber eigentlich nicht beschwert."
+  },
+  {
+   "t": 1027,
+   "speaker": "Clara",
+   "text": "Sorry, ich war stummgeschaltet."
+  },
+  {
+   "t": 1030,
+   "speaker": "Jonas",
+   "text": "Ähm."
+  },
+  {
+   "t": 1032,
+   "speaker": "Jonas",
+   "text": "Bei der Formulierung gegenüber Kunden müssen wir vorsichtig sein."
+  },
+  {
+   "t": 1037,
+   "speaker": "Clara",
+   "text": "Kannst du kurz deinen Bildschirm teilen?"
+  },
+  {
+   "t": 1041,
+   "speaker": "Jonas",
+   "text": "Ich glaube, das Team schafft das, wenn wir den Umfang etwas kürzen."
+  },
+  {
+   "t": 1048,
+   "speaker": "Clara",
+   "text": "Es gibt auch eine Abhängigkeit zum Plattform-Team, die wir nicht vergessen sollten."
+  },
+  {
+   "t": 1054,
+   "speaker": "Jonas",
+   "text": "Ich bin Freitagnachmittag übrigens nicht da."
+  },
+  {
+   "t": 1058,
+   "speaker": "Sofia",
+   "text": "Ich bin Freitagnachmittag übrigens nicht da."
+  },
+  {
+   "t": 1062,
+   "speaker": "Mehmet",
+   "text": "Hm."
+  },
+  {
+   "t": 1064,
+   "speaker": "Jonas",
+   "text": "Aha."
+  },
+  {
+   "t": 1066,
+   "speaker": "Mehmet",
+   "text": "Ich habe gestern mit dem Design-Team gesprochen, die hatten ein paar Bedenken."
+  },
+  {
+   "t": 1073,
+   "speaker": "Clara",
+   "text": "Sorry, ich war stummgeschaltet."
+  },
+  {
+   "t": 1076,
+   "speaker": "Jonas",
+   "text": "Ich würde es für die erste Version einfach halten."
+  },
+  {
+   "t": 1081,
+   "speaker": "Mehmet",
+   "text": "Mhm."
+  },
+  {
+   "t": 1083,
+   "speaker": "Sofia",
+   "text": "Die Dokumentation dazu ist übrigens ziemlich veraltet."
+  },
+  {
+   "t": 1088,
+   "speaker": "Sofia",
+   "text": "Nächster Punkt: den Umzug des Büros in Leipzig."
+  },
+  {
+   "t": 1092,
+   "speaker": "Jonas",
+   "text": "Ähm."
+  },
+  {
+   "t": 1094,
+   "speaker": "Mehmet",
+   "text": "Die Dokumentation dazu ist übrigens ziemlich veraltet."
+  },
+  {
+   "t": 1099,
+   "speaker": "Clara",
+   "text": "Es gibt auch eine Abhängigkeit zum Plattform-Team, die wir nicht vergessen sollten."
+  },
+  {
+   "t": 1105,
+   "speaker": "Jonas",
+   "text": "Das neue Büro hat 22 Arbeitsplätze."
+  },
+  {
+   "t": 1109,
+   "speaker": "Jonas",
+   "text": "Der Mietvertrag in Leipzig endet am 30. Januar."
+  },
+  {
+   "t": 1114,
+   "speaker": "Clara",
+   "text": "Ich habe mir die Zahlen nochmal angeschaut, die liegen ungefähr da, wo wir dachten."
+  },
+  {
+   "t": 1121,
+   "speaker": "Sofia",
+   "text": "Hm."
+  },
+  {
+   "t": 1123,
+   "speaker": "Clara",
+   "text": "Bei der Formulierung gegenüber Kunden müssen wir vorsichtig sein."
+  },
+  {
+   "t": 1129,
+   "speaker": "Sofia",
+   "text": "Kaffeepause bald? Wir sind schon eine Weile dran."
+  },
+  {
+   "t": 1133,
+   "speaker": "Clara",
+   "text": "Ich hätte gern eine grobe Schätzung, bevor wir weitermachen."
+  },
+  {
+   "t": 1139,
+   "speaker": "Jonas",
+   "text": "Kaffeepause bald? Wir sind schon eine Weile dran."
+  },
+  {
+   "t": 1143,
+   "speaker": "Mehmet",
+   "text": "Sorry, ich war stummgeschaltet."
+  },
+  {
+   "t": 1147,
+   "speaker": "Sofia",
+   "text": "Vielleicht behalten wir beide Büros noch eine Weile?"
+  },
+  {
+   "t": 1151,
+   "speaker": "Clara",
+   "text": "Das verdoppelt die Miete, also nein."
+  },
+  {
+   "t": 1155,
+   "speaker": "Mehmet",
+   "text": "Ähm."
+  },
+  {
+   "t": 1157,
+   "speaker": "Clara",
+   "text": "Lass uns da jetzt nicht zu tief einsteigen."
+  },
+  {
+   "t": 1162,
+   "speaker": "Mehmet",
+   "text": "Ich bin Freitagnachmittag übrigens nicht da."
+  },
+  {
+   "t": 1166,
+   "speaker": "Mehmet",
+   "text": "Aus Sicht des Supports ist das eine der häufigsten Beschwerden."
+  },
+  {
+   "t": 1172,
+   "speaker": "Mehmet",
+   "text": "Ähm."
+  },
+  {
+   "t": 1174,
+   "speaker": "Clara",
+   "text": "Sorry, ich war stummgeschaltet."
+  },
+  {
+   "t": 1177,
+   "speaker": "Jonas",
+   "text": "Mein Bauchgefühl sagt, dass wir das zerdenken."
+  },
+  {
+   "t": 1181,
+   "speaker": "Jonas",
+   "text": "Ich habe gestern mit dem Design-Team gesprochen, die hatten ein paar Bedenken."
+  },
+  {
+   "t": 1188,
+   "speaker": "Clara",
+   "text": "Lass uns das Thema noch fertig machen, dann fünf Minuten Pause."
+  },
+  {
+   "t": 1194,
+   "speaker": "Mehmet",
+   "text": "Beim letzten Mal hat das doppelt so lange gedauert wie geplant."
+  },
+  {
+   "t": 1200,
+   "speaker": "Sofia",
+   "text": "Danke, hab ihn."
+  },
+  {
+   "t": 1203,
+   "speaker": "Sofia",
+   "text": "Ich hätte gern eine grobe Schätzung, bevor wir weitermachen."
+  },
+  {
+   "t": 1208,
+   "speaker": "Mehmet",
+   "text": "Ich würde es für die erste Version einfach halten."
+  },
+  {
+   "t": 1213,
+   "speaker": "Clara",
+   "text": "Ich schaue kurz in meine Notizen, das kam in der letzten Retro auch schon."
+  },
+  {
+   "t": 1221,
+   "speaker": "Sofia",
+   "text": "Mhm."
+  },
+  {
+   "t": 1223,
+   "speaker": "Jonas",
+   "text": "Das betrifft übrigens auch die App, nicht nur das Web."
+  },
+  {
+   "t": 1228,
+   "speaker": "Mehmet",
+   "text": "Hat jemand den Link zum Planungsdokument?"
+  },
+  {
+   "t": 1232,
+   "speaker": "Jonas",
+   "text": "Wir haben vor zwei Jahren etwas Ähnliches versucht, das lief nicht gut."
+  },
+  {
+   "t": 1239,
+   "speaker": "Sofia",
+   "text": "Ich schaue kurz in meine Notizen, das kam in der letzten Retro auch schon."
+  },
+  {
+   "t": 1246,
+   "speaker": "Sofia",
+   "text": "Gut, wir unterschreiben den Mietvertrag für das Büro in der Plagwitzer Straße."
+  },
+  {
+   "t": 1253,
+   "speaker": "Clara",
+   "text": "Gut, so machen wir es."
+  },
+  {
+   "t": 1256,
+   "speaker": "Jonas",
+   "text": "Das betrifft übrigens auch die App, nicht nur das Web."
+  },
+  {
+   "t": 1262,
+   "speaker": "Sofia",
+   "text": "Ich würde es für die erste Version einfach halten."
+  },
+  {
+   "t": 1267,
+   "speaker": "Sofia",
+   "text": "Mehmet, kannst du drei Angebote von Umzugsfirmen einholen, bis 5th of December?"
+  },
+  {
+   "t": 1274,
+   "speaker": "Mehmet",
+   "text": "Ja, mache ich bis 5th of December."
+  },
+  {
+   "t": 1278,
+   "speaker": "Clara",
+   "text": "Mhm."
+  },
+  {
+   "t": 1280,
+   "speaker": "Mehmet",
+   "text": "Aha."
+  },
+  {
+   "t": 1282,
+   "speaker": "Mehmet",
+   "text": "Das Kennzahlen-Dashboard war heute früh down, die Zahlen sind von gestern."
+  },
+  {
+   "t": 1288,
+   "speaker": "Sofia",
+   "text": "Mein Bauchgefühl sagt, dass wir das zerdenken."
+  },
+  {
+   "t": 1292,
+   "speaker": "Mehmet",
+   "text": "Ich schaue kurz in meine Notizen, das kam in der letzten Retro auch schon."
+  },
+  {
+   "t": 1300,
+   "speaker": "Jonas",
+   "text": "Technisch ist das nicht besonders schwer."
+  },
+  {
+   "t": 1304,
+   "speaker": "Mehmet",
+   "text": "Das betrifft übrigens auch die App, nicht nur das Web."
+  },
+  {
+   "t": 1309,
+   "speaker": "Sofia",
+   "text": "Aus Sicht des Supports ist das eine der häufigsten Beschwerden."
+  },
+  {
+   "t": 1315,
+   "speaker": "Jonas",
+   "text": "Ein Wettbewerber hat letzten Monat etwas Ähnliches gestartet."
+  },
+  {
+   "t": 1320,
+   "speaker": "Clara",
+   "text": "Beim letzten Mal hat das doppelt so lange gedauert wie geplant."
+  },
+  {
+   "t": 1326,
+   "speaker": "Mehmet",
+   "text": "Wir sollten die Finanzabteilung einbeziehen, bevor wir etwas Teures zusagen."
+  },
+  {
+   "t": 1332,
+   "speaker": "Sofia",
+   "text": "Ich hätte gern eine grobe Schätzung, bevor wir weitermachen."
+  },
+  {
+   "t": 1337,
+   "speaker": "Sofia",
+   "text": "Guter Punkt, aber die Kunden haben sich darüber eigentlich nicht beschwert."
+  },
+  {
+   "t": 1343,
+   "speaker": "Sofia",
+   "text": "Ich habe mir die Zahlen nochmal angeschaut, die liegen ungefähr da, wo wir dachten."
+  },
+  {
+   "t": 1350,
+   "speaker": "Mehmet",
+   "text": "Lass uns das im Auge behalten und nochmal drauf schauen, wenn es schlimmer wird."
+  },
+  {
+   "t": 1358,
+   "speaker": "Mehmet",
+   "text": "Ein Wettbewerber hat letzten Monat etwas Ähnliches gestartet."
+  },
+  {
+   "t": 1362,
+   "speaker": "Sofia",
+   "text": "Mhm, ja."
+  },
+  {
+   "t": 1365,
+   "speaker": "Sofia",
+   "text": "Wir haben vor zwei Jahren etwas Ähnliches versucht, das lief nicht gut."
+  },
+  {
+   "t": 1371,
+   "speaker": "Mehmet",
+   "text": "Lass uns das im Auge behalten und nochmal drauf schauen, wenn es schlimmer wird."
+  },
+  {
+   "t": 1379,
+   "speaker": "Sofia",
+   "text": "Ich habe gestern mit dem Design-Team gesprochen, die hatten ein paar Bedenken."
+  },
+  {
+   "t": 1385,
+   "speaker": "Clara",
+   "text": "Kannst du das wiederholen? Dein Ton war kurz weg."
+  },
+  {
+   "t": 1390,
+   "speaker": "Mehmet",
+   "text": "Wir haben das letzte Woche mit dem Customer-Success-Team besprochen."
+  },
+  {
+   "t": 1396,
+   "speaker": "Clara",
+   "text": "Mhm."
+  },
+  {
+   "t": 1397,
+   "speaker": "Mehmet",
+   "text": "Ich bin nicht sicher, ob die Daten das schon hergeben."
+  },
+  {
+   "t": 1403,
+   "speaker": "Clara",
+   "text": "Ich hätte gern eine grobe Schätzung, bevor wir weitermachen."
+  },
+  {
+   "t": 1408,
+   "speaker": "Jonas",
+   "text": "Kannst du kurz deinen Bildschirm teilen?"
+  },
+  {
+   "t": 1412,
+   "speaker": "Clara",
+   "text": "Mhm."
+  },
+  {
+   "t": 1414,
+   "speaker": "Jonas",
+   "text": "Kaffeepause bald? Wir sind schon eine Weile dran."
+  },
+  {
+   "t": 1419,
+   "speaker": "Clara",
+   "text": "Aus Sicht des Supports ist das eine der häufigsten Beschwerden."
+  },
+  {
+   "t": 1425,
+   "speaker": "Clara",
+   "text": "Sorry, ich war stummgeschaltet."
+  },
+  {
+   "t": 1428,
+   "speaker": "Sofia",
+   "text": "Ich habe mir die Zahlen nochmal angeschaut, die liegen ungefähr da, wo wir dachten."
+  },
+  {
+   "t": 1435,
+   "speaker": "Sofia",
+   "text": "Ich glaube, das Team schafft das, wenn wir den Umfang etwas kürzen."
+  },
+  {
+   "t": 1442,
+   "speaker": "Jonas",
+   "text": "Okay, dann zu die Orion-Schnittstelle."
+  },
+  {
+   "t": 1445,
+   "speaker": "Jonas",
+   "text": "Ähm."
+  },
+  {
+   "t": 1447,
+   "speaker": "Mehmet",
+   "text": "Hab ihn gerade in den Chat gestellt."
+  },
+  {
+   "t": 1452,
+   "speaker": "Clara",
+   "text": "Mhm."
+  },
+  {
+   "t": 1454,
+   "speaker": "Sofia",
+   "text": "Siebzehn Integrationen rufen die alten Endpunkte auf."
+  },
+  {
+   "t": 1458,
+   "speaker": "Sofia",
+   "text": "Das betrifft übrigens auch die App, nicht nur das Web."
+  },
+  {
+   "t": 1464,
+   "speaker": "Clara",
+   "text": "Ich schaue kurz in meine Notizen, das kam in der letzten Retro auch schon."
+  },
+  {
+   "t": 1471,
+   "speaker": "Clara",
+   "text": "Orion v1 bedient noch etwa 9 Prozent des Verkehrs."
+  },
+  {
+   "t": 1476,
+   "speaker": "Sofia",
+   "text": "Aha."
+  },
+  {
+   "t": 1478,
+   "speaker": "Sofia",
+   "text": "Hat jemand den Link zum Planungsdokument?"
+  },
+  {
+   "t": 1482,
+   "speaker": "Mehmet",
+   "text": "Ich glaube, das Team schafft das, wenn wir den Umfang etwas kürzen."
+  },
+  {
+   "t": 1489,
+   "speaker": "Sofia",
+   "text": "Es gibt auch eine Abhängigkeit zum Plattform-Team, die wir nicht vergessen sollten."
+  },
+  {
+   "t": 1495,
+   "speaker": "Mehmet",
+   "text": "Ein Wettbewerber hat letzten Monat etwas Ähnliches gestartet."
+  },
+  {
+   "t": 1500,
+   "speaker": "Clara",
+   "text": "Guter Punkt, aber die Kunden haben sich darüber eigentlich nicht beschwert."
+  },
+  {
+   "t": 1506,
+   "speaker": "Clara",
+   "text": "Sorry, ich war stummgeschaltet."
+  },
+  {
+   "t": 1509,
+   "speaker": "Clara",
+   "text": "Hab ihn gerade in den Chat gestellt."
+  },
+  {
+   "t": 1514,
+   "speaker": "Jonas",
+   "text": "Sorry, ich war stummgeschaltet."
+  },
+  {
+   "t": 1517,
+   "speaker": "Jonas",
+   "text": "Sollen wir Kunden, die auf v1 bleiben, etwas berechnen?"
+  },
+  {
+   "t": 1522,
+   "speaker": "Mehmet",
+   "text": "Nein, das bringt nur Ärger."
+  },
+  {
+   "t": 1526,
+   "speaker": "Sofia",
+   "text": "Mhm, ja."
+  },
+  {
+   "t": 1528,
+   "speaker": "Jonas",
+   "text": "Die Dokumentation dazu ist übrigens ziemlich veraltet."
+  },
+  {
+   "t": 1532,
+   "speaker": "Clara",
+   "text": "Sorry, ich war stummgeschaltet."
+  },
+  {
+   "t": 1536,
+   "speaker": "Sofia",
+   "text": "Hm."
+  },
+  {
+   "t": 1538,
+   "speaker": "Jonas",
+   "text": "Beschlossen: Orion v1 wird am 1. Februar abgeschaltet."
+  },
+  {
+   "t": 1542,
+   "speaker": "Sofia",
+   "text": "Gut, so machen wir es."
+  },
+  {
+   "t": 1546,
+   "speaker": "Mehmet",
+   "text": "Aha."
+  },
+  {
+   "t": 1548,
+   "speaker": "Sofia",
+   "text": "Aus Sicht des Supports ist das eine der häufigsten Beschwerden."
+  },
+  {
+   "t": 1554,
+   "speaker": "Mehmet",
+   "text": "Sofia, kannst du die siebzehn Integrationspartner wegen Orion anschreiben, bis morgen?"
+  },
+  {
+   "t": 1560,
+   "speaker": "Sofia",
+   "text": "Klar, das schaffe ich bis morgen."
+  },
+  {
+   "t": 1564,
+   "speaker": "Clara",
+   "text": "Aus Sicht des Supports ist das eine der häufigsten Beschwerden."
+  },
+  {
+   "t": 1569,
+   "speaker": "Clara",
+   "text": "Ich habe gestern mit dem Design-Team gesprochen, die hatten ein paar Bedenken."
+  },
+  {
+   "t": 1576,
+   "speaker": "Sofia",
+   "text": "Kaffeepause bald? Wir sind schon eine Weile dran."
+  },
+  {
+   "t": 1581,
+   "speaker": "Clara",
+   "text": "Lass uns da jetzt nicht zu tief einsteigen."
+  },
+  {
+   "t": 1585,
+   "speaker": "Sofia",
+   "text": "Hat jemand den Link zum Planungsdokument?"
+  },
+  {
+   "t": 1589,
+   "speaker": "Mehmet",
+   "text": "Ich hätte gern eine grobe Schätzung, bevor wir weitermachen."
+  },
+  {
+   "t": 1595,
+   "speaker": "Sofia",
+   "text": "Klar, Moment, ich suche das richtige Fenster."
+  },
+  {
+   "t": 1599,
+   "speaker": "Clara",
+   "text": "Ich glaube, das Team schafft das, wenn wir den Umfang etwas kürzen."
+  },
+  {
+   "t": 1606,
+   "speaker": "Sofia",
+   "text": "Hm."
+  },
+  {
+   "t": 1608,
+   "speaker": "Sofia",
+   "text": "Technisch ist das nicht besonders schwer."
+  },
+  {
+   "t": 1612,
+   "speaker": "Jonas",
+   "text": "Wir haben das letzte Woche mit dem Customer-Success-Team besprochen."
+  },
+  {
+   "t": 1617,
+   "speaker": "Jonas",
+   "text": "Kaffeepause bald? Wir sind schon eine Weile dran."
+  },
+  {
+   "t": 1622,
+   "speaker": "Clara",
+   "text": "Ich habe mir die Zahlen nochmal angeschaut, die liegen ungefähr da, wo wir dachten."
+  },
+  {
+   "t": 1629,
+   "speaker": "Sofia",
+   "text": "Kannst du das wiederholen? Dein Ton war kurz weg."
+  },
+  {
+   "t": 1634,
+   "speaker": "Mehmet",
+   "text": "Ich habe gestern mit dem Design-Team gesprochen, die hatten ein paar Bedenken."
+  },
+  {
+   "t": 1641,
+   "speaker": "Sofia",
+   "text": "Beim letzten Mal hat das doppelt so lange gedauert wie geplant."
+  },
+  {
+   "t": 1647,
+   "speaker": "Sofia",
+   "text": "Sorry, ich war stummgeschaltet."
+  },
+  {
+   "t": 1650,
+   "speaker": "Mehmet",
+   "text": "Wir haben das letzte Woche mit dem Customer-Success-Team besprochen."
+  },
+  {
+   "t": 1655,
+   "speaker": "Sofia",
+   "text": "Ein Wettbewerber hat letzten Monat etwas Ähnliches gestartet."
+  },
+  {
+   "t": 1660,
+   "speaker": "Jonas",
+   "text": "Ich habe gestern mit dem Design-Team gesprochen, die hatten ein paar Bedenken."
+  },
+  {
+   "t": 1667,
+   "speaker": "Clara",
+   "text": "Lass uns das Thema noch fertig machen, dann fünf Minuten Pause."
+  },
+  {
+   "t": 1673,
+   "speaker": "Sofia",
+   "text": "Ich habe gestern mit dem Design-Team gesprochen, die hatten ein paar Bedenken."
+  },
+  {
+   "t": 1679,
+   "speaker": "Clara",
+   "text": "Kannst du kurz deinen Bildschirm teilen?"
+  },
+  {
+   "t": 1683,
+   "speaker": "Sofia",
+   "text": "Danke, hab ihn."
+  },
+  {
+   "t": 1686,
+   "speaker": "Mehmet",
+   "text": "Beim letzten Mal hat das doppelt so lange gedauert wie geplant."
+  },
+  {
+   "t": 1692,
+   "speaker": "Jonas",
+   "text": "Danke, hab ihn."
+  },
+  {
+   "t": 1695,
+   "speaker": "Clara",
+   "text": "Wir haben vor zwei Jahren etwas Ähnliches versucht, das lief nicht gut."
+  },
+  {
+   "t": 1701,
+   "speaker": "Clara",
+   "text": "Ich glaube, das Team schafft das, wenn wir den Umfang etwas kürzen."
+  },
+  {
+   "t": 1708,
+   "speaker": "Mehmet",
+   "text": "Ich hätte gern eine grobe Schätzung, bevor wir weitermachen."
+  },
+  {
+   "t": 1713,
+   "speaker": "Clara",
+   "text": "Ich schaue kurz in meine Notizen, das kam in der letzten Retro auch schon."
+  },
+  {
+   "t": 1720,
+   "speaker": "Clara",
+   "text": "Mhm, ja."
+  },
+  {
+   "t": 1723,
+   "speaker": "Jonas",
+   "text": "Mhm, ja."
+  },
+  {
+   "t": 1725,
+   "speaker": "Clara",
+   "text": "Es gibt auch eine Abhängigkeit zum Plattform-Team, die wir nicht vergessen sollten."
+  },
+  {
+   "t": 1731,
+   "speaker": "Sofia",
+   "text": "Ich habe mir die Zahlen nochmal angeschaut, die liegen ungefähr da, wo wir dachten."
+  },
+  {
+   "t": 1739,
+   "speaker": "Clara",
+   "text": "Ich habe dazu keine starke Meinung."
+  },
+  {
+   "t": 1743,
+   "speaker": "Jonas",
+   "text": "Das größte Risiko ist ehrlich gesagt immer noch der Zeitplan."
+  },
+  {
+   "t": 1748,
+   "speaker": "Mehmet",
+   "text": "Aha."
+  },
+  {
+   "t": 1750,
+   "speaker": "Mehmet",
+   "text": "Klar, Moment, ich suche das richtige Fenster."
+  },
+  {
+   "t": 1755,
+   "speaker": "Clara",
+   "text": "Ich hätte gern eine grobe Schätzung, bevor wir weitermachen."
+  },
+  {
+   "t": 1760,
+   "speaker": "Mehmet",
+   "text": "Ein Wettbewerber hat letzten Monat etwas Ähnliches gestartet."
+  },
+  {
+   "t": 1765,
+   "speaker": "Mehmet",
+   "text": "Hab ihn gerade in den Chat gestellt."
+  },
+  {
+   "t": 1769,
+   "speaker": "Clara",
+   "text": "Mhm, ja."
+  },
+  {
+   "t": 1772,
+   "speaker": "Jonas",
+   "text": "Ich glaube, das Team schafft das, wenn wir den Umfang etwas kürzen."
+  },
+  {
+   "t": 1778,
+   "speaker": "Jonas",
+   "text": "Ich schaue kurz in meine Notizen, das kam in der letzten Retro auch schon."
+  },
+  {
+   "t": 1785,
+   "speaker": "Sofia",
+   "text": "Es gibt auch eine Abhängigkeit zum Plattform-Team, die wir nicht vergessen sollten."
+  },
+  {
+   "t": 1792,
+   "speaker": "Sofia",
+   "text": "Guter Punkt, aber die Kunden haben sich darüber eigentlich nicht beschwert."
+  },
+  {
+   "t": 1798,
+   "speaker": "Clara",
+   "text": "Schauen wir uns jetzt die Ergebnisse der Kundenumfrage an."
+  },
+  {
+   "t": 1803,
+   "speaker": "Sofia",
+   "text": "Klar, Moment, ich suche das richtige Fenster."
+  },
+  {
+   "t": 1808,
+   "speaker": "Clara",
+   "text": "Die Dokumentation dazu ist übrigens ziemlich veraltet."
+  },
+  {
+   "t": 1812,
+   "speaker": "Sofia",
+   "text": "Kaffeepause bald? Wir sind schon eine Weile dran."
+  },
+  {
+   "t": 1817,
+   "speaker": "Mehmet",
+   "text": "Wir haben das letzte Woche mit dem Customer-Success-Team besprochen."
+  },
+  {
+   "t": 1822,
+   "speaker": "Sofia",
+   "text": "Mhm, ja."
+  },
+  {
+   "t": 1825,
+   "speaker": "Clara",
+   "text": "Bei der Formulierung gegenüber Kunden müssen wir vorsichtig sein."
+  },
+  {
+   "t": 1830,
+   "speaker": "Jonas",
+   "text": "Hat jemand den Link zum Planungsdokument?"
+  },
+  {
+   "t": 1834,
+   "speaker": "Sofia",
+   "text": "Das Kennzahlen-Dashboard war heute früh down, die Zahlen sind von gestern."
+  },
+  {
+   "t": 1840,
+   "speaker": "Clara",
+   "text": "Das Kennzahlen-Dashboard war heute früh down, die Zahlen sind von gestern."
+  },
+  {
+   "t": 1846,
+   "speaker": "Clara",
+   "text": "Danke, hab ihn."
+  },
+  {
+   "t": 1849,
+   "speaker": "Mehmet",
+   "text": "Ich bin Freitagnachmittag übrigens nicht da."
+  },
+  {
+   "t": 1853,
+   "speaker": "Clara",
+   "text": "Die Suche wurde 133 Mal gewünscht."
+  },
+  {
+   "t": 1857,
+   "speaker": "Sofia",
+   "text": "Ich glaube, das Team schafft das, wenn wir den Umfang etwas kürzen."
+  },
+  {
+   "t": 1863,
+   "speaker": "Sofia",
+   "text": "Sorry, ich war stummgeschaltet."
+  },
+  {
+   "t": 1866,
+   "speaker": "Clara",
+   "text": "Aha."
+  },
+  {
+   "t": 1868,
+   "speaker": "Jonas",
+   "text": "Mhm, ja."
+  },
+  {
+   "t": 1871,
+   "speaker": "Mehmet",
+   "text": "Aha."
+  },
+  {
+   "t": 1873,
+   "speaker": "Jonas",
+   "text": "Wir haben vor zwei Jahren etwas Ähnliches versucht, das lief nicht gut."
+  },
+  {
+   "t": 1879,
+   "speaker": "Jonas",
+   "text": "Wir haben 412 Antworten auf die Umfrage bekommen."
+  },
+  {
+   "t": 1884,
+   "speaker": "Mehmet",
+   "text": "Aus Sicht des Supports ist das eine der häufigsten Beschwerden."
+  },
+  {
+   "t": 1890,
+   "speaker": "Mehmet",
+   "text": "Ich würde es für die erste Version einfach halten."
+  },
+  {
+   "t": 1895,
+   "speaker": "Sofia",
+   "text": "Ich schaue kurz in meine Notizen, das kam in der letzten Retro auch schon."
+  },
+  {
+   "t": 1902,
+   "speaker": "Sofia",
+   "text": "Machen wir eine zweite Umfrage auf Spanisch?"
+  },
+  {
+   "t": 1907,
+   "speaker": "Mehmet",
+   "text": "Vielleicht später im Jahr, jetzt nicht."
+  },
+  {
+   "t": 1911,
+   "speaker": "Clara",
+   "text": "Ich habe dazu keine starke Meinung."
+  },
+  {
+   "t": 1915,
+   "speaker": "Sofia",
+   "text": "Hm."
+  },
+  {
+   "t": 1916,
+   "speaker": "Mehmet",
+   "text": "Wir haben vor zwei Jahren etwas Ähnliches versucht, das lief nicht gut."
+  },
+  {
+   "t": 1923,
+   "speaker": "Clara",
+   "text": "Aus Sicht des Supports ist das eine der häufigsten Beschwerden."
+  },
+  {
+   "t": 1929,
+   "speaker": "Clara",
+   "text": "Ich hätte gern eine grobe Schätzung, bevor wir weitermachen."
+  },
+  {
+   "t": 1934,
+   "speaker": "Jonas",
+   "text": "Wir haben vor zwei Jahren etwas Ähnliches versucht, das lief nicht gut."
+  },
+  {
+   "t": 1940,
+   "speaker": "Clara",
+   "text": "Kaffeepause bald? Wir sind schon eine Weile dran."
+  },
+  {
+   "t": 1945,
+   "speaker": "Clara",
+   "text": "Also beschlossen: Die Suche kommt vor dem Offline-Modus auf die Roadmap."
+  },
+  {
+   "t": 1951,
+   "speaker": "Jonas",
+   "text": "Ja, passt für mich."
+  },
+  {
+   "t": 1954,
+   "speaker": "Jonas",
+   "text": "Das betrifft übrigens auch die App, nicht nur das Web."
+  },
+  {
+   "t": 1960,
+   "speaker": "Mehmet",
+   "text": "Jonas, kannst du eine einseitige Zusammenfassung der Umfrage für den Vorstand schreiben? Am besten bis Dienstag."
+  },
+  {
+   "t": 1968,
+   "speaker": "Jonas",
+   "text": "Ja, mache ich bis Dienstag."
+  },
+  {
+   "t": 1972,
+   "speaker": "Clara",
+   "text": "Ich bin Freitagnachmittag übrigens nicht da."
+  },
+  {
+   "t": 1976,
+   "speaker": "Mehmet",
+   "text": "Klar, Moment, ich suche das richtige Fenster."
+  },
+  {
+   "t": 1980,
+   "speaker": "Clara",
+   "text": "Ähm."
+  },
+  {
+   "t": 1982,
+   "speaker": "Clara",
+   "text": "Klar, Moment, ich suche das richtige Fenster."
+  },
+  {
+   "t": 1987,
+   "speaker": "Jonas",
+   "text": "Aus Sicht des Supports ist das eine der häufigsten Beschwerden."
+  },
+  {
+   "t": 1992,
+   "speaker": "Mehmet",
+   "text": "Ein Wettbewerber hat letzten Monat etwas Ähnliches gestartet."
+  },
+  {
+   "t": 1997,
+   "speaker": "Sofia",
+   "text": "Wir haben das letzte Woche mit dem Customer-Success-Team besprochen."
+  },
+  {
+   "t": 2002,
+   "speaker": "Mehmet",
+   "text": "Mhm."
+  },
+  {
+   "t": 2004,
+   "speaker": "Mehmet",
+   "text": "Ich glaube, das Team schafft das, wenn wir den Umfang etwas kürzen."
+  },
+  {
+   "t": 2011,
+   "speaker": "Sofia",
+   "text": "Mhm."
+  },
+  {
+   "t": 2013,
+   "speaker": "Mehmet",
+   "text": "Ich habe mir die Zahlen nochmal angeschaut, die liegen ungefähr da, wo wir dachten."
+  },
+  {
+   "t": 2020,
+   "speaker": "Jonas",
+   "text": "Hm."
+  },
+  {
+   "t": 2022,
+   "speaker": "Sofia",
+   "text": "Lass uns das Thema noch fertig machen, dann fünf Minuten Pause."
+  },
+  {
+   "t": 2028,
+   "speaker": "Sofia",
+   "text": "Klar, Moment, ich suche das richtige Fenster."
+  },
+  {
+   "t": 2032,
+   "speaker": "Sofia",
+   "text": "Technisch ist das nicht besonders schwer."
+  },
+  {
+   "t": 2036,
+   "speaker": "Mehmet",
+   "text": "Ich habe dazu keine starke Meinung."
+  },
+  {
+   "t": 2040,
+   "speaker": "Clara",
+   "text": "Die Dokumentation dazu ist übrigens ziemlich veraltet."
+  },
+  {
+   "t": 2045,
+   "speaker": "Sofia",
+   "text": "Aus Sicht des Supports ist das eine der häufigsten Beschwerden."
+  },
+  {
+   "t": 2051,
+   "speaker": "Sofia",
+   "text": "Bei der Formulierung gegenüber Kunden müssen wir vorsichtig sein."
+  },
+  {
+   "t": 2056,
+   "speaker": "Clara",
+   "text": "Es gibt auch eine Abhängigkeit zum Plattform-Team, die wir nicht vergessen sollten."
+  },
+  {
+   "t": 2062,
+   "speaker": "Sofia",
+   "text": "Die Richtung finde ich gut, ich mache mir nur Sorgen um den Aufwand."
+  },
+  {
+   "t": 2069,
+   "speaker": "Clara",
+   "text": "Ich schaue kurz in meine Notizen, das kam in der letzten Retro auch schon."
+  },
+  {
+   "t": 2077,
+   "speaker": "Clara",
+   "text": "Ich glaube, das Team schafft das, wenn wir den Umfang etwas kürzen."
+  },
+  {
+   "t": 2083,
+   "speaker": "Jonas",
+   "text": "Ich hätte gern eine grobe Schätzung, bevor wir weitermachen."
+  },
+  {
+   "t": 2088,
+   "speaker": "Jonas",
+   "text": "Guter Punkt, aber die Kunden haben sich darüber eigentlich nicht beschwert."
+  },
+  {
+   "t": 2094,
+   "speaker": "Sofia",
+   "text": "Ich bin nicht sicher, ob die Daten das schon hergeben."
+  },
+  {
+   "t": 2100,
+   "speaker": "Clara",
+   "text": "Wir sollten die Finanzabteilung einbeziehen, bevor wir etwas Teures zusagen."
+  },
+  {
+   "t": 2106,
+   "speaker": "Clara",
+   "text": "Aus Sicht des Supports ist das eine der häufigsten Beschwerden."
+  },
+  {
+   "t": 2111,
+   "speaker": "Clara",
+   "text": "Hm."
+  },
+  {
+   "t": 2113,
+   "speaker": "Clara",
+   "text": "Ich glaube, das Team schafft das, wenn wir den Umfang etwas kürzen."
+  },
+  {
+   "t": 2120,
+   "speaker": "Sofia",
+   "text": "Ich würde es für die erste Version einfach halten."
+  },
+  {
+   "t": 2125,
+   "speaker": "Mehmet",
+   "text": "Wir haben das letzte Woche mit dem Customer-Success-Team besprochen."
+  },
+  {
+   "t": 2130,
+   "speaker": "Clara",
+   "text": "Danke, hab ihn."
+  },
+  {
+   "t": 2133,
+   "speaker": "Sofia",
+   "text": "Aha."
+  },
+  {
+   "t": 2135,
+   "speaker": "Sofia",
+   "text": "Technisch ist das nicht besonders schwer."
+  },
+  {
+   "t": 2139,
+   "speaker": "Mehmet",
+   "text": "Es gibt auch eine Abhängigkeit zum Plattform-Team, die wir nicht vergessen sollten."
+  },
+  {
+   "t": 2145,
+   "speaker": "Mehmet",
+   "text": "Sorry, ich war stummgeschaltet."
+  },
+  {
+   "t": 2149,
+   "speaker": "Clara",
+   "text": "Ich habe dazu keine starke Meinung."
+  },
+  {
+   "t": 2153,
+   "speaker": "Sofia",
+   "text": "Sorry, ich war stummgeschaltet."
+  },
+  {
+   "t": 2156,
+   "speaker": "Mehmet",
+   "text": "Ich bin nicht sicher, ob die Daten das schon hergeben."
+  },
+  {
+   "t": 2161,
+   "speaker": "Mehmet",
+   "text": "Schauen wir uns jetzt die Bramble-App an."
+  },
+  {
+   "t": 2166,
+   "speaker": "Mehmet",
+   "text": "Kannst du kurz deinen Bildschirm teilen?"
+  },
+  {
+   "t": 2170,
+   "speaker": "Jonas",
+   "text": "Danke, hab ihn."
+  },
+  {
+   "t": 2173,
+   "speaker": "Clara",
+   "text": "Mein Bauchgefühl sagt, dass wir das zerdenken."
+  },
+  {
+   "t": 2177,
+   "speaker": "Jonas",
+   "text": "Ich bin nicht sicher, ob die Daten das schon hergeben."
+  },
+  {
+   "t": 2183,
+   "speaker": "Clara",
+   "text": "Sorry, ich war stummgeschaltet."
+  },
+  {
+   "t": 2186,
+   "speaker": "Sofia",
+   "text": "Guter Punkt, aber die Kunden haben sich darüber eigentlich nicht beschwert."
+  },
+  {
+   "t": 2192,
+   "speaker": "Clara",
+   "text": "Ich bin Freitagnachmittag übrigens nicht da."
+  },
+  {
+   "t": 2196,
+   "speaker": "Clara",
+   "text": "Ähm."
+  },
+  {
+   "t": 2198,
+   "speaker": "Mehmet",
+   "text": "Hab ihn gerade in den Chat gestellt."
+  },
+  {
+   "t": 2202,
+   "speaker": "Jonas",
+   "text": "Bramble 3.2 hat 41 offene Fehler, 6 davon kritisch."
+  },
+  {
+   "t": 2207,
+   "speaker": "Sofia",
+   "text": "Die Richtung finde ich gut, ich mache mir nur Sorgen um den Aufwand."
+  },
+  {
+   "t": 2214,
+   "speaker": "Clara",
+   "text": "Das betrifft übrigens auch die App, nicht nur das Web."
+  },
+  {
+   "t": 2220,
+   "speaker": "Clara",
+   "text": "Ich schaue kurz in meine Notizen, das kam in der letzten Retro auch schon."
+  },
+  {
+   "t": 2227,
+   "speaker": "Sofia",
+   "text": "Aha."
+  },
+  {
+   "t": 2229,
+   "speaker": "Clara",
+   "text": "Es gibt auch eine Abhängigkeit zum Plattform-Team, die wir nicht vergessen sollten."
+  },
+  {
+   "t": 2236,
+   "speaker": "Clara",
+   "text": "Die Prüfung im App Store dauert meistens zwei Tage."
+  },
+  {
+   "t": 2241,
+   "speaker": "Mehmet",
+   "text": "Klar, Moment, ich suche das richtige Fenster."
+  },
+  {
+   "t": 2245,
+   "speaker": "Jonas",
+   "text": "Technisch ist das nicht besonders schwer."
+  },
+  {
+   "t": 2249,
+   "speaker": "Sofia",
+   "text": "Wir haben das letzte Woche mit dem Customer-Success-Team besprochen."
+  },
+  {
+   "t": 2255,
+   "speaker": "Sofia",
+   "text": "Wir sollten die Finanzabteilung einbeziehen, bevor wir etwas Teures zusagen."
+  },
+  {
+   "t": 2260,
+   "speaker": "Sofia",
+   "text": "Ich bin Freitagnachmittag übrigens nicht da."
+  },
+  {
+   "t": 2264,
+   "speaker": "Sofia",
+   "text": "Klar, Moment, ich suche das richtige Fenster."
+  },
+  {
+   "t": 2269,
+   "speaker": "Clara",
+   "text": "Das größte Risiko ist ehrlich gesagt immer noch der Zeitplan."
+  },
+  {
+   "t": 2274,
+   "speaker": "Mehmet",
+   "text": "Aha."
+  },
+  {
+   "t": 2276,
+   "speaker": "Sofia",
+   "text": "Wir haben vor zwei Jahren etwas Ähnliches versucht, das lief nicht gut."
+  },
+  {
+   "t": 2283,
+   "speaker": "Sofia",
+   "text": "Hat jemand den Link zum Planungsdokument?"
+  },
+  {
+   "t": 2287,
+   "speaker": "Clara",
+   "text": "Die Richtung finde ich gut, ich mache mir nur Sorgen um den Aufwand."
+  },
+  {
+   "t": 2294,
+   "speaker": "Mehmet",
+   "text": "Ich bin nicht sicher, ob die Daten das schon hergeben."
+  },
+  {
+   "t": 2299,
+   "speaker": "Clara",
+   "text": "Lass uns das Thema noch fertig machen, dann fünf Minuten Pause."
+  },
+  {
+   "t": 2306,
+   "speaker": "Clara",
+   "text": "Ich schaue kurz in meine Notizen, das kam in der letzten Retro auch schon."
+  },
+  {
+   "t": 2313,
+   "speaker": "Sofia",
+   "text": "Das Kennzahlen-Dashboard war heute früh down, die Zahlen sind von gestern."
+  },
+  {
+   "t": 2319,
+   "speaker": "Jonas",
+   "text": "Ich habe mir die Zahlen nochmal angeschaut, die liegen ungefähr da, wo wir dachten."
+  },
+  {
+   "t": 2326,
+   "speaker": "Sofia",
+   "text": "Mhm."
+  },
+  {
+   "t": 2328,
+   "speaker": "Jonas",
+   "text": "Könnten wir Bramble ohne das Tablet-Layout veröffentlichen?"
+  },
+  {
+   "t": 2333,
+   "speaker": "Sofia",
+   "text": "Nein, das Tablet-Layout ist die halbe Version."
+  },
+  {
+   "t": 2337,
+   "speaker": "Mehmet",
+   "text": "Die Richtung finde ich gut, ich mache mir nur Sorgen um den Aufwand."
+  },
+  {
+   "t": 2344,
+   "speaker": "Mehmet",
+   "text": "Wir verschieben Bramble 3.2 um eine Woche, um die kritischen Fehler zu beheben."
+  },
+  {
+   "t": 2351,
+   "speaker": "Jonas",
+   "text": "Ja, passt für mich."
+  },
+  {
+   "t": 2354,
+   "speaker": "Sofia",
+   "text": "Aus Sicht des Supports ist das eine der häufigsten Beschwerden."
+  },
+  {
+   "t": 2360,
+   "speaker": "Mehmet",
+   "text": "Aha."
+  },
+  {
+   "t": 2362,
+   "speaker": "Jonas",
+   "text": "Clara, kannst du die sechs kritischen Bramble-Fehler priorisieren? Am besten bis heute."
+  },
+  {
+   "t": 2368,
+   "speaker": "Clara",
+   "text": "Ja, mache ich bis heute."
+  },
+  {
+   "t": 2372,
+   "speaker": "Sofia",
+   "text": "Hab ihn gerade in den Chat gestellt."
+  },
+  {
+   "t": 2376,
+   "speaker": "Mehmet",
+   "text": "Wir sollten die Finanzabteilung einbeziehen, bevor wir etwas Teures zusagen."
+  },
+  {
+   "t": 2382,
+   "speaker": "Clara",
+   "text": "Ich habe dazu keine starke Meinung."
+  },
+  {
+   "t": 2386,
+   "speaker": "Mehmet",
+   "text": "Mhm."
+  },
+  {
+   "t": 2388,
+   "speaker": "Clara",
+   "text": "Technisch ist das nicht besonders schwer."
+  },
+  {
+   "t": 2392,
+   "speaker": "Clara",
+   "text": "Kaffeepause bald? Wir sind schon eine Weile dran."
+  },
+  {
+   "t": 2397,
+   "speaker": "Mehmet",
+   "text": "Das Kennzahlen-Dashboard war heute früh down, die Zahlen sind von gestern."
+  },
+  {
+   "t": 2403,
+   "speaker": "Sofia",
+   "text": "Ähm."
+  },
+  {
+   "t": 2405,
+   "speaker": "Clara",
+   "text": "Ich hätte gern eine grobe Schätzung, bevor wir weitermachen."
+  },
+  {
+   "t": 2410,
+   "speaker": "Jonas",
+   "text": "Die Richtung finde ich gut, ich mache mir nur Sorgen um den Aufwand."
+  },
+  {
+   "t": 2417,
+   "speaker": "Mehmet",
+   "text": "Hab ihn gerade in den Chat gestellt."
+  },
+  {
+   "t": 2421,
+   "speaker": "Jonas",
+   "text": "Es gibt auch eine Abhängigkeit zum Plattform-Team, die wir nicht vergessen sollten."
+  },
+  {
+   "t": 2428,
+   "speaker": "Jonas",
+   "text": "Aha."
+  },
+  {
+   "t": 2430,
+   "speaker": "Sofia",
+   "text": "Hm."
+  },
+  {
+   "t": 2431,
+   "speaker": "Clara",
+   "text": "Das betrifft übrigens auch die App, nicht nur das Web."
+  },
+  {
+   "t": 2437,
+   "speaker": "Sofia",
+   "text": "Aus Sicht des Supports ist das eine der häufigsten Beschwerden."
+  },
+  {
+   "t": 2443,
+   "speaker": "Mehmet",
+   "text": "Bei der Formulierung gegenüber Kunden müssen wir vorsichtig sein."
+  },
+  {
+   "t": 2448,
+   "speaker": "Sofia",
+   "text": "Ich habe dazu keine starke Meinung."
+  },
+  {
+   "t": 2452,
+   "speaker": "Clara",
+   "text": "Das Kennzahlen-Dashboard war heute früh down, die Zahlen sind von gestern."
+  },
+  {
+   "t": 2458,
+   "speaker": "Clara",
+   "text": "Ich schaue kurz in meine Notizen, das kam in der letzten Retro auch schon."
+  },
+  {
+   "t": 2465,
+   "speaker": "Mehmet",
+   "text": "Bei der Formulierung gegenüber Kunden müssen wir vorsichtig sein."
+  },
+  {
+   "t": 2471,
+   "speaker": "Jonas",
+   "text": "Aha."
+  },
+  {
+   "t": 2473,
+   "speaker": "Sofia",
+   "text": "Hat jemand den Link zum Planungsdokument?"
+  },
+  {
+   "t": 2477,
+   "speaker": "Sofia",
+   "text": "Sorry, ich war stummgeschaltet."
+  },
+  {
+   "t": 2480,
+   "speaker": "Jonas",
+   "text": "Ich bin nicht sicher, ob die Daten das schon hergeben."
+  },
+  {
+   "t": 2485,
+   "speaker": "Clara",
+   "text": "Die Dokumentation dazu ist übrigens ziemlich veraltet."
+  },
+  {
+   "t": 2490,
+   "speaker": "Mehmet",
+   "text": "Mhm."
+  },
+  {
+   "t": 2492,
+   "speaker": "Jonas",
+   "text": "Ich habe dazu keine starke Meinung."
+  },
+  {
+   "t": 2496,
+   "speaker": "Mehmet",
+   "text": "Lass uns das im Auge behalten und nochmal drauf schauen, wenn es schlimmer wird."
+  },
+  {
+   "t": 2503,
+   "speaker": "Sofia",
+   "text": "Lass uns das Thema noch fertig machen, dann fünf Minuten Pause."
+  },
+  {
+   "t": 2509,
+   "speaker": "Jonas",
+   "text": "Guter Punkt, aber die Kunden haben sich darüber eigentlich nicht beschwert."
+  },
+  {
+   "t": 2515,
+   "speaker": "Mehmet",
+   "text": "Beim letzten Mal hat das doppelt so lange gedauert wie geplant."
+  },
+  {
+   "t": 2521,
+   "speaker": "Sofia",
+   "text": "Okay, dann zu die Aufbewahrung von Daten."
+  },
+  {
+   "t": 2526,
+   "speaker": "Clara",
+   "text": "Die Richtung finde ich gut, ich mache mir nur Sorgen um den Aufwand."
+  },
+  {
+   "t": 2533,
+   "speaker": "Clara",
+   "text": "Ich habe gestern mit dem Design-Team gesprochen, die hatten ein paar Bedenken."
+  },
+  {
+   "t": 2539,
+   "speaker": "Clara",
+   "text": "Ich habe gestern mit dem Design-Team gesprochen, die hatten ein paar Bedenken."
+  },
+  {
+   "t": 2546,
+   "speaker": "Mehmet",
+   "text": "Die Rechtsabteilung will höchstens 90 Tage für personenbezogene Daten."
+  },
+  {
+   "t": 2551,
+   "speaker": "Sofia",
+   "text": "Ähm."
+  },
+  {
+   "t": 2553,
+   "speaker": "Jonas",
+   "text": "Ich bin Freitagnachmittag übrigens nicht da."
+  },
+  {
+   "t": 2557,
+   "speaker": "Mehmet",
+   "text": "Wir haben das letzte Woche mit dem Customer-Success-Team besprochen."
+  },
+  {
+   "t": 2562,
+   "speaker": "Mehmet",
+   "text": "Ich habe dazu keine starke Meinung."
+  },
+  {
+   "t": 2566,
+   "speaker": "Clara",
+   "text": "Das größte Risiko ist ehrlich gesagt immer noch der Zeitplan."
+  },
+  {
+   "t": 2572,
+   "speaker": "Clara",
+   "text": "Technisch ist das nicht besonders schwer."
+  },
+  {
+   "t": 2576,
+   "speaker": "Jonas",
+   "text": "Ein Wettbewerber hat letzten Monat etwas Ähnliches gestartet."
+  },
+  {
+   "t": 2581,
+   "speaker": "Jonas",
+   "text": "Wir sollten die Finanzabteilung einbeziehen, bevor wir etwas Teures zusagen."
+  },
+  {
+   "t": 2586,
+   "speaker": "Clara",
+   "text": "Ich habe gestern mit dem Design-Team gesprochen, die hatten ein paar Bedenken."
+  },
+  {
+   "t": 2593,
+   "speaker": "Sofia",
+   "text": "Wir speichern Rohdaten derzeit 400 Tage."
+  },
+  {
+   "t": 2597,
+   "speaker": "Clara",
+   "text": "Bei der Formulierung gegenüber Kunden müssen wir vorsichtig sein."
+  },
+  {
+   "t": 2602,
+   "speaker": "Clara",
+   "text": "Kaffeepause bald? Wir sind schon eine Weile dran."
+  },
+  {
+   "t": 2607,
+   "speaker": "Clara",
+   "text": "Das betrifft übrigens auch die App, nicht nur das Web."
+  },
+  {
+   "t": 2613,
+   "speaker": "Mehmet",
+   "text": "Lass uns da jetzt nicht zu tief einsteigen."
+  },
+  {
+   "t": 2617,
+   "speaker": "Mehmet",
+   "text": "Könnten wir anonymisieren statt löschen?"
+  },
+  {
+   "t": 2621,
+   "speaker": "Jonas",
+   "text": "Die Rechtsabteilung sagt, Anonymisieren reicht hier nicht."
+  },
+  {
+   "t": 2625,
+   "speaker": "Jonas",
+   "text": "Danke, hab ihn."
+  },
+  {
+   "t": 2628,
+   "speaker": "Clara",
+   "text": "Ich habe mir die Zahlen nochmal angeschaut, die liegen ungefähr da, wo wir dachten."
+  },
+  {
+   "t": 2635,
+   "speaker": "Clara",
+   "text": "Die Richtung finde ich gut, ich mache mir nur Sorgen um den Aufwand."
+  },
+  {
+   "t": 2642,
+   "speaker": "Jonas",
+   "text": "Mhm, ja."
+  },
+  {
+   "t": 2645,
+   "speaker": "Mehmet",
+   "text": "Ich habe mir die Zahlen nochmal angeschaut, die liegen ungefähr da, wo wir dachten."
+  },
+  {
+   "t": 2652,
+   "speaker": "Sofia",
+   "text": "Es gibt auch eine Abhängigkeit zum Plattform-Team, die wir nicht vergessen sollten."
+  },
+  {
+   "t": 2659,
+   "speaker": "Sofia",
+   "text": "Das größte Risiko ist ehrlich gesagt immer noch der Zeitplan."
+  },
+  {
+   "t": 2664,
+   "speaker": "Jonas",
+   "text": "Technisch ist das nicht besonders schwer."
+  },
+  {
+   "t": 2668,
+   "speaker": "Clara",
+   "text": "Sorry, ich war stummgeschaltet."
+  },
+  {
+   "t": 2671,
+   "speaker": "Sofia",
+   "text": "Aha."
+  },
+  {
+   "t": 2673,
+   "speaker": "Sofia",
+   "text": "Aha."
+  },
+  {
+   "t": 2675,
+   "speaker": "Sofia",
+   "text": "Ich bin nicht sicher, ob die Daten das schon hergeben."
+  },
+  {
+   "t": 2681,
+   "speaker": "Mehmet",
+   "text": "Sorry, ich war stummgeschaltet."
+  },
+  {
+   "t": 2684,
+   "speaker": "Sofia",
+   "text": "Mhm."
+  },
+  {
+   "t": 2686,
+   "speaker": "Clara",
+   "text": "Die Dokumentation dazu ist übrigens ziemlich veraltet."
+  },
+  {
+   "t": 2690,
+   "speaker": "Mehmet",
+   "text": "Hm."
+  },
+  {
+   "t": 2692,
+   "speaker": "Mehmet",
+   "text": "Ich bin Freitagnachmittag übrigens nicht da."
+  },
+  {
+   "t": 2696,
+   "speaker": "Mehmet",
+   "text": "Ich glaube, das Team schafft das, wenn wir den Umfang etwas kürzen."
+  },
+  {
+   "t": 2703,
+   "speaker": "Sofia",
+   "text": "Einverstanden: Rohdaten mit personenbezogenen Daten werden nach 90 Tagen gelöscht."
+  },
+  {
+   "t": 2708,
+   "speaker": "Mehmet",
+   "text": "Einverstanden."
+  },
+  {
+   "t": 2710,
+   "speaker": "Sofia",
+   "text": "Mehmet, kannst du den Text der Richtlinie für die Rechtsabteilung entwerfen, bis Freitag?"
+  },
+  {
+   "t": 2717,
+   "speaker": "Mehmet",
+   "text": "Klar, das schaffe ich bis Freitag."
+  },
+  {
+   "t": 2721,
+   "speaker": "Mehmet",
+   "text": "Ich bin nicht sicher, ob die Daten das schon hergeben."
+  },
+  {
+   "t": 2727,
+   "speaker": "Sofia",
+   "text": "Ich bin nicht sicher, ob die Daten das schon hergeben."
+  },
+  {
+   "t": 2733,
+   "speaker": "Clara",
+   "text": "Hm."
+  },
+  {
+   "t": 2735,
+   "speaker": "Jonas",
+   "text": "Ähm."
+  },
+  {
+   "t": 2736,
+   "speaker": "Jonas",
+   "text": "Danke, hab ihn."
+  },
+  {
+   "t": 2739,
+   "speaker": "Jonas",
+   "text": "Die Richtung finde ich gut, ich mache mir nur Sorgen um den Aufwand."
+  },
+  {
+   "t": 2746,
+   "speaker": "Sofia",
+   "text": "Ich habe mir die Zahlen nochmal angeschaut, die liegen ungefähr da, wo wir dachten."
+  },
+  {
+   "t": 2753,
+   "speaker": "Mehmet",
+   "text": "Ich glaube, das Team schafft das, wenn wir den Umfang etwas kürzen."
+  },
+  {
+   "t": 2760,
+   "speaker": "Jonas",
+   "text": "Ich glaube, das Team schafft das, wenn wir den Umfang etwas kürzen."
+  },
+  {
+   "t": 2766,
+   "speaker": "Jonas",
+   "text": "Hm."
+  },
+  {
+   "t": 2768,
+   "speaker": "Jonas",
+   "text": "Lass uns das im Auge behalten und nochmal drauf schauen, wenn es schlimmer wird."
+  },
+  {
+   "t": 2776,
+   "speaker": "Mehmet",
+   "text": "Kaffeepause bald? Wir sind schon eine Weile dran."
+  },
+  {
+   "t": 2781,
+   "speaker": "Mehmet",
+   "text": "Lass uns das im Auge behalten und nochmal drauf schauen, wenn es schlimmer wird."
+  },
+  {
+   "t": 2788,
+   "speaker": "Clara",
+   "text": "Kannst du das wiederholen? Dein Ton war kurz weg."
+  },
+  {
+   "t": 2793,
+   "speaker": "Sofia",
+   "text": "Hat jemand den Link zum Planungsdokument?"
+  },
+  {
+   "t": 2797,
+   "speaker": "Jonas",
+   "text": "Lass uns das im Auge behalten und nochmal drauf schauen, wenn es schlimmer wird."
+  },
+  {
+   "t": 2804,
+   "speaker": "Sofia",
+   "text": "Das Kennzahlen-Dashboard war heute früh down, die Zahlen sind von gestern."
+  },
+  {
+   "t": 2811,
+   "speaker": "Sofia",
+   "text": "Kannst du das wiederholen? Dein Ton war kurz weg."
+  },
+  {
+   "t": 2816,
+   "speaker": "Sofia",
+   "text": "Kaffeepause bald? Wir sind schon eine Weile dran."
+  },
+  {
+   "t": 2821,
+   "speaker": "Clara",
+   "text": "Kannst du das wiederholen? Dein Ton war kurz weg."
+  },
+  {
+   "t": 2826,
+   "speaker": "Mehmet",
+   "text": "Ähm."
+  },
+  {
+   "t": 2828,
+   "speaker": "Jonas",
+   "text": "Ich habe mir die Zahlen nochmal angeschaut, die liegen ungefähr da, wo wir dachten."
+  },
+  {
+   "t": 2835,
+   "speaker": "Mehmet",
+   "text": "Wir haben vor zwei Jahren etwas Ähnliches versucht, das lief nicht gut."
+  },
+  {
+   "t": 2842,
+   "speaker": "Clara",
+   "text": "Mein Bauchgefühl sagt, dass wir das zerdenken."
+  },
+  {
+   "t": 2846,
+   "speaker": "Clara",
+   "text": "Lass uns da jetzt nicht zu tief einsteigen."
+  },
+  {
+   "t": 2851,
+   "speaker": "Sofia",
+   "text": "Ich habe gestern mit dem Design-Team gesprochen, die hatten ein paar Bedenken."
+  },
+  {
+   "t": 2857,
+   "speaker": "Mehmet",
+   "text": "Die Richtung finde ich gut, ich mache mir nur Sorgen um den Aufwand."
+  },
+  {
+   "t": 2864,
+   "speaker": "Clara",
+   "text": "Wir haben vor zwei Jahren etwas Ähnliches versucht, das lief nicht gut."
+  }
+ ],
+ "key": {
+  "decisions": [
+   {
+    "keywords": [
+     "Kestrel",
+     "March|März"
+    ]
+   },
+   {
+    "keywords": [
+     "PDF",
+     "table|Tabelle"
+    ]
+   },
+   {
+    "keywords": [
+     "November"
+    ]
+   },
+   {
+    "keywords": [
+     "Plagwitz"
+    ]
+   },
+   {
+    "keywords": [
+     "Orion",
+     "February|Februar"
+    ]
+   },
+   {
+    "keywords": [
+     "search|Suche",
+     "offline"
+    ]
+   },
+   {
+    "keywords": [
+     "Bramble",
+     "week|Woche"
+    ]
+   },
+   {
+    "keywords": [
+     "90"
+    ]
+   }
+  ],
+  "actions": [
+   {
+    "keywords": [
+     "Kestrel"
+    ],
+    "owner": "Clara",
+    "due": [
+     "Thursday",
+     "Donnerstag",
+     "Donnerstag"
+    ]
+   },
+   {
+    "keywords": [
+     "Bauer"
+    ],
+    "owner": "Mehmet",
+    "due": [
+     "Monday",
+     "Montag",
+     "Montag"
+    ]
+   },
+   {
+    "keywords": [
+     "PagerDuty"
+    ],
+    "owner": "Jonas",
+    "due": [
+     "Friday",
+     "Freitag",
+     "Freitag"
+    ]
+   },
+   {
+    "keywords": [
+     "quote|Angebot|offer"
+    ],
+    "owner": "Mehmet",
+    "due": [
+     "December 5",
+     "5 December",
+     "5. Dezember",
+     "Dec 5",
+     "5th of December"
+    ]
+   },
+   {
+    "keywords": [
+     "Orion",
+     "17|seventeen|siebzehn"
+    ],
+    "owner": "Sofia",
+    "due": [
+     "tomorrow",
+     "morgen",
+     "morgen"
+    ]
+   },
+   {
+    "keywords": [
+     "survey|Umfrage",
+     "board|Vorstand"
+    ],
+    "owner": "Jonas",
+    "due": [
+     "Tuesday",
+     "Dienstag",
+     "Dienstag"
+    ]
+   },
+   {
+    "keywords": [
+     "Bramble",
+     "critical|kritisch"
+    ],
+    "owner": "Clara",
+    "due": [
+     "today",
+     "heute",
+     "heute"
+    ]
+   },
+   {
+    "keywords": [
+     "polic|Richtlinie"
+    ],
+    "owner": "Mehmet",
+    "due": [
+     "Friday",
+     "Freitag",
+     "Freitag"
+    ]
+   }
+  ],
+  "traps": [
+   {
+    "keywords": [
+     "dark|dunkle"
+    ]
+   },
+   {
+    "keywords": [
+     "Excel"
+    ]
+   },
+   {
+    "keywords": [
+     "bonus"
+    ]
+   },
+   {
+    "keywords": [
+     "both offices|beide Büros|two offices"
+    ]
+   },
+   {
+    "keywords": [
+     "charge|berechnen|fee"
+    ]
+   },
+   {
+    "keywords": [
+     "Spanish|Spanisch"
+    ]
+   },
+   {
+    "keywords": [
+     "tablet"
+    ]
+   },
+   {
+    "keywords": [
+     "anonymis|anonymiz"
+    ]
+   }
+  ]
+ },
+ "transcript": "[00:00] [Jonas] Okay, dann zu das Kestrel-Dashboard.\n[00:03] [Clara] Kannst du kurz deinen Bildschirm teilen?\n[00:07] [Mehmet] Rund 1.800 Kunden öffnen Kestrel jede Woche.\n[00:12] [Jonas] Kannst du das wiederholen? Dein Ton war kurz weg.\n[00:17] [Mehmet] Das größte Risiko ist ehrlich gesagt immer noch der Zeitplan.\n[00:22] [Mehmet] Das Kestrel-Dashboard lädt im Schnitt in 4,2 Sekunden.\n[00:27] [Clara] Sollen wir das dunkle Design ganz weglassen?\n[00:32] [Jonas] Das würde ich heute nicht entscheiden, erst brauchen wir die Umfrage.\n[00:38] [Jonas] Hat jemand den Link zum Planungsdokument?\n[00:42] [Sofia] Ein Wettbewerber hat letzten Monat etwas Ähnliches gestartet.\n[00:47] [Clara] Kannst du das wiederholen? Dein Ton war kurz weg.\n[00:52] [Mehmet] Ich würde es für die erste Version einfach halten.\n[00:57] [Mehmet] Hm.\n[00:59] [Clara] Technisch ist das nicht besonders schwer.\n[01:03] [Sofia] Ich bin Freitagnachmittag übrigens nicht da.\n[01:07] [Mehmet] Wir sollten die Finanzabteilung einbeziehen, bevor wir etwas Teures zusagen.\n[01:13] [Jonas] Ich habe gestern mit dem Design-Team gesprochen, die hatten ein paar Bedenken.\n[01:19] [Sofia] Hm.\n[01:21] [Clara] Ich bin nicht sicher, ob die Daten das schon hergeben.\n[01:27] [Sofia] Ähm.\n[01:29] [Sofia] Bei der Formulierung gegenüber Kunden müssen wir vorsichtig sein.\n[01:34] [Clara] Lass uns da jetzt nicht zu tief einsteigen.\n[01:39] [Jonas] Ich schaue kurz in meine Notizen, das kam in der letzten Retro auch schon.\n[01:46] [Clara] Es gibt auch eine Abhängigkeit zum Plattform-Team, die wir nicht vergessen sollten.\n[01:53] [Mehmet] Ähm.\n[01:55] [Mehmet] Ich habe gestern mit dem Design-Team gesprochen, die hatten ein paar Bedenken.\n[02:01] [Mehmet] Ich bin Freitagnachmittag übrigens nicht da.\n[02:05] [Jonas] Dann ist es beschlossen: Das neue Kestrel-Dashboard kommt erst nach der Messe im März.\n[02:12] [Mehmet] Gut, so machen wir es.\n[02:16] [Sofia] Ich bin nicht sicher, ob die Daten das schon hergeben.\n[02:22] [Mehmet] Klar, Moment, ich suche das richtige Fenster.\n[02:26] [Mehmet] Ich hätte gern eine grobe Schätzung, bevor wir weitermachen.\n[02:31] [Clara] Aha.\n[02:33] [Mehmet] Ich habe mir die Zahlen nochmal angeschaut, die liegen ungefähr da, wo wir dachten.\n[02:41] [Mehmet] Ähm.\n[02:42] [Mehmet] Hat jemand den Link zum Planungsdokument?\n[02:46] [Clara] Ich hätte gern eine grobe Schätzung, bevor wir weitermachen.\n[02:52] [Jonas] Die Richtung finde ich gut, ich mache mir nur Sorgen um den Aufwand.\n[02:59] [Jonas] Clara, kannst du die Kestrel-Entwürfe an die Design-Runde schicken, bis Donnerstag?\n[03:05] [Clara] Okay, übernehme ich, Donnerstag passt.\n[03:08] [Jonas] Ähm.\n[03:10] [Mehmet] Beim letzten Mal hat das doppelt so lange gedauert wie geplant.\n[03:16] [Mehmet] Guter Punkt, aber die Kunden haben sich darüber eigentlich nicht beschwert.\n[03:22] [Clara] Das Kennzahlen-Dashboard war heute früh down, die Zahlen sind von gestern.\n[03:28] [Sofia] Beim letzten Mal hat das doppelt so lange gedauert wie geplant.\n[03:35] [Clara] Ich habe gestern mit dem Design-Team gesprochen, die hatten ein paar Bedenken.\n[03:41] [Sofia] Beim letzten Mal hat das doppelt so lange gedauert wie geplant.\n[03:47] [Clara] Ich habe dazu keine starke Meinung.\n[03:51] [Mehmet] Hm.\n[03:53] [Clara] Die Richtung finde ich gut, ich mache mir nur Sorgen um den Aufwand.\n[04:00] [Clara] Ich glaube, das Team schafft das, wenn wir den Umfang etwas kürzen.\n[04:06] [Jonas] Lass uns da jetzt nicht zu tief einsteigen.\n[04:11] [Jonas] Danke, hab ihn.\n[04:14] [Sofia] Ich würde es für die erste Version einfach halten.\n[04:19] [Mehmet] Aus Sicht des Supports ist das eine der häufigsten Beschwerden.\n[04:25] [Mehmet] Lass uns das im Auge behalten und nochmal drauf schauen, wenn es schlimmer wird.\n[04:32] [Clara] Die Dokumentation dazu ist übrigens ziemlich veraltet.\n[04:37] [Mehmet] Es gibt auch eine Abhängigkeit zum Plattform-Team, die wir nicht vergessen sollten.\n[04:43] [Jonas] Ich habe dazu keine starke Meinung.\n[04:47] [Clara] Es gibt auch eine Abhängigkeit zum Plattform-Team, die wir nicht vergessen sollten.\n[04:54] [Clara] Mhm, ja.\n[04:56] [Jonas] Es gibt auch eine Abhängigkeit zum Plattform-Team, die wir nicht vergessen sollten.\n[05:03] [Sofia] Wir haben das letzte Woche mit dem Customer-Success-Team besprochen.\n[05:08] [Clara] Hab ihn gerade in den Chat gestellt.\n[05:12] [Clara] Die Richtung finde ich gut, ich mache mir nur Sorgen um den Aufwand.\n[05:19] [Jonas] Hm.\n[05:21] [Clara] Hab ihn gerade in den Chat gestellt.\n[05:25] [Clara] Sorry, ich war stummgeschaltet.\n[05:29] [Sofia] Ein Wettbewerber hat letzten Monat etwas Ähnliches gestartet.\n[05:33] [Jonas] Ich hätte gern eine grobe Schätzung, bevor wir weitermachen.\n[05:39] [Jonas] Mhm, ja.\n[05:41] [Clara] Ich glaube, das Team schafft das, wenn wir den Umfang etwas kürzen.\n[05:48] [Jonas] Mhm.\n[05:49] [Jonas] Bei der Formulierung gegenüber Kunden müssen wir vorsichtig sein.\n[05:55] [Sofia] Mhm, ja.\n[05:57] [Sofia] Mein Bauchgefühl sagt, dass wir das zerdenken.\n[06:01] [Clara] Okay, dann zu den Rechnungsexport für Bauer GmbH.\n[06:06] [Mehmet] Ähm.\n[06:08] [Sofia] Lass uns das im Auge behalten und nochmal drauf schauen, wenn es schlimmer wird.\n[06:16] [Clara] Mhm, ja.\n[06:18] [Clara] Aus Sicht des Supports ist das eine der häufigsten Beschwerden.\n[06:24] [Sofia] Lass uns da jetzt nicht zu tief einsteigen.\n[06:28] [Jonas] Ich glaube, das Team schafft das, wenn wir den Umfang etwas kürzen.\n[06:35] [Mehmet] Ich habe mir die Zahlen nochmal angeschaut, die liegen ungefähr da, wo wir dachten.\n[06:42] [Sofia] Mhm.\n[06:44] [Jonas] Lass uns das im Auge behalten und nochmal drauf schauen, wenn es schlimmer wird.\n[06:51] [Mehmet] Das Kennzahlen-Dashboard war heute früh down, die Zahlen sind von gestern.\n[06:58] [Jonas] Kannst du das wiederholen? Dein Ton war kurz weg.\n[07:03] [Sofia] Lass uns da jetzt nicht zu tief einsteigen.\n[07:08] [Sofia] Mein Bauchgefühl sagt, dass wir das zerdenken.\n[07:12] [Sofia] Ich hätte gern eine grobe Schätzung, bevor wir weitermachen.\n[07:17] [Mehmet] Mhm, ja.\n[07:20] [Clara] Ein Wettbewerber hat letzten Monat etwas Ähnliches gestartet.\n[07:24] [Clara] Ich bin nicht sicher, ob die Daten das schon hergeben.\n[07:30] [Clara] Hat jemand den Link zum Planungsdokument?\n[07:34] [Jonas] Bei der Formulierung gegenüber Kunden müssen wir vorsichtig sein.\n[07:39] [Mehmet] Ähm.\n[07:41] [Clara] Lass uns da jetzt nicht zu tief einsteigen.\n[07:46] [Jonas] Das größte Risiko ist ehrlich gesagt immer noch der Zeitplan.\n[07:52] [Mehmet] Ich würde es für die erste Version einfach halten.\n[07:57] [Jonas] Der PDF-Export bricht bei Tabellen über zwei Seiten.\n[08:02] [Sofia] Mhm, ja.\n[08:04] [Jonas] Klar, Moment, ich suche das richtige Fenster.\n[08:09] [Clara] Bauer GmbH schickt uns ungefähr 600 Rechnungen im Monat.\n[08:14] [Sofia] Sollen wir Bauer auch einen Excel-Export anbieten?\n[08:18] [Mehmet] Nein, Excel ist in diesem Quartal nicht drin.\n[08:23] [Clara] Beschluss: Wir reparieren zuerst das PDF-Layout für lange Tabellen, bevor wir neue Formate bauen.\n[08:30] [Sofia] Gut, so machen wir es.\n[08:34] [Clara] Danke, hab ihn.\n[08:37] [Mehmet] Wir sollten die Finanzabteilung einbeziehen, bevor wir etwas Teures zusagen.\n[08:42] [Sofia] Lass uns da jetzt nicht zu tief einsteigen.\n[08:47] [Sofia] Mehmet, kannst du Bauer anrufen und die Rechnungsvorlage bestätigen lassen? Am besten bis Montag.\n[08:55] [Mehmet] Klar, das schaffe ich bis Montag.\n[08:59] [Jonas] Das Kennzahlen-Dashboard war heute früh down, die Zahlen sind von gestern.\n[09:05] [Sofia] Kaffeepause bald? Wir sind schon eine Weile dran.\n[09:10] [Sofia] Hat jemand den Link zum Planungsdokument?\n[09:14] [Clara] Das größte Risiko ist ehrlich gesagt immer noch der Zeitplan.\n[09:19] [Mehmet] Wir haben das letzte Woche mit dem Customer-Success-Team besprochen.\n[09:24] [Jonas] Mein Bauchgefühl sagt, dass wir das zerdenken.\n[09:29] [Clara] Lass uns das im Auge behalten und nochmal drauf schauen, wenn es schlimmer wird.\n[09:36] [Jonas] Lass uns das im Auge behalten und nochmal drauf schauen, wenn es schlimmer wird.\n[09:44] [Jonas] Ähm.\n[09:45] [Clara] Kannst du kurz deinen Bildschirm teilen?\n[09:49] [Mehmet] Lass uns das Thema noch fertig machen, dann fünf Minuten Pause.\n[09:56] [Clara] Ähm.\n[09:57] [Jonas] Die Richtung finde ich gut, ich mache mir nur Sorgen um den Aufwand.\n[10:04] [Jonas] Ich würde es für die erste Version einfach halten.\n[10:10] [Clara] Ich bin Freitagnachmittag übrigens nicht da.\n[10:14] [Clara] Das Kennzahlen-Dashboard war heute früh down, die Zahlen sind von gestern.\n[10:20] [Mehmet] Ich würde es für die erste Version einfach halten.\n[10:25] [Clara] Lass uns das Thema noch fertig machen, dann fünf Minuten Pause.\n[10:31] [Clara] Ich bin nicht sicher, ob die Daten das schon hergeben.\n[10:37] [Jonas] Lass uns das im Auge behalten und nochmal drauf schauen, wenn es schlimmer wird.\n[10:44] [Mehmet] Aus Sicht des Supports ist das eine der häufigsten Beschwerden.\n[10:50] [Mehmet] Kaffeepause bald? Wir sind schon eine Weile dran.\n[10:55] [Clara] Ein Wettbewerber hat letzten Monat etwas Ähnliches gestartet.\n[10:59] [Jonas] Das betrifft übrigens auch die App, nicht nur das Web.\n[11:05] [Mehmet] Das größte Risiko ist ehrlich gesagt immer noch der Zeitplan.\n[11:11] [Jonas] Ich bin nicht sicher, ob die Daten das schon hergeben.\n[11:16] [Jonas] Mhm, ja.\n[11:19] [Jonas] Lass uns das Thema noch fertig machen, dann fünf Minuten Pause.\n[11:25] [Clara] Kaffeepause bald? Wir sind schon eine Weile dran.\n[11:30] [Sofia] Ich hätte gern eine grobe Schätzung, bevor wir weitermachen.\n[11:35] [Clara] Kannst du das wiederholen? Dein Ton war kurz weg.\n[11:40] [Mehmet] Mhm, ja.\n[11:42] [Jonas] Das Kennzahlen-Dashboard war heute früh down, die Zahlen sind von gestern.\n[11:49] [Mehmet] Die Richtung finde ich gut, ich mache mir nur Sorgen um den Aufwand.\n[11:55] [Sofia] Mein Bauchgefühl sagt, dass wir das zerdenken.\n[12:00] [Mehmet] Jonas, du wolltest noch über die Rufbereitschaft sprechen?\n[12:05] [Jonas] Kannst du das wiederholen? Dein Ton war kurz weg.\n[12:10] [Clara] Kaffeepause bald? Wir sind schon eine Weile dran.\n[12:15] [Mehmet] Mhm.\n[12:17] [Mehmet] Wir haben vor zwei Jahren etwas Ähnliches versucht, das lief nicht gut.\n[12:23] [Jonas] Mhm, ja.\n[12:26] [Mehmet] Ähm.\n[12:27] [Jonas] Das größte Risiko ist ehrlich gesagt immer noch der Zeitplan.\n[12:33] [Clara] Ähm.\n[12:35] [Mehmet] Bei der Formulierung gegenüber Kunden müssen wir vorsichtig sein.\n[12:40] [Jonas] Danke, hab ihn.\n[12:43] [Jonas] Aha.\n[12:45] [Mehmet] Technisch ist das nicht besonders schwer.\n[12:49] [Clara] Ich bin Freitagnachmittag übrigens nicht da.\n[12:53] [Mehmet] Das betrifft übrigens auch die App, nicht nur das Web.\n[12:59] [Sofia] Mhm.\n[13:01] [Mehmet] Es gibt auch eine Abhängigkeit zum Plattform-Team, die wir nicht vergessen sollten.\n[13:07] [Sofia] Das Kennzahlen-Dashboard war heute früh down, die Zahlen sind von gestern.\n[13:13] [Mehmet] Die Richtung finde ich gut, ich mache mir nur Sorgen um den Aufwand.\n[13:20] [Jonas] Ich würde es für die erste Version einfach halten.\n[13:25] [Clara] Ich bin Freitagnachmittag übrigens nicht da.\n[13:29] [Mehmet] Wir hatten letzten Monat 14 Alarme außerhalb der Arbeitszeit.\n[13:35] [Jonas] Ähm.\n[13:36] [Clara] Zwei davon waren Fehlalarme vom Festplattenmonitor.\n[13:40] [Clara] Ich glaube, das Team schafft das, wenn wir den Umfang etwas kürzen.\n[13:47] [Jonas] Ich habe dazu keine starke Meinung.\n[13:51] [Sofia] Ich habe mir die Zahlen nochmal angeschaut, die liegen ungefähr da, wo wir dachten.\n[13:58] [Clara] Die Richtung finde ich gut, ich mache mir nur Sorgen um den Aufwand.\n[14:05] [Jonas] Mhm, ja.\n[14:08] [Mehmet] Hm.\n[14:09] [Jonas] Ich bin nicht sicher, ob die Daten das schon hergeben.\n[14:15] [Clara] Könnten wir einen Wochenendbonus zahlen?\n[14:19] [Sofia] Das muss die Personalabteilung entscheiden, nicht wir hier.\n[14:24] [Clara] Kannst du das wiederholen? Dein Ton war kurz weg.\n[14:29] [Mehmet] Lass uns da jetzt nicht zu tief einsteigen.\n[14:34] [Mehmet] Einverstanden, die Rufbereitschaft wechselt ab November auf Wochenschichten.\n[14:38] [Jonas] Ja, passt für mich.\n[14:42] [Jonas] Kannst du kurz deinen Bildschirm teilen?\n[14:46] [Mehmet] Kannst du kurz deinen Bildschirm teilen?\n[14:50] [Jonas] Ich habe dazu keine starke Meinung.\n[14:54] [Sofia] Wir haben vor zwei Jahren etwas Ähnliches versucht, das lief nicht gut.\n[15:00] [Sofia] Jonas, kannst du den PagerDuty-Plan anpassen? Am besten bis Freitag.\n[15:06] [Jonas] Okay, übernehme ich, Freitag passt.\n[15:09] [Sofia] Das betrifft übrigens auch die App, nicht nur das Web.\n[15:15] [Clara] Ich habe gestern mit dem Design-Team gesprochen, die hatten ein paar Bedenken.\n[15:22] [Mehmet] Ähm.\n[15:23] [Mehmet] Sorry, ich war stummgeschaltet.\n[15:27] [Jonas] Kaffeepause bald? Wir sind schon eine Weile dran.\n[15:31] [Mehmet] Sorry, ich war stummgeschaltet.\n[15:35] [Clara] Kaffeepause bald? Wir sind schon eine Weile dran.\n[15:39] [Clara] Mhm.\n[15:41] [Sofia] Lass uns da jetzt nicht zu tief einsteigen.\n[15:46] [Sofia] Mein Bauchgefühl sagt, dass wir das zerdenken.\n[15:51] [Sofia] Aha.\n[15:52] [Sofia] Ich habe mir die Zahlen nochmal angeschaut, die liegen ungefähr da, wo wir dachten.\n[16:00] [Jonas] Ich hätte gern eine grobe Schätzung, bevor wir weitermachen.\n[16:05] [Clara] Das Kennzahlen-Dashboard war heute früh down, die Zahlen sind von gestern.\n[16:11] [Jonas] Hm.\n[16:13] [Clara] Lass uns das im Auge behalten und nochmal drauf schauen, wenn es schlimmer wird.\n[16:20] [Jonas] Die Dokumentation dazu ist übrigens ziemlich veraltet.\n[16:25] [Mehmet] Beim letzten Mal hat das doppelt so lange gedauert wie geplant.\n[16:31] [Sofia] Das größte Risiko ist ehrlich gesagt immer noch der Zeitplan.\n[16:37] [Jonas] Wir haben vor zwei Jahren etwas Ähnliches versucht, das lief nicht gut.\n[16:43] [Mehmet] Mhm, ja.\n[16:45] [Mehmet] Lass uns da jetzt nicht zu tief einsteigen.\n[16:50] [Mehmet] Hm.\n[16:52] [Jonas] Ein Wettbewerber hat letzten Monat etwas Ähnliches gestartet.\n[16:57] [Clara] Hat jemand den Link zum Planungsdokument?\n[17:01] [Jonas] Guter Punkt, aber die Kunden haben sich darüber eigentlich nicht beschwert.\n[17:07] [Clara] Sorry, ich war stummgeschaltet.\n[17:10] [Jonas] Ähm.\n[17:12] [Jonas] Bei der Formulierung gegenüber Kunden müssen wir vorsichtig sein.\n[17:17] [Clara] Kannst du kurz deinen Bildschirm teilen?\n[17:21] [Jonas] Ich glaube, das Team schafft das, wenn wir den Umfang etwas kürzen.\n[17:28] [Clara] Es gibt auch eine Abhängigkeit zum Plattform-Team, die wir nicht vergessen sollten.\n[17:34] [Jonas] Ich bin Freitagnachmittag übrigens nicht da.\n[17:38] [Sofia] Ich bin Freitagnachmittag übrigens nicht da.\n[17:42] [Mehmet] Hm.\n[17:44] [Jonas] Aha.\n[17:46] [Mehmet] Ich habe gestern mit dem Design-Team gesprochen, die hatten ein paar Bedenken.\n[17:53] [Clara] Sorry, ich war stummgeschaltet.\n[17:56] [Jonas] Ich würde es für die erste Version einfach halten.\n[18:01] [Mehmet] Mhm.\n[18:03] [Sofia] Die Dokumentation dazu ist übrigens ziemlich veraltet.\n[18:08] [Sofia] Nächster Punkt: den Umzug des Büros in Leipzig.\n[18:12] [Jonas] Ähm.\n[18:14] [Mehmet] Die Dokumentation dazu ist übrigens ziemlich veraltet.\n[18:19] [Clara] Es gibt auch eine Abhängigkeit zum Plattform-Team, die wir nicht vergessen sollten.\n[18:25] [Jonas] Das neue Büro hat 22 Arbeitsplätze.\n[18:29] [Jonas] Der Mietvertrag in Leipzig endet am 30. Januar.\n[18:34] [Clara] Ich habe mir die Zahlen nochmal angeschaut, die liegen ungefähr da, wo wir dachten.\n[18:41] [Sofia] Hm.\n[18:43] [Clara] Bei der Formulierung gegenüber Kunden müssen wir vorsichtig sein.\n[18:49] [Sofia] Kaffeepause bald? Wir sind schon eine Weile dran.\n[18:53] [Clara] Ich hätte gern eine grobe Schätzung, bevor wir weitermachen.\n[18:59] [Jonas] Kaffeepause bald? Wir sind schon eine Weile dran.\n[19:03] [Mehmet] Sorry, ich war stummgeschaltet.\n[19:07] [Sofia] Vielleicht behalten wir beide Büros noch eine Weile?\n[19:11] [Clara] Das verdoppelt die Miete, also nein.\n[19:15] [Mehmet] Ähm.\n[19:17] [Clara] Lass uns da jetzt nicht zu tief einsteigen.\n[19:22] [Mehmet] Ich bin Freitagnachmittag übrigens nicht da.\n[19:26] [Mehmet] Aus Sicht des Supports ist das eine der häufigsten Beschwerden.\n[19:32] [Mehmet] Ähm.\n[19:34] [Clara] Sorry, ich war stummgeschaltet.\n[19:37] [Jonas] Mein Bauchgefühl sagt, dass wir das zerdenken.\n[19:41] [Jonas] Ich habe gestern mit dem Design-Team gesprochen, die hatten ein paar Bedenken.\n[19:48] [Clara] Lass uns das Thema noch fertig machen, dann fünf Minuten Pause.\n[19:54] [Mehmet] Beim letzten Mal hat das doppelt so lange gedauert wie geplant.\n[20:00] [Sofia] Danke, hab ihn.\n[20:03] [Sofia] Ich hätte gern eine grobe Schätzung, bevor wir weitermachen.\n[20:08] [Mehmet] Ich würde es für die erste Version einfach halten.\n[20:13] [Clara] Ich schaue kurz in meine Notizen, das kam in der letzten Retro auch schon.\n[20:21] [Sofia] Mhm.\n[20:23] [Jonas] Das betrifft übrigens auch die App, nicht nur das Web.\n[20:28] [Mehmet] Hat jemand den Link zum Planungsdokument?\n[20:32] [Jonas] Wir haben vor zwei Jahren etwas Ähnliches versucht, das lief nicht gut.\n[20:39] [Sofia] Ich schaue kurz in meine Notizen, das kam in der letzten Retro auch schon.\n[20:46] [Sofia] Gut, wir unterschreiben den Mietvertrag für das Büro in der Plagwitzer Straße.\n[20:53] [Clara] Gut, so machen wir es.\n[20:56] [Jonas] Das betrifft übrigens auch die App, nicht nur das Web.\n[21:02] [Sofia] Ich würde es für die erste Version einfach halten.\n[21:07] [Sofia] Mehmet, kannst du drei Angebote von Umzugsfirmen einholen, bis 5th of December?\n[21:14] [Mehmet] Ja, mache ich bis 5th of December.\n[21:18] [Clara] Mhm.\n[21:20] [Mehmet] Aha.\n[21:22] [Mehmet] Das Kennzahlen-Dashboard war heute früh down, die Zahlen sind von gestern.\n[21:28] [Sofia] Mein Bauchgefühl sagt, dass wir das zerdenken.\n[21:32] [Mehmet] Ich schaue kurz in meine Notizen, das kam in der letzten Retro auch schon.\n[21:40] [Jonas] Technisch ist das nicht besonders schwer.\n[21:44] [Mehmet] Das betrifft übrigens auch die App, nicht nur das Web.\n[21:49] [Sofia] Aus Sicht des Supports ist das eine der häufigsten Beschwerden.\n[21:55] [Jonas] Ein Wettbewerber hat letzten Monat etwas Ähnliches gestartet.\n[22:00] [Clara] Beim letzten Mal hat das doppelt so lange gedauert wie geplant.\n[22:06] [Mehmet] Wir sollten die Finanzabteilung einbeziehen, bevor wir etwas Teures zusagen.\n[22:12] [Sofia] Ich hätte gern eine grobe Schätzung, bevor wir weitermachen.\n[22:17] [Sofia] Guter Punkt, aber die Kunden haben sich darüber eigentlich nicht beschwert.\n[22:23] [Sofia] Ich habe mir die Zahlen nochmal angeschaut, die liegen ungefähr da, wo wir dachten.\n[22:30] [Mehmet] Lass uns das im Auge behalten und nochmal drauf schauen, wenn es schlimmer wird.\n[22:38] [Mehmet] Ein Wettbewerber hat letzten Monat etwas Ähnliches gestartet.\n[22:42] [Sofia] Mhm, ja.\n[22:45] [Sofia] Wir haben vor zwei Jahren etwas Ähnliches versucht, das lief nicht gut.\n[22:51] [Mehmet] Lass uns das im Auge behalten und nochmal drauf schauen, wenn es schlimmer wird.\n[22:59] [Sofia] Ich habe gestern mit dem Design-Team gesprochen, die hatten ein paar Bedenken.\n[23:05] [Clara] Kannst du das wiederholen? Dein Ton war kurz weg.\n[23:10] [Mehmet] Wir haben das letzte Woche mit dem Customer-Success-Team besprochen.\n[23:16] [Clara] Mhm.\n[23:17] [Mehmet] Ich bin nicht sicher, ob die Daten das schon hergeben.\n[23:23] [Clara] Ich hätte gern eine grobe Schätzung, bevor wir weitermachen.\n[23:28] [Jonas] Kannst du kurz deinen Bildschirm teilen?\n[23:32] [Clara] Mhm.\n[23:34] [Jonas] Kaffeepause bald? Wir sind schon eine Weile dran.\n[23:39] [Clara] Aus Sicht des Supports ist das eine der häufigsten Beschwerden.\n[23:45] [Clara] Sorry, ich war stummgeschaltet.\n[23:48] [Sofia] Ich habe mir die Zahlen nochmal angeschaut, die liegen ungefähr da, wo wir dachten.\n[23:55] [Sofia] Ich glaube, das Team schafft das, wenn wir den Umfang etwas kürzen.\n[24:02] [Jonas] Okay, dann zu die Orion-Schnittstelle.\n[24:05] [Jonas] Ähm.\n[24:07] [Mehmet] Hab ihn gerade in den Chat gestellt.\n[24:12] [Clara] Mhm.\n[24:14] [Sofia] Siebzehn Integrationen rufen die alten Endpunkte auf.\n[24:18] [Sofia] Das betrifft übrigens auch die App, nicht nur das Web.\n[24:24] [Clara] Ich schaue kurz in meine Notizen, das kam in der letzten Retro auch schon.\n[24:31] [Clara] Orion v1 bedient noch etwa 9 Prozent des Verkehrs.\n[24:36] [Sofia] Aha.\n[24:38] [Sofia] Hat jemand den Link zum Planungsdokument?\n[24:42] [Mehmet] Ich glaube, das Team schafft das, wenn wir den Umfang etwas kürzen.\n[24:49] [Sofia] Es gibt auch eine Abhängigkeit zum Plattform-Team, die wir nicht vergessen sollten.\n[24:55] [Mehmet] Ein Wettbewerber hat letzten Monat etwas Ähnliches gestartet.\n[25:00] [Clara] Guter Punkt, aber die Kunden haben sich darüber eigentlich nicht beschwert.\n[25:06] [Clara] Sorry, ich war stummgeschaltet.\n[25:09] [Clara] Hab ihn gerade in den Chat gestellt.\n[25:14] [Jonas] Sorry, ich war stummgeschaltet.\n[25:17] [Jonas] Sollen wir Kunden, die auf v1 bleiben, etwas berechnen?\n[25:22] [Mehmet] Nein, das bringt nur Ärger.\n[25:26] [Sofia] Mhm, ja.\n[25:28] [Jonas] Die Dokumentation dazu ist übrigens ziemlich veraltet.\n[25:32] [Clara] Sorry, ich war stummgeschaltet.\n[25:36] [Sofia] Hm.\n[25:38] [Jonas] Beschlossen: Orion v1 wird am 1. Februar abgeschaltet.\n[25:42] [Sofia] Gut, so machen wir es.\n[25:46] [Mehmet] Aha.\n[25:48] [Sofia] Aus Sicht des Supports ist das eine der häufigsten Beschwerden.\n[25:54] [Mehmet] Sofia, kannst du die siebzehn Integrationspartner wegen Orion anschreiben, bis morgen?\n[26:00] [Sofia] Klar, das schaffe ich bis morgen.\n[26:04] [Clara] Aus Sicht des Supports ist das eine der häufigsten Beschwerden.\n[26:09] [Clara] Ich habe gestern mit dem Design-Team gesprochen, die hatten ein paar Bedenken.\n[26:16] [Sofia] Kaffeepause bald? Wir sind schon eine Weile dran.\n[26:21] [Clara] Lass uns da jetzt nicht zu tief einsteigen.\n[26:25] [Sofia] Hat jemand den Link zum Planungsdokument?\n[26:29] [Mehmet] Ich hätte gern eine grobe Schätzung, bevor wir weitermachen.\n[26:35] [Sofia] Klar, Moment, ich suche das richtige Fenster.\n[26:39] [Clara] Ich glaube, das Team schafft das, wenn wir den Umfang etwas kürzen.\n[26:46] [Sofia] Hm.\n[26:48] [Sofia] Technisch ist das nicht besonders schwer.\n[26:52] [Jonas] Wir haben das letzte Woche mit dem Customer-Success-Team besprochen.\n[26:57] [Jonas] Kaffeepause bald? Wir sind schon eine Weile dran.\n[27:02] [Clara] Ich habe mir die Zahlen nochmal angeschaut, die liegen ungefähr da, wo wir dachten.\n[27:09] [Sofia] Kannst du das wiederholen? Dein Ton war kurz weg.\n[27:14] [Mehmet] Ich habe gestern mit dem Design-Team gesprochen, die hatten ein paar Bedenken.\n[27:21] [Sofia] Beim letzten Mal hat das doppelt so lange gedauert wie geplant.\n[27:27] [Sofia] Sorry, ich war stummgeschaltet.\n[27:30] [Mehmet] Wir haben das letzte Woche mit dem Customer-Success-Team besprochen.\n[27:35] [Sofia] Ein Wettbewerber hat letzten Monat etwas Ähnliches gestartet.\n[27:40] [Jonas] Ich habe gestern mit dem Design-Team gesprochen, die hatten ein paar Bedenken.\n[27:47] [Clara] Lass uns das Thema noch fertig machen, dann fünf Minuten Pause.\n[27:53] [Sofia] Ich habe gestern mit dem Design-Team gesprochen, die hatten ein paar Bedenken.\n[27:59] [Clara] Kannst du kurz deinen Bildschirm teilen?\n[28:03] [Sofia] Danke, hab ihn.\n[28:06] [Mehmet] Beim letzten Mal hat das doppelt so lange gedauert wie geplant.\n[28:12] [Jonas] Danke, hab ihn.\n[28:15] [Clara] Wir haben vor zwei Jahren etwas Ähnliches versucht, das lief nicht gut.\n[28:21] [Clara] Ich glaube, das Team schafft das, wenn wir den Umfang etwas kürzen.\n[28:28] [Mehmet] Ich hätte gern eine grobe Schätzung, bevor wir weitermachen.\n[28:33] [Clara] Ich schaue kurz in meine Notizen, das kam in der letzten Retro auch schon.\n[28:40] [Clara] Mhm, ja.\n[28:43] [Jonas] Mhm, ja.\n[28:45] [Clara] Es gibt auch eine Abhängigkeit zum Plattform-Team, die wir nicht vergessen sollten.\n[28:51] [Sofia] Ich habe mir die Zahlen nochmal angeschaut, die liegen ungefähr da, wo wir dachten.\n[28:59] [Clara] Ich habe dazu keine starke Meinung.\n[29:03] [Jonas] Das größte Risiko ist ehrlich gesagt immer noch der Zeitplan.\n[29:08] [Mehmet] Aha.\n[29:10] [Mehmet] Klar, Moment, ich suche das richtige Fenster.\n[29:15] [Clara] Ich hätte gern eine grobe Schätzung, bevor wir weitermachen.\n[29:20] [Mehmet] Ein Wettbewerber hat letzten Monat etwas Ähnliches gestartet.\n[29:25] [Mehmet] Hab ihn gerade in den Chat gestellt.\n[29:29] [Clara] Mhm, ja.\n[29:32] [Jonas] Ich glaube, das Team schafft das, wenn wir den Umfang etwas kürzen.\n[29:38] [Jonas] Ich schaue kurz in meine Notizen, das kam in der letzten Retro auch schon.\n[29:45] [Sofia] Es gibt auch eine Abhängigkeit zum Plattform-Team, die wir nicht vergessen sollten.\n[29:52] [Sofia] Guter Punkt, aber die Kunden haben sich darüber eigentlich nicht beschwert.\n[29:58] [Clara] Schauen wir uns jetzt die Ergebnisse der Kundenumfrage an.\n[30:03] [Sofia] Klar, Moment, ich suche das richtige Fenster.\n[30:08] [Clara] Die Dokumentation dazu ist übrigens ziemlich veraltet.\n[30:12] [Sofia] Kaffeepause bald? Wir sind schon eine Weile dran.\n[30:17] [Mehmet] Wir haben das letzte Woche mit dem Customer-Success-Team besprochen.\n[30:22] [Sofia] Mhm, ja.\n[30:25] [Clara] Bei der Formulierung gegenüber Kunden müssen wir vorsichtig sein.\n[30:30] [Jonas] Hat jemand den Link zum Planungsdokument?\n[30:34] [Sofia] Das Kennzahlen-Dashboard war heute früh down, die Zahlen sind von gestern.\n[30:40] [Clara] Das Kennzahlen-Dashboard war heute früh down, die Zahlen sind von gestern.\n[30:46] [Clara] Danke, hab ihn.\n[30:49] [Mehmet] Ich bin Freitagnachmittag übrigens nicht da.\n[30:53] [Clara] Die Suche wurde 133 Mal gewünscht.\n[30:57] [Sofia] Ich glaube, das Team schafft das, wenn wir den Umfang etwas kürzen.\n[31:03] [Sofia] Sorry, ich war stummgeschaltet.\n[31:06] [Clara] Aha.\n[31:08] [Jonas] Mhm, ja.\n[31:11] [Mehmet] Aha.\n[31:13] [Jonas] Wir haben vor zwei Jahren etwas Ähnliches versucht, das lief nicht gut.\n[31:19] [Jonas] Wir haben 412 Antworten auf die Umfrage bekommen.\n[31:24] [Mehmet] Aus Sicht des Supports ist das eine der häufigsten Beschwerden.\n[31:30] [Mehmet] Ich würde es für die erste Version einfach halten.\n[31:35] [Sofia] Ich schaue kurz in meine Notizen, das kam in der letzten Retro auch schon.\n[31:42] [Sofia] Machen wir eine zweite Umfrage auf Spanisch?\n[31:47] [Mehmet] Vielleicht später im Jahr, jetzt nicht.\n[31:51] [Clara] Ich habe dazu keine starke Meinung.\n[31:55] [Sofia] Hm.\n[31:56] [Mehmet] Wir haben vor zwei Jahren etwas Ähnliches versucht, das lief nicht gut.\n[32:03] [Clara] Aus Sicht des Supports ist das eine der häufigsten Beschwerden.\n[32:09] [Clara] Ich hätte gern eine grobe Schätzung, bevor wir weitermachen.\n[32:14] [Jonas] Wir haben vor zwei Jahren etwas Ähnliches versucht, das lief nicht gut.\n[32:20] [Clara] Kaffeepause bald? Wir sind schon eine Weile dran.\n[32:25] [Clara] Also beschlossen: Die Suche kommt vor dem Offline-Modus auf die Roadmap.\n[32:31] [Jonas] Ja, passt für mich.\n[32:34] [Jonas] Das betrifft übrigens auch die App, nicht nur das Web.\n[32:40] [Mehmet] Jonas, kannst du eine einseitige Zusammenfassung der Umfrage für den Vorstand schreiben? Am besten bis Dienstag.\n[32:48] [Jonas] Ja, mache ich bis Dienstag.\n[32:52] [Clara] Ich bin Freitagnachmittag übrigens nicht da.\n[32:56] [Mehmet] Klar, Moment, ich suche das richtige Fenster.\n[33:00] [Clara] Ähm.\n[33:02] [Clara] Klar, Moment, ich suche das richtige Fenster.\n[33:07] [Jonas] Aus Sicht des Supports ist das eine der häufigsten Beschwerden.\n[33:12] [Mehmet] Ein Wettbewerber hat letzten Monat etwas Ähnliches gestartet.\n[33:17] [Sofia] Wir haben das letzte Woche mit dem Customer-Success-Team besprochen.\n[33:22] [Mehmet] Mhm.\n[33:24] [Mehmet] Ich glaube, das Team schafft das, wenn wir den Umfang etwas kürzen.\n[33:31] [Sofia] Mhm.\n[33:33] [Mehmet] Ich habe mir die Zahlen nochmal angeschaut, die liegen ungefähr da, wo wir dachten.\n[33:40] [Jonas] Hm.\n[33:42] [Sofia] Lass uns das Thema noch fertig machen, dann fünf Minuten Pause.\n[33:48] [Sofia] Klar, Moment, ich suche das richtige Fenster.\n[33:52] [Sofia] Technisch ist das nicht besonders schwer.\n[33:56] [Mehmet] Ich habe dazu keine starke Meinung.\n[34:00] [Clara] Die Dokumentation dazu ist übrigens ziemlich veraltet.\n[34:05] [Sofia] Aus Sicht des Supports ist das eine der häufigsten Beschwerden.\n[34:11] [Sofia] Bei der Formulierung gegenüber Kunden müssen wir vorsichtig sein.\n[34:16] [Clara] Es gibt auch eine Abhängigkeit zum Plattform-Team, die wir nicht vergessen sollten.\n[34:22] [Sofia] Die Richtung finde ich gut, ich mache mir nur Sorgen um den Aufwand.\n[34:29] [Clara] Ich schaue kurz in meine Notizen, das kam in der letzten Retro auch schon.\n[34:37] [Clara] Ich glaube, das Team schafft das, wenn wir den Umfang etwas kürzen.\n[34:43] [Jonas] Ich hätte gern eine grobe Schätzung, bevor wir weitermachen.\n[34:48] [Jonas] Guter Punkt, aber die Kunden haben sich darüber eigentlich nicht beschwert.\n[34:54] [Sofia] Ich bin nicht sicher, ob die Daten das schon hergeben.\n[35:00] [Clara] Wir sollten die Finanzabteilung einbeziehen, bevor wir etwas Teures zusagen.\n[35:06] [Clara] Aus Sicht des Supports ist das eine der häufigsten Beschwerden.\n[35:11] [Clara] Hm.\n[35:13] [Clara] Ich glaube, das Team schafft das, wenn wir den Umfang etwas kürzen.\n[35:20] [Sofia] Ich würde es für die erste Version einfach halten.\n[35:25] [Mehmet] Wir haben das letzte Woche mit dem Customer-Success-Team besprochen.\n[35:30] [Clara] Danke, hab ihn.\n[35:33] [Sofia] Aha.\n[35:35] [Sofia] Technisch ist das nicht besonders schwer.\n[35:39] [Mehmet] Es gibt auch eine Abhängigkeit zum Plattform-Team, die wir nicht vergessen sollten.\n[35:45] [Mehmet] Sorry, ich war stummgeschaltet.\n[35:49] [Clara] Ich habe dazu keine starke Meinung.\n[35:53] [Sofia] Sorry, ich war stummgeschaltet.\n[35:56] [Mehmet] Ich bin nicht sicher, ob die Daten das schon hergeben.\n[36:01] [Mehmet] Schauen wir uns jetzt die Bramble-App an.\n[36:06] [Mehmet] Kannst du kurz deinen Bildschirm teilen?\n[36:10] [Jonas] Danke, hab ihn.\n[36:13] [Clara] Mein Bauchgefühl sagt, dass wir das zerdenken.\n[36:17] [Jonas] Ich bin nicht sicher, ob die Daten das schon hergeben.\n[36:23] [Clara] Sorry, ich war stummgeschaltet.\n[36:26] [Sofia] Guter Punkt, aber die Kunden haben sich darüber eigentlich nicht beschwert.\n[36:32] [Clara] Ich bin Freitagnachmittag übrigens nicht da.\n[36:36] [Clara] Ähm.\n[36:38] [Mehmet] Hab ihn gerade in den Chat gestellt.\n[36:42] [Jonas] Bramble 3.2 hat 41 offene Fehler, 6 davon kritisch.\n[36:47] [Sofia] Die Richtung finde ich gut, ich mache mir nur Sorgen um den Aufwand.\n[36:54] [Clara] Das betrifft übrigens auch die App, nicht nur das Web.\n[37:00] [Clara] Ich schaue kurz in meine Notizen, das kam in der letzten Retro auch schon.\n[37:07] [Sofia] Aha.\n[37:09] [Clara] Es gibt auch eine Abhängigkeit zum Plattform-Team, die wir nicht vergessen sollten.\n[37:16] [Clara] Die Prüfung im App Store dauert meistens zwei Tage.\n[37:21] [Mehmet] Klar, Moment, ich suche das richtige Fenster.\n[37:25] [Jonas] Technisch ist das nicht besonders schwer.\n[37:29] [Sofia] Wir haben das letzte Woche mit dem Customer-Success-Team besprochen.\n[37:35] [Sofia] Wir sollten die Finanzabteilung einbeziehen, bevor wir etwas Teures zusagen.\n[37:40] [Sofia] Ich bin Freitagnachmittag übrigens nicht da.\n[37:44] [Sofia] Klar, Moment, ich suche das richtige Fenster.\n[37:49] [Clara] Das größte Risiko ist ehrlich gesagt immer noch der Zeitplan.\n[37:54] [Mehmet] Aha.\n[37:56] [Sofia] Wir haben vor zwei Jahren etwas Ähnliches versucht, das lief nicht gut.\n[38:03] [Sofia] Hat jemand den Link zum Planungsdokument?\n[38:07] [Clara] Die Richtung finde ich gut, ich mache mir nur Sorgen um den Aufwand.\n[38:14] [Mehmet] Ich bin nicht sicher, ob die Daten das schon hergeben.\n[38:19] [Clara] Lass uns das Thema noch fertig machen, dann fünf Minuten Pause.\n[38:26] [Clara] Ich schaue kurz in meine Notizen, das kam in der letzten Retro auch schon.\n[38:33] [Sofia] Das Kennzahlen-Dashboard war heute früh down, die Zahlen sind von gestern.\n[38:39] [Jonas] Ich habe mir die Zahlen nochmal angeschaut, die liegen ungefähr da, wo wir dachten.\n[38:46] [Sofia] Mhm.\n[38:48] [Jonas] Könnten wir Bramble ohne das Tablet-Layout veröffentlichen?\n[38:53] [Sofia] Nein, das Tablet-Layout ist die halbe Version.\n[38:57] [Mehmet] Die Richtung finde ich gut, ich mache mir nur Sorgen um den Aufwand.\n[39:04] [Mehmet] Wir verschieben Bramble 3.2 um eine Woche, um die kritischen Fehler zu beheben.\n[39:11] [Jonas] Ja, passt für mich.\n[39:14] [Sofia] Aus Sicht des Supports ist das eine der häufigsten Beschwerden.\n[39:20] [Mehmet] Aha.\n[39:22] [Jonas] Clara, kannst du die sechs kritischen Bramble-Fehler priorisieren? Am besten bis heute.\n[39:28] [Clara] Ja, mache ich bis heute.\n[39:32] [Sofia] Hab ihn gerade in den Chat gestellt.\n[39:36] [Mehmet] Wir sollten die Finanzabteilung einbeziehen, bevor wir etwas Teures zusagen.\n[39:42] [Clara] Ich habe dazu keine starke Meinung.\n[39:46] [Mehmet] Mhm.\n[39:48] [Clara] Technisch ist das nicht besonders schwer.\n[39:52] [Clara] Kaffeepause bald? Wir sind schon eine Weile dran.\n[39:57] [Mehmet] Das Kennzahlen-Dashboard war heute früh down, die Zahlen sind von gestern.\n[40:03] [Sofia] Ähm.\n[40:05] [Clara] Ich hätte gern eine grobe Schätzung, bevor wir weitermachen.\n[40:10] [Jonas] Die Richtung finde ich gut, ich mache mir nur Sorgen um den Aufwand.\n[40:17] [Mehmet] Hab ihn gerade in den Chat gestellt.\n[40:21] [Jonas] Es gibt auch eine Abhängigkeit zum Plattform-Team, die wir nicht vergessen sollten.\n[40:28] [Jonas] Aha.\n[40:30] [Sofia] Hm.\n[40:31] [Clara] Das betrifft übrigens auch die App, nicht nur das Web.\n[40:37] [Sofia] Aus Sicht des Supports ist das eine der häufigsten Beschwerden.\n[40:43] [Mehmet] Bei der Formulierung gegenüber Kunden müssen wir vorsichtig sein.\n[40:48] [Sofia] Ich habe dazu keine starke Meinung.\n[40:52] [Clara] Das Kennzahlen-Dashboard war heute früh down, die Zahlen sind von gestern.\n[40:58] [Clara] Ich schaue kurz in meine Notizen, das kam in der letzten Retro auch schon.\n[41:05] [Mehmet] Bei der Formulierung gegenüber Kunden müssen wir vorsichtig sein.\n[41:11] [Jonas] Aha.\n[41:13] [Sofia] Hat jemand den Link zum Planungsdokument?\n[41:17] [Sofia] Sorry, ich war stummgeschaltet.\n[41:20] [Jonas] Ich bin nicht sicher, ob die Daten das schon hergeben.\n[41:25] [Clara] Die Dokumentation dazu ist übrigens ziemlich veraltet.\n[41:30] [Mehmet] Mhm.\n[41:32] [Jonas] Ich habe dazu keine starke Meinung.\n[41:36] [Mehmet] Lass uns das im Auge behalten und nochmal drauf schauen, wenn es schlimmer wird.\n[41:43] [Sofia] Lass uns das Thema noch fertig machen, dann fünf Minuten Pause.\n[41:49] [Jonas] Guter Punkt, aber die Kunden haben sich darüber eigentlich nicht beschwert.\n[41:55] [Mehmet] Beim letzten Mal hat das doppelt so lange gedauert wie geplant.\n[42:01] [Sofia] Okay, dann zu die Aufbewahrung von Daten.\n[42:06] [Clara] Die Richtung finde ich gut, ich mache mir nur Sorgen um den Aufwand.\n[42:13] [Clara] Ich habe gestern mit dem Design-Team gesprochen, die hatten ein paar Bedenken.\n[42:19] [Clara] Ich habe gestern mit dem Design-Team gesprochen, die hatten ein paar Bedenken.\n[42:26] [Mehmet] Die Rechtsabteilung will höchstens 90 Tage für personenbezogene Daten.\n[42:31] [Sofia] Ähm.\n[42:33] [Jonas] Ich bin Freitagnachmittag übrigens nicht da.\n[42:37] [Mehmet] Wir haben das letzte Woche mit dem Customer-Success-Team besprochen.\n[42:42] [Mehmet] Ich habe dazu keine starke Meinung.\n[42:46] [Clara] Das größte Risiko ist ehrlich gesagt immer noch der Zeitplan.\n[42:52] [Clara] Technisch ist das nicht besonders schwer.\n[42:56] [Jonas] Ein Wettbewerber hat letzten Monat etwas Ähnliches gestartet.\n[43:01] [Jonas] Wir sollten die Finanzabteilung einbeziehen, bevor wir etwas Teures zusagen.\n[43:06] [Clara] Ich habe gestern mit dem Design-Team gesprochen, die hatten ein paar Bedenken.\n[43:13] [Sofia] Wir speichern Rohdaten derzeit 400 Tage.\n[43:17] [Clara] Bei der Formulierung gegenüber Kunden müssen wir vorsichtig sein.\n[43:22] [Clara] Kaffeepause bald? Wir sind schon eine Weile dran.\n[43:27] [Clara] Das betrifft übrigens auch die App, nicht nur das Web.\n[43:33] [Mehmet] Lass uns da jetzt nicht zu tief einsteigen.\n[43:37] [Mehmet] Könnten wir anonymisieren statt löschen?\n[43:41] [Jonas] Die Rechtsabteilung sagt, Anonymisieren reicht hier nicht.\n[43:45] [Jonas] Danke, hab ihn.\n[43:48] [Clara] Ich habe mir die Zahlen nochmal angeschaut, die liegen ungefähr da, wo wir dachten.\n[43:55] [Clara] Die Richtung finde ich gut, ich mache mir nur Sorgen um den Aufwand.\n[44:02] [Jonas] Mhm, ja.\n[44:05] [Mehmet] Ich habe mir die Zahlen nochmal angeschaut, die liegen ungefähr da, wo wir dachten.\n[44:12] [Sofia] Es gibt auch eine Abhängigkeit zum Plattform-Team, die wir nicht vergessen sollten.\n[44:19] [Sofia] Das größte Risiko ist ehrlich gesagt immer noch der Zeitplan.\n[44:24] [Jonas] Technisch ist das nicht besonders schwer.\n[44:28] [Clara] Sorry, ich war stummgeschaltet.\n[44:31] [Sofia] Aha.\n[44:33] [Sofia] Aha.\n[44:35] [Sofia] Ich bin nicht sicher, ob die Daten das schon hergeben.\n[44:41] [Mehmet] Sorry, ich war stummgeschaltet.\n[44:44] [Sofia] Mhm.\n[44:46] [Clara] Die Dokumentation dazu ist übrigens ziemlich veraltet.\n[44:50] [Mehmet] Hm.\n[44:52] [Mehmet] Ich bin Freitagnachmittag übrigens nicht da.\n[44:56] [Mehmet] Ich glaube, das Team schafft das, wenn wir den Umfang etwas kürzen.\n[45:03] [Sofia] Einverstanden: Rohdaten mit personenbezogenen Daten werden nach 90 Tagen gelöscht.\n[45:08] [Mehmet] Einverstanden.\n[45:10] [Sofia] Mehmet, kannst du den Text der Richtlinie für die Rechtsabteilung entwerfen, bis Freitag?\n[45:17] [Mehmet] Klar, das schaffe ich bis Freitag.\n[45:21] [Mehmet] Ich bin nicht sicher, ob die Daten das schon hergeben.\n[45:27] [Sofia] Ich bin nicht sicher, ob die Daten das schon hergeben.\n[45:33] [Clara] Hm.\n[45:35] [Jonas] Ähm.\n[45:36] [Jonas] Danke, hab ihn.\n[45:39] [Jonas] Die Richtung finde ich gut, ich mache mir nur Sorgen um den Aufwand.\n[45:46] [Sofia] Ich habe mir die Zahlen nochmal angeschaut, die liegen ungefähr da, wo wir dachten.\n[45:53] [Mehmet] Ich glaube, das Team schafft das, wenn wir den Umfang etwas kürzen.\n[46:00] [Jonas] Ich glaube, das Team schafft das, wenn wir den Umfang etwas kürzen.\n[46:06] [Jonas] Hm.\n[46:08] [Jonas] Lass uns das im Auge behalten und nochmal drauf schauen, wenn es schlimmer wird.\n[46:16] [Mehmet] Kaffeepause bald? Wir sind schon eine Weile dran.\n[46:21] [Mehmet] Lass uns das im Auge behalten und nochmal drauf schauen, wenn es schlimmer wird.\n[46:28] [Clara] Kannst du das wiederholen? Dein Ton war kurz weg.\n[46:33] [Sofia] Hat jemand den Link zum Planungsdokument?\n[46:37] [Jonas] Lass uns das im Auge behalten und nochmal drauf schauen, wenn es schlimmer wird.\n[46:44] [Sofia] Das Kennzahlen-Dashboard war heute früh down, die Zahlen sind von gestern.\n[46:51] [Sofia] Kannst du das wiederholen? Dein Ton war kurz weg.\n[46:56] [Sofia] Kaffeepause bald? Wir sind schon eine Weile dran.\n[47:01] [Clara] Kannst du das wiederholen? Dein Ton war kurz weg.\n[47:06] [Mehmet] Ähm.\n[47:08] [Jonas] Ich habe mir die Zahlen nochmal angeschaut, die liegen ungefähr da, wo wir dachten.\n[47:15] [Mehmet] Wir haben vor zwei Jahren etwas Ähnliches versucht, das lief nicht gut.\n[47:22] [Clara] Mein Bauchgefühl sagt, dass wir das zerdenken.\n[47:26] [Clara] Lass uns da jetzt nicht zu tief einsteigen.\n[47:31] [Sofia] Ich habe gestern mit dem Design-Team gesprochen, die hatten ein paar Bedenken.\n[47:37] [Mehmet] Die Richtung finde ich gut, ich mache mir nur Sorgen um den Aufwand.\n[47:44] [Clara] Wir haben vor zwei Jahren etwas Ähnliches versucht, das lief nicht gut."
+}

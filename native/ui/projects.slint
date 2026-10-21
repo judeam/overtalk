@@ -1,0 +1,138 @@
+import { ListView, ScrollView, ComboBox } from "std-widgets.slint";
+import { State } from "state.slint";
+import { Theme, Icons } from "theme.slint";
+import { ActionButton, Hint, Divider, PageHeading, ReviewTab } from "widgets.slint";
+import { ConnectionLogo, ConnectionBrand } from "connections.slint";
+
+component SelectedActions inherits HorizontalLayout {
+    spacing: 6px * Theme.scale;
+    alignment: start;
+    if State.hub-tab == 0: ActionButton { text: "Set series"; compact: true; clicked => { State.action("hub-series",State.hub-selected); } }
+    if State.hub-tab == 4: ActionButton { text: "Correct…"; compact: true; clicked => { State.action("hub-correct",State.hub-selected); } }
+    if (State.hub-tab != 5 && State.hub-tab != 9) || State.hub-job-state == "failed" || State.hub-job-state == "interrupted" || State.hub-job-state == "cancelled": ActionButton {
+        text: State.hub-tab == 4 ? "Listen" : State.hub-tab == 0 ? "Open meeting" : State.hub-tab == 5 ? "Retry" : State.hub-tab == 3 ? "Play source" : State.hub-tab == 1 ? "Edit person" : State.hub-tab == 2 ? "Edit term" : State.hub-tab == 8 ? "Manage connection" : "Open";
+        icon: State.hub-tab == 1 || State.hub-tab == 2 || State.hub-tab == 8 ? Icons.edit : Icons.play;
+        compact: true; clicked => { State.action("hub-open",State.hub-selected); }
+    }
+    if State.hub-tab == 3 || State.hub-tab == 4: ActionButton { text: State.hub-tab == 3 ? "Accept fact" : "Mark reviewed"; compact: true; clicked => { State.action("hub-accept",State.hub-selected); } }
+    if State.hub-tab == 3 || State.hub-tab == 4 || (State.hub-tab == 5 && (State.hub-job-state == "queued" || State.hub-job-state == "running")): ActionButton { text: State.hub-tab == 5 ? "Cancel" : "Dismiss"; compact: true; flat: true; clicked => { State.action("hub-dismiss",State.hub-selected); } }
+    if State.hub-tab == 1 || State.hub-tab == 2 || State.hub-tab == 9: ActionButton { text: "Remove"; icon: Icons.trash; compact: true; flat: true; clicked => { State.action("hub-remove",State.hub-selected); } }
+}
+
+export component ProjectWorkspace inherits Rectangle {
+    background: Theme.ground;
+    property <bool> short: root.height < 680px * Theme.scale;
+    property <bool> wide: root.width > 1000px * Theme.scale;
+    property <bool> details-open <=> State.hub-inspector-open;
+    property <string> selection: State.hub-selected;
+    changed selection => { if selection == "" { root.details-open = false; } }
+    property <color> accent: State.hub-tab == 1 ? Theme.magenta : State.hub-tab == 3 || State.hub-tab == 4 ? Theme.amber : State.hub-tab == 6 ? Theme.violet : Theme.teal;
+    VerticalLayout {
+        padding: (root.short ? 14px : 24px) * Theme.scale;
+        spacing: (root.short ? 8px : 18px) * Theme.scale;
+        HorizontalLayout { spacing: 8px * Theme.scale;
+            VerticalLayout { spacing: 6px * Theme.scale;
+                PageHeading { text: State.hub-tab == 5 ? "Activity" : State.hub-tab == 6 ? "Reminders" : State.hub-tab == 7 ? "Backups" : State.hub-tab == 8 ? "Connections" : "Projects"; }
+                if !root.short: Hint { text: State.hub-tab == 8 ? "Bring your meeting actions, documents and calendar together." : "People and context that carry into the next meeting."; }
+            }
+            Rectangle { horizontal-stretch: 1; }
+            ActionButton { icon: Icons.more; help: "Reminders, backups and connections"; compact: true; flat: true; clicked => { State.action("hub-workspace-tools", ""); } }
+            ActionButton { icon: Icons.tasks; text: "Activity"; compact: true; selected: State.hub-tab == 5; clicked => { State.action("hub-tab", "5"); } }
+            if !root.short && root.width > 1050px * Theme.scale: ActionButton { icon: Icons.calendar; text: "Reminders"; compact: true; selected: State.hub-tab == 6; clicked => { State.action("hub-tab", "6"); } }
+            if !root.short && root.width > 1050px * Theme.scale: ActionButton { icon: Icons.drive; text: "Backups"; compact: true; selected: State.hub-tab == 7; clicked => { State.action("hub-tab", "7"); } }
+            ActionButton { icon: Icons.link; text: root.width < 800px * Theme.scale ? "" : "Connections"; help: "Connections"; compact: true; selected: State.hub-tab == 8; clicked => { State.action("hub-tab", "8"); } }
+        }
+        if State.hub-tab < 5 || State.hub-tab == 9: HorizontalLayout { spacing: 8px * Theme.scale;
+            ComboBox { model: State.project-names; current-index <=> State.project-index; enabled: !State.hub-loading; selected(value) => { State.action("hub-project", "" + self.current-index); } }
+            ActionButton { text: "New project"; icon: Icons.plus; compact: true; clicked => { State.action("hub-new-project", ""); } }
+            if State.project-id != "": ActionButton { icon: Icons.edit; text: "Edit"; help: "Edit project"; compact: true; flat: true; clicked => { State.action("hub-edit-project", ""); } }
+            Rectangle { horizontal-stretch: 1; }
+        }
+        if State.hub-tab < 5 || State.hub-tab == 9: HorizontalLayout { spacing: 8px * Theme.scale;
+            for name[index] in ["Meetings", "People", "Vocabulary", "Context", "Review"]: ReviewTab { text: name; selected: State.hub-tab == index; label-size: 14px * Theme.scale; clicked => { State.action("hub-tab", "" + index); } }
+            if State.edition-auto-assign: ReviewTab { text: "Matching"; selected: State.hub-tab == 9; label-size: 14px * Theme.scale; clicked => { State.action("hub-tab", "9"); } }
+            Rectangle { horizontal-stretch: 1; }
+        }
+        Divider {}
+        HorizontalLayout { spacing: 12px * Theme.scale;
+            VerticalLayout { spacing: 6px * Theme.scale;
+                Text { text: State.hub-heading; color: Theme.ink; font-size: (root.short ? 19px : 22px) * Theme.scale; font-weight: 600; }
+                if !root.short: Hint { text: State.hub-description; color: Theme.secondary; }
+            }
+            Rectangle { horizontal-stretch: 1; }
+            if State.hub-primary != "": ActionButton { text: State.project-id == "" && (State.hub-tab < 4 || State.hub-tab == 9) ? "New project" : State.hub-primary; primary: true; compact: root.short; enabled: !State.hub-loading; clicked => { State.action("hub-primary", ""); } }
+            if State.hub-tab == 3 && State.project-id != "": ActionButton { text: "Add fact"; compact: true; clicked => { State.action("hub-add-fact", ""); } }
+        }
+        HorizontalLayout { spacing: 20px * Theme.scale; vertical-stretch: 1; min-height: 0px;
+            Rectangle { horizontal-stretch: 1; min-height: 0px; background: State.hub-rows.length == 0 ? transparent : Theme.panel; border-radius: 10px * Theme.scale; border-width: State.hub-rows.length == 0 ? 0px : 1px; border-color: Theme.line;
+                VerticalLayout { padding: 8px * Theme.scale; spacing: 8px * Theme.scale;
+                    if State.hub-loading: Hint { text: "Loading…"; }
+                    if !State.hub-loading && State.hub-rows.length == 0: VerticalLayout { padding: 12px * Theme.scale; spacing: 10px * Theme.scale;
+                        if State.hub-tab == 8: HorizontalLayout {
+                            spacing: 18px * Theme.scale;
+                            alignment: start;
+                            for provider in ["google", "microsoft", "slack", "notion_mcp", "linear_mcp", "atlassian_mcp", "github"]: ConnectionLogo { provider: provider; }
+                        }
+                        Text { text: State.hub-tab == 8 ? "Connect your workflow" : State.project-id == "" && (State.hub-tab < 4 || State.hub-tab == 9) ? "Give your meetings a home" : State.hub-tab == 9 ? "Nothing to match yet" : State.hub-tab == 1 ? "Your team, remembered" : State.hub-tab == 2 ? "Help Overtalk learn your vocabulary" : State.hub-tab == 3 ? "Build your project context" : State.hub-tab == 4 ? "No passages waiting for review" : State.hub-tab == 5 ? "No background work" : State.hub-tab == 6 ? "No reminders due" : "No backups scheduled"; color: Theme.ink; font-weight: 600; font-size: 20px * Theme.scale; }
+                        Hint { text: State.hub-tab == 8 ? "Turn meeting actions into tickets, bring in project documentation, and connect your calendar. Start with Add connection above." : State.project-id == "" && (State.hub-tab < 4 || State.hub-tab == 9) ? "Create a project, then add meetings, people and the terms your team uses." : State.hub-tab == 9 ? "Add an invitee, an organisation or a title phrase. Overtalk also learns from meetings you file here." : State.hub-tab == 1 ? "Add a person, then link a speaker’s voice from a meeting to recognize them next time." : State.hub-tab == 2 ? "Add names, acronyms and specialist terms your team uses." : State.hub-tab == 3 ? "Add confirmed facts or review suggestions learned from your meetings." : State.hub-tab == 4 ? "New transcription and notes issues appear here when they need your attention." : State.hub-tab == 5 ? "Queue transcription, notes or project learning using the button above." : State.hub-tab == 6 ? "Set a reminder on an action to see it here when it is due." : "Use Backup options to protect your workspace."; }
+                        Rectangle { vertical-stretch: 1; }
+                    }
+                    ListView { min-height: 0px; vertical-stretch: 1; for row in State.hub-rows: Rectangle {
+                        accessible-role: button; accessible-label: row.title;
+                        accessible-action-default => { State.action("hub-select",row.id); }
+                        border-width: row-focus.has-focus ? 1px : 0px; border-color: root.accent;
+                        row-focus := FocusScope { focus-on-click: false; key-pressed(event) => { if event.text == " " || event.text == "\n" { State.action("hub-select",row.id); return accept; } return reject; } }
+                        height: 98px * Theme.scale; background: State.hub-selected == row.id ? Theme.selection : area.has-hover ? Theme.raised : transparent; border-radius: 6px * Theme.scale;
+                        area := TouchArea { mouse-cursor: pointer; pointer-event(event) => { if event.kind == PointerEventKind.down { row-focus.focus(); } } clicked => { State.action("hub-select",row.id); } }
+                        HorizontalLayout { padding: 12px * Theme.scale; spacing: 14px * Theme.scale;
+                            if State.hub-tab == 8: ConnectionLogo { provider: row.description; width: 32px * Theme.scale; }
+                            if State.hub-tab != 8: Image { width: 18px * Theme.scale; height: self.width; source: State.hub-tab == 1 ? Icons.person : State.hub-tab == 9 ? Icons.calendar : State.hub-tab == 3 ? Icons.notes : State.hub-tab == 4 ? Icons.help : State.hub-tab == 5 ? Icons.tasks : Icons.library; colorize: root.accent; }
+                            VerticalLayout { spacing: 4px * Theme.scale; alignment: start; horizontal-stretch: 1;
+                                Text { text: row.title; color: Theme.ink; font-size: 16px * Theme.scale; font-weight: 600; overflow: elide; }
+                                Text { text: State.hub-tab == 8 ? ConnectionBrand.title(row.description) : row.description; color: Theme.secondary; font-size: 14px * Theme.scale; wrap: word-wrap; overflow: elide; max-lines: 2; }
+                                if row.value != "": Hint { text: row.value; color: row.value == "failed" || row.value == "interrupted" ? Theme.amber : row.value == "queued" || row.value == "Voice not enrolled" ? Theme.muted : row.value == "accepted" || row.value == "completed" || row.value == "Voice remembered" ? Theme.teal : root.accent; font-size: 12px * Theme.scale; }
+                            }
+                            ActionButton { text: State.hub-tab == 0 ? "Open" : State.hub-tab == 1 || State.hub-tab == 2 ? "Edit" : State.hub-tab == 9 ? "Remove" : "Details"; icon: State.hub-tab == 0 ? Icons.play : State.hub-tab == 1 || State.hub-tab == 2 ? Icons.edit : State.hub-tab == 9 ? Icons.trash : Icons.chevron; compact: true; flat: true; clicked => { State.action("hub-select", row.id); if State.hub-tab == 9 { State.action("hub-remove", row.id); } else if State.hub-tab == 0 || State.hub-tab == 1 || State.hub-tab == 2 || State.hub-tab == 8 { State.action("hub-open", row.id); } else { root.details-open = true; } } }
+                        }
+                    } }
+                }
+            }
+            if root.wide && (State.hub-tab != 8 || State.hub-selected != ""): Rectangle { width: min(440px * Theme.scale,root.width * 0.36); background: Theme.panel; border-radius: 10px * Theme.scale; border-width: 1px; border-color: Theme.line;
+                VerticalLayout { padding: 20px * Theme.scale; spacing: 12px * Theme.scale;
+                    Text { text: State.hub-tab == 8 ? "Connection details" : State.project-name; color: root.accent; font-size: 17px * Theme.scale; font-weight: 600; wrap: word-wrap; }
+                    if State.hub-selected != "": SelectedActions {}
+                    Divider {}
+                    ScrollView { vertical-stretch: 1;
+                        Rectangle { min-height: detail-text.preferred-height;
+                            detail-text := Text { y: 0px; width: parent.width; height: self.preferred-height; text: State.hub-detail == "" ? State.project-context == "" ? "Select an item to see its details and available actions." : State.project-context : State.hub-detail; color: Theme.ink; font-size: 16px * Theme.scale; wrap: word-wrap; vertical-alignment: top; }
+                        }
+                    }
+                }
+            }
+        }
+        if State.hub-selected != "" && !root.wide: HorizontalLayout { spacing: 6px * Theme.scale;
+            ActionButton { text: "Details"; compact: true; selected: root.details-open; clicked => { root.details-open = !root.details-open; } }
+            SelectedActions {}
+            Rectangle { horizontal-stretch: 1; }
+        }
+    }
+    // This inspector floats over the list; opening it never steals the list's minimum height.
+    if root.details-open && !root.wide: Rectangle {
+        background: #00000066;
+        TouchArea { clicked => { root.details-open = false; } }
+        Rectangle { width: min(480px * Theme.scale,root.width - 32px); x: parent.width - self.width - 12px; y: 12px; height: parent.height - 24px;
+            background: Theme.panel; border-radius: 10px * Theme.scale; border-width: 1px; border-color: Theme.line-strong;
+            FocusScope { key-pressed(event) => { if event.text == Key.Escape { root.details-open = false; return accept; } return reject; } }
+            VerticalLayout { padding: 16px * Theme.scale; spacing: 12px * Theme.scale;
+                HorizontalLayout { Text { text: "Selected item"; color: root.accent; font-size: 18px * Theme.scale; font-weight: 600; } Rectangle { horizontal-stretch: 1; } ActionButton { text: "Close"; icon: Icons.close; compact: true; clicked => { root.details-open = false; } } }
+                SelectedActions {}
+                Divider {}
+                ScrollView { vertical-stretch: 1;
+                    Rectangle { min-height: narrow-detail.preferred-height;
+                        narrow-detail := Text { y: 0px; width: parent.width; height: self.preferred-height; text: State.hub-detail; color: Theme.ink; font-size: 16px * Theme.scale; wrap: word-wrap; vertical-alignment: top; }
+                    }
+                }
+            }
+        }
+    }
+}

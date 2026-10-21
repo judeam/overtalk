@@ -1,0 +1,49 @@
+import { Theme } from "theme.slint";
+import { State } from "state.slint";
+import { ActionButton, Hint, Divider, Field } from "widgets.slint";
+
+export component CloudCredits inherits Rectangle {
+    property <bool> restoring: false;
+    background: Theme.panel;
+    border-radius: 10px * Theme.scale;
+    border-width: 1px;
+    border-color: Theme.line;
+    min-height: content.preferred-height;
+    content := VerticalLayout {
+        padding: 22px * Theme.scale;
+        spacing: 12px * Theme.scale;
+        HorizontalLayout {
+            Text { text: State.cloud-end-to-end ? "Private AI summaries" : "Cloud credits"; color: Theme.ink; font-size: 18px * Theme.scale; font-weight: 600; }
+            Rectangle { horizontal-stretch: 1; }
+            ActionButton { text: State.cloud-loading ? "Checking…" : "Refresh"; compact: true; flat: true; enabled: !State.cloud-loading; clicked => { State.action("cloud-refresh", ""); } }
+        }
+        Text { text: State.cloud-connected ? State.cloud-balance : "Local processing is always available"; color: Theme.teal; font-size: 16px * Theme.scale; font-weight: 600; wrap: word-wrap; }
+        Hint { text: State.cloud-notice; wrap: word-wrap; }
+        if State.cloud-held != "": Hint { text: State.cloud-held; color: Theme.amber; wrap: word-wrap; }
+        Divider { }
+        Hint { text: State.cloud-end-to-end ? "A monthly or annual subscription: 200+ hours a month of summaries with larger private AI models, for longer or more complex meetings. They stay off until you choose Use for notes; unused hours do not roll over. No automatic top-ups. Everything else in Overtalk is free." : "A one-time purchase includes one $2 starter grant. A monthly subscription adds $2 after each paid month; unused monthly credits expire. No automatic top-ups."; wrap: word-wrap; }
+        // A current subscriber is not offered a second subscription.
+        if !(State.cloud-end-to-end && State.cloud-can-use): HorizontalLayout {
+            spacing: 8px * Theme.scale;
+            if !State.cloud-end-to-end: ActionButton { text: "One-time"; compact: true; enabled: State.cloud-available && !State.cloud-loading; clicked => { State.action("cloud-checkout", "summaries_once"); } }
+            ActionButton { text: "Monthly"; compact: true; enabled: State.cloud-available && !State.cloud-loading; clicked => { State.action("cloud-checkout", "summaries_monthly"); } }
+            if State.cloud-end-to-end: ActionButton { text: "Annual"; compact: true; enabled: State.cloud-available && !State.cloud-loading; clicked => { State.action("cloud-checkout", "summaries_annual"); } }
+        }
+        // The same refund sentence as the website and Stripe Checkout.
+        if !(State.cloud-end-to-end && State.cloud-can-use): Hint { text: "If private summaries aren't right for you, ask within 30 days of paying for a full refund."; wrap: word-wrap; }
+        if State.cloud-connected: HorizontalLayout {
+            spacing: 8px * Theme.scale;
+            ActionButton { text: State.cloud-end-to-end ? "Use for notes" : "Use cloud for notes"; compact: true; primary: true; enabled: State.cloud-can-use && !State.cloud-loading; clicked => { State.action("cloud-use", ""); } }
+            if !State.cloud-end-to-end: ActionButton { text: "Add credits"; compact: true; enabled: !State.cloud-loading; clicked => { State.action("cloud-checkout", "credits"); } }
+            ActionButton { text: "Billing"; compact: true; flat: true; enabled: !State.cloud-loading; clicked => { State.action("cloud-billing", ""); } }
+        }
+        Hint { text: State.cloud-end-to-end ? "Summaries go from this computer to Privatemode, encrypted for its verified EU servers by Privatemode's own proxy, which Overtalk downloads from Privatemode. Overtalk issues your key and never sees the text." : "Cloud notes send the transcript through Overtalk to Privatemode. To keep encryption on your device, choose your own Privatemode connection instead."; wrap: word-wrap; }
+        if State.cloud-available: ActionButton { text: root.restoring ? "Close recovery" : "Restore existing access"; compact: true; flat: true; clicked => { root.restoring = !root.restoring; } }
+        if root.restoring: VerticalLayout {
+            spacing: 8px * Theme.scale;
+            Hint { text: "Use your private recovery code. It gives access to your cloud account and billing; keep it safe."; wrap: word-wrap; }
+            Field { text <=> State.cloud-recovery; password: true; placeholder: "Recovery code"; }
+            ActionButton { text: "Restore access"; compact: true; enabled: !State.cloud-loading && State.cloud-recovery != ""; clicked => { State.action("cloud-restore", ""); } }
+        }
+    }
+}

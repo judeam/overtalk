@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "Overtalk local meeting detection",
+  "version": "0.1.0",
+  "description": "Suggest recording supported meeting pages with Overtalk. No bot joins and no audio leaves the browser through this extension.",
+  "permissions": ["nativeMessaging", "storage"],
+  "background": { "service_worker": "background.js" },
+  "action": { "default_title": "Toggle Overtalk meeting detection" },
+  "content_scripts": [{
+    "matches": ["https://meet.google.com/*", "https://*.zoom.us/*", "https://teams.microsoft.com/*", "https://teams.live.com/*", "https://*.webex.com/*"],
+    "js": ["meeting.js"]
+  }]
+}

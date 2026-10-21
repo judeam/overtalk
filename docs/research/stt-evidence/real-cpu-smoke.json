@@ -1,0 +1,108 @@
+{
+  "date": "2026-09-30",
+  "kind": "local_cpu_adapter_smoke_test",
+  "device": "cpu",
+  "gpu_used": false,
+  "scope": "Synthetic clear single-speaker English/German. Adapter/alignment correctness check; not a meeting accuracy benchmark, timing-quality benchmark, or throughput/GPU result.",
+  "audio_committed": false,
+  "runtime": {
+    "python": "3.12.12",
+    "qwen_asr": "0.0.6",
+    "torch": "2.14.0+cu130",
+    "torch_cuda_build": "13.0",
+    "transformers": "4.57.6",
+    "accelerate": "1.12.0",
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "soundfile": "0.14.0",
+    "espeak_ng": "1.51"
+  },
+  "model": {
+    "name": "Qwen/Qwen3-ASR-1.7B",
+    "revision": "7278e1e70fe206f11671096ffdd38061171dd6e5"
+  },
+  "aligner": {
+    "name": "Qwen/Qwen3-ForcedAligner-0.6B",
+    "revision": "c7cbfc2048c462b0d63a45797104fc9db3ad62b7"
+  },
+  "launch": {
+    "nice": 5,
+    "device": "cpu",
+    "offline": true,
+    "cpu_thread_count": "not captured; worker bounds Torch threads to at most eight"
+  },
+  "reproduction": {
+    "audio_generation": [
+      "espeak-ng -v en-us -s 155 -w /tmp/sonefold-smoke/english.wav 'The meeting starts at nine. Alice will send the report on Friday. Bob will review the budget.'",
+      "espeak-ng -v de -s 150 -w /tmp/sonefold-smoke/german.wav 'Das Meeting beginnt um neun Uhr. Anna sendet den Bericht am Freitag. Ben prüft das Budget.'"
+    ],
+    "worker_command": "PYTHONPATH=speech-worker SONEFOLD_QWEN3_ASR_1_7B_DIR=speech-worker/models/qwen-1.7b SONEFOLD_QWEN3_ALIGNER_DIR=speech-worker/models/aligner-0.6b nice -n 5 speech-worker/.venv-qwen/bin/python -m sonefold_speech < /tmp/sonefold-smoke/requests.jsonl",
+    "note": "Paths are local examples. Set them to your reviewed predownloaded checkpoints. No recording/upload or dependency network access occurs during inference."
+  },
+  "cases": [
+    {
+      "request": {
+        "id": "en",
+        "operation": "analyze",
+        "model": "qwen3-asr-1.7b",
+        "language": "en",
+        "device": "cpu",
+        "diarize": false,
+        "offline": true
+      },
+      "expected_text": "The meeting starts at nine. Alice will send the report on Friday. Bob will review the budget.",
+      "actual_text": "The meeting starts at nine. Alice will send the report on Friday. Bob will review the budget.",
+      "exact_text_match": true,
+      "detected_language": "English",
+      "ok": true,
+      "audio_seconds": 6.457460317460318,
+      "segment_count": 3,
+      "word_count": 17,
+      "all_segments_word_aligned": true,
+      "all_word_timestamps_finite_positive_within_audio": true,
+      "first_word_start": 0.0,
+      "last_word_end": 6.08,
+      "warnings": [],
+      "alignment_accuracy_measured": false,
+      "input_audio": {
+        "generator": "espeak-ng",
+        "sample_rate": 22050,
+        "channels": 1,
+        "frames": 142387,
+        "sha256": "f4e5256940818a530e2e5bf277d84e04ec50cbe5f936a93224f26e015e340241"
+      }
+    },
+    {
+      "request": {
+        "id": "de",
+        "operation": "analyze",
+        "model": "qwen3-asr-1.7b",
+        "language": "de",
+        "device": "cpu",
+        "diarize": false,
+        "offline": true
+      },
+      "expected_text": "Das Meeting beginnt um neun Uhr. Anna sendet den Bericht am Freitag. Ben prüft das Budget.",
+      "actual_text": "Das Meeting beginnt um neun Uhr. Anna sendet den Bericht am Freitag. Ben prüft das Budget.",
+      "exact_text_match": true,
+      "detected_language": "German",
+      "ok": true,
+      "audio_seconds": 6.616326530612245,
+      "segment_count": 3,
+      "word_count": 16,
+      "all_segments_word_aligned": true,
+      "all_word_timestamps_finite_positive_within_audio": true,
+      "first_word_start": 0.0,
+      "last_word_end": 6.24,
+      "warnings": [],
+      "alignment_accuracy_measured": false,
+      "input_audio": {
+        "generator": "espeak-ng",
+        "sample_rate": 22050,
+        "channels": 1,
+        "frames": 145890,
+        "sha256": "c6619bd977cfa59326d7d0c554600cf838afffa4127df9d5b9c31cbfe003f4f3"
+      }
+    }
+  ]
+}

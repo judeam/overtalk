@@ -1,0 +1,44 @@
+[workspace]
+resolver = "2"
+exclude = ["crates/vendor/glib", "crates/vendor/atty", "crates/vendor/libsqlite3-sys"]
+members = [
+    "frontend/src-tauri",
+    "llama-helper",
+    "crates/desktop-protocol",
+    "crates/meeting-documents",
+    "crates/library-reads",
+    "crates/cli",
+    "crates/voice-memory",
+    "native",
+    "crates/browser-bridge",
+    "crates/capture-helper",
+    "crates/worker-sandbox",
+    "crates/cloud-gateway"
+]
+
+# Shared workspace settings
+[workspace.package]
+edition = "2021"
+rust-version = "1.92"
+
+# Shared dependencies that can be inherited by workspace members
+[workspace.dependencies]
+anyhow = "1.0"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tokio = { version = "1.32.0", features = ["full"] }
+
+# This workspace includes large native dependencies. Keep one reproducible
+# artifact set instead of accumulating tens of gigabytes of incremental state.
+[profile.dev]
+incremental = false
+debug = 0
+
+[profile.test]
+incremental = false
+debug = 0
+
+[patch.crates-io]
+glib = { path = "crates/vendor/glib" }
+atty = { path = "crates/vendor/atty" }
+libsqlite3-sys = { path = "crates/vendor/libsqlite3-sys" }

@@ -1,0 +1,287 @@
+name: Validate Overtalk
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: '23 5 * * 1'
+permissions:
+  contents: read
+concurrency:
+  group: validate-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+defaults:
+  run:
+    shell: bash
+env:
+  CARGO_TERM_COLOR: always
+  CARGO_BUILD_JOBS: 3
+  CARGO_INCREMENTAL: '0'
+  CARGO_PROFILE_DEV_DEBUG: '0'
+  CARGO_PROFILE_TEST_DEBUG: '0'
+  RUST_BACKTRACE: '1'
+  PYTHONUTF8: '1'
+  CMAKE_BUILD_PARALLEL_LEVEL: 3
+  CMAKE_POSITION_INDEPENDENT_CODE: 'ON'
+  NEXT_TELEMETRY_DISABLED: '1'
+jobs:
+  cloud-credits:
+    name: Cloud credits and payment safety
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@683b588c487a69d01f6c6ddf40f036ff682cc2c8 # master; the version is set by toolchain
+        with:
+          toolchain: '1.94.0'
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+      - run: cargo fmt -p overtalk-cloud-gateway -- --check
+      - run: cargo clippy --locked -p overtalk-cloud-gateway --all-targets -- -D warnings
+      - run: cargo test --locked -p overtalk-cloud-gateway
+  native-memory:
+    name: Native document memory safety
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@683b588c487a69d01f6c6ddf40f036ff682cc2c8 # master; the version is set by toolchain
+        with:
+          toolchain: '1.94.0'
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+        with:
+          key: native-memory-v1
+      - run: sudo apt-get update && sudo apt-get install -y valgrind libc6-dbg
+      - run: cargo build --locked --release -p overtalk-documents --example audit_inputs
+      - run: python3 scripts/audit-native-memory.py target/release/examples/audit_inputs --output artifacts/native-memory/report.json
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: native-memory
+          path: artifacts/native-memory
+  native:
+    name: Native / ${{ matrix.os }}
+    timeout-minutes: 55
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-24.04
+            label: linux
+          - os: windows-latest
+            label: windows
+          - os: macos-latest
+            label: macos
+    runs-on: ${{ matrix.os }}
+    env:
+      TAURI_CONFIG: '{"build":{"frontendDist":"service-assets"},"bundle":{"externalBin":[],"resources":{}}}'
+      SCREENS: artifacts/screens-${{ matrix.label }}
+    steps:
+      - name: Keep checked-out files byte-identical to the repository
+        if: runner.os == 'Windows'
+        run: git config --global core.autocrlf false
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@683b588c487a69d01f6c6ddf40f036ff682cc2c8 # master; the version is set by toolchain
+        with:
+          toolchain: '1.94.0'
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+        with:
+          key: native-v1-${{ matrix.os }}
+          cache-on-failure: true
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.12'
+      - name: Free hosted Linux runner space
+        if: runner.os == 'Linux'
+        run: |
+          sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc
+          df -h /
+      - if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libgtk-3-dev libxdo-dev libssl-dev librsvg2-dev libasound2-dev libpulse-dev libfontconfig1-dev libxkbcommon-dev libwayland-dev libinput10 libgbm1 libudev1 libclang-dev libpipewire-0.3-dev libspa-0.2-dev bubblewrap cmake ninja-build xvfb dbus-x11 ffmpeg espeak-ng pulseaudio strace
+      - name: Install FFmpeg from the platform package manager
+        if: runner.os != 'Linux'
+        run: |
+          if [ "$RUNNER_OS" = "macOS" ]; then brew install ffmpeg; else choco install ffmpeg -y --no-progress; fi
+      - name: Select trusted FFmpeg package for this build
+        run: python scripts/configure-ffmpeg-build.py --github-env "$GITHUB_ENV"
+      - name: Pin portable native compilation
+        run: echo "CMAKE_PROJECT_INCLUDE=$GITHUB_WORKSPACE/.github/force-portable-ggml.cmake" >> "$GITHUB_ENV"
+      - run: python scripts/setup-native-tools.py
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - run: python scripts/check-slint-lsp.py
+      - run: cargo fmt -p sonefold -p llama-helper -p overtalk-native -p overtalk-protocol -p overtalk-documents -p overtalk-voice-memory -p overtalk-capture -p overtalk-browser-bridge -p overtalk-worker-sandbox -p overtalk-cli -p overtalk-library-reads -- --check
+      - name: Verify generated native and web command adapters
+        run: python scripts/generate-native-dispatch.py --check
+      - name: UI, protocol, document and idle-render regressions
+        run: cargo test --locked -p overtalk-native -p overtalk-protocol -p overtalk-documents -p overtalk-voice-memory -p overtalk-capture -p overtalk-browser-bridge -p overtalk-worker-sandbox -p overtalk-cli -p overtalk-library-reads
+      - run: cargo clippy --locked --release --workspace --all-targets -- -D warnings
+      - name: Build native application and engine
+        run: cargo build --locked --release -p overtalk-native -p sonefold -p overtalk-capture -p overtalk-browser-bridge -p overtalk-worker-sandbox --bin overtalk --bin sonefold-service --bin overtalk-capture --bin overtalk-browser-bridge --bin overtalk-worker --example verify_workflows --example verify_playback --example visual_review --example benchmark_ui
+      - name: Load the bundled ONNX Runtime in Windows test binaries
+        if: runner.os == 'Windows'
+        run: echo "ORT_DYLIB_PATH=$GITHUB_WORKSPACE/frontend/src-tauri/binaries/onnxruntime/onnxruntime.dll" >> "$GITHUB_ENV"
+      - name: Backend regressions
+        run: cargo test --locked --release -p sonefold --lib
+      - name: Capture the desktop UI with the software renderer
+        run: |
+          binary=target/release/examples/visual_review
+          if [ "$RUNNER_OS" = "Windows" ]; then binary="$binary.exe"; fi
+          python scripts/capture-native-parity.py --binary "$binary" --views home,meeting,settings --sizes 1280x720 --output "$SCREENS"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: screens-${{ matrix.label }}
+          path: ${{ env.SCREENS }}
+          if-no-files-found: warn
+      - name: Service workflows and meeting-open performance
+        if: runner.os == 'Linux'
+        run: |
+          python scripts/stage-native-resources.py target/release
+          APPDIR="$GITHUB_WORKSPACE/target/release" xvfb-run -a dbus-run-session -- python scripts/with-test-audio.py python scripts/verify-native-workflows.py target/release/sonefold-service --ui target/release/examples/verify_workflows
+      - name: Project, review, jobs and encrypted restore workflows
+        if: runner.os == 'Linux'
+        run: |
+          APPDIR="$GITHUB_WORKSPACE/target/release" xvfb-run -a dbus-run-session -- python scripts/verify-project-workspace.py target/release/sonefold-service --report artifacts/project-workflows.json
+          python scripts/verify-browser-bridge.py target/release/overtalk-browser-bridge --strace --report artifacts/browser-bridge/report.json
+          APPDIR="$GITHUB_WORKSPACE/target/release" xvfb-run -a dbus-run-session -- python scripts/verify-native-backpressure.py target/release/sonefold-service --report artifacts/native-backpressure.json
+          APPDIR="$GITHUB_WORKSPACE/target/release" xvfb-run -a dbus-run-session -- python scripts/verify-privacy-workflows.py target/release/sonefold-service --report artifacts/privacy-workflows.json
+          APPDIR="$GITHUB_WORKSPACE/target/release" xvfb-run -a dbus-run-session -- python scripts/verify-security-boundaries.py target/release/sonefold-service --report artifacts/security-boundaries.json
+          APPDIR="$GITHUB_WORKSPACE/target/release" xvfb-run -a dbus-run-session -- python scripts/verify-ollama-boundaries.py target/release/sonefold-service --report artifacts/ollama-boundaries.json
+          APPDIR="$GITHUB_WORKSPACE/target/release" xvfb-run -a dbus-run-session -- python scripts/verify-calendar-document-boundaries.py target/release/sonefold-service --report artifacts/import-boundaries.json
+          APPDIR="$GITHUB_WORKSPACE/target/release" xvfb-run -a dbus-run-session -- python scripts/verify-database-concurrency.py target/release/sonefold-service --report artifacts/database-concurrency.json
+      - name: Playback following and timeline interaction regressions
+        if: runner.os == 'Linux'
+        run: python scripts/verify-native-playback.py --binary target/release/examples/verify_playback
+      - name: First-open and idle-render performance budget
+        if: runner.os == 'Linux'
+        run: xvfb-run -a python scripts/audit-native-performance.py --output artifacts/native/performance.json --first-open-budget-ms 400
+      - name: Local voice memory and external library refresh
+        if: runner.os == 'Linux'
+        run: |
+          python scripts/fetch-voice-model.py target/voice-test/campplus.onnx
+          espeak-ng -w target/voice-test/speech.wav "This is a voice memory integration test. We need several clear samples of this voice, without any overlapping speech. The recording stays on this machine. It verifies enrollment, recognition and deletion. This final sentence makes the recording long enough for three independent samples."
+          APPDIR="$GITHUB_WORKSPACE/target/release" xvfb-run -a dbus-run-session -- python scripts/verify-voice-memory.py target/release/sonefold-service --model target/voice-test/campplus.onnx --audio target/voice-test/speech.wav
+      - name: Capture responsive layouts
+        if: runner.os == 'Linux'
+        run: python scripts/capture-native-parity.py --binary target/release/examples/visual_review --output artifacts/native --fixture native/tests/fixtures/visual.json
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always() && runner.os == 'Linux'
+        with:
+          name: native-layouts
+          path: |
+            artifacts/native
+            artifacts/native-backpressure.json
+            artifacts/browser-bridge
+  web-and-workers:
+    name: Web and speech-worker regressions
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4.3.0
+        with:
+          version: 9.15.9
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '20'
+          cache: pnpm
+          cache-dependency-path: frontend/pnpm-lock.yaml
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
+        with:
+          bun-version: '1.4.2'
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.12'
+      - uses: dtolnay/rust-toolchain@683b588c487a69d01f6c6ddf40f036ff682cc2c8 # master; the version is set by toolchain
+        with:
+          toolchain: '1.94.0'
+          components: rustfmt
+      - run: pnpm install --frozen-lockfile
+        working-directory: frontend
+      - run: pnpm exec tsc --noEmit
+        working-directory: frontend
+      - run: pnpm test
+        working-directory: frontend
+      - name: Check reachable frontend files and dependencies
+        run: pnpm --package=knip@6.42.0 dlx knip --include files,exports,types,dependencies,unlisted,unresolved,cycles --no-progress
+        working-directory: frontend
+      - name: Check Python imports and tooling contracts
+        run: |
+          python -m pip install ruff==0.17.1
+          ruff check --no-cache --select F401,F841,F821,RUF059 --exclude '**/vendor/**' speech-worker/sonefold_speech speech-worker/tools speech-worker/tests scripts integrations evaluations
+          python -m unittest discover -s scripts/tests
+      - run: pnpm build
+        working-directory: frontend
+      - run: python -m pip install -r speech-worker/requirements.txt -r evaluations/meetingbench/requirements-metrics.txt
+      - run: PYTHONPATH=speech-worker python -m unittest discover -s speech-worker/tests
+      - run: python -m unittest discover -s integrations/tests
+      - run: python scripts/verify-resource-packaging.py
+      - run: python -m unittest discover -s evaluations/meetingbench -t .
+      - run: python -m unittest discover -s evaluations/ami -t .
+      - run: node --test .github/verify-portable-ggml.test.cjs
+      - run: git diff --check
+
+  security:
+    name: Security and supply-chain checks
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: dtolnay/rust-toolchain@683b588c487a69d01f6c6ddf40f036ff682cc2c8 # master; the version is set by toolchain
+        with:
+          toolchain: '1.94.0'
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
+        with:
+          key: security-tools
+      - uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4.3.0
+        with:
+          version: 9.15.9
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '20'
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.12'
+      - name: Scan source and full Git history for secrets
+        run: python scripts/audit-secrets.py --download --history --output artifacts/security/secrets.json
+      - name: Check release automation and shell safety
+        run: |
+          sudo apt-get update && sudo apt-get install -y shellcheck
+          python scripts/audit-release-security.py --download --output artifacts/security/release.json
+      - name: Test and run local security analysis rules
+        run: |
+          python -m pip install semgrep==1.181.0
+          python scripts/audit-static-analysis.py --output artifacts/security/static-analysis.json
+      - run: cargo install cargo-audit --locked --version 0.22.2
+      - run: cargo install cargo-deny --locked --version 0.20.2
+      - run: cargo deny --locked check sources licenses
+      - run: pnpm install --frozen-lockfile
+        working-directory: frontend
+      - run: python scripts/audit-dependencies.py rust --output artifacts/security/rust.json
+      - run: python scripts/audit-dependencies.py node --output artifacts/security/node.json
+        if: '!cancelled()'
+      - run: python scripts/audit-model-dependencies.py --output artifacts/security/model-pins.json
+        if: '!cancelled()'
+      - run: python -m pip install pip-audit==2.10.0
+      - run: python -m pip_audit -r speech-worker/requirements.txt -r speech-worker/requirements-alignment.txt --format json --output artifacts/security/python.json
+        if: '!cancelled()'
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: dependency-security-reports
+          path: artifacts/security

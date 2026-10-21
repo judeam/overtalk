@@ -1,0 +1,3 @@
+# Optional evaluation backend, isolated from the application's speech runtime.
+# Install in .runtime/fast-venv. qwen-asr pins its supported vLLM release.
+qwen-asr[vllm]==0.0.6

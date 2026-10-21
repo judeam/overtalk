@@ -1,0 +1,28 @@
+[extend]
+useDefault = true
+
+# These are public artifact digests and C API macros, not credentials. Match
+# both the specific file and the exact public expression; never allowlist an
+# entire folder. Use matched expressions for both source and Git-history scans.
+[[allowlists]]
+description = "Public OmniASR tokenizer SHA-256 pin"
+condition = "AND"
+paths = ['''(^|/)speech-worker/sonefold_speech/omni_alignment\.py$''']
+regexTarget = "line"
+regexes = ['''^\s*"omniASR_tokenizer\.model": "[a-f0-9]{64}",?\s*$''']
+
+[[allowlists]]
+description = "SQLite C API macro names"
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''(^|/)crates/vendor/libsqlite3-sys/sqlite3/(sqlite3ext\.h|sqlite3\.c)$''']
+regexTarget = "match"
+regexes = ['''^sqlite3_api->(column_bytes16|soft_heap_limit64|hard_heap_limit64)\s*$''']
+
+[[allowlists]]
+description = "SQLite FTS5 public averages-row identifier"
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''(^|/)crates/vendor/libsqlite3-sys/sqlite3/sqlite3\.c$''']
+regexTarget = "match"
+regexes = ['''^iKey==FTS5_AVERAGES_ROWID\s*$''']

@@ -1,0 +1,312 @@
+{
+  "https://huggingface.co/nvidia/parakeet-tdt-0.6b-v3": {
+    "title": "Parakeet v3 model card",
+    "kind": "model_card",
+    "score": 10,
+    "status": "reviewed",
+    "source": "primary_source_search",
+    "reviewed": "2026-09-30",
+    "evidence_class": "manufacturer_reported",
+    "relevance_rubric": "meeting fit 0-3; deployment/API data 0-4; verified release/license specificity 0-3"
+  },
+  "https://huggingface.co/Qwen/Qwen3-ASR-1.7B": {
+    "title": "Qwen3-ASR original model card",
+    "kind": "model_card",
+    "score": 10,
+    "status": "reviewed",
+    "source": "primary_source_search",
+    "reviewed": "2026-09-30",
+    "evidence_class": "manufacturer_reported",
+    "relevance_rubric": "meeting fit 0-3; deployment/API data 0-4; verified release/license specificity 0-3"
+  },
+  "https://github.com/QwenLM/Qwen3-ASR": {
+    "title": "Qwen3-ASR official API and release news",
+    "kind": "runtime",
+    "score": 10,
+    "status": "reviewed",
+    "source": "primary_source_search",
+    "reviewed": "2026-09-30",
+    "evidence_class": "primary_documentation",
+    "relevance_rubric": "meeting fit 0-3; deployment/API data 0-4; verified release/license specificity 0-3"
+  },
+  "https://huggingface.co/Qwen/Qwen3-ASR-1.7B-hf": {
+    "title": "Qwen3-ASR native Transformers conversion",
+    "kind": "model_card",
+    "score": 9,
+    "status": "reviewed",
+    "source": "primary_source_search",
+    "reviewed": "2026-09-30",
+    "evidence_class": "manufacturer_reported",
+    "relevance_rubric": "meeting fit 0-3; deployment/API data 0-4; verified release/license specificity 0-3"
+  },
+  "https://huggingface.co/nvidia/nemotron-3.5-asr-streaming-0.6b": {
+    "title": "Nemotron 3.5 streaming ASR",
+    "kind": "model_card",
+    "score": 10,
+    "status": "reviewed",
+    "source": "primary_source_search",
+    "reviewed": "2026-09-30",
+    "evidence_class": "manufacturer_reported",
+    "relevance_rubric": "meeting fit 0-3; deployment/API data 0-4; verified release/license specificity 0-3"
+  },
+  "https://huggingface.co/nvidia/nemotron-speech-streaming-en-0.6b": {
+    "title": "Nemotron English streaming ASR",
+    "kind": "model_card",
+    "score": 9,
+    "status": "reviewed",
+    "source": "primary_source_search",
+    "reviewed": "2026-09-30",
+    "evidence_class": "manufacturer_reported",
+    "relevance_rubric": "meeting fit 0-3; deployment/API data 0-4; verified release/license specificity 0-3"
+  },
+  "https://huggingface.co/ibm-granite/granite-speech-4.1-2b": {
+    "title": "Granite Speech 4.1 base",
+    "kind": "model_card",
+    "score": 9,
+    "status": "reviewed",
+    "source": "primary_source_search",
+    "reviewed": "2026-09-30",
+    "evidence_class": "manufacturer_reported",
+    "relevance_rubric": "meeting fit 0-3; deployment/API data 0-4; verified release/license specificity 0-3"
+  },
+  "https://huggingface.co/ibm-granite/granite-speech-4.1-2b-plus": {
+    "title": "Granite Speech 4.1 rich transcription",
+    "kind": "model_card",
+    "score": 10,
+    "status": "reviewed",
+    "source": "primary_source_search",
+    "reviewed": "2026-09-30",
+    "evidence_class": "manufacturer_reported",
+    "relevance_rubric": "meeting fit 0-3; deployment/API data 0-4; verified release/license specificity 0-3"
+  },
+  "https://huggingface.co/ibm-granite/granite-speech-4.1-2b-nar": {
+    "title": "Granite Speech 4.1 non-autoregressive",
+    "kind": "model_card",
+    "score": 8,
+    "status": "reviewed",
+    "source": "primary_source_search",
+    "reviewed": "2026-09-30",
+    "evidence_class": "manufacturer_reported",
+    "relevance_rubric": "meeting fit 0-3; deployment/API data 0-4; verified release/license specificity 0-3"
+  },
+  "https://huggingface.co/ibm-granite/granite-4.0-1b-speech": {
+    "title": "Granite 4.0 1B speech",
+    "kind": "model_card",
+    "score": 9,
+    "status": "reviewed",
+    "source": "primary_source_search",
+    "reviewed": "2026-09-30",
+    "evidence_class": "manufacturer_reported",
+    "relevance_rubric": "meeting fit 0-3; deployment/API data 0-4; verified release/license specificity 0-3"
+  },
+  "https://huggingface.co/mistralai/Voxtral-Mini-4B-Realtime-2602": {
+    "title": "Voxtral realtime",
+    "kind": "model_card",
+    "score": 9,
+    "status": "reviewed",
+    "source": "primary_source_search",
+    "reviewed": "2026-09-30",
+    "evidence_class": "manufacturer_reported",
+    "relevance_rubric": "meeting fit 0-3; deployment/API data 0-4; verified release/license specificity 0-3"
+  },
+  "https://github.com/moonshine-ai/moonshine": {
+    "title": "Moonshine runtime",
+    "kind": "runtime",
+    "score": 8,
+    "status": "reviewed",
+    "source": "primary_source_search",
+    "reviewed": "2026-09-30",
+    "evidence_class": "primary_documentation",
+    "relevance_rubric": "meeting fit 0-3; deployment/API data 0-4; verified release/license specificity 0-3"
+  },
+  "https://github.com/moonshine-ai/moonshine/blob/main/LICENSE": {
+    "title": "Moonshine checkpoint license exceptions",
+    "kind": "license",
+    "score": 9,
+    "status": "reviewed",
+    "source": "primary_source_search",
+    "reviewed": "2026-09-30",
+    "evidence_class": "primary_documentation",
+    "relevance_rubric": "meeting fit 0-3; deployment/API data 0-4; verified release/license specificity 0-3"
+  },
+  "https://huggingface.co/nvidia/canary-1b-v2": {
+    "title": "Canary multilingual translation",
+    "kind": "model_card",
+    "score": 8,
+    "status": "reviewed",
+    "source": "primary_source_search",
+    "reviewed": "2026-09-30",
+    "evidence_class": "manufacturer_reported",
+    "relevance_rubric": "meeting fit 0-3; deployment/API data 0-4; verified release/license specificity 0-3"
+  },
+  "https://huggingface.co/nvidia/canary-qwen-2.5b": {
+    "title": "Canary-Qwen English speech",
+    "kind": "model_card",
+    "score": 8,
+    "status": "reviewed",
+    "source": "primary_source_search",
+    "reviewed": "2026-09-30",
+    "evidence_class": "manufacturer_reported",
+    "relevance_rubric": "meeting fit 0-3; deployment/API data 0-4; verified release/license specificity 0-3"
+  },
+  "https://github.com/openai/whisper": {
+    "title": "Whisper multilingual baseline",
+    "kind": "runtime",
+    "score": 8,
+    "status": "reviewed",
+    "source": "primary_source_search",
+    "reviewed": "2026-09-30",
+    "evidence_class": "primary_documentation",
+    "relevance_rubric": "meeting fit 0-3; deployment/API data 0-4; verified release/license specificity 0-3"
+  },
+  "https://github.com/SYSTRAN/faster-whisper": {
+    "title": "CTranslate2 Whisper runtime",
+    "kind": "runtime",
+    "score": 8,
+    "status": "reviewed",
+    "source": "primary_source_search",
+    "reviewed": "2026-09-30",
+    "evidence_class": "primary_documentation",
+    "relevance_rubric": "meeting fit 0-3; deployment/API data 0-4; verified release/license specificity 0-3"
+  },
+  "https://github.com/huggingface/open_asr_leaderboard": {
+    "title": "Reproducible ASR benchmark scripts",
+    "kind": "benchmark",
+    "score": 10,
+    "status": "reviewed",
+    "source": "primary_source_search",
+    "reviewed": "2026-09-30",
+    "evidence_class": "primary_documentation",
+    "relevance_rubric": "meeting fit 0-3; deployment/API data 0-4; verified release/license specificity 0-3"
+  },
+  "https://arxiv.org/abs/2510.06961": {
+    "title": "Open ASR Leaderboard evaluation methodology",
+    "kind": "paper",
+    "score": 10,
+    "status": "reviewed",
+    "source": "primary_source_search",
+    "reviewed": "2026-09-30",
+    "evidence_class": "primary_documentation",
+    "relevance_rubric": "meeting fit 0-3; deployment/API data 0-4; verified release/license specificity 0-3"
+  },
+  "https://arxiv.org/abs/2604.14493": {
+    "title": "Independent compact English streaming comparison",
+    "kind": "paper",
+    "score": 9,
+    "status": "reviewed",
+    "source": "primary_source_search",
+    "reviewed": "2026-09-30",
+    "evidence_class": "primary_documentation",
+    "relevance_rubric": "meeting fit 0-3; deployment/API data 0-4; verified release/license specificity 0-3"
+  },
+  "https://arxiv.org/abs/2601.21337": {
+    "title": "Qwen3-ASR technical report",
+    "kind": "paper",
+    "score": 10,
+    "status": "reviewed",
+    "source": "primary_source_search",
+    "reviewed": "2026-09-30",
+    "evidence_class": "primary_documentation",
+    "relevance_rubric": "meeting fit 0-3; deployment/API data 0-4; verified release/license specificity 0-3"
+  },
+  "https://arxiv.org/abs/2602.11298": {
+    "title": "Voxtral Realtime technical report",
+    "kind": "paper",
+    "score": 9,
+    "status": "reviewed",
+    "source": "primary_source_search",
+    "reviewed": "2026-09-30",
+    "evidence_class": "primary_documentation",
+    "relevance_rubric": "meeting fit 0-3; deployment/API data 0-4; verified release/license specificity 0-3"
+  },
+  "https://arxiv.org/abs/2602.12241": {
+    "title": "Moonshine v2 streaming report",
+    "kind": "paper",
+    "score": 9,
+    "status": "reviewed",
+    "source": "primary_source_search",
+    "reviewed": "2026-09-30",
+    "evidence_class": "primary_documentation",
+    "relevance_rubric": "meeting fit 0-3; deployment/API data 0-4; verified release/license specificity 0-3"
+  },
+  "https://github.com/NVIDIA/NeMo-Speech.cpp": {
+    "title": "Official native GGUF speech runtime",
+    "kind": "runtime",
+    "score": 9,
+    "status": "reviewed",
+    "source": "primary_source_search",
+    "reviewed": "2026-09-30",
+    "evidence_class": "primary_documentation",
+    "relevance_rubric": "meeting fit 0-3; deployment/API data 0-4; verified release/license specificity 0-3"
+  },
+  "https://github.com/altunenes/parakeet-rs": {
+    "title": "Rust ONNX streaming integration API",
+    "kind": "runtime",
+    "score": 9,
+    "status": "reviewed",
+    "source": "primary_source_search",
+    "reviewed": "2026-09-30",
+    "evidence_class": "primary_documentation",
+    "relevance_rubric": "meeting fit 0-3; deployment/API data 0-4; verified release/license specificity 0-3"
+  },
+  "https://pypi.org/project/qwen-asr/": {
+    "title": "Official qwen-asr package version",
+    "kind": "package",
+    "score": 9,
+    "status": "reviewed",
+    "source": "primary_source_search",
+    "reviewed": "2026-09-30",
+    "evidence_class": "primary_documentation",
+    "relevance_rubric": "meeting fit 0-3; deployment/API data 0-4; verified release/license specificity 0-3"
+  },
+  "https://github.com/QwenLM/Qwen3-ASR/blob/main/pyproject.toml": {
+    "title": "Official dependency constraints",
+    "kind": "package",
+    "score": 10,
+    "status": "reviewed",
+    "source": "primary_source_search",
+    "reviewed": "2026-09-30",
+    "evidence_class": "primary_documentation",
+    "relevance_rubric": "meeting fit 0-3; deployment/API data 0-4; verified release/license specificity 0-3"
+  },
+  "https://huggingface.co/nvidia/multitalker-parakeet-streaming-0.6b-v1": {
+    "title": "Multitalker Parakeet speaker-conditioned streaming",
+    "kind": "model_card",
+    "score": 10,
+    "status": "reviewed",
+    "source": "primary_source_search",
+    "reviewed": "2026-09-30",
+    "evidence_class": "manufacturer_reported",
+    "relevance_rubric": "meeting fit 0-3; deployment/API data 0-4; verified release/license specificity 0-3"
+  },
+  "https://huggingface.co/nvidia/Nemotron-3-Diarization/blob/main/ASR_INTEGRATION_GUIDE.md": {
+    "title": "NVIDIA persistent speaker-tagged streaming integration",
+    "kind": "runtime",
+    "score": 10,
+    "status": "reviewed",
+    "source": "primary_source_search",
+    "reviewed": "2026-09-30",
+    "evidence_class": "primary_documentation",
+    "relevance_rubric": "meeting fit 0-3; deployment/API data 0-4; verified release/license specificity 0-3"
+  },
+  "https://huggingface.co/api/models/Qwen/Qwen3-ASR-1.7B/commits/main": {
+    "title": "Original Qwen ASR immutable revision history",
+    "kind": "model_metadata",
+    "score": 10,
+    "status": "reviewed",
+    "source": "primary_source_search",
+    "reviewed": "2026-09-30",
+    "evidence_class": "primary_documentation",
+    "relevance_rubric": "meeting fit 0-3; deployment/API data 0-4; verified release/license specificity 0-3"
+  },
+  "https://huggingface.co/api/models/Qwen/Qwen3-ForcedAligner-0.6B/commits/main": {
+    "title": "Original Qwen aligner immutable revision history",
+    "kind": "model_metadata",
+    "score": 10,
+    "status": "reviewed",
+    "source": "primary_source_search",
+    "reviewed": "2026-09-30",
+    "evidence_class": "primary_documentation",
+    "relevance_rubric": "meeting fit 0-3; deployment/API data 0-4; verified release/license specificity 0-3"
+  }
+}

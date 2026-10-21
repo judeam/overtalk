@@ -1,0 +1,65 @@
+{
+  "id": "test-maintenance",
+  "split": "holdout",
+  "difficulty": "normal",
+  "language": "it",
+  "domain": "building maintenance",
+  "provenance": "Newly authored synthetic diagnostic; no real personal data; not a recording.",
+  "transcript": "[00:00] Elena: L'ascensore A funziona di nuovo; il tecnico ha finito ieri.\n[00:10] Marco: L'ascensore B invece resta fermo in attesa del pezzo.\n[00:20] Elena: Io chiamo il fornitore domani mattina per sapere la disponibilità.\n[00:30] Marco: Non promettiamo ai residenti una riparazione domani.\n[00:40] Elena: D'accordo. Il limite approvato è 300 euro in totale, trasporto compreso.\n[00:50] Luca: Avevo proposto 500 euro, ma ritiro la proposta.\n[01:00] Marco: Non abbiamo ancora deciso se noleggiare una piattaforma.\n[01:10] Luca: Il cartello di avviso l'ho già appeso.",
+  "facts": [
+    {
+      "id": "F1",
+      "assertion": "LiftAalreadyrepairedyesterday.",
+      "evidence": [
+        1
+      ]
+    },
+    {
+      "id": "F2",
+      "assertion": "LiftBstoppedawaitingpart.",
+      "evidence": [
+        2
+      ]
+    },
+    {
+      "id": "F3",
+      "assertion": "Elenacallssuppliertomorrowmorningaboutavailability.",
+      "evidence": [
+        3
+      ]
+    },
+    {
+      "id": "F4",
+      "assertion": "Nopromisetorepairtomorrow.",
+      "evidence": [
+        4
+      ]
+    },
+    {
+      "id": "F5",
+      "assertion": "EUR300totalcapincludingtransport;500withdrawn.",
+      "evidence": [
+        5,
+        6
+      ]
+    },
+    {
+      "id": "F6",
+      "assertion": "Platformrentalundecided.",
+      "evidence": [
+        7
+      ]
+    },
+    {
+      "id": "F7",
+      "assertion": "Noticesignalreadyhung.",
+      "evidence": [
+        8
+      ]
+    }
+  ],
+  "forbidden": [
+    "DonotreopenLiftArepair.",
+    "Tomorrowisphonecalldeadline,notrepair."
+  ]
+}

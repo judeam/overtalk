@@ -1,0 +1,69 @@
+{
+  "id": "dev-incident",
+  "split": "development",
+  "difficulty": "hard",
+  "language": "en",
+  "domain": "incident response",
+  "provenance": "Newly authored synthetic diagnostic; no real personal data; not a recording.",
+  "transcript": "[00:00] Iris: The alarm says 400 accounts, but that includes retries. We have 37 distinct affected accounts.\n[00:10] Omar: Is the database corrupt?\n[00:20] Iris: We have no evidence of corruption. Please do not state that as the cause.\n[00:30] Tess: The bad configuration was rolled back at 14:10. New writes are healthy now.\n[00:40] Omar: I can draft an incident update by 16:00. It must say the cause is still under investigation.\n[00:50] Iris: Accepted. Tess, you suggested restoring yesterday's backup?\n[01:00] Tess: Yes, but I withdraw that. Restoring would erase valid writes.\n[01:10] Iris: Decision: keep the rolled-back configuration and do not restore the backup.\n[01:20] Omar: I'll send the draft to Iris. Publication requires Iris's approval; nobody has set a publication time.\n[01:30] Tess: Customer refunds are still undecided.",
+  "facts": [
+    {
+      "id": "F1",
+      "assertion": "37 distinct accounts are affected; 400 includes retries.",
+      "evidence": [
+        1
+      ]
+    },
+    {
+      "id": "F2",
+      "assertion": "Corruption/root cause is unproven.",
+      "evidence": [
+        2,
+        3
+      ]
+    },
+    {
+      "id": "F3",
+      "assertion": "Configuration rollback completed at14:10 and new writes are healthy.",
+      "evidence": [
+        4
+      ]
+    },
+    {
+      "id": "F4",
+      "assertion": "Omar owns incident-update draft due16:00, with cause under investigation.",
+      "evidence": [
+        5,
+        9
+      ]
+    },
+    {
+      "id": "F5",
+      "assertion": "Keep rolled-back configuration; backup restore proposal was withdrawn/rejected.",
+      "evidence": [
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "id": "F6",
+      "assertion": "Iris approval is required before publication; publication has no deadline.",
+      "evidence": [
+        9
+      ]
+    },
+    {
+      "id": "F7",
+      "assertion": "Refunds remain undecided.",
+      "evidence": [
+        10
+      ]
+    }
+  ],
+  "forbidden": [
+    "Do not make Iris own the draft.",
+    "16:00 is not publication time.",
+    "Rollback is not a new task."
+  ]
+}

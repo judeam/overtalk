@@ -1,0 +1,3 @@
+-r requirements.txt
+# Optional; Community-1 requires accepting upstream model terms before download.
+pyannote.audio>=4.0,<5

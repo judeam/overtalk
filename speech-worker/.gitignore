@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.venv*/
+models/
+benchmark-results/
+*.nemo
+*.safetensors
+*.gguf
+*.wav
+*.flac
+*.m4a
+*.mp4

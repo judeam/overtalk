@@ -1,0 +1,290 @@
+name: Package Overtalk
+# Builds the installers on Linux, Windows and macOS from a clean target
+# directory, installs or mounts each one, and starts the packaged engine
+# headless with a disposable profile (scripts/check-native-service.py).
+# Artifacts are uploaded to the run; nothing is published. The release
+# workflow calls this one with `sign: true`.
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'docs/**'
+      - 'reports/**'
+      - '**/*.md'
+  pull_request:
+    paths:
+      - 'packaging/**'
+      - 'scripts/check-native-service.py'
+      - 'scripts/stage-native-resources.py'
+      - 'scripts/native_licenses.py'
+      - 'crates/worker-sandbox/**'
+      - '.github/workflows/package.yml'
+  workflow_dispatch:
+  schedule:
+    - cron: '41 4 * * 1'
+  workflow_call:
+    inputs:
+      version:
+        description: Package version; empty uses <crate version>-git<date>.<commit>
+        type: string
+        default: ''
+      sign:
+        description: Sign with the owner's certificates when their secrets are set
+        type: boolean
+        default: false
+    secrets:
+      WINDOWS_CERTIFICATE_PFX_BASE64:
+        required: false
+      WINDOWS_CERTIFICATE_PASSWORD:
+        required: false
+      MACOS_CERTIFICATE_P12_BASE64:
+        required: false
+      MACOS_CERTIFICATE_PASSWORD:
+        required: false
+      MACOS_SIGN_IDENTITY:
+        required: false
+      APPLE_ID:
+        required: false
+      APPLE_TEAM_ID:
+        required: false
+      APPLE_APP_PASSWORD:
+        required: false
+permissions:
+  contents: read
+concurrency:
+  group: package-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+defaults:
+  run:
+    shell: bash
+env:
+  CARGO_TERM_COLOR: always
+  CARGO_INCREMENTAL: '0'
+  RUST_BACKTRACE: '1'
+  PYTHONUTF8: '1'
+  CMAKE_BUILD_PARALLEL_LEVEL: 3
+  PACKAGE_VERSION: ${{ inputs.version }}
+jobs:
+  linux:
+    name: Package / Linux (.deb, AppImage)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@683b588c487a69d01f6c6ddf40f036ff682cc2c8 # master; the version is set by toolchain
+        with:
+          toolchain: '1.94.0'
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.12'
+      - name: Free hosted Linux runner space
+        run: |
+          sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc
+          df -h /
+      - name: Install build and packaging tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libgtk-3-dev libsoup-3.0-dev libxdo-dev libssl-dev librsvg2-dev libasound2-dev libpulse-dev libfontconfig1-dev libxkbcommon-dev libwayland-dev libclang-dev libpipewire-0.3-dev libspa-0.2-dev cmake ninja-build dpkg-dev squashfs-tools patchelf librsvg2-bin appstream desktop-file-utils bubblewrap ffmpeg xvfb dbus-x11
+      - name: Select trusted FFmpeg package for this build
+        run: python scripts/configure-ffmpeg-build.py --github-env "$GITHUB_ENV"
+      - name: Build the .deb and AppImage
+        run: |
+          args=()
+          if [ -n "$PACKAGE_VERSION" ]; then args+=(--version "$PACKAGE_VERSION"); fi
+          python packaging/linux/build.py "${args[@]}"
+      - name: Smoke-test the engine from the .deb and the AppImage
+        run: |
+          dist="$GITHUB_WORKSPACE/target/package-linux/dist"
+          debs=("$dist"/overtalk_*_amd64.deb)
+          images=("$dist"/*.AppImage)
+          dpkg-deb -x "${debs[0]}" "$RUNNER_TEMP/deb"
+          "$RUNNER_TEMP/deb/usr/lib/overtalk/bin/overtalk-worker" --build-identity
+          "$RUNNER_TEMP/deb/usr/lib/overtalk/bin/overtalk-cli" --version
+          xvfb-run -a dbus-run-session -- python scripts/check-native-service.py "$RUNNER_TEMP/deb/usr/lib/overtalk/bin/sonefold-service"
+          (cd "$RUNNER_TEMP" && "${images[0]}" --appimage-extract > /dev/null)
+          "$RUNNER_TEMP/squashfs-root/AppRun" cli --version
+          xvfb-run -a dbus-run-session -- python scripts/check-native-service.py "$RUNNER_TEMP/squashfs-root/usr/bin/sonefold-service"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: overtalk-linux
+          path: target/package-linux/dist
+          if-no-files-found: error
+
+  windows:
+    name: Package / Windows (installer, portable zip)
+    runs-on: windows-latest
+    timeout-minutes: 150
+    env:
+      HAS_WINDOWS_CERT: ${{ secrets.WINDOWS_CERTIFICATE_PFX_BASE64 != '' }}
+    steps:
+      - name: Keep checked-out files byte-identical to the repository
+        run: git config --global core.autocrlf false
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@683b588c487a69d01f6c6ddf40f036ff682cc2c8 # master; the version is set by toolchain
+        with:
+          toolchain: '1.94.0'
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.12'
+      # Pinned package versions: each Chocolatey version embeds a fixed FFmpeg archive
+      # (gyan.dev release essentials, GPLv3), so every release bundles a known binary.
+      - name: Install FFmpeg and NSIS
+        run: |
+          choco install ffmpeg --version=9.0.2 -y --no-progress
+          choco install nsis --version=3.13.0 -y --no-progress
+      - name: Select trusted FFmpeg package for this build
+        run: python scripts/configure-ffmpeg-build.py --github-env "$GITHUB_ENV"
+      - name: Import the owner's Authenticode certificate into the user store
+        if: inputs.sign && env.HAS_WINDOWS_CERT == 'true'
+        shell: pwsh
+        env:
+          CERTIFICATE: ${{ secrets.WINDOWS_CERTIFICATE_PFX_BASE64 }}
+          CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
+        run: |
+          # The password stays in this process's environment; signtool later
+          # selects the certificate by thumbprint, so it is never on a command line.
+          $ErrorActionPreference = 'Stop'
+          $pfx = Join-Path $env:RUNNER_TEMP 'overtalk-signing.pfx'
+          [IO.File]::WriteAllBytes($pfx, [Convert]::FromBase64String($env:CERTIFICATE))
+          try {
+            $password = ConvertTo-SecureString -String $env:CERTIFICATE_PASSWORD -AsPlainText -Force
+            $imported = Import-PfxCertificate -FilePath $pfx -CertStoreLocation Cert:\CurrentUser\My -Password $password
+          } finally {
+            Remove-Item -LiteralPath $pfx -Force
+          }
+          $signing = @($imported | Where-Object HasPrivateKey)
+          if ($signing.Count -ne 1) { throw "Expected one certificate with a private key, found $($signing.Count)" }
+          "OVERTALK_WINDOWS_CERT_SHA1=$($signing[0].Thumbprint)" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+      - name: Build the installer and the portable zip
+        run: |
+          args=()
+          if [ -n "$PACKAGE_VERSION" ]; then args+=(--version "$PACKAGE_VERSION"); fi
+          python packaging/windows/build.py "${args[@]}"
+      - name: Install silently, smoke-test the installed engine, uninstall
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $setup = (Get-ChildItem target/package-windows/dist/*-setup.exe | Select-Object -First 1).FullName
+          $dir = Join-Path $env:RUNNER_TEMP 'Overtalk'
+          $shortcut = Join-Path ([Environment]::GetFolderPath('Programs')) 'Overtalk.lnk'
+          $installer = Start-Process -FilePath $setup -ArgumentList '/S', "/D=$dir" -Wait -PassThru
+          if ($installer.ExitCode -ne 0) { throw "Installer exited with $($installer.ExitCode)" }
+          if (-not (Test-Path $shortcut)) { throw 'The installer created no Start menu shortcut' }
+          & "$dir\overtalk-worker.exe" --build-identity
+          if ($LASTEXITCODE -ne 0) { throw 'The installed sandbox helper failed' }
+          & "$dir\overtalk-cli.exe" --version
+          if ($LASTEXITCODE -ne 0) { throw 'The installed command-line client failed' }
+          python scripts/check-native-service.py "$dir\sonefold-service.exe"
+          if ($LASTEXITCODE -ne 0) { throw 'The installed engine failed its smoke test' }
+          $uninstaller = Start-Process -FilePath "$dir\Uninstall Overtalk.exe" -ArgumentList '/S', "_?=$dir" -Wait -PassThru
+          if ($uninstaller.ExitCode -ne 0) { throw "Uninstaller exited with $($uninstaller.ExitCode)" }
+          Remove-Item "$dir\Uninstall Overtalk.exe"
+          $left = @(Get-ChildItem $dir -Recurse -File)
+          if ($left.Count -ne 0) { throw "The uninstaller left $($left.Count) files behind" }
+          if (Test-Path $shortcut) { throw 'The uninstaller left the Start menu shortcut' }
+      - name: Smoke-test the engine from the portable zip
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $zip = (Get-ChildItem target/package-windows/dist/*-portable.zip | Select-Object -First 1).FullName
+          $dir = Join-Path $env:RUNNER_TEMP 'portable'
+          Expand-Archive -Path $zip -DestinationPath $dir
+          python scripts/check-native-service.py "$dir\Overtalk\sonefold-service.exe"
+          if ($LASTEXITCODE -ne 0) { throw 'The portable engine failed its smoke test' }
+      - name: Remove the signing certificate and its key
+        if: always() && env.OVERTALK_WINDOWS_CERT_SHA1 != ''
+        shell: pwsh
+        run: Get-ChildItem "Cert:\CurrentUser\My\$env:OVERTALK_WINDOWS_CERT_SHA1" | Remove-Item -DeleteKey
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: overtalk-windows
+          path: target/package-windows/dist
+          if-no-files-found: error
+
+  macos:
+    name: Package / macOS (.dmg)
+    runs-on: macos-latest
+    timeout-minutes: 150
+    env:
+      HAS_MACOS_CERT: ${{ secrets.MACOS_CERTIFICATE_P12_BASE64 != '' }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@683b588c487a69d01f6c6ddf40f036ff682cc2c8 # master; the version is set by toolchain
+        with:
+          toolchain: '1.94.0'
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.12'
+      - name: Install FFmpeg (a build input; Homebrew's FFmpeg is not bundled)
+        run: brew install ffmpeg
+      - name: Select trusted FFmpeg package for this build
+        run: python scripts/configure-ffmpeg-build.py --github-env "$GITHUB_ENV"
+      - name: Import the owner's Developer ID certificate and notary credentials
+        if: inputs.sign && env.HAS_MACOS_CERT == 'true'
+        env:
+          CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE_P12_BASE64 }}
+          CERTIFICATE_PASSWORD: ${{ secrets.MACOS_CERTIFICATE_PASSWORD }}
+          IDENTITY: ${{ secrets.MACOS_SIGN_IDENTITY }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          APPLE_APP_PASSWORD: ${{ secrets.APPLE_APP_PASSWORD }}
+        run: |
+          keychain="$RUNNER_TEMP/overtalk-signing.keychain-db"
+          password=$(openssl rand -hex 24)
+          security create-keychain -p "$password" "$keychain"
+          security set-keychain-settings -lut 21600 "$keychain"
+          security unlock-keychain -p "$password" "$keychain"
+          printf '%s' "$CERTIFICATE" | base64 --decode > "$RUNNER_TEMP/overtalk-signing.p12"
+          security import "$RUNNER_TEMP/overtalk-signing.p12" -k "$keychain" -P "$CERTIFICATE_PASSWORD" -T /usr/bin/codesign
+          rm -f "$RUNNER_TEMP/overtalk-signing.p12"
+          security set-key-partition-list -S apple-tool:,apple: -s -k "$password" "$keychain"
+          keychains=("$keychain")
+          while IFS= read -r line; do
+            line=${line//\"/}
+            keychains+=("${line// /}")
+          done < <(security list-keychains -d user)
+          security list-keychains -d user -s "${keychains[@]}"
+          echo "OVERTALK_MACOS_SIGN_IDENTITY=$IDENTITY" >> "$GITHUB_ENV"
+          if [ -n "$APPLE_APP_PASSWORD" ]; then
+            xcrun notarytool store-credentials overtalk-notary --apple-id "$APPLE_ID" --team-id "$APPLE_TEAM_ID" --password "$APPLE_APP_PASSWORD" --keychain "$keychain"
+            echo "OVERTALK_NOTARY_PROFILE=overtalk-notary" >> "$GITHUB_ENV"
+          fi
+      - name: Build Overtalk.app and the .dmg
+        run: |
+          args=()
+          if [ -n "$PACKAGE_VERSION" ]; then args+=(--version "$PACKAGE_VERSION"); fi
+          python packaging/macos/build.py "${args[@]}"
+      - name: Mount the .dmg, check the bundle and smoke-test its engine
+        run: |
+          dmgs=(target/package-macos/dist/*.dmg)
+          mount="$RUNNER_TEMP/overtalk-dmg"
+          app="$RUNNER_TEMP/Overtalk.app"
+          mkdir -p "$mount"
+          hdiutil attach -nobrowse -readonly -mountpoint "$mount" "${dmgs[0]}"
+          ditto "$mount/Overtalk.app" "$app"
+          hdiutil detach "$mount"
+          codesign --verify --deep --strict --verbose=2 "$app"
+          plutil -lint "$app/Contents/Info.plist"
+          for key in NSMicrophoneUsageDescription NSAudioCaptureUsageDescription LSMinimumSystemVersion; do
+            /usr/libexec/PlistBuddy -c "Print :$key" "$app/Contents/Info.plist"
+          done
+          "$app/Contents/MacOS/overtalk-worker" --build-identity
+          "$app/Contents/MacOS/overtalk-cli" --version
+          python scripts/check-native-service.py "$app/Contents/MacOS/sonefold-service"
+      - name: Remove the signing keychain
+        if: always()
+        run: |
+          if [ -f "$RUNNER_TEMP/overtalk-signing.keychain-db" ]; then
+            security delete-keychain "$RUNNER_TEMP/overtalk-signing.keychain-db"
+          fi
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: overtalk-macos
+          path: target/package-macos/dist
+          if-no-files-found: error

@@ -1,0 +1,215 @@
+import { ScrollView, ListView } from "std-widgets.slint";
+import { State } from "state.slint";
+import { Theme, Icons } from "theme.slint";
+import { ActionButton, Field, Hint, Divider } from "widgets.slint";
+
+export global ConnectionBrand {
+    public pure function title(provider: string) -> string {
+        return (provider == "linear" || provider == "linear_mcp") ? "Linear" : provider == "atlassian_mcp" ? "Jira & Confluence" : provider == "jira" ? "Jira" : provider == "confluence" ? "Confluence" : provider == "microsoft" ? "Microsoft 365" : provider == "slack" ? "Slack" : provider == "notion_mcp" ? "Notion" : provider == "github" ? "GitHub" : "Google Workspace";
+    }
+    public pure function description(provider: string) -> string {
+        return (provider == "linear" || provider == "linear_mcp") ? "Turn meeting actions into issues." : provider == "atlassian_mcp" ? "Connect tickets and team documentation." : provider == "jira" ? "Keep your team's tickets in sync with decisions." : provider == "confluence" ? "Read documentation and prepare page updates." : provider == "microsoft" ? "Connect Outlook Calendar, OneDrive and Word." : provider == "slack" ? "Read discussions and share reviewed follow-ups." : provider == "notion_mcp" ? "Read project pages and send meeting notes." : provider == "github" ? "Connect repository issues and pull requests." : "Connect your documents, files and calendar.";
+    }
+    public pure function permissions(provider: string) -> string {
+        return provider == "google" ? "Read calendar events and document metadata. Read and edit Google documents you can access." : provider == "microsoft" ? "Read your calendar. Read and update files you can access in OneDrive, including Word documents." : provider == "slack" ? "Read channels you belong to and their messages. Post messages and edit your own messages." : provider == "notion_mcp" ? "Search and read pages allowed by Notion. Create pages and prepare updates in the workspace you choose." : provider == "github" ? "Read repository information and pull requests. Create or update issues in the repositories you grant access to." : provider == "linear_mcp" ? "Read issues and projects. Create and update issues in your selected workspace." : "Read and edit Jira tickets and Confluence pages on the sites you select.";
+    }
+    public pure function logo(provider: string) -> image {
+        return (provider == "linear" || provider == "linear_mcp") ? (Theme.dark ? @image-url("../assets/connections/linear-on-dark.svg") : @image-url("../assets/connections/linear-on-light.svg")) : provider == "jira" ? @image-url("../assets/connections/jira.svg") : provider == "confluence" ? @image-url("../assets/connections/confluence.svg") : provider == "microsoft" ? @image-url("../assets/connections/microsoft.png") : provider == "slack" ? @image-url("../assets/connections/slack.png") : provider == "notion_mcp" ? @image-url("../assets/connections/notion.png") : provider == "github" ? @image-url("../assets/connections/github.png") : @image-url("../assets/connections/google.png");
+    }
+}
+
+export component ConnectionLogo inherits Rectangle {
+    in property <string> provider;
+    width: 36px * Theme.scale;
+    height: self.width;
+    background: transparent;
+    accessible-role: image;
+    accessible-label: ConnectionBrand.title(provider);
+    if provider != "atlassian_mcp": Image { source: ConnectionBrand.logo(root.provider); width: parent.width; height: parent.height; image-fit: contain; }
+    if provider == "atlassian_mcp": Image { source: @image-url("../assets/connections/jira.svg"); width: parent.width * 0.7; height: parent.height * 0.7; x: 0; y: 0; image-fit: contain; }
+    if provider == "atlassian_mcp": Image { source: @image-url("../assets/connections/confluence.svg"); width: parent.width * 0.6; height: parent.height * 0.6; x: parent.width * 0.4; y: parent.height * 0.4; image-fit: contain; }
+}
+
+component ConnectionOption inherits Rectangle {
+    in property <string> provider;
+    in property <bool> compact: false;
+    in property <string> choice: provider;
+    in property <string> status;
+    height: (compact ? 64px : 76px) * Theme.scale;
+    background: area.has-hover || focus.has-focus ? Theme.selection : transparent;
+    border-radius: 8px * Theme.scale;
+    border-width: focus.has-focus ? 1px : 0px;
+    border-color: Theme.teal;
+    animate background { duration: State.reduced-motion ? 0ms : 120ms; }
+    accessible-role: button;
+    accessible-label: ConnectionBrand.title(provider) + ". " + ConnectionBrand.description(provider);
+    accessible-action-default => { State.action("modal-choice", root.choice); }
+    HorizontalLayout {
+        padding-left: 12px * Theme.scale;
+        padding-right: 12px * Theme.scale;
+        spacing: 16px * Theme.scale;
+        Rectangle {
+            width: 36px * Theme.scale;
+            ConnectionLogo { provider: root.provider; y: (parent.height - self.height) / 2; }
+        }
+        VerticalLayout {
+            alignment: center;
+            spacing: 3px * Theme.scale;
+            Text { text: ConnectionBrand.title(root.provider); color: Theme.ink; font-size: 17px * Theme.scale; font-weight: 600; }
+            Text { text: ConnectionBrand.description(root.provider); color: Theme.secondary; font-size: 13px * Theme.scale; wrap: word-wrap; }
+            if root.status == "App setup needed": Text { text: root.status; color: Theme.amber; font-size: 11px * Theme.scale; }
+        }
+        Rectangle {
+            width: 18px * Theme.scale;
+            Image { source: @image-url("../assets/chevron-right.svg"); colorize: area.has-hover ? Theme.teal : Theme.muted; width: 16px * Theme.scale; height: self.width; y: (parent.height - self.height) / 2; }
+        }
+    }
+    area := TouchArea {
+        mouse-cursor: pointer;
+        pointer-event(event) => { if event.kind == PointerEventKind.down { focus.focus(); } }
+        clicked => { State.action("modal-choice", root.choice); }
+    }
+    focus := FocusScope { focus-on-click: false;
+        key-pressed(event) => { if event.text == " " || event.text == "\n" { State.action("modal-choice", root.choice); return accept; } return reject; }
+    }
+}
+
+component ConnectionField inherits VerticalLayout {
+    in property <string> field-key;
+    in property <string> label;
+    in property <string> value;
+    in property <bool> secret;
+    property <bool> revealed: false;
+    property <string> placeholder: field-key == "/name" ? "Name this connection" : field-key == "/base_url" ? "https://your-team.atlassian.net" : field-key == "/username" ? "you@company.com" : field-key == "/client_id" ? "Your desktop OAuth client ID" : field-key == "/client_secret" ? "Your OAuth client secret" : (State.connection-provider == "linear" || State.connection-provider == "linear_mcp") ? "Paste your Linear API key" : "Paste your Atlassian API token";
+    spacing: 7px * Theme.scale;
+    Text { text: root.label; color: Theme.ink; font-size: 14px * Theme.scale; font-weight: 500; }
+    HorizontalLayout {
+        spacing: 8px * Theme.scale;
+        Field {
+            horizontal-stretch: 1;
+            text: root.value;
+            placeholder: root.placeholder;
+            accessible-name: root.label;
+            password: root.secret && !root.revealed;
+            text-size: 16px * Theme.scale;
+            enabled: !State.connection-busy;
+            edited(value) => { State.form-edited(root.field-key, value); }
+            accepted(value) => { if !State.connection-busy { State.action("modal-save", ""); } }
+        }
+        if root.secret: ActionButton {
+            text: root.revealed ? "Hide" : "Show";
+            help: root.revealed ? "Hide " + root.label : "Show " + root.label;
+            compact: true;
+            enabled: !State.connection-busy;
+            clicked => { root.revealed = !root.revealed; }
+        }
+    }
+    if field-key == "/base_url": Hint { text: "Use your team's Atlassian address, without a page or project path."; font-size: 12px * Theme.scale; }
+    if field-key == "/client_id": Hint { text: "Use your own registered app’s public client ID. This is only needed for custom setup."; font-size: 12px * Theme.scale; }
+}
+
+export component ConnectionDialog inherits Rectangle {
+    property <bool> picker: State.modal == "connection-picker";
+    property <bool> compact: root.height < 620px * Theme.scale;
+    background: #00000088;
+    TouchArea { }
+    panel := Rectangle {
+        width: min(580px * Theme.scale, root.width - 32px);
+        height: min((root.picker ? 700px : State.connection-browser ? 520px : State.connection-provider == "jira" || State.connection-provider == "confluence" ? 620px : (State.connection-provider == "linear" || State.connection-provider == "linear_mcp") ? 460px : 540px) * Theme.scale, root.height - 32px);
+        x: (parent.width - self.width) / 2;
+        y: (parent.height - self.height) / 2;
+        background: Theme.panel;
+        border-width: 1px;
+        border-color: Theme.line-strong;
+        border-radius: 12px * Theme.scale;
+        VerticalLayout {
+            padding: (root.compact ? 16px : 24px) * Theme.scale;
+            spacing: (root.compact ? 12px : 16px) * Theme.scale;
+            HorizontalLayout {
+                spacing: 14px * Theme.scale;
+                if !root.picker: Rectangle {
+                    width: 40px * Theme.scale;
+                    ConnectionLogo { provider: State.connection-provider; y: 2px * Theme.scale; width: 40px * Theme.scale; }
+                }
+                VerticalLayout {
+                    spacing: 6px * Theme.scale;
+                    Text { text: State.modal-title; color: Theme.ink; font-size: (root.compact ? 22px : 25px) * Theme.scale; font-weight: 600; wrap: word-wrap; }
+                    Hint { text: root.picker ? "Bring meeting actions and context into the tools your team uses." : ConnectionBrand.description(State.connection-provider); font-size: 14px * Theme.scale; }
+                }
+                ActionButton { icon: Icons.close; compact: true; flat: true; help: "Close connection setup"; clicked => { State.action("modal-cancel", ""); } }
+            }
+            if root.picker && State.modal-title != "Advanced connections": Field {
+                text: State.connection-filter;
+                placeholder: "Find a connection…";
+                accessible-name: "Find a connection";
+                edited(value) => { State.action("hub-connection-search", value); }
+            }
+            if root.picker && State.modal-choices.length == 0: Hint { text: "No connections match. Try another name."; }
+            if root.picker: ListView {
+                vertical-stretch: 1;
+                min-height: 0px;
+                for row in State.modal-choices: ConnectionOption { provider: row.id == "google-custom" ? "google" : row.id == "microsoft-custom" ? "microsoft" : row.id == "slack-custom" ? "slack" : row.id == "github-custom" ? "github" : row.id; choice: row.id; status: row.value; compact: root.compact; }
+            }
+            if !root.picker: ScrollView {
+                vertical-stretch: 1;
+                min-height: 0px;
+                content-width: self.width;
+                content-height: fields.preferred-height;
+                fields := VerticalLayout {
+                    spacing: 14px * Theme.scale;
+                    padding-right: 6px * Theme.scale;
+                    if State.connection-code != "": VerticalLayout {
+                        spacing: 8px * Theme.scale;
+                        Text { text: "Enter this code on GitHub"; color: Theme.secondary; font-size: 14px * Theme.scale; }
+                        HorizontalLayout {
+                            Text { text: State.connection-code; color: Theme.teal; font-size: 24px * Theme.scale; font-weight: 600; horizontal-stretch: 1; }
+                            ActionButton { text: "Copy code"; compact: true; clicked => { State.action("hub-connection-code-copy", ""); } }
+                        }
+                    }
+                    if State.connection-browser: VerticalLayout {
+                        spacing: 12px * Theme.scale;
+                        Text { text: State.connection-busy ? "Finish connecting in your browser" : "Sign in with your account"; color: Theme.teal; font-size: 18px * Theme.scale; font-weight: 600; }
+                        Hint { text: State.connection-busy ? "Review the requested access and choose your workspace, then return here. This window updates automatically." : "Your browser opens the provider's sign-in page. Your password stays with them."; font-size: 14px * Theme.scale; }
+                        Text { text: "What Overtalk can access"; color: Theme.ink; font-size: 14px * Theme.scale; font-weight: 600; }
+                        Hint { text: ConnectionBrand.permissions(State.connection-provider); font-size: 13px * Theme.scale; }
+                        Hint { text: "Every outgoing change is shown for your approval before publishing."; color: Theme.teal; font-size: 13px * Theme.scale; }
+                        if !State.connection-ready: Hint { text: "Account sign-in needs Overtalk’s app registration, which is not included in this build yet. If you manage your own app registration, use Advanced setup."; color: Theme.amber; font-size: 13px * Theme.scale; }
+                    }
+                    if !State.connection-browser || (State.connection-ready && !State.connection-busy): VerticalLayout {
+                        spacing: 14px * Theme.scale;
+                        for row in State.form-rows: ConnectionField { field-key: row.key; label: row.label; value: row.value; secret: row.kind == 2; }
+                    }
+                }
+            }
+            Divider { }
+            if root.picker: VerticalLayout {
+                spacing: 8px * Theme.scale;
+                Hint { text: State.modal-title == "Advanced connections" ? "For personal API tokens and your own OAuth app." : "Use your existing account. No API key needed."; font-size: 13px * Theme.scale; }
+                ActionButton { text: State.modal-title == "Advanced connections" ? "Back to account sign-in" : "Advanced: use an API token or custom OAuth app"; compact: true; flat: true; left-aligned: true; foreground: Theme.secondary; clicked => { State.action(State.modal-title == "Advanced connections" ? "hub-connection-options" : "hub-connection-advanced", ""); } }
+            }
+            if !root.picker: VerticalLayout {
+                spacing: (root.compact ? 8px : 12px) * Theme.scale;
+                if State.error != "": Text { text: State.error; color: Theme.amber; font-size: 14px * Theme.scale; wrap: word-wrap; max-lines: 3; overflow: elide; }
+                if !State.connection-browser: ActionButton {
+                    text: State.connection-provider == "google" ? "Open Google Cloud credentials" : (State.connection-provider == "linear" || State.connection-provider == "linear_mcp") ? "Get a Linear API key" : "Create an Atlassian API token";
+                    icon: Icons.arrow;
+                    icon-rotation: 135deg;
+                    compact: true;
+                    flat: true;
+                    left-aligned: true;
+                    foreground: Theme.teal;
+                    clicked => { State.action("hub-connection-help", ""); }
+                }
+                Hint { text: State.connection-busy ? "Waiting for sign-in. You can cancel at any time." : "Access tokens are stored in your operating system keychain."; font-size: 12px * Theme.scale; }
+                if State.connection-browser && !State.connection-busy: ActionButton { text: "Advanced setup"; compact: true; flat: true; foreground: Theme.secondary; left-aligned: true; clicked => { State.action("hub-connection-advanced", ""); } }
+                HorizontalLayout {
+                    spacing: 10px * Theme.scale;
+                    ActionButton { text: "Back"; compact: true; flat: true; enabled: !State.connection-busy; icon: Icons.arrow; clicked => { State.action("hub-connection-options", ""); } }
+                    Rectangle { horizontal-stretch: 1; }
+                    ActionButton { text: "Cancel"; compact: root.compact; clicked => { State.action("modal-cancel", ""); } }
+                    ActionButton { text: State.connection-busy ? "Connecting…" : State.modal-submit; compact: root.compact; primary: true; enabled: !State.connection-busy && (!State.connection-browser || State.connection-ready); clicked => { State.action("modal-save", ""); } }
+                }
+            }
+        }
+    }
+}

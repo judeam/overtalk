@@ -1,0 +1,66 @@
+{
+  "id": "test-training",
+  "split": "holdout",
+  "difficulty": "normal",
+  "language": "en",
+  "domain": "staff training",
+  "provenance": "Newly authored synthetic diagnostic; no real personal data; not a recording.",
+  "transcript": "[00:00] Ben: All nine new starters attended today's safety training.\n[00:10] Maya: The fire drill is next month, not today. Training attendance does not certify the drill.\n[00:20] Ben: I've filed the attendance sheet already.\n[00:30] Maya: I will book the drill instructor. I can't promise a booking date yet.\n[00:40] Jo: Could we require the online quiz too?\n[00:50] Maya: We haven't decided. For now, completing the training is the only agreed requirement.\n[01:00] Jo: What is the training budget?\n[01:10] Ben: No budget was discussed or approved here.",
+  "facts": [
+    {
+      "id": "F1",
+      "assertion": "9newstartersattendedsafetytrainingtoday.",
+      "evidence": [
+        1
+      ]
+    },
+    {
+      "id": "F2",
+      "assertion": "Firedrillnextmonth;attendanceisnotdrillcertification.",
+      "evidence": [
+        2
+      ]
+    },
+    {
+      "id": "F3",
+      "assertion": "Attendancesheetalreadyfiled.",
+      "evidence": [
+        3
+      ]
+    },
+    {
+      "id": "F4",
+      "assertion": "Mayabooksdrillinstructorwithnodeadline.",
+      "evidence": [
+        4
+      ]
+    },
+    {
+      "id": "F5",
+      "assertion": "Onlinequizundecided.",
+      "evidence": [
+        5,
+        6
+      ]
+    },
+    {
+      "id": "F6",
+      "assertion": "Trainingcompletiononlyagreedrequirement.",
+      "evidence": [
+        6
+      ]
+    },
+    {
+      "id": "F7",
+      "assertion": "Nobudgetdiscussedorapproved.",
+      "evidence": [
+        7,
+        8
+      ]
+    }
+  ],
+  "forbidden": [
+    "Noquiztask.",
+    "Donotmaketrainingorfiredrilla futurecompletiontask."
+  ]
+}

@@ -1,0 +1,133 @@
+{
+  "fixture": "Root-owned six-second synthetic meeting; no user recordings included",
+  "speech": {
+    "model": "qwen3-asr-1.7b",
+    "device": "cuda",
+    "offline": true,
+    "retranscription_complete": true,
+    "expected_text": "The meeting starts at nine. Alice will send the report on Friday. Bob will review the budget.",
+    "end_seconds": 6.448625
+  },
+  "playback": {
+    "native_metadata_ready": true,
+    "duration_seconds": 6.457,
+    "seek_seconds": 2,
+    "played_to_end_muted": true
+  },
+  "desktop_devices": {
+    "outputs": 6,
+    "inputs": 4,
+    "raw_alsa_aliases": false,
+    "inactive_ports_disabled": true,
+    "physical_capture_tested": false
+  },
+  "indexing": {
+    "inspected": 11,
+    "updated": 11,
+    "revision": "nvidia/Nemotron-3-Embed-8B-BF16@d1f2f25730bbd775b99b29185134bc86653bf2d1"
+  },
+  "generation": {
+    "model": "qwen3.8:27b",
+    "quantization": "AP-IQ4_XS",
+    "native_summary_complete": true
+  },
+  "cited_question": {
+    "passed": true,
+    "claims": [
+      {
+        "text": "Alice will send the report on Friday.",
+        "citations": [
+          {
+            "id": "transcript:transcript-c6e603ee-4c1c-47aa-9dd8-fa28bc1699aa",
+            "quote": "Alice will send the report on Friday."
+          }
+        ]
+      }
+    ],
+    "source_count": 1,
+    "all_sources_in_synthetic_scope": true
+  },
+  "selected_speech": {
+    "provider": "localSpeech",
+    "model": "qwen3-asr-1.7b"
+  },
+  "selected_generation": {
+    "provider": "builtin-ai",
+    "model": "qwen3.8:27b"
+  },
+  "speech_health": {
+    "ready": true,
+    "device": "cuda",
+    "offline": true
+  },
+  "device_labels": [
+    {
+      "label": "HDMI / DisplayPort \u2013 HDA NVidia",
+      "type": "Output",
+      "available": true
+    },
+    {
+      "label": "HDMI / DisplayPort 1 Output \u2013 sof-hda-dsp",
+      "type": "Output",
+      "available": true
+    },
+    {
+      "label": "Speaker \u2013 sof-hda-dsp",
+      "type": "Output",
+      "available": true
+    },
+    {
+      "label": "Headphones \u2013 sof-hda-dsp",
+      "type": "Output",
+      "available": true
+    },
+    {
+      "label": "Internal Stereo Microphone \u2013 sof-hda-dsp",
+      "type": "Input",
+      "available": true
+    },
+    {
+      "label": "Analog Input \u2013 Shure MV6",
+      "type": "Input",
+      "available": true
+    },
+    {
+      "label": "Analog Output \u2013 Shure MV6",
+      "type": "Output",
+      "available": false
+    },
+    {
+      "label": "Digital Output (S/PDIF) \u2013 Shure MV6",
+      "type": "Output",
+      "available": true
+    },
+    {
+      "label": "Microphone \u2013 HD Pro Webcam C920",
+      "type": "Input",
+      "available": false
+    },
+    {
+      "label": "Digital Input (S/PDIF) \u2013 HD Pro Webcam C920",
+      "type": "Input",
+      "available": true
+    }
+  ],
+  "retrieval": {
+    "mode": "hybrid-reranked",
+    "warnings": [],
+    "count": 3
+  },
+  "native_editor": {
+    "editorBackground": "rgb(22, 24, 23)",
+    "paperBackground": "rgb(22, 24, 23)",
+    "font": "__sourceSans3_5b53ab, __sourceSans3_Fallback_5b53ab, \"Segoe UI\", sans-serif",
+    "overflow": false
+  },
+  "final_installed_playback": {
+    "metadata": true,
+    "duration": 6.457460318,
+    "seek": 2,
+    "ended": true
+  },
+  "synthetic_fixture_removed": true
+}

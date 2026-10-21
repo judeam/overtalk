@@ -1,0 +1,377 @@
+import { InspectorPanel } from "inspector.slint";
+import { NotesPanel } from "notes.slint";
+import { TimelinePanel } from "timeline.slint";
+import { SpokenText } from "spoken-text.slint";
+import { ScrollView, ListView, TextEdit, ComboBox, CheckBox } from "std-widgets.slint";
+import { Theme, Icons } from "theme.slint";
+import { State } from "state.slint";
+import {
+    ActionButton,
+    Field,
+    SectionHeading,
+    Hint,
+    Divider,
+    ReviewTab,
+    CheckControl,
+    ChoiceControl,
+    SpeakerBadge,
+} from "widgets.slint";
+
+export component MeetingScreen inherits Rectangle {
+    in property <length> app-width: 1440px;
+    in property <length> app-height: 900px;
+    property <bool> short: root.app-height <= 600px;
+    property <bool> show-timeline: State.timeline-open && !(State.companion-open && State.meeting-tab == 1 && State.window-height < 900);
+    background: Theme.ground;
+    VerticalLayout {
+        spacing: 0px;
+        Rectangle {
+            height: (root.short ? 72px : root.app-width < 1440px ? 96px : 86px) * Theme.scale;
+            background: Theme.panel;
+            HorizontalLayout {
+                padding-left: (root.app-width < 1100px ? 14px : 24px) * Theme.scale;
+                padding-right: (root.app-width < 1100px ? 14px : 24px) * Theme.scale;
+                padding-top: (root.short ? 8px : 16px) * Theme.scale;
+                padding-bottom: (root.short ? 8px : 16px) * Theme.scale;
+                spacing: (root.app-width < 1100px ? 10px : 18px) * Theme.scale;
+                HorizontalLayout {
+                    width: (root.app-width < 1100px ? 140px : 176px) * Theme.scale;
+                    spacing: (root.app-width < 1100px ? 4px : 8px) * Theme.scale;
+                    for icon[index] in [Icons.back, State.playing ? Icons.pause : Icons.play, Icons.stop, Icons.forward]: VerticalLayout {
+                        width: (root.app-width < 1100px ? 32px : index == 1 || index == 2 ? 42px : 34px) * Theme.scale; alignment: center;
+                        ActionButton {
+                        icon: icon; primary: index == 1; flat: index != 1; foreground: index == 1 ? Theme.on-primary : Theme.ink;
+                        width: (root.app-width < 1100px ? 32px : index == 1 || index == 2 ? 42px : 34px) * Theme.scale;
+                        height: 42px * Theme.scale;
+                        border-radius: self.height / 2;
+                        border-width: index == 1 || index == 2 ? 1px : 0px;
+                        border-color: Theme.line;
+                        help: ["Back 10 seconds", "Play or pause", "Stop playback", "Forward 10 seconds"][index];
+                        clicked => { State.action(index == 1 ? "toggle-play" : index == 2 ? "stop-playback" : "seek-relative", index == 0 ? "-10" : "10"); }
+                        }
+                    }
+                }
+                Text { text: State.clock; color: Theme.ink; font-family: "Phudu"; font-size: (root.app-width < 1100px ? 26px : 30px) * Theme.scale; font-weight: 500; letter-spacing: -0.9px * Theme.scale; vertical-alignment: center; width: (root.app-width < 1100px ? 108px : 106.6px) * Theme.scale; }
+                VerticalLayout {
+                    width: max(80px * Theme.scale, root.width - (root.app-width < 1100px ? 510px : 600.6px) * Theme.scale);
+                    spacing: 2px * Theme.scale;
+                    padding-bottom: 2px * Theme.scale;
+                    alignment: center;
+                    TextInput { width: parent.width; text <=> State.title; color: Theme.ink; font-size: (root.app-width >= 2300px ? 24px : 20px) * Theme.scale; font-weight: 600; height: 28px * Theme.scale; vertical-alignment: center; single-line: true; accepted => { State.action("rename-direct", self.text); } }
+                    VerticalLayout {
+                        width: parent.width;
+                        spacing: 10px * Theme.scale;
+                        Hint { text: State.meeting-date + "  ·  " + State.meeting-duration + (root.app-width < 1440px ? "  ·" : "  ·  " + State.meeting-people); color: Theme.muted; font-size: 13px * Theme.scale; height: 19.5px * Theme.scale; vertical-alignment: center; }
+                        if root.app-width < 1440px && !root.short: Hint { text: State.meeting-people; wrap: no-wrap; overflow: elide; color: Theme.muted; font-size: 13px * Theme.scale; height: 19.5px * Theme.scale; vertical-alignment: center; }
+                    }
+                }
+                VerticalLayout { alignment: center;
+                HorizontalLayout {
+                    height: 36px * Theme.scale;
+                    spacing: 10px * Theme.scale;
+                    ChoiceControl { width: (root.app-width < 1100px ? 56px : 68px) * Theme.scale; height: 36px * Theme.scale; model: ["0.75×", "1×", "1.25×", "1.5×", "1.75×", "2×"]; current-index <=> State.playback-rate-index; selected(index) => { State.action("playback-rate", "" + index); } }
+                    ActionButton { icon: Icons.download; text: root.app-width < 1100px ? "" : "Export"; help: "Export meeting"; width: (root.app-width < 1100px ? 34px : 94px) * Theme.scale; foreground: Theme.ink; compact: true; flat: true; border-width: 1px; border-color: Theme.line-strong; clicked => { State.action("export", ""); } }
+                    if State.transcribing: ActionButton { icon: Icons.stop; help: "Cancel transcription"; compact: true; flat: true; clicked => { State.action("cancel-transcription", ""); } }
+                    ActionButton { icon: Icons.gear; width: 34px * Theme.scale; icon-size: 18.4px * Theme.scale; help: "Settings"; compact: true; flat: true; clicked => { State.action("settings", "0"); } }
+                }
+                }
+            }
+        }
+        Divider { }
+        Rectangle {
+            height: (root.short ? 44px : 48px) * Theme.scale;
+            background: Theme.panel;
+            HorizontalLayout {
+                padding-left: (root.app-width < 1100px ? 14px : 24px) * Theme.scale;
+                padding-right: (root.app-width < 1100px ? 14px : 24px) * Theme.scale;
+                spacing: 12px * Theme.scale;
+                for name[index] in ["Transcript", "Notes", "Speakers"]: ReviewTab {
+                    text: name; icon: [Icons.transcript, Icons.notes, Icons.speakers][index]; selected: State.meeting-tab == index;
+                    clicked => { State.action("meeting-tab", "" + index); }
+                }
+                Rectangle { horizontal-stretch: 1; }
+                VerticalLayout { alignment: center;
+                  HorizontalLayout { height: 36px * Theme.scale; spacing: 8px * Theme.scale;
+
+                // A suggestion waits for the person, so it stays visible when other tools collapse.
+                if root.app-width >= 1440px || State.meeting-project-state == "suggested": ActionButton {
+                    text: State.meeting-project-name == "" ? "Project" : State.meeting-project-state == "suggested" ? State.meeting-project-name + "?" : State.meeting-project-name;
+                    icon: Icons.folder; compact: true; flat: true;
+                    help: State.meeting-project-state == "suggested" ? "Suggested project: " + State.meeting-project-name + ". Accept or dismiss" : State.meeting-project-state == "automatic" ? "Filed automatically · " + State.meeting-project-reason : State.meeting-project-name == "" ? "Assign this meeting to a project" : "Project: " + State.meeting-project-name;
+                    foreground: State.meeting-project-state == "suggested" ? Theme.amber : State.meeting-project-state == "automatic" ? Theme.teal : Theme.secondary;
+                    clicked => { State.action("hub-assign", ""); }
+                }
+                if root.app-width >= 1100px: ActionButton { text: "Share"; icon: Icons.share; help: "Share a copy of this meeting"; compact: true; flat: true; clicked => { State.action("share-meeting", ""); } }
+                if root.app-width >= 1440px: ActionButton { text: "Details"; icon: Icons.sliders; compact: true; flat: true; clicked => { State.action("meeting-details", ""); } }
+                if root.app-width < 1440px: ActionButton {
+                    text: "Tools"; icon: Icons.more; compact: true; flat: true; clicked => { meeting-options.show(); }
+                    meeting-options := PopupWindow {
+                        x: 0px; y: parent.height; width: 250px * Theme.scale; height: 240px * Theme.scale;
+                        close-policy: close-on-click-outside;
+                        Rectangle { background: Theme.panel; border-width: 1px; border-color: Theme.line-strong; border-radius: 8px;
+                            VerticalLayout { padding: 10px * Theme.scale; spacing: 6px * Theme.scale;
+                                ActionButton { text: "Selected moment"; compact: true; flat: true; left-aligned: true; clicked => { meeting-options.close(); State.action("show-inspector", ""); } }
+                                ActionButton { text: State.meeting-project-name == "" || State.meeting-project-state == "suggested" ? "Assign project" : "Project · " + State.meeting-project-name; icon: Icons.folder; compact: true; flat: true; left-aligned: true; clicked => { meeting-options.close(); State.action("hub-assign", ""); } }
+                                ActionButton { text: "Meeting details"; icon: Icons.sliders; compact: true; flat: true; left-aligned: true; clicked => { meeting-options.close(); State.action("meeting-details", ""); } }
+                                ActionButton { text: "Share a copy…"; icon: Icons.share; compact: true; flat: true; left-aligned: true; clicked => { meeting-options.close(); State.action("share-meeting", ""); } }
+                                ActionButton { text: "More meeting tools"; icon: Icons.more; compact: true; flat: true; left-aligned: true; clicked => { meeting-options.close(); State.action("hub-meeting-tools", ""); } }
+                            }
+                        }
+                    }
+                }
+                if root.app-width >= 1440px: ActionButton { text: "Tools"; icon: Icons.more; compact: true; flat: true; clicked => { State.action("hub-meeting-tools", ""); } }
+                if State.meeting-tab != 2: ActionButton { text: "Timeline"; icon: root.show-timeline ? Icons.chevron-up : Icons.chevron; foreground: root.show-timeline ? Theme.teal : Theme.secondary; selected-background: Theme.dark ? #1d2e32 : #e1f0ed; compact: true; flat: true; selected: root.show-timeline; clicked => { if State.companion-open && !root.show-timeline { State.companion-open = false; State.timeline-open = true; } else { State.timeline-open = !State.timeline-open; } } }
+                  }
+                }
+            }
+        }
+        Divider { }
+        if root.show-timeline && State.meeting-tab != 2: TimelinePanel { app-width: root.app-width; app-height: root.app-height; }
+        HorizontalLayout {
+            padding: (root.app-height <= 800px ? 16px : root.app-width >= 2300px ? 40px : 24px) * Theme.scale;
+            padding-top: (root.app-height <= 800px ? 12px : root.app-width >= 2300px ? 28px : 20px) * Theme.scale;
+            padding-bottom: (root.app-height <= 800px ? 12px : root.app-width >= 2300px ? 28px : 20px) * Theme.scale;
+            spacing: (root.app-width >= 2300px ? 28px : 16px) * Theme.scale;
+            if State.meeting-tab == 0: Rectangle {
+                background: Theme.panel;
+                border-radius: 8px;
+                border-width: 1px;
+                border-color: Theme.line;
+                horizontal-stretch: 1;
+                VerticalLayout {
+                    padding: 0px;
+                    spacing: 0px;
+                    HorizontalLayout {
+                        padding: 12px * Theme.scale;
+                        padding-top: 12px * Theme.scale; padding-bottom: 12px * Theme.scale;
+                        spacing: (root.short ? 8px : 16px) * Theme.scale;
+                        Field {
+                            icon: Icons.search;
+                            placeholder: "Find in transcript…";
+                            text-size: 14px * Theme.scale;
+                            height: 36px * Theme.scale;
+                            border-width: 0px;
+                            background: transparent;
+                            text <=> State.query;
+                            edited(value) => { State.action("transcript-query", value); }
+                        }
+                        ActionButton { icon: @image-url("../assets/languages.svg"); help: "Original, romanized or translated transcript"; compact: true; flat: true; clicked => { State.action("hub-reading-options", ""); } }
+                        CheckControl { text: "Follow playback"; checked <=> State.follow-playback; }
+                        if State.has-devanagari: ActionButton {
+                            text: State.latin-devanagari ? "Show original" : "Show Latin";
+                            help: "Switch Devanagari between the original script and Latin transliteration";
+                            flat: true;
+                            compact: true;
+                            clicked => { State.action("toggle-script", ""); }
+                        }
+
+                        ActionButton {
+                            icon: Icons.copy;
+                            text: root.app-width < 1100px ? "" : "Copy transcript";
+                            help: "Copy transcript";
+                            flat: true;
+                            compact: true;
+                            clicked => { State.action("copy-transcript", ""); }
+                        }
+                    }
+
+                    Divider { }
+
+                    if State.loading: Hint {
+                        text: "Opening transcript…";
+                    }
+                    if !State.loading && State.transcripts.length == 0: VerticalLayout {
+                        padding: 24px;
+                        SectionHeading {
+                            text: "No transcript yet";
+                        }
+
+                        Hint {
+                            text: "Transcribe the saved recording to search and review what was said.";
+                        }
+
+                        ActionButton {
+                            text: "Transcribe recording";
+                            primary: true;
+                            clicked => { State.action("transcribe", ""); }
+                        }
+
+                        Rectangle {
+                            vertical-stretch: 1;
+                        }
+                    }
+                    VerticalLayout {
+                      padding: 16px * Theme.scale; padding-top: 12px * Theme.scale;
+                      transcript-list := ListView {
+                        content-y <=> State.transcript-scroll-y;
+                        horizontal-scrollbar-policy: always-off;
+                        property <int> follow-index: State.follow-playback && State.query == "" ? State.active-transcript-index : -1;
+                        changed visible-height => { State.transcript-viewport-height = self.visible-height; }
+                        // Slint virtualizes using the average row height. Start just inside
+                        // the target row: a positive top margin can select the PREVIOUS row,
+                        // whose wrapped text may completely hide the current passage.
+                        function reveal-active() {
+                            if self.follow-index >= 0 && State.transcripts.length > 0 && self.content-height > 0px {
+                                self.content-y = min(0px, max(self.visible-height - self.content-height,
+                                    self.follow-index == 0 ? 0px : -(self.follow-index + 0.001) * self.content-height / State.transcripts.length));
+                            }
+                        }
+                        changed follow-index => { self.reveal-active(); }
+                        changed content-height => { self.reveal-active(); }
+                        scrolled => { State.follow-playback = false; }
+                        for line[index] in State.transcripts: Rectangle {
+                            property <bool> active: line.id == State.active-transcript-id;
+                            min-height: max(76px * Theme.scale, max(body.preferred-height, translated-wide.visible ? translated-wide.preferred-height : 0px) + (translated-small.visible ? translated-small.preferred-height + 12px * Theme.scale : 0px) + 50px * Theme.scale);
+                            background: self.active ? (Theme.dark ? #1a3033 : #e1f3ef) : hover.has-hover ? Theme.raised : transparent;
+                            border-radius: 5px;
+                            hover := TouchArea {
+                                clicked => { State.action("select-transcript", line.id); }
+                            }
+                            HorizontalLayout {
+                                padding: 10px * Theme.scale;
+                                padding-left: 8px * Theme.scale;
+                                padding-right: 8px * Theme.scale;
+                                spacing: 10px * Theme.scale;
+                                Rectangle {
+                                    width: (root.app-width >= 2300px ? 76px : 66px) * Theme.scale;
+                                    Text { y: 8px * Theme.scale; height: 24px * Theme.scale; width: parent.width; text: line.stamp; color: Theme.secondary; font-size: (root.app-width >= 2300px ? 13.6px : 12px) * Theme.scale; vertical-alignment: top; }
+                                    Rectangle { y: 26px * Theme.scale; width: 34px * Theme.scale; height: 1px; background: Theme.line-strong; }
+                                }
+                                Rectangle {
+                                    width: (root.app-width >= 2300px ? 16px : 12px) * Theme.scale;
+                                    Rectangle { y: 11px * Theme.scale; width: 8px * Theme.scale; height: self.width; border-radius: self.width / 2; background: line.tone; }
+                                }
+                                Rectangle {
+                                    width: (root.app-width >= 2300px ? 110px : 90px) * Theme.scale;
+                                    Text { y: 6px * Theme.scale; width: parent.width; text: line.speaker; color: line.ink; font-size: (root.app-width >= 2300px ? 15.2px : 13px) * Theme.scale; font-weight: 600; overflow: elide; }
+                                }
+                                VerticalLayout {
+                                    spacing: 0px;
+                                HorizontalLayout {
+                                    spacing: 24px * Theme.scale;
+                                body := SpokenText {
+                                    text: line.body;
+                                    text-size: [18px,20px,24px][State.reading-size] * Theme.scale;
+                                    tone: line.tone;
+                                    tracking: State.follow-playback && line.id == State.active-transcript-id;
+                                    start-byte: State.active-word-start;
+                                    end-byte: State.active-word-end;
+                                    horizontal-stretch: 1;
+                                }
+                                translated-wide := Text { visible: line.translation != "" && State.window-width >= 1800; min-width: 0px; max-width: self.visible ? 100000px : 0px; text: line.translation; color: Theme.secondary; font-size: [18px,20px,24px][State.reading-size] * Theme.scale; wrap: word-wrap; line-height-factor: 1.37; vertical-alignment: top; horizontal-stretch: self.visible ? 1 : 0; }
+                                }
+                                translated-small := Text { visible: line.translation != "" && State.window-width < 1800; height: self.visible ? self.preferred-height : 0px; text: State.reading-language + "\n" + line.translation; color: Theme.secondary; font-size: [18px,20px,24px][State.reading-size] * Theme.scale; wrap: word-wrap; line-height-factor: 1.37; }
+
+                                ActionButton {
+                                    icon: Icons.edit;
+                                    text: "Edit";
+                                    label-size: 12px * Theme.scale;
+                                    height: 30px * Theme.scale;
+                                    horizontal-padding: 0px;
+                                    left-aligned: true;
+                                    help: "Edit passage";
+                                    flat: true;
+                                    compact: true;
+                                    clicked => { State.action("edit-transcript", line.id); }
+                                }
+                                }
+                            }
+                            Rectangle { y: parent.height - 1px; height: 1px; width: parent.width; background: Theme.line; }
+
+                        }
+                    }
+
+                    }
+                    if State.has-more: ActionButton {
+                        text: "Load more passages";
+                        flat: true;
+                        compact: true;
+                        clicked => { State.action("load-more", ""); }
+                    }
+                }
+            }
+            if State.meeting-tab == 1: NotesPanel { horizontal-stretch: 1; }
+            if State.meeting-tab == 2: Rectangle {
+                background: Theme.panel;
+                border-radius: 8px;
+                horizontal-stretch: 1;
+                VerticalLayout {
+                    padding: 20px * Theme.scale;
+                    spacing: 12px;
+                    SectionHeading {
+                        text: "Speakers";
+                    }
+
+                    Hint {
+                        text: "Check the recording, then name a speaker and remember their voice for future meetings. Uncertain matches stay unnamed.";
+                    }
+
+                    ListView {
+                        for row[index] in State.details: VerticalLayout {
+                            padding: 10px;
+                            spacing: 10px;
+                            HorizontalLayout {
+                            SpeakerBadge { width: 32px * Theme.scale; tone: [#0f9a9f,#e0457b,#5b6b86,#5e8c31,#c4692f,#8a4f9e][Math.mod(index,6)]; }
+                            Text {
+                                text: row.title;
+                                color: Theme.ink;
+                                font-size: Theme.body;
+                                horizontal-stretch: 1;
+                                wrap: word-wrap;
+                            }
+                            }
+                            Hint {
+                                text: row.description;
+                            }
+                            HorizontalLayout {
+                            alignment: start;
+                            spacing: 8px;
+                            ActionButton {
+                                text: "Rename"; icon: Icons.edit; compact: true;
+                                clicked => { State.action("rename-speaker", row.id); }
+                            }
+
+                            ActionButton {
+                                text: "Merge"; compact: true;
+                                clicked => { State.action("merge-speaker", row.id); }
+                            }
+                            ActionButton {
+                                text: "Remember voice"; icon: Icons.person; compact: true; primary: true;
+                                enabled: State.voice-ready && !State.voice-busy;
+                                clicked => { State.action(State.meeting-project-id == "" ? "remember-voice" : "hub-person-voice", row.id); }
+                            }
+                            }
+                        }
+                    }
+
+                    HorizontalLayout {
+                        alignment: start;
+                        spacing: 12px;
+                        ActionButton {
+                            text: "Analyze speakers";
+                            compact: true;
+                            clicked => { State.action("analyze-speakers", ""); }
+                        }
+                        ActionButton {
+                            text: "Resolve split speakers";
+                            help: "Compare voices and reunite matching labels without retranscribing";
+                            compact: true;
+                            enabled: State.voice-ready && !State.voice-busy;
+                            clicked => { State.action("consolidate-speakers", ""); }
+                        }
+                        ActionButton {
+                            text: "Voice memory · " + State.voice-profiles.length;
+                            compact: true;
+                            enabled: !State.voice-busy;
+                            clicked => { State.action("voice-menu", ""); }
+                        }
+                    }
+                    Hint { text: "Local voice memory · CPU only · no audio uploads · profiles are removable"; }
+                }
+            }
+            if root.app-width >= 1440px && State.meeting-tab == 0: InspectorPanel {
+                width: (root.app-width >= 2300px ? 448px : 340px) * Theme.scale;
+            }
+        }
+    }
+}

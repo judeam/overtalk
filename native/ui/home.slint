@@ -1,0 +1,102 @@
+import { ScrollView, CheckBox } from "std-widgets.slint";
+import { Theme, Icons } from "theme.slint";
+import { State } from "state.slint";
+import { ActionButton, Hint, Divider } from "widgets.slint";
+import { SetupChecklist, PersonalNotepad, UpcomingMeetings } from "workflow.slint";
+
+component CaptureSection inherits VerticalLayout {
+    vertical-stretch: 0; alignment: start;
+    spacing: 14px * Theme.scale;
+                HorizontalLayout { spacing: 16px * Theme.scale;
+                    VerticalLayout { vertical-stretch: 0; alignment: start; spacing: 8px * Theme.scale;
+                        Text { text: State.recording ? State.recording-title : "Start a conversation"; color: Theme.ink; font-size: 21px * Theme.scale; font-weight: 600; wrap: word-wrap; }
+                        Hint { text: State.recording ? "Audio is saved on this device. You can keep writing below." : "A spontaneous call, an in-person meeting, or an audio file."; font-size: 14px * Theme.scale; }
+                    }
+                    Rectangle { horizontal-stretch: 1; }
+                }
+                HorizontalLayout { spacing: 8px * Theme.scale; alignment: start;
+                    ActionButton { text: State.recording ? "Stop & save" : "Record a meeting"; icon: State.recording ? Icons.stop : Icons.microphone; primary: true; accent: Theme.magenta; enabled: State.engine-ready && !State.busy; clicked => { State.action(State.recording ? "stop-recording" : "start-recording", ""); } }
+                    if State.recording: ActionButton { text: State.recording-paused ? "Resume" : "Pause"; icon: Icons.pause; compact: true; clicked => { State.action("pause-recording", ""); } }
+                }
+                // The quieter ways in get their own row, so nothing is cut off in a narrow panel.
+                if !State.recording: HorizontalLayout { spacing: 8px * Theme.scale; alignment: start;
+                    ActionButton { text: "Import audio"; icon: Icons.upload; compact: true; flat: true; clicked => { State.action("import", ""); } }
+                    ActionButton { text: "Open a shared meeting"; icon: Icons.folder; help: "Open a meeting someone shared as an Overtalk file"; compact: true; flat: true; clicked => { State.action("share-open", ""); } }
+                }
+                // The engine files the recording; this shows its choice and lets the person override it.
+                VerticalLayout { spacing: 2px * Theme.scale; alignment: start;
+                    HorizontalLayout { alignment: start;
+                        ActionButton { text: "Project · " + (State.recording ? State.capture-project : State.capture-project-next); icon: Icons.folder; help: State.recording ? "Change the project of this recording" : "Choose a project for the next recording"; compact: true; flat: true; foreground: State.recording && State.capture-project-state == "automatic" ? Theme.teal : Theme.secondary; enabled: State.engine-ready; clicked => { State.action("automation-capture", ""); } }
+                    }
+                    if State.recording && State.capture-project-detail != "": Rectangle { min-height: capture-detail.preferred-height;
+                        capture-detail := Hint { x: 10px * Theme.scale; y: 0px; width: parent.width - self.x; height: self.preferred-height; text: State.capture-project-detail; color: State.capture-project-state == "automatic" ? Theme.teal : Theme.muted; font-size: 13px * Theme.scale; max-lines: 3; overflow: elide; }
+                    }
+                }
+                if State.recording-save-pending: ActionButton { text: "Retry saving recording"; icon: Icons.drive; enabled: !State.busy; clicked => { State.action("retry-recording-save", ""); } }
+                CheckBox { text: "Generate notes automatically after recording"; checked <=> State.auto-summary; }
+                HorizontalLayout { spacing: 8px * Theme.scale; alignment: start;
+                    ActionButton { text: State.video-recording ? "Stop video" : State.video-enabled ? "Video included" : "Include video"; icon: Icons.play; compact: true; flat: true; selected: State.video-enabled || State.video-recording; clicked => { State.action("hub-video-toggle", ""); } }
+                    ActionButton { text: State.watch-enabled ? "Meeting widget on" : "Meeting widget off"; icon: Icons.calendar; compact: true; flat: true; selected: State.watch-enabled; clicked => { State.action("hub-watch-toggle", ""); } }
+                }
+                if State.monitoring || State.recording: VerticalLayout { spacing: 8px * Theme.scale;
+                    HorizontalLayout { spacing: 12px * Theme.scale; Hint { text: "Microphone"; width: 90px * Theme.scale; color: Theme.teal; } Rectangle { height: 5px * Theme.scale; background: Theme.raised; border-radius: 3px; Rectangle { width: parent.width * State.microphone-level; height: parent.height; background: Theme.teal; border-radius: 3px; } } }
+                    HorizontalLayout { spacing: 12px * Theme.scale; Hint { text: "Call audio"; width: 90px * Theme.scale; color: Theme.magenta; } Rectangle { height: 5px * Theme.scale; background: Theme.raised; border-radius: 3px; Rectangle { width: parent.width * State.system-level; height: parent.height; background: Theme.magenta; border-radius: 3px; } } }
+                    if State.recording-health != "": Hint { text: State.recording-health; color: Theme.amber; }
+                }
+    PersonalNotepad { height: (State.recording ? 320px : 230px) * Theme.scale; }
+}
+
+export component HomeScreen inherits Rectangle {
+    background: Theme.ground;
+    property <bool> narrow: self.width < 920px * Theme.scale;
+    VerticalLayout {
+        padding: (State.window-height < 700 ? 16px : 28px) * Theme.scale; spacing: 22px * Theme.scale;
+        HorizontalLayout { spacing: 12px * Theme.scale;
+            VerticalLayout { spacing: 4px * Theme.scale;
+                Text { text: State.recording ? "In your meeting" : State.recording-setup ? "New recording" : "Your meeting workspace"; color: Theme.ink; font-size: (root.narrow ? 24px : 30px) * Theme.scale; font-weight: 600; }
+                Hint { text: State.recording ? "Keep your attention on the conversation. Capture the important parts here." : State.recording-date + " · Ready for what comes next"; font-size: 14px * Theme.scale; }
+            }
+            if State.recording: Text { text: State.clock; color: Theme.teal; font-family: "Phudu"; font-size: 30px * Theme.scale; }
+            Rectangle { horizontal-stretch: 1; }
+            ActionButton { text: root.narrow ? "Audio" : "Audio sources"; icon: Icons.microphone; help: "Choose microphone and call audio"; compact: true; clicked => { State.action("audio-sources", ""); } }
+        }
+        ScrollView {
+            VerticalLayout { spacing: 22px * Theme.scale;
+                if State.setup-needed: SetupChecklist { }
+                if root.narrow || State.recording-setup: VerticalLayout {
+                    spacing: 20px * Theme.scale;
+                    if !State.recording && !State.recording-setup: UpcomingMeetings { }
+                    CaptureSection { }
+                }
+                if !root.narrow && !State.recording-setup: HorizontalLayout {
+                    spacing: 32px * Theme.scale;
+                    VerticalLayout {
+                        horizontal-stretch: 3;
+                        if !State.recording && !State.recording-setup: UpcomingMeetings { }
+                        if State.recording: VerticalLayout {
+                            spacing: 14px * Theme.scale;
+                            Text { text: "Live transcript"; color: Theme.teal; font-size: 21px * Theme.scale; font-weight: 600; }
+                            if State.transcripts.length == 0: Hint { text: "Speak naturally. Your transcript appears as speech is processed."; }
+                            for row in State.transcripts: Text { text: row.body; color: Theme.ink; font-size: 16px * Theme.scale; wrap: word-wrap; }
+                        }
+                        Rectangle { vertical-stretch: 1; }
+                    }
+                    VerticalLayout {
+                        width: min(480px * Theme.scale, root.width * 0.46);
+                        CaptureSection { }
+                        Rectangle { vertical-stretch: 1; }
+                    }
+                }
+                if State.project-id != "" && !State.recording: VerticalLayout { spacing: 10px * Theme.scale;
+                    Text { text: "Before your next meeting · " + State.project-name; color: Theme.teal; font-size: 18px * Theme.scale; font-weight: 600; wrap: word-wrap; }
+                    Text { text: State.project-brief; color: Theme.secondary; font-size: 15px * Theme.scale; wrap: word-wrap; }
+                }
+                HorizontalLayout { alignment: start;
+                    ActionButton { text: "Guide & shortcuts"; icon: Icons.help; compact: true; flat: true; clicked => { State.action("guide", ""); } }
+                    ActionButton { text: "Run setup check"; icon: Icons.check; compact: true; flat: true; clicked => { State.setup-needed = true; State.action("workflow-check", ""); } }
+                }
+                Rectangle { vertical-stretch: 1; }
+            }
+        }
+    }
+}

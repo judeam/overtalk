@@ -1,0 +1,73 @@
+import { State } from "state.slint";
+import { Theme } from "theme.slint";
+
+// Use the native text shaper for word geometry: this preserves wrapping,
+// kerning, RTL, and non-Latin fonts. Only the active virtualized row measures.
+export component SpokenText inherits Rectangle {
+    in property <string> text;
+    in property <length> text-size: Theme.body;
+    in property <color> tone: Theme.teal;
+    in property <bool> tracking: false;
+    in property <int> start-byte: -1;
+    in property <int> end-byte: -1;
+    property <Point> begin-point;
+    property <Point> end-point;
+    property <bool> same-line: abs(begin-point.y - end-point.y) < 1px;
+    min-width: 0px;
+    min-height: body.preferred-height;
+    preferred-height: body.preferred-height;
+    vertical-stretch: 0;
+    clip: true;
+    // Measuring inputs are transparent, read-only and unfocusable. The visible
+    // transcript remains normal text, so playback never steals keyboard focus.
+    if root.tracking && root.start-byte >= 0: Rectangle {
+        function measure() {
+            begin.set-selection-offsets(root.start-byte, root.start-byte);
+            end.set-selection-offsets(root.end-byte, root.end-byte);
+        }
+        init => { self.measure(); }
+        property <int> first: root.start-byte;
+        property <int> last: root.end-byte;
+        property <length> measure-width: root.width;
+        property <string> measure-text: root.text;
+        changed first => { self.measure(); }
+        changed last => { self.measure(); }
+        changed measure-width => { self.measure(); }
+        changed measure-text => { self.measure(); }
+        begin := TextInput {
+            text: root.text; width: root.width; height: root.height;
+            font-size: root.text-size; wrap: word-wrap; single-line: false;
+            line-height-factor: 1.37; vertical-alignment: top;
+            read-only: true; enabled: false; opacity: 0; text-cursor-width: 0px;
+            cursor-position-changed(position) => { root.begin-point = position; }
+        }
+        end := TextInput {
+            text: root.text; width: root.width; height: root.height;
+            font-size: root.text-size; wrap: word-wrap; single-line: false;
+            line-height-factor: 1.37; vertical-alignment: top;
+            read-only: true; enabled: false; opacity: 0; text-cursor-width: 0px;
+            cursor-position-changed(position) => { root.end-point = position; }
+        }
+        Rectangle {
+            x: max(0px, min(root.begin-point.x, root.same-line ? root.end-point.x : root.width) - 3px * Theme.scale);
+            y: max(0px, root.begin-point.y - 2px * Theme.scale);
+            width: max(0px, (root.same-line ? abs(root.end-point.x - root.begin-point.x) : root.width - root.begin-point.x) + 6px * Theme.scale);
+            height: min(root.height - self.y, body.font-metrics.ascent - body.font-metrics.descent + 4px * Theme.scale);
+            border-radius: 5px * Theme.scale;
+            background: root.tone.with-alpha(Theme.dark ? 0.28 : 0.2);
+            animate x, width { duration: State.reduced-motion || !State.playing || !root.same-line ? 0ms : 100ms; easing: cubic-bezier(0.23, 1, 0.32, 1); }
+        }
+        if !root.same-line && root.end-point.x > 0px: Rectangle {
+            x: 0px; y: root.end-point.y - 2px * Theme.scale;
+            width: root.end-point.x + 3px * Theme.scale;
+            height: min(root.height - self.y, body.font-metrics.ascent - body.font-metrics.descent + 4px * Theme.scale);
+            border-radius: 5px * Theme.scale; background: root.tone.with-alpha(Theme.dark ? 0.28 : 0.2);
+        }
+    }
+    body := Text {
+        x: 0px; y: 0px; width: root.width;
+        height: self.preferred-height;
+        text: root.text; color: Theme.ink; font-size: root.text-size;
+        wrap: word-wrap; line-height-factor: 1.37; vertical-alignment: top;
+    }
+}

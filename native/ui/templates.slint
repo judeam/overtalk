@@ -1,0 +1,41 @@
+import { ScrollView, TextEdit } from "std-widgets.slint";
+import { State } from "state.slint";
+import { Theme, Icons } from "theme.slint";
+import { ActionButton, Field, Hint, ChoiceControl } from "widgets.slint";
+
+export component TemplateEditor inherits VerticalLayout {
+    spacing: 12px * Theme.scale;
+    HorizontalLayout {
+        spacing: 8px * Theme.scale;
+        ChoiceControl { model: State.template-names; current-index <=> State.template-index; selected(index) => { State.action("template-load", "" + index); } }
+        ActionButton { text: "New"; compact: true; clicked => { State.action("template-new", ""); } }
+        ActionButton { text: "Copy"; icon: Icons.copy; compact: true; clicked => { State.action("template-copy", ""); } }
+    }
+    if !State.template-custom: Hint { text: "Built-in template. Choose Copy to customize it."; }
+    ScrollView {
+        VerticalLayout {
+            spacing: 12px * Theme.scale;
+            Hint { text: "Name"; }
+            Field { enabled: State.template-custom; text <=> State.template-name; }
+            Hint { text: "Description"; }
+            TextEdit { enabled: State.template-custom; text <=> State.template-description; height: 68px * Theme.scale; wrap: word-wrap; }
+            for section in State.template-sections: VerticalLayout {
+                spacing: 8px * Theme.scale;
+                HorizontalLayout {
+                    Field { enabled: State.template-custom; text: section.title; placeholder: "Section title"; edited(value) => { State.form-edited("template:" + section.index + ":title", value); } }
+                    ChoiceControl { enabled: State.template-custom; width: 140px * Theme.scale; model: ["Paragraph", "List", "Short text"]; current-index: section.format; selected(index) => { State.form-edited("template:" + section.index + ":format", ["paragraph","list","string"][index]); } }
+                    ActionButton { icon: Icons.trash; help: "Remove section"; compact: true; enabled: State.template-custom && State.template-sections.length > 1; clicked => { State.action("template-remove-section", "" + section.index); } }
+                }
+                TextEdit { enabled: State.template-custom; text: section.instruction; height: 100px * Theme.scale; wrap: word-wrap; edited => { State.form-edited("template:" + section.index + ":instruction", self.text); } }
+                Field { enabled: State.template-custom; text: section.item-format; placeholder: "Optional table columns or item format"; edited(value) => { State.form-edited("template:" + section.index + ":item_format", value); } }
+            }
+            ActionButton { text: "Add section"; enabled: State.template-custom && State.template-sections.length < 32; compact: true; clicked => { State.action("template-add-section", ""); } }
+        }
+    }
+    HorizontalLayout {
+        spacing: 8px * Theme.scale;
+        ActionButton { text: "Import"; icon: Icons.upload; compact: true; clicked => { State.action("template-import", ""); } }
+        ActionButton { text: "Export JSON"; icon: Icons.download; compact: true; clicked => { State.action("template-export", ""); } }
+        ActionButton { text: "Delete"; icon: Icons.trash; compact: true; enabled: State.template-custom; clicked => { State.action("template-delete", ""); } }
+    }
+}
