@@ -138,14 +138,6 @@ jobs:
             head -c 12000 "$report"
             echo
           done
-      - name: Probe which reads the macOS loader needs in a sandbox
-        if: failure() && runner.os == 'macOS'
-        run: |
-          base='(version 1)(deny default)(allow process-exec)(allow process-fork)(allow sysctl-read)(allow file-read-metadata)(allow file-read* (subpath "/System") (subpath "/usr") (subpath "/Library/Apple") (literal "/dev/null"))'
-          for extra in '' '(allow file-read* (literal "/"))' '(allow file-read* (subpath "/private/var/db/dyld"))' '(allow file-map-executable)' '(allow iokit-get-properties)' '(allow file-read* (subpath "/.vol"))' '(allow file-read*)'; do
-            /usr/bin/sandbox-exec -p "$base$extra" /usr/bin/true > /dev/null 2>&1 && status=0 || status=$?
-            echo "exit $status with: ${extra:-the base profile}"
-          done
       - run: cargo clippy --locked --release --workspace --all-targets -- -D warnings
       - name: Build native application and engine
         run: cargo build --locked --release -p overtalk-native -p sonefold -p overtalk-capture -p overtalk-browser-bridge -p overtalk-worker-sandbox --bin overtalk --bin sonefold-service --bin overtalk-capture --bin overtalk-browser-bridge --bin overtalk-worker --example verify_workflows --example verify_playback --example visual_review --example benchmark_ui

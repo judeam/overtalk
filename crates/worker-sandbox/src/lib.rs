@@ -720,7 +720,10 @@ fn seccomp_fd(root: &Path) -> io::Result<i32> {
 }
 #[cfg(target_os = "macos")]
 fn macos(policy: &Policy, program: &Path) -> io::Result<Command> {
+    // Seatbelt matches resolved paths, so a grant in /var/folders must name
+    // /private/var/folders. A path that does not exist keeps its spelling.
     fn quote(path: &Path) -> io::Result<String> {
+        let path = path.canonicalize().unwrap_or_else(|_| path.to_owned());
         let text = path
             .to_str()
             .ok_or_else(|| io::Error::other("Sandbox paths must be UTF-8"))?;
