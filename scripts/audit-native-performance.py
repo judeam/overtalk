@@ -20,6 +20,7 @@ p.add_argument('--binary', type=Path, default=ROOT/'target/release/examples/benc
 p.add_argument('--output', type=Path, required=True)
 p.add_argument('--sizes', nargs='+', default=['1280x720', '3840x2160'])
 p.add_argument('--first-open-budget-ms', type=float, default=150)
+p.add_argument('--later-open-budget-ms', type=float, default=50)
 args = p.parse_args()
 reports = []
 for dimensions in args.sizes:
@@ -56,7 +57,7 @@ for dimensions in args.sizes:
                       idle_frames=idle_frames,peak_ui_rss_mib=round(peak_kib/1024,1))
         report['actual_size'] = list(map(int,actual.groups())) if actual else None
         report['final_size'] = list(map(int,final.groups())) if final else None
-        report['pass']=report['actual_size']==[width,height] and report['final_size']==[width,height] and opens[0]<=args.first_open_budget_ms and max(opens[1:],default=0)<50 and idle_frames is not None and idle_frames<=2
+        report['pass']=report['actual_size']==[width,height] and report['final_size']==[width,height] and opens[0]<=args.first_open_budget_ms and max(opens[1:],default=0)<args.later_open_budget_ms and idle_frames is not None and idle_frames<=2
         reports.append(report)
 args.output.parent.mkdir(parents=True,exist_ok=True)
 args.output.write_text(json.dumps(dict(definition='CPU render submission and request-to-first-frame; synthetic data; not display FPS',results=reports),indent=2)+'\n')

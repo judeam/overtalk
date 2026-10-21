@@ -172,6 +172,7 @@ mod tests {
     use super::*;
 
     #[tokio::test]
+    #[ignore = "needs a default audio output device"]
     async fn test_get_output_device() {
         let result = get_active_audio_output().await;
         assert!(result.is_ok(), "Should be able to get output device");

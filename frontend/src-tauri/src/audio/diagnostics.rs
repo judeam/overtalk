@@ -163,12 +163,12 @@ fn log_macos_specific_info(_device: &AudioDevice, _config: &SupportedStreamConfi
 
             // Get device manufacturer
             if let Ok(manufacturer) = ca_device.manufacturer() {
-                info!("    Manufacturer:    {}", manufacturer.to_string());
+                info!("    Manufacturer:    {}", manufacturer);
             }
 
             // Get device UID
             if let Ok(uid) = ca_device.uid() {
-                info!("    Device UID:      {}", uid.to_string());
+                info!("    Device UID:      {}", uid);
             }
         }
     }
