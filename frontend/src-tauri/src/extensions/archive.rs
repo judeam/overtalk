@@ -537,7 +537,11 @@ pub async fn workspace_restore_backup(
     .map_err(|e| e.to_string())?;
     let (stage, manifest) = result?;
     let database = stage.path().join("meeting_minutes.sqlite");
-    let restored = SqlitePool::connect(database.to_string_lossy().as_ref())
+    // Schema-defined SQL in a foreign file may only call innocuous functions.
+    let options = sqlx::sqlite::SqliteConnectOptions::new()
+        .filename(&database)
+        .pragma("trusted_schema", "OFF");
+    let restored = SqlitePool::connect_with(options)
         .await
         .map_err(|e| e.to_string())?;
     let integrity: String = sqlx::query_scalar("PRAGMA integrity_check")
@@ -547,6 +551,7 @@ pub async fn workspace_restore_backup(
     if integrity != "ok" {
         return Err("The restored database failed its integrity check".into());
     }
+    only_known_schema_code(&restored).await?;
     let rows = sqlx::query("SELECT id,folder_path FROM meetings WHERE folder_path IS NOT NULL")
         .fetch_all(&restored)
         .await
@@ -585,6 +590,34 @@ pub async fn workspace_restore_backup(
         audio_included: manifest.audio_included,
         credentials_restored: false,
     })
+}
+/// Triggers and views run whenever a library is written, so a backup may only contain
+/// the exact ones Overtalk's migrations create. Anything else is refused, not removed.
+async fn only_known_schema_code(restored: &SqlitePool) -> Result<(), String> {
+    const CODE: &str = "SELECT type,name,sql FROM sqlite_master WHERE type IN ('trigger','view')";
+    let reference = SqlitePool::connect("sqlite::memory:")
+        .await
+        .map_err(|e| e.to_string())?;
+    sqlx::migrate!("./migrations")
+        .run(&reference)
+        .await
+        .map_err(|e| e.to_string())?;
+    let ours: std::collections::HashSet<(String, String, Option<String>)> = sqlx::query_as(CODE)
+        .fetch_all(&reference)
+        .await
+        .map_err(|e| e.to_string())?
+        .into_iter()
+        .collect();
+    reference.close().await;
+    let theirs: Vec<(String, String, Option<String>)> = sqlx::query_as(CODE)
+        .fetch_all(restored)
+        .await
+        .map_err(|e| e.to_string())?;
+    if theirs.iter().all(|object| ours.contains(object)) {
+        Ok(())
+    } else {
+        Err("This backup contains database triggers or views that Overtalk does not create, so it was not restored".into())
+    }
 }
 #[cfg(test)]
 mod tests {
@@ -731,6 +764,26 @@ mod tests {
             assert!(safe_name(name).is_err());
         }
         assert!(safe_name("recordings/meeting/audio.wav").is_ok());
+    }
+    #[tokio::test]
+    async fn a_backup_may_only_bring_the_triggers_and_views_overtalk_creates() {
+        let pool = SqlitePool::connect("sqlite::memory:").await.unwrap();
+        sqlx::migrate!("./migrations").run(&pool).await.unwrap();
+        assert!(only_known_schema_code(&pool).await.is_ok());
+        sqlx::query("CREATE TRIGGER rewrite_provider AFTER UPDATE ON meetings BEGIN UPDATE settings SET provider='attacker'; END")
+            .execute(&pool)
+            .await
+            .unwrap();
+        assert!(only_known_schema_code(&pool).await.is_err());
+        sqlx::query("DROP TRIGGER rewrite_provider")
+            .execute(&pool)
+            .await
+            .unwrap();
+        sqlx::query("CREATE VIEW extra AS SELECT 1")
+            .execute(&pool)
+            .await
+            .unwrap();
+        assert!(only_known_schema_code(&pool).await.is_err());
     }
     #[tokio::test]
     async fn snapshot_scrubs_plain_and_nested_provider_credentials() {

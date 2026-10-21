@@ -546,24 +546,21 @@ async fn authorize(
     configured_id: &str,
     client_secret: &str,
 ) -> Result<Credential, String> {
-    let listener = tokio::net::TcpListener::bind(if provider == Provider::Slack {
-        "127.0.0.1:43871"
-    } else {
-        "127.0.0.1:0"
-    })
+    let localhost = matches!(provider, Provider::Slack | Provider::Microsoft);
+    let listener = Loopback::bind(
+        if provider == Provider::Slack {
+            43871
+        } else {
+            0
+        },
+        localhost,
+    )
     .await
     .map_err(|_| "Could not open the local sign-in callback")?;
     let redirect = format!(
         "http://{}:{}/callback",
-        if matches!(provider, Provider::Slack | Provider::Microsoft) {
-            "localhost"
-        } else {
-            "127.0.0.1"
-        },
-        listener
-            .local_addr()
-            .map_err(|_| "Missing callback address")?
-            .port()
+        if localhost { "localhost" } else { "127.0.0.1" },
+        listener.port
     );
     let metadata = if provider.dynamic() {
         response(
@@ -751,13 +748,59 @@ fn callback_code(request: &str, state: &str, issuer: Option<&str>) -> Result<Str
         .filter(|s| !s.is_empty() && s.len() <= 8192)
         .ok_or("The provider returned no authorization code".into())
 }
+/// The local sign-in callback. A redirect to `localhost` may arrive on either loopback
+/// address, so for those providers the same port is held on `::1` too; otherwise another
+/// local program could listen there and receive the authorization request first.
+struct Loopback {
+    v4: tokio::net::TcpListener,
+    v6: Option<tokio::net::TcpListener>,
+    port: u16,
+}
+
+impl Loopback {
+    async fn bind(port: u16, both: bool) -> std::io::Result<Self> {
+        // A random port free on 127.0.0.1 can be taken on ::1; try a few.
+        for _ in 0..if port == 0 { 8 } else { 1 } {
+            let v4 = tokio::net::TcpListener::bind(("127.0.0.1", port)).await?;
+            let port = v4.local_addr()?.port();
+            if !both {
+                return Ok(Self { v4, v6: None, port });
+            }
+            match tokio::net::TcpListener::bind(("::1", port)).await {
+                Ok(v6) => {
+                    return Ok(Self {
+                        v4,
+                        v6: Some(v6),
+                        port,
+                    })
+                }
+                // Held by someone else: never leave that side to them.
+                Err(error) if error.kind() == std::io::ErrorKind::AddrInUse => continue,
+                // No IPv6 loopback, so `localhost` cannot resolve to it either.
+                Err(_) => return Ok(Self { v4, v6: None, port }),
+            }
+        }
+        Err(std::io::ErrorKind::AddrInUse.into())
+    }
+
+    async fn accept(&self) -> std::io::Result<tokio::net::TcpStream> {
+        match &self.v6 {
+            Some(v6) => tokio::select! {
+                accepted = self.v4.accept() => accepted.map(|(stream, _)| stream),
+                accepted = v6.accept() => accepted.map(|(stream, _)| stream),
+            },
+            None => self.v4.accept().await.map(|(stream, _)| stream),
+        }
+    }
+}
+
 async fn callback(
-    listener: &tokio::net::TcpListener,
+    listener: &Loopback,
     state: &str,
     issuer: Option<&str>,
 ) -> Result<String, String> {
     for _ in 0..24 {
-        let (mut stream, _) = listener
+        let mut stream = listener
             .accept()
             .await
             .map_err(|_| "Could not receive sign-in")?;
@@ -1132,8 +1175,8 @@ mod tests {
     }
     #[tokio::test]
     async fn loopback_ignores_a_forged_request_and_accepts_the_real_callback() {
-        let listener = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
-        let addr = listener.local_addr().unwrap();
+        let listener = Loopback::bind(0, false).await.unwrap();
+        let addr = format!("127.0.0.1:{}", listener.port);
         let task = tokio::spawn(async move { callback(&listener, "expected-state", None).await });
         let client = reqwest::Client::new();
         assert_eq!(
@@ -1159,6 +1202,25 @@ mod tests {
             200
         );
         assert_eq!(task.await.unwrap().unwrap(), "correct");
+    }
+    #[tokio::test]
+    async fn a_localhost_callback_holds_both_loopback_addresses() {
+        let listener = Loopback::bind(0, true).await.unwrap();
+        let port = listener.port;
+        let Some(v6) = &listener.v6 else {
+            return; // This host has no IPv6 loopback.
+        };
+        assert_eq!(v6.local_addr().unwrap().port(), port);
+        // The IPv6 side is taken, so another program cannot listen there.
+        assert!(std::net::TcpListener::bind(("::1", port)).is_err());
+        let task = tokio::spawn(async move { callback(&listener, "s", None).await });
+        let reply = reqwest::Client::new()
+            .get(format!("http://[::1]:{port}/callback?state=s&code=v6"))
+            .send()
+            .await
+            .unwrap();
+        assert_eq!(reply.status().as_u16(), 200);
+        assert_eq!(task.await.unwrap().unwrap(), "v6");
     }
     #[test]
     fn callback_rejects_forgery_duplicates_and_fragments() {
