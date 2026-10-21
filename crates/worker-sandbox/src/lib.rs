@@ -729,10 +729,12 @@ fn macos(policy: &Policy, program: &Path) -> io::Result<Command> {
             text.replace('\\', "\\\\").replace('"', "\\\"")
         ))
     }
+    // The loader reads the root directory itself while it finds the system
+    // library cache; without `(literal "/")` every program aborts before main.
     let mut profile = String::from(
         "(version 1)(deny default)(allow process-fork)(allow process-exec)(allow sysctl-read)\
          (allow file-read-metadata)(allow mach-lookup (global-name \"com.apple.system.logger\"))\
-         (allow file-read* (subpath \"/System\") (subpath \"/usr\") \
+         (allow file-read* (literal \"/\") (subpath \"/System\") (subpath \"/usr\") \
          (subpath \"/Library/Apple\") (subpath \"/opt/homebrew\") \
          (literal \"/dev/null\") (literal \"/dev/urandom\"))\
          (allow file-write* (literal \"/dev/null\"))",
