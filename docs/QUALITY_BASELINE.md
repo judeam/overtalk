@@ -32,7 +32,7 @@ In **Settings → Library & backups**, enable semantic search, select the modern
 
 In **Settings → Notes & AI**, the default **Qwen 3.8 27B · calibrated IQ4_XS** uses 14,252,844,960-byte Agention Precision weights, roughly 25% smaller than the original Q4_K_M. Revision and SHA-256 are pinned in the app. The 11.77 GB GSQ-RCO option and original Q4_K_M reference remain explicit alternatives. See [the quantization review](research/2026-09-30-quantization-review.md) for provenance, published evidence and local checks.
 
-The helper pins llama-cpp-2 0.1.157 with Qwen35 runtime support, reads layer count from GGUF metadata and bounds prefill to 512 tokens. First-run defaults select the strongest supported profile that fits detected RAM and CUDA capacity. Saved manual selections are preserved; runtimes/checkpoints must still be installed before first use.
+The helper pins llama-cpp-2 0.1.159 with Qwen35 runtime support, reads layer count from GGUF metadata and bounds prefill to 512 tokens. First-run defaults select the strongest supported profile that fits detected RAM and CUDA capacity. Saved manual selections are preserved; runtimes/checkpoints must still be installed before first use.
 
 ## Experimental alternatives and evidence
 

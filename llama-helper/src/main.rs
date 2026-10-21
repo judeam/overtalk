@@ -11,7 +11,7 @@ use llama_cpp_2::context::params::LlamaContextParams;
 use llama_cpp_2::llama_backend::LlamaBackend;
 use llama_cpp_2::llama_batch::LlamaBatch;
 use llama_cpp_2::model::params::LlamaModelParams;
-use llama_cpp_2::model::{AddBos, LlamaModel};
+use llama_cpp_2::model::LlamaModel;
 use serde::{Deserialize, Serialize};
 
 // ============================================================================
@@ -450,9 +450,7 @@ impl ModelState {
             .new_context(&self.backend, ctx_params)
             .context("unable to create the llama_context")?;
 
-        let tokens_list = model
-            .str_to_token(&prompt, AddBos::Always)
-            .with_context(|| "failed to tokenize prompt")?;
+        let tokens_list = model.vocab().tokenize(prompt.as_bytes(), true, true);
 
         eprintln!("📝 Tokenized prompt: {} tokens", tokens_list.len());
         validate_context_budget(tokens_list.len(), max_tokens, self.context_size)?;
@@ -534,7 +532,7 @@ impl ModelState {
             let token = sampler.as_mut().sample(&ctx, batch.n_tokens() - 1);
             sampler.as_mut().accept(token);
 
-            if model.is_eog_token(token) {
+            if model.vocab().is_eog(token) {
                 eprintln!(
                     "✓ End-of-generation token reached (generated {} chars)",
                     output.len()
@@ -542,21 +540,7 @@ impl ModelState {
                 break;
             }
 
-            let output_bytes = match model.token_to_piece_bytes(token, 32, true, None) {
-                Err(llama_cpp_2::TokenToStringError::InsufficientBufferSpace(size)) => {
-                    let required_size: usize = size
-                        .checked_neg()
-                        .context("Invalid token piece buffer size")?
-                        .try_into()
-                        .context("Invalid token piece buffer size")?;
-                    model.token_to_piece_bytes(token, required_size, true, None)
-                }
-                result => result,
-            }
-            .context("Failed to convert token to bytes")?;
-
-            let mut token_text = String::with_capacity(32);
-            let _ = decoder.decode_to_string(&output_bytes, &mut token_text, false);
+            let token_text = token_text(model, token, &mut decoder);
             output.push_str(&token_text);
 
             // Check for model-specific stop tokens
@@ -636,14 +620,11 @@ impl ModelState {
         anyhow::ensure!(!prompts.is_empty(), "No prompts to generate");
         let n = prompts.len();
         let per_sequence = self.context_size / n as u32;
-        let token_lists = prompts
+        let vocab = model.vocab();
+        let token_lists: Vec<_> = prompts
             .iter()
-            .map(|prompt| {
-                model
-                    .str_to_token(prompt, AddBos::Always)
-                    .context("failed to tokenize prompt")
-            })
-            .collect::<Result<Vec<_>>>()?;
+            .map(|prompt| vocab.tokenize(prompt.as_bytes(), true, true))
+            .collect();
         for tokens in &token_lists {
             validate_context_budget(tokens.len(), max_tokens, per_sequence)?;
         }
@@ -703,10 +684,10 @@ impl ModelState {
                 let Some(token) = next[seq].take() else {
                     continue;
                 };
-                if model.is_eog_token(token) || generated[seq] >= max_tokens {
+                if vocab.is_eog(token) || generated[seq] >= max_tokens {
                     continue;
                 }
-                let text = token_text(model, token, &mut decoders[seq])?;
+                let text = token_text(model, token, &mut decoders[seq]);
                 generated[seq] += 1;
                 if append_and_check(
                     &mut outputs[seq],
@@ -791,25 +772,16 @@ fn build_sampler(
     }
 }
 
+/// A token's text, including special tokens; llama-cpp-2 sizes the piece buffer.
 fn token_text(
     model: &LlamaModel,
     token: llama_cpp_2::token::LlamaToken,
     decoder: &mut encoding_rs::Decoder,
-) -> Result<String> {
-    let bytes = match model.token_to_piece_bytes(token, 32, true, None) {
-        Err(llama_cpp_2::TokenToStringError::InsufficientBufferSpace(size)) => {
-            let required: usize = size
-                .checked_neg()
-                .context("Invalid token piece buffer size")?
-                .try_into()?;
-            model.token_to_piece_bytes(token, required, true, None)
-        }
-        result => result,
-    }
-    .context("Failed to convert token to bytes")?;
+) -> String {
+    let bytes = model.vocab().token_to_piece(token, true, None);
     let mut text = String::with_capacity(32);
     let _ = decoder.decode_to_string(&bytes, &mut text, false);
-    Ok(text)
+    text
 }
 
 /// Appends a token's text; true when generation should stop (stop string or repeated line).
