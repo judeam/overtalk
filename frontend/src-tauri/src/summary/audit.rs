@@ -1,7 +1,9 @@
 //! Source-linked, minimal edits to a Flash draft. This is part of generation,
 //! not an evaluation judge. The benchmark remains directly reviewed by a human.
+use regex::Regex;
 use serde::Deserialize;
 use std::collections::BTreeSet;
+use std::sync::LazyLock;
 
 pub(super) const SYSTEM: &str = "Audit a meeting-note draft against its transcript. Return JSON \
 only, no score or commentary:
@@ -77,6 +79,18 @@ struct Audit {
     edits: Vec<Edit>,
 }
 
+static CLOCK: LazyLock<Regex> =
+    LazyLock::new(|| Regex::new(r"\[\d{1,2}:\d{2}(?::\d{2})?\]").unwrap());
+static NUMBER: LazyLock<Regex> = LazyLock::new(|| Regex::new(r"\b\d+(?:[.,]\d+)*\b").unwrap());
+static MODAL: LazyLock<Regex> = LazyLock::new(|| {
+    Regex::new(concat!(
+        r"(?i)\b(?:cannot|can't|unable|impossible|because|since|therefore|only ",
+        r"after|until|every|always|never)\b"
+    ))
+    .unwrap()
+});
+static SOURCE_REFERENCE: LazyLock<Regex> = LazyLock::new(|| Regex::new(r"\[S(\d+)\]").unwrap());
+
 fn normalize(value: &str) -> String {
     value.split_whitespace().collect::<Vec<_>>().join(" ")
 }
@@ -90,10 +104,8 @@ pub(super) fn prompt(source: &str, draft: &str) -> String {
         .join("\n");
     // Candidate coverage gaps, not truth judgments: a written-out number may
     // already be covered. Strip segment clocks so they are not treated as facts.
-    let clocks = regex::Regex::new(r"\[\d{1,2}:\d{2}(?::\d{2})?\]").unwrap();
-    let numbers = regex::Regex::new(r"\b\d+(?:[.,]\d+)*\b").unwrap();
     let canonical = |s: &str| s.chars().filter(char::is_ascii_digit).collect::<String>();
-    let present: BTreeSet<_> = numbers
+    let present: BTreeSet<_> = NUMBER
         .find_iter(draft)
         .map(|n| canonical(n.as_str()))
         .collect();
@@ -101,8 +113,8 @@ pub(super) fn prompt(source: &str, draft: &str) -> String {
         .lines()
         .enumerate()
         .filter_map(|(i, line)| {
-            let body = clocks.replace_all(line, "");
-            numbers
+            let body = CLOCK.replace_all(line, "");
+            NUMBER
                 .find_iter(&body)
                 .any(|n| !present.contains(&canonical(n.as_str())))
                 .then(|| format!("[S{}] {line}", i + 1))
@@ -110,14 +122,9 @@ pub(super) fn prompt(source: &str, draft: &str) -> String {
         .take(80)
         .collect::<Vec<_>>()
         .join("\n");
-    let modal = regex::Regex::new(concat!(
-        r"(?i)\b(?:cannot|can't|unable|impossible|because|since|therefore|only ",
-        r"after|until|every|always|never)\b"
-    ))
-    .unwrap();
     let risks = draft
         .lines()
-        .filter(|line| modal.is_match(line))
+        .filter(|line| MODAL.is_match(line))
         .collect::<Vec<_>>()
         .join("\n");
     format!(
@@ -152,7 +159,6 @@ pub(super) fn apply(source: &str, draft: &str, response: &str) -> Result<(String
         return Err("The source check proposed too many edits.".into());
     }
     let lines: Vec<_> = source.lines().map(normalize).collect();
-    let refs = regex::Regex::new(r"\[S(\d+)\]").unwrap();
     let mut patches = Vec::new();
     for edit in audit.edits {
         if edit.old.trim().len() < 8
@@ -189,11 +195,11 @@ pub(super) fn apply(source: &str, draft: &str, response: &str) -> Result<(String
             }
             ids.insert(evidence.source);
         }
-        let cited: Vec<_> = refs
+        let cited: Vec<_> = SOURCE_REFERENCE
             .captures_iter(&edit.replacement)
             .map(|c| c[1].parse::<usize>().unwrap_or(0))
             .collect();
-        let retained: BTreeSet<_> = refs
+        let retained: BTreeSet<_> = SOURCE_REFERENCE
             .captures_iter(&edit.old)
             .filter_map(|c| c[1].parse::<usize>().ok())
             .filter(|id| *id > 0 && *id <= lines.len())
@@ -235,7 +241,7 @@ pub(super) fn apply(source: &str, draft: &str, response: &str) -> Result<(String
         if !content.is_empty()
             && content != "None noted in this section."
             && content != "No additional highlights noted."
-            && !refs.is_match(&content)
+            && !SOURCE_REFERENCE.is_match(&content)
         {
             return Err("A paragraph is missing source references. Add [S#] citations to every factual paragraph, including final open questions.".into());
         }
