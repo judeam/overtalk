@@ -23,6 +23,8 @@ const invoke = mock(async (command: string, args?: { settings: typeof settings }
 });
 mock.module('@tauri-apps/api/core', () => ({ invoke }));
 mock.module('sonner', () => ({ toast: { success() {}, error() {} } }));
+// The test renderer has no DOM; Radix Switch checks `instanceof HTMLFormElement` after mount.
+globalThis.HTMLFormElement ??= class {} as unknown as typeof HTMLFormElement;
 const { IntegrationSettings } = await import('../../src/components/IntegrationSettings');
 const { Switch } = await import('../../src/components/ui/switch');
 
