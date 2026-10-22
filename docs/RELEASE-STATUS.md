@@ -16,8 +16,9 @@ from source ([Building](BUILDING.md)).
   the restriction for its tests.
 - **Windows and macOS:** CI builds the native app, engine and worker sandbox on
   GitHub's Windows and macOS runners and passes their Rust test suites, including
-  the sandbox isolation test. Recording has not been tried on real Windows or Mac
-  hardware, and the packages have not been installed on either.
+  the sandbox isolation test. The package workflow builds the Linux, Windows and
+  macOS packages, and installs the Windows one silently to smoke-test its engine.
+  Recording has not been tried on real Windows or Mac hardware.
 
 ## Before the first binary release
 

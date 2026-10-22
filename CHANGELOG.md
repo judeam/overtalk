@@ -89,6 +89,9 @@ This preview is built from source; Linux is the tested desktop path.
     the resolved paths of files (`/private/var/...`).
   - Starting an MCP connection on a computer up for less than an hour no longer
     panics.
+  - The installed Windows engine sets private library permissions through the
+    Windows API. Launching PowerShell for each file was slow, and on GitHub's
+    runner it failed or timed out.
 - Saving right after start-up could fail with "database is locked". Write
   transactions now take the write lock when they begin.
 - Recording:
