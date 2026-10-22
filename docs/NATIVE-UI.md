@@ -127,8 +127,10 @@ breaks. Existing BlockNote content is converted to Markdown before editing.
 The UI retains six recently opened meetings and paginates transcript reads.
 Waveforms are cached as images and recording/playback timers run only when
 needed. There is no idle animation loop. `benchmark_ui` uses synthetic data and
-the real GPU window; it never sends mouse or keyboard input. Rendering timings
-measure CPU submission, not GPU completion or monitor presentation rate.
+the real GPU window; it never sends mouse or keyboard input. Its idle window
+starts 50 timer ticks after the last input, so frames that input queued are not
+counted. Rendering timings measure CPU submission, not GPU completion or monitor
+presentation rate.
 
 A local 4K run on 15 October 2026, after the playback, timeline and compact-layout
 fixes, measured 1.24 ms median / 1.73 ms p95 CPU render submission over 243 frames.

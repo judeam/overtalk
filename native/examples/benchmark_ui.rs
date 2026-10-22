@@ -68,10 +68,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                     if tick.is_multiple_of(50) {
                         state.invoke_action("open-meeting".into(), "m1".into());
                     }
-                } else if tick == 250 {
+                } else if tick == 300 {
+                    // Frames queued by the last input draw during the settle
+                    // gap, so the idle window counts only unrequested redraws.
                     eprintln!("NATIVE_BENCH_IDLE_BEGIN");
                     phase.set(tick + 1);
-                } else if tick < 500 {
+                } else if tick < 550 {
                     phase.set(tick + 1);
                 } else {
                     let size = ui.window().size();
