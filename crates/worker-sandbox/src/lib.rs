@@ -780,6 +780,13 @@ fn macos(policy: &Policy, program: &Path) -> io::Result<Command> {
 #[cfg(windows)]
 mod windows;
 
+/// Make the current user the owner and only grantee of `path`, replacing
+/// inherited entries; a folder passes the grant on to what it will contain.
+#[cfg(windows)]
+pub fn restrict_to_current_user(path: &Path, directory: bool) -> io::Result<()> {
+    windows::restrict_to_current_user(path, directory)
+}
+
 /// Collect short worker responses without unbounded output or a stuck child.
 /// Callers must not use this for a long inference or PCM stream.
 pub fn run_bounded(

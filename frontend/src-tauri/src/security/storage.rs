@@ -116,7 +116,7 @@ pub fn private_directory(path: &Path) -> std::io::Result<()> {
         directory.set_permissions(std::fs::Permissions::from_mode(0o700))?;
     }
     #[cfg(windows)]
-    restrict_windows(path, true)?;
+    overtalk_worker_sandbox::restrict_to_current_user(path, true)?;
     Ok(())
 }
 
@@ -141,44 +141,7 @@ pub fn private_file(path: &Path) -> std::io::Result<()> {
     #[cfg(windows)]
     {
         drop(file);
-        restrict_windows(path, false)?;
-    }
-    Ok(())
-}
-
-#[cfg(windows)]
-fn restrict_windows(path: &Path, directory: bool) -> std::io::Result<()> {
-    // Pass the path through an environment value, never interpolate it as code.
-    let script = if directory {
-        "$ErrorActionPreference='Stop'; \
-         $sid=[System.Security.Principal.WindowsIdentity]::GetCurrent().User; \
-         $acl=New-Object System.Security.AccessControl.DirectorySecurity; $acl.SetOwner($sid); \
-         $acl.SetAccessRuleProtection($true,$false); \
-         $rule=New-Object System.Security.AccessControl.FileSystemAccessRule($sid,'FullControl',\
-         'ContainerInherit,ObjectInherit','None','Allow'); $acl.AddAccessRule($rule); \
-         Set-Acl -LiteralPath $env:OVERTALK_PRIVATE_PATH -AclObject $acl"
-    } else {
-        "$ErrorActionPreference='Stop'; \
-         $sid=[System.Security.Principal.WindowsIdentity]::GetCurrent().User; \
-         $acl=New-Object System.Security.AccessControl.FileSecurity; $acl.SetOwner($sid); \
-         $acl.SetAccessRuleProtection($true,$false); \
-         $rule=New-Object System.Security.AccessControl.FileSystemAccessRule($sid,'FullControl',\
-         'Allow'); $acl.AddAccessRule($rule); \
-         Set-Acl -LiteralPath $env:OVERTALK_PRIVATE_PATH -AclObject $acl"
-    };
-    let mut command = super::encryption::powershell()?;
-    command
-        .args(["-NoProfile", "-NonInteractive", "-Command", script])
-        .env("OVERTALK_PRIVATE_PATH", path);
-    let result = overtalk_worker_sandbox::run_bounded(
-        command,
-        64 * 1024,
-        std::time::Duration::from_secs(10),
-    )?;
-    if !result.status.success() {
-        return Err(std::io::Error::other(
-            "Could not apply private Windows storage permissions",
-        ));
+        overtalk_worker_sandbox::restrict_to_current_user(path, false)?;
     }
     Ok(())
 }

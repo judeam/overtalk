@@ -92,7 +92,7 @@ fn mount_device(mounts: &[u8], path: &Path) -> Option<PathBuf> {
 }
 
 #[cfg(windows)]
-pub(super) fn powershell() -> std::io::Result<std::process::Command> {
+fn powershell() -> std::io::Result<std::process::Command> {
     let root = std::env::var_os("SystemRoot")
         .ok_or_else(|| std::io::Error::other("Windows system directory is unavailable"))?;
     let path =

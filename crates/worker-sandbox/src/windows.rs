@@ -238,6 +238,71 @@ fn low_integrity(path: &Path) -> io::Result<()> {
         Ok(())
     }
 }
+/// Make the current user the owner and only grantee of `path`, without inherited
+/// entries; a folder passes the grant on to what it will contain.
+pub(super) fn restrict_to_current_user(path: &Path, directory: bool) -> io::Result<()> {
+    // SAFETY: every out-pointer is a live local; the token handle is closed by
+    // `Handle`; the TOKEN_USER buffer is pointer-aligned, sized as the first call
+    // reported, and outlives every use of the SID inside it; the ACL from
+    // SetEntriesInAclW is freed once, after SetNamedSecurityInfoW has copied it.
+    unsafe {
+        let mut token = null_mut();
+        check(OpenProcessToken(
+            GetCurrentProcess(),
+            TOKEN_QUERY,
+            &mut token,
+        ))?;
+        let token = Handle(token);
+        let mut size = 0;
+        GetTokenInformation(token.0, TokenUser, null_mut(), 0, &mut size);
+        let mut buffer = vec![0usize; (size as usize).div_ceil(size_of::<usize>())];
+        check(GetTokenInformation(
+            token.0,
+            TokenUser,
+            buffer.as_mut_ptr().cast(),
+            size,
+            &mut size,
+        ))?;
+        let user = (*buffer.as_ptr().cast::<TOKEN_USER>()).User.Sid;
+        let entry = EXPLICIT_ACCESS_W {
+            grfAccessPermissions: FILE_ALL_ACCESS,
+            grfAccessMode: SET_ACCESS,
+            grfInheritance: if directory {
+                CONTAINER_INHERIT_ACE | OBJECT_INHERIT_ACE
+            } else {
+                0
+            },
+            Trustee: TRUSTEE_W {
+                pMultipleTrustee: null_mut(),
+                MultipleTrusteeOperation: NO_MULTIPLE_TRUSTEE,
+                TrusteeForm: TRUSTEE_IS_SID,
+                TrusteeType: TRUSTEE_IS_USER,
+                ptstrName: user.cast(),
+            },
+        };
+        let mut acl = null_mut();
+        let code = SetEntriesInAclW(1, &entry, null(), &mut acl);
+        if code != 0 {
+            return Err(io::Error::from_raw_os_error(code as i32));
+        }
+        let code = SetNamedSecurityInfoW(
+            wide(path).as_ptr(),
+            SE_FILE_OBJECT,
+            OWNER_SECURITY_INFORMATION
+                | DACL_SECURITY_INFORMATION
+                | PROTECTED_DACL_SECURITY_INFORMATION,
+            user,
+            null_mut(),
+            acl,
+            null(),
+        );
+        LocalFree(acl.cast());
+        if code != 0 {
+            return Err(io::Error::from_raw_os_error(code as i32));
+        }
+        Ok(())
+    }
+}
 /// The distinct, real handles among the standard ones, in order.
 fn inheritable(handles: &[HANDLE]) -> Vec<HANDLE> {
     let mut list = Vec::with_capacity(handles.len());
@@ -437,5 +502,47 @@ mod tests {
             vec![a, b]
         );
         assert!(inheritable(&[null_mut(), INVALID_HANDLE_VALUE]).is_empty());
+    }
+
+    #[test]
+    fn private_storage_keeps_one_protected_entry_and_stays_usable() {
+        let directory = tempfile::tempdir().unwrap();
+        let file = directory.path().join("library.sqlite");
+        fs::write(&file, "private").unwrap();
+        for (path, is_directory) in [(directory.path(), true), (file.as_path(), false)] {
+            restrict_to_current_user(path, is_directory).unwrap();
+            let mut dacl = null_mut();
+            let mut descriptor = null_mut();
+            let mut control = 0;
+            let mut revision = 0;
+            // SAFETY: the out-pointers are live locals, and the descriptor
+            // (which owns the DACL) is freed once, after the last read of it.
+            unsafe {
+                assert_eq!(
+                    GetNamedSecurityInfoW(
+                        wide(path).as_ptr(),
+                        SE_FILE_OBJECT,
+                        DACL_SECURITY_INFORMATION,
+                        null_mut(),
+                        null_mut(),
+                        &mut dacl,
+                        null_mut(),
+                        &mut descriptor,
+                    ),
+                    0
+                );
+                check(GetSecurityDescriptorControl(
+                    descriptor,
+                    &mut control,
+                    &mut revision,
+                ))
+                .unwrap();
+                assert_eq!((*dacl).AceCount, 1);
+                LocalFree(descriptor.cast());
+            }
+            assert_ne!(control & SE_DACL_PROTECTED, 0);
+        }
+        fs::write(&file, "still writable").unwrap();
+        assert_eq!(fs::read_to_string(&file).unwrap(), "still writable");
     }
 }
