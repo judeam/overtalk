@@ -79,3 +79,39 @@ This preview is built from source; Linux is the tested desktop path.
 - CI pins the Rust toolchain action to a reachable commit, keeps pull requests from
   cancelling runs on `main`, and checks formatting of every package; Dependabot
   groups routine updates; a vulnerable `markdown-it` is overridden.
+
+**Hardening and dependency updates (22 October 2026)**
+- CI now builds and tests the native app, engine and worker sandbox on Linux,
+  Windows and macOS. Fixes it found:
+  - The worker sandbox starts on Windows: it passes the system variables an
+    AppContainer needs and keeps its capability record alive until launch.
+  - It starts on macOS 26, where the loader must read the root folder, and grants
+    the resolved paths of files (`/private/var/...`).
+  - Starting an MCP connection on a computer up for less than an hour no longer
+    panics.
+- Saving right after start-up could fail with "database is locked". Write
+  transactions now take the write lock when they begin.
+- Recording:
+  - Each audio input stream stays on the thread that created it.
+  - Recording state stays usable after a panic elsewhere.
+  - The Core Audio callback, the tray icon and Microsoft connections return errors
+    instead of panicking.
+  - Every `unsafe` block states why it is sound, and the build enforces it.
+- Removed unused code:
+  - the no-op analytics layer;
+  - 89 service commands that no interface called (about 5,900 lines of Rust and
+    1,000 of TypeScript);
+  - 14 unused dependencies.
+- The `.deb` depends on the display, input and GL libraries the window loads at run
+  time.
+- Dependencies:
+  - **Rust:** hyper 1, reqwest 0.13 (still trusting only the bundled Mozilla
+    roots), sqlx 0.9 and rusqlite 0.39 on SQLite 3.54.1, keyring 4, whisper-rs 0.16
+    (whisper.cpp 1.8.3), hmac 0.13 and sha2 0.11.
+  - **Web interface:** Next.js 16, React 19, Tailwind CSS 4, BlockNote 0.56 with
+    TipTap 3, and zod 4.
+  - **Speech worker:** torch 2.14.1 and nagisa 0.3, and librosa 1.0 is allowed.
+  - **GitHub Actions:** current major releases.
+  - The Rust, npm and Python audits report no known vulnerabilities.
+  - With keyring 4, if the Linux Secret Service is unavailable when credentials are
+    first needed, they stay unavailable until Overtalk restarts.

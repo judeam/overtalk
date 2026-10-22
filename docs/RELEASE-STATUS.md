@@ -14,8 +14,10 @@ from source ([Building](BUILDING.md)).
   AppArmor. On GitHub's stock Ubuntu 24.04 runner this stops the bubblewrap worker
   sandbox, so local models would not run; see [Platforms](PLATFORMS.md). CI lifts
   the restriction for its tests.
-- **Windows and macOS** have packaging and CI jobs, but those jobs have not run,
-  and recording has not been tried on real Windows or Mac hardware.
+- **Windows and macOS:** CI builds the native app, engine and worker sandbox on
+  GitHub's Windows and macOS runners and passes their Rust test suites, including
+  the sandbox isolation test. Recording has not been tried on real Windows or Mac
+  hardware, and the packages have not been installed on either.
 
 ## Before the first binary release
 
@@ -31,7 +33,7 @@ from source ([Building](BUILDING.md)).
    runtime and notarisation; Windows builds need an Authenticode certificate.
 5. **Ubuntu packages.** Ship and test an AppArmor profile (or another supported way)
    so the worker sandbox runs on a stock Ubuntu 24.04 install.
-6. **CI.** Keep the three-platform CI green; Windows and macOS recording still needs
-   real hardware.
+6. **Real hardware.** Record and transcribe on a Windows and a Mac computer; CI
+   runners have no microphone or speakers.
 
 Security problems go through [SECURITY.md](../SECURITY.md), not this page.
