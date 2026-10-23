@@ -124,8 +124,8 @@ profiles, all enforcing:
 
 | Profile | Applies to | `userns` | Capabilities |
 | --- | --- | --- | --- |
-| `overtalk-worker` | `/usr/lib/overtalk/bin/overtalk-worker` | denied | none needed |
-| `overtalk-worker-bwrap` | `/usr/bin/bwrap` when the launcher runs it (`px`) | allowed | allowed |
+| `overtalk-worker` | `/usr/lib/overtalk/bin/overtalk-worker` | denied | none needed; may not use `ptrace` |
+| `overtalk-worker-bwrap` | `/usr/bin/bwrap` when the launcher runs it (`Px`) | allowed | allowed |
 | `overtalk-worker-unpriv` | stacked onto the sandboxed workload | denied | denied |
 
 They allow almost everything else, as Ubuntu's do: AppArmor does not confine the
@@ -133,9 +133,12 @@ files here, bubblewrap does. Why not a simple `userns,` on the launcher with
 `flags=(unconfined)`, which also works: a local user could then run the launcher
 with `LD_PRELOAD` and have the injected code create a user namespace with
 capabilities, which lifts Ubuntu's restriction for everyone. In the enforcing
-profile that code runs in a profile that denies `userns`. The launcher also
-hands `LD_LIBRARY_PATH` to the workload with `--setenv`, not to bubblewrap's own
-environment. Residual risk: any local user can run `overtalk-worker` with a
+profile that code runs in a profile that denies `userns`, and it cannot get
+around that by running bubblewrap itself: the launcher starts bubblewrap with
+`Px`, so glibc ignores `LD_PRELOAD`, `LD_LIBRARY_PATH` and `LD_AUDIT` there, the
+launcher may not `ptrace` at all, and nothing may trace or read bubblewrap's
+process (`deny ptrace (readby, tracedby)`). The launcher hands `LD_LIBRARY_PATH`
+to the workload with `--setenv`, so it still arrives. Residual risk: any local user can run `overtalk-worker` with a
 policy and program of their choosing and get a namespace in the launcher's fixed
 bubblewrap sandbox, in which the program has no capabilities and cannot nest
 namespaces, as with Ubuntu's `bwrap` profile; it cannot get capabilities that
@@ -160,8 +163,10 @@ hardening, so prefer the `.deb`.
 
 CI proves the profile on GitHub's stock Ubuntu 24.04 runner, with the restriction
 left on (the `package.yml` Linux job): a sandboxed workload fails before the
-install, runs after it from `/usr/lib/overtalk/bin` while a library injected with
-`LD_PRELOAD` is refused a user namespace, fails when the profile is unloaded, and
+install, runs after it from `/usr/lib/overtalk/bin` with `LD_LIBRARY_PATH` reaching
+the workload, while a library injected with `LD_PRELOAD` is refused a user
+namespace, is not loaded when it re-runs bubblewrap with itself preloaded, and
+cannot `ptrace` or `process_vm_writev` a running bubblewrap, fails when the profile is unloaded, and
 the profile is gone after removal. The same copy of the launcher at
 another path stays blocked. Not tested: Ubuntu 24.10 and later (their
 bubblewrap profile may also apply), and Debian 13 (AppArmor is on, but the

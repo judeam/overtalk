@@ -24,12 +24,18 @@ profile @NAME@ @PROGRAM@ flags=(attach_disconnected,mediate_deleted) {
   allow network,
   allow unix,
   allow signal,
-  allow ptrace,
   allow mqueue,
   allow io_uring,
   deny userns,
+  # The launcher traces nothing. Without this, injected code could attach to its
+  # bubblewrap child and run inside the profile that may use user namespaces.
+  deny ptrace,
 
-  /usr/bin/bwrap px -> @NAME@-bwrap,
+  # Px, not px: glibc runs the new program in secure-execution mode and ignores
+  # LD_PRELOAD, LD_LIBRARY_PATH and LD_AUDIT, so injected code cannot start
+  # bubblewrap with a library of its own. The workload gets LD_LIBRARY_PATH from
+  # the launcher as a bubblewrap --setenv argument instead.
+  /usr/bin/bwrap Px -> @NAME@-bwrap,
 
   include if exists <local/@NAME@>
 }
@@ -40,13 +46,15 @@ profile @NAME@-bwrap flags=(attach_disconnected,mediate_deleted) {
   allow network,
   allow unix,
   allow signal,
-  allow ptrace,
   allow mqueue,
   allow io_uring,
   allow userns,
   allow mount,
   allow umount,
   allow pivot_root,
+  # Nothing may trace or inspect bubblewrap: it is the one program here that
+  # may create a user namespace.
+  deny ptrace (readby, tracedby),
 
   # bubblewrap sets no-new-privs, which allows only a stack on exec.
   allow pix /** -> &@NAME@-bwrap//&@NAME@-unpriv,
