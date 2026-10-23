@@ -25,9 +25,12 @@ from source ([Building](BUILDING.md)).
 
 1. **Third-party notices.** Ship generated license notices for the Rust crates
    compiled into the binaries, alongside [NOTICE.md](../NOTICE.md).
-2. **FFmpeg on Windows.** The Windows package bundles a GPLv3 FFmpeg build. Either
-   ship it with the GPL text and its corresponding source, bundle an LGPL build,
-   or leave FFmpeg to the user.
+2. **FFmpeg on Windows and macOS.** Both packages bundle an LGPL build that CI
+   compiles from pinned FFmpeg 9.0.2 and libopus 1.6.1 source
+   (`packaging/ffmpeg/`), and ship the licences, the exact configure lines and
+   both source tarballs with the release. Still open: the screen recorder asks
+   for libx264, which an LGPL build lacks, so `crates/capture-helper` needs the
+   platform H.264 encoder (and the Windows build has none yet).
 3. **AppImage libraries.** Ship the copyright files of the bundled system libraries
    and an LGPL source offer.
 4. **Signing.** Sign in a job that builds nothing, so dependency build scripts never

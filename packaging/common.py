@@ -22,6 +22,11 @@ from native_licenses import stage_crate_notices, stage_licenses  # noqa: E402
 
 APP_ID = "io.github.judeam.Overtalk"
 HOMEPAGE = "https://github.com/judeam/overtalk"
+# The macOS package and its FFmpeg build target this. The engine links Core
+# Audio's process-tap API (call audio) directly and macOS 13 lacks it, so the
+# engine would not start there. This matches the engine's own Cargo
+# configuration (docs/PLATFORMS.md#audio-capture).
+MINIMUM_MACOS = "14.2"
 # The UI and its helpers. The engine (sonefold-service) and llama-helper are
 # built separately; every binary sits in one directory, where each finds the others.
 OSS_BINARIES = {
@@ -227,6 +232,75 @@ def verified_ffmpeg(choice):
     if not choice and digest(path) != expected:
         raise SystemExit("FFmpeg does not match OVERTALK_FFMPEG_SHA256; refusing to bundle it")
     return path
+
+
+def ffmpeg_build_record(binary):
+    """What packaging/ffmpeg/build.py recorded beside `binary`, or None for any other FFmpeg."""
+    record = Path(binary).parent / "ffmpeg-build.json"
+    if not record.is_file():
+        return None
+    info = json.loads(record.read_text())
+    if info["binary"]["sha256"] != digest(binary):
+        raise SystemExit(f"{binary} does not match {record}; rebuild it with packaging/ffmpeg/build.py")
+    return info
+
+
+def stage_ffmpeg_notices(binary, licenses, out, name):
+    """Ship the licences and the corresponding source of a built FFmpeg.
+
+    Copies the FFmpeg and libopus licence texts into `licenses` and the two
+    source tarballs into `out` (the folder a release uploads), and returns the
+    text of FFMPEG.txt and the tarballs' paths. Any other FFmpeg gets a notice
+    that leaves its licence and source to its supplier."""
+    info = ffmpeg_build_record(binary)
+    if info is None:
+        return (f"{name} was supplied to the packager with --ffmpeg or OVERTALK_FFMPEG_PATH. Its licence and\n"
+                "source are those of its supplier; Overtalk runs it as a separate program.\n"), []
+    folder = Path(binary).parent
+    for source in sorted((folder / "licenses").iterdir()):
+        shutil.copyfile(source, licenses / source.name)
+    sources = []
+    for component in ("ffmpeg", "libopus"):
+        tarball = folder / "source" / Path(info[component]["url"]).name
+        if digest(tarball) != info[component]["sha256"]:
+            raise SystemExit(f"{tarball} does not match its pinned SHA-256")
+        out.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(tarball, out / tarball.name)
+        sources.append(out / tarball.name)
+    ffmpeg, opus = info["ffmpeg"], info["libopus"]
+    notice = f"""{name} is FFmpeg {ffmpeg['version']} (https://ffmpeg.org), built unmodified for Overtalk from the
+source below with libopus {opus['version']} (https://opus-codec.org, BSD-3-Clause) linked statically.
+Overtalk runs it as a separate program to write, join and convert recordings.
+
+Licence: GNU Lesser General Public License, version 2.1 or later
+(licenses/ffmpeg-COPYING.LGPLv2.1). libopus: licenses/libopus-COPYING.
+No GPL or non-free component is enabled. You can replace this file with your own FFmpeg build.
+
+Corresponding source, published with every Overtalk release beside the installer and kept in
+packaging/ffmpeg/ of https://github.com/judeam/overtalk (build.py and smoke.py):
+  {sources[0].name}  sha256 {ffmpeg['sha256']}
+  {sources[1].name}  sha256 {opus['sha256']}
+
+Build ({info['target']}), from an empty folder holding the two tarballs unpacked:
+  libopus:  ./configure {' '.join(opus['configure'])}
+            make && make install     (PKG_CONFIG_PATH and PKG_CONFIG_LIBDIR point at <prefix>/lib/pkgconfig)
+  FFmpeg:   ./configure {' '.join(info['configure'])}
+            make
+"""
+    return notice, sources
+
+
+def ffmpeg_record(binary, sources):
+    """The build record's account of the bundled FFmpeg (binary None: none bundled)."""
+    if binary is None:
+        return {"bundled": False, "sha256": None, "source_files": []}
+    info = ffmpeg_build_record(binary)
+    record = {"bundled": True, "sha256": digest(binary), "source_files": [path.name for path in sources]}
+    if info:
+        record.update({"version": info["ffmpeg"]["version"], "libopus": info["libopus"]["version"],
+                       "license": info["license"], "configure": info["configure"],
+                       "source_sha256": {path.name: digest(path) for path in sources}})
+    return record
 
 
 def build_record(args, binaries, epoch, extra=None):

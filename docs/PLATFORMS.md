@@ -178,7 +178,8 @@ Each script builds release binaries in its own `target/package-<os>` folder from
 a clean checkout, stages one tree, and writes the packages, a build record
 (`*-build-info.json`: commit, dirty flag, rustc, target, binary hashes, what was
 bundled, signature state) and `SHA256SUMS` to `target/package-<os>/dist`. FFmpeg
-must be a verified build input first ([BUILDING.md](BUILDING.md#verified-ffmpeg-input)).
+must be a verified build input first ([BUILDING.md](BUILDING.md#verified-ffmpeg-input));
+on Windows and macOS build it with `packaging/ffmpeg/build.py`.
 All packages are CPU-only; GPU builds are not packaged.
 
 ### Linux
@@ -188,12 +189,18 @@ See [packaging/README.md](../packaging/README.md).
 ### Windows
 
 Needs Visual Studio 2022 Build Tools with the C++ workload and a Windows SDK,
-Rust 1.94 or newer (MSVC), Python 3.12, CMake, NSIS 3 and FFmpeg:
+Rust 1.94 or newer (MSVC), Python 3.12, CMake, NSIS 3 and the FFmpeg built from
+source. That build runs in an MSYS2 MINGW64 shell with `make diffutils
+mingw-w64-x86_64-{gcc,pkgconf,nasm,python}` ([packaging/README.md](../packaging/README.md#ffmpeg-on-windows-and-macos)):
+
+```sh
+# MSYS2 MINGW64 shell, from the repository root
+python packaging/ffmpeg/build.py
+```
 
 ```powershell
-choco install ffmpeg --version=9.0.2 -y
 choco install nsis --version=3.13.0 -y
-python scripts/configure-ffmpeg-build.py   # prints OVERTALK_FFMPEG_PATH and _SHA256; set both
+python scripts/configure-ffmpeg-build.py --binary target/ffmpeg-windows/ffmpeg.exe   # prints OVERTALK_FFMPEG_PATH and _SHA256; set both
 python packaging/windows/build.py          # --formats installer,zip  --version  --skip-build
 ```
 
@@ -209,21 +216,23 @@ uninstall entry and the "Open Overtalk when you sign in" value, never the data.
 Bundled: ONNX Runtime 1.22.0 (downloaded and checked by the engine's build
 script), the Visual C++ runtime DLLs the binaries import (found with `vswhere`;
 Microsoft permits this app-local redistribution of the files in `VC\Redist`),
-and `ffmpeg.exe` from the verified build input. Chocolatey's FFmpeg is a gyan.dev
-build under the GPL 3.0, so publishing the installer carries the GPL's
-corresponding-source obligations for that exact build; the maintainer must decide
-how to meet them (for example, attaching or linking the matching source) before a
-public release. `--ffmpeg none` leaves it out (recordings then cannot be written
-until FFmpeg is installed beside the engine).
+and `ffmpeg.exe`, an LGPL 2.1 build (FFmpeg 9.0.2 and libopus 1.6.1, static, system
+DLLs only) compiled from pinned source. `licenses\` holds its licence texts and
+`FFMPEG.txt` (versions and exact configure lines); the two source tarballs are written
+beside the installer in `dist` and attached to each release. The build has no
+libx264 (GPL), so the screen recorder writes MPEG-4 Part 2 video with FFmpeg's
+own encoder, which Windows' players open. `--ffmpeg none` leaves FFmpeg out
+(recordings then cannot be written until FFmpeg is installed beside the engine).
 `llama-helper` targets x86-64-v3 (AVX2), like on Linux.
 
 ### macOS
 
 Needs Xcode (command-line tools), Rust 1.94 or newer, Python 3.12, CMake and
-`brew install ffmpeg` (the verified build input):
+`pkg-config` (for the FFmpeg build):
 
 ```sh
-set -a; eval "$(python3 scripts/configure-ffmpeg-build.py)"; set +a
+python3 packaging/ffmpeg/build.py       # target/ffmpeg-macos/: LGPL FFmpeg and libopus from pinned source
+set -a; eval "$(python3 scripts/configure-ffmpeg-build.py --binary target/ffmpeg-macos/ffmpeg)"; set +a
 python3 packaging/macos/build.py                 # ad hoc signed .dmg; --formats dmg,zip
 ```
 
@@ -231,9 +240,13 @@ The result is `Overtalk-<version>-macos-arm64.dmg` (Overtalk.app and an
 Applications link), `overtalk-macos-arm64-build-info.json` and `SHA256SUMS`.
 `LSMinimumSystemVersion` is 14.2 and every binary, CMake's included, is built
 for that deployment target ([why](#audio-capture)). Whisper uses Metal and, when a Core ML encoder is
-present, Core ML. Homebrew's FFmpeg is not bundled because it needs Homebrew's
-libraries; the engine uses `/opt/homebrew/bin/ffmpeg` or `/usr/local/bin/ffmpeg`.
-`--ffmpeg <path>` bundles a self-contained FFmpeg instead. Intel Macs:
+present, Core ML. The bundled `ffmpeg` is the LGPL build described for Windows,
+built for the same deployment target and linked only to `/usr/lib` and `/System`
+(the packager refuses any other). Without libx264, the screen recorder writes MPEG-4
+Part 2 video, as on Windows; VideoToolbox is not used because the recorder's encoder
+runs in a sandbox without access to the system's media services. A Homebrew FFmpeg is not
+bundled because it needs Homebrew's libraries; `--ffmpeg <path>` bundles another
+self-contained one. Intel Macs:
 `--target x86_64-apple-darwin` cross-compiles on Apple silicon; it is untested and
 not built by CI.
 

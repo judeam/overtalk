@@ -1,8 +1,12 @@
-"""Record a package-manager-installed FFmpeg for the build; never download one.
+"""Record the FFmpeg a build uses as OVERTALK_FFMPEG_PATH and OVERTALK_FFMPEG_SHA256.
 
-Only run after verifying/installing the platform package through its trusted
-package manager. This records provenance for the build, not an upstream signature.
-Release packaging must include any dynamic libraries that executable needs.
+This never downloads anything. It hashes a binary that is already on this
+machine: FFmpeg built from pinned, verified source by packaging/ffmpeg/build.py
+(pass it with --binary; the Windows and macOS packages use that build), or the
+`ffmpeg` on PATH from a package manager (Linux packages, which do not bundle
+FFmpeg, and the test jobs in ci.yml). The digest records provenance for the
+build, not an upstream signature. Release packaging must include any dynamic
+libraries that executable needs.
 """
 import argparse
 import hashlib

@@ -1,7 +1,9 @@
 name: Package Overtalk
 # Builds the installers on Linux, Windows and macOS from a clean target
 # directory, installs or mounts each one, and starts the packaged engine
-# headless with a disposable profile (scripts/check-native-service.py).
+# headless with a disposable profile (scripts/check-native-service.py). The
+# Windows and macOS packages bundle the LGPL FFmpeg that ffmpeg.yml builds from
+# pinned source; the Linux packages use the distribution's.
 # Artifacts are uploaded to the run; nothing is published. The release
 # workflow calls this one with `sign: true`.
 on:
@@ -14,11 +16,13 @@ on:
   pull_request:
     paths:
       - 'packaging/**'
+      - 'scripts/configure-ffmpeg-build.py'
       - 'scripts/check-native-service.py'
       - 'scripts/stage-native-resources.py'
       - 'scripts/native_licenses.py'
       - 'crates/worker-sandbox/**'
       - '.github/workflows/package.yml'
+      - '.github/workflows/ffmpeg.yml'
   workflow_dispatch:
   schedule:
     - cron: '41 4 * * 1'
@@ -65,6 +69,21 @@ env:
   CMAKE_BUILD_PARALLEL_LEVEL: 3
   PACKAGE_VERSION: ${{ inputs.version }}
 jobs:
+  # zizmor prefers the newer `$/` form, which the pinned actionlint 1.7.12 rejects.
+  ffmpeg-windows:
+    name: FFmpeg for Windows
+    uses: ./.github/workflows/ffmpeg.yml # zizmor: ignore[self-repository]
+    with:
+      platform: windows
+      fresh: ${{ inputs.sign == true }}
+
+  ffmpeg-macos:
+    name: FFmpeg for macOS
+    uses: ./.github/workflows/ffmpeg.yml # zizmor: ignore[self-repository]
+    with:
+      platform: macos
+      fresh: ${{ inputs.sign == true }}
+
   linux:
     name: Package / Linux (.deb, AppImage)
     runs-on: ubuntu-24.04
@@ -165,6 +184,7 @@ jobs:
 
   windows:
     name: Package / Windows (installer, portable zip)
+    needs: ffmpeg-windows
     runs-on: windows-latest
     timeout-minutes: 150
     env:
@@ -185,14 +205,14 @@ jobs:
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: '3.12'
-      # Pinned package versions: each Chocolatey version embeds a fixed FFmpeg archive
-      # (gyan.dev release essentials, GPLv3), so every release bundles a known binary.
-      - name: Install FFmpeg and NSIS
-        run: |
-          choco install ffmpeg --version=9.0.2 -y --no-progress
-          choco install nsis --version=3.13.0 -y --no-progress
-      - name: Select trusted FFmpeg package for this build
-        run: python scripts/configure-ffmpeg-build.py --github-env "$GITHUB_ENV"
+      - name: Install NSIS
+        run: choco install nsis --version=3.13.0 -y --no-progress
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: ffmpeg-windows
+          path: target/ffmpeg-windows
+      - name: Select the FFmpeg built from pinned source (ffmpeg.yml)
+        run: python scripts/configure-ffmpeg-build.py --binary target/ffmpeg-windows/ffmpeg.exe --github-env "$GITHUB_ENV"
       - name: Import the owner's Authenticode certificate into the user store
         if: inputs.sign && env.HAS_WINDOWS_CERT == 'true'
         shell: pwsh
@@ -262,6 +282,7 @@ jobs:
 
   macos:
     name: Package / macOS (.dmg)
+    needs: ffmpeg-macos
     runs-on: macos-latest
     timeout-minutes: 150
     env:
@@ -280,10 +301,14 @@ jobs:
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: '3.12'
-      - name: Install FFmpeg (a build input; Homebrew's FFmpeg is not bundled)
-        run: brew install ffmpeg
-      - name: Select trusted FFmpeg package for this build
-        run: python scripts/configure-ffmpeg-build.py --github-env "$GITHUB_ENV"
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: ffmpeg-macos
+          path: target/ffmpeg-macos
+      - name: Select the FFmpeg built from pinned source (ffmpeg.yml)
+        run: |
+          chmod +x target/ffmpeg-macos/ffmpeg
+          python scripts/configure-ffmpeg-build.py --binary target/ffmpeg-macos/ffmpeg --github-env "$GITHUB_ENV"
       - name: Import the owner's Developer ID certificate and notary credentials
         if: inputs.sign && env.HAS_MACOS_CERT == 'true'
         env:

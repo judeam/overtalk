@@ -1,0 +1,133 @@
+name: Build FFmpeg
+# Builds the static LGPL FFmpeg that the Windows and macOS packages bundle, from
+# the source tarballs pinned (by SHA-256) in packaging/ffmpeg/build.py, and runs
+# packaging/ffmpeg/smoke.py on the result. The finished folder (ffmpeg, licences,
+# the two source tarballs, ffmpeg-build.json) is uploaded as `ffmpeg-<platform>`
+# for package.yml. The compile is cached on the script, so it runs only after
+# that file changes; only main saves the cache, and a release (`fresh`) never
+# restores it, so released binaries come straight from the digest-checked tarballs. Started by package.yml, or by hand to rebuild on its own.
+on:
+  workflow_call:
+    inputs:
+      platform:
+        description: windows, macos or all
+        type: string
+        default: all
+      fresh:
+        description: Ignore the cache and build from the pinned tarballs (releases)
+        type: boolean
+        default: false
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: windows, macos or all
+        type: choice
+        options: [all, windows, macos]
+        default: all
+      fresh:
+        description: Ignore the cache and build from the pinned tarballs
+        type: boolean
+        default: false
+permissions:
+  contents: read
+concurrency:
+  group: ffmpeg-${{ inputs.platform }}-${{ github.ref }}
+  cancel-in-progress: true
+defaults:
+  run:
+    shell: bash
+env:
+  PYTHONUTF8: '1'
+jobs:
+  windows:
+    name: FFmpeg / Windows (static, LGPL)
+    if: inputs.platform != 'macos'
+    runs-on: windows-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+      - name: Restore a finished build
+        id: cache
+        if: ${{ !inputs.fresh }}
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: target/ffmpeg-windows
+          key: ffmpeg-windows-${{ hashFiles('packaging/ffmpeg/build.py') }}
+      - name: Set up MSYS2 (MinGW-w64 toolchain)
+        if: steps.cache.outputs.cache-hit != 'true'
+        uses: msys2/setup-msys2@ec48f7c5447b3140e2b088413ae3a55687bccb6e # v2.33.0
+        with:
+          msystem: MINGW64
+          path-type: minimal
+          update: false
+          install: >-
+            make diffutils
+            mingw-w64-x86_64-gcc mingw-w64-x86_64-pkgconf mingw-w64-x86_64-nasm mingw-w64-x86_64-python
+      - name: Build libopus and FFmpeg from the pinned source
+        if: steps.cache.outputs.cache-hit != 'true'
+        shell: msys2 {0} # zizmor: ignore[misfeature] setup-msys2's documented shell
+        run: python packaging/ffmpeg/build.py --platform windows
+      - name: Check that the build is current and standalone
+        run: |
+          python packaging/ffmpeg/build.py --platform windows --check
+          python packaging/ffmpeg/smoke.py target/ffmpeg-windows/ffmpeg.exe
+          cat target/ffmpeg-windows/ffmpeg-build.json
+      - name: Keep the finished build for later runs
+        # Only the main branch writes the cache, so a pull request cannot poison it.
+        if: ${{ !inputs.fresh && steps.cache.outputs.cache-hit != 'true' && github.ref == 'refs/heads/main' }}
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: target/ffmpeg-windows
+          key: ${{ steps.cache.outputs.cache-primary-key }}
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: ffmpeg-windows
+          path: target/ffmpeg-windows
+          if-no-files-found: error
+
+  macos:
+    name: FFmpeg / macOS (static, LGPL)
+    if: inputs.platform != 'windows'
+    runs-on: macos-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+      - name: Restore a finished build
+        id: cache
+        if: ${{ !inputs.fresh }}
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: target/ffmpeg-macos
+          # The deployment target (MINIMUM_MACOS) is in packaging/common.py.
+          key: ffmpeg-macos-${{ hashFiles('packaging/ffmpeg/build.py', 'packaging/common.py') }}
+      - name: Build libopus and FFmpeg from the pinned source
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: python packaging/ffmpeg/build.py --platform macos
+      - name: Check that the build is current and standalone
+        run: |
+          python packaging/ffmpeg/build.py --platform macos --check
+          otool -L target/ffmpeg-macos/ffmpeg
+          python packaging/ffmpeg/smoke.py target/ffmpeg-macos/ffmpeg
+          cat target/ffmpeg-macos/ffmpeg-build.json
+      - name: Keep the finished build for later runs
+        # Only the main branch writes the cache, so a pull request cannot poison it.
+        if: ${{ !inputs.fresh && steps.cache.outputs.cache-hit != 'true' && github.ref == 'refs/heads/main' }}
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: target/ffmpeg-macos
+          key: ${{ steps.cache.outputs.cache-primary-key }}
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: ffmpeg-macos
+          path: target/ffmpeg-macos
+          if-no-files-found: error

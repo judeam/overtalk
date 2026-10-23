@@ -178,21 +178,17 @@ def stage(args, binaries, tree, signer):
     licenses = tree / "licenses"
     common.stage_all_licenses(licenses)
     shutil.copyfile(runtime / "onnxruntime-LICENSE.txt", licenses / "onnxruntime-LICENSE.txt")
-    (licenses / "FFMPEG.txt").write_text(FFMPEG_NOTICE if ffmpeg else "FFmpeg is not bundled.\n", newline="\r\n")
+    sources = []
+    if ffmpeg:
+        notice, sources = common.stage_ffmpeg_notices(ffmpeg, licenses, args.out, "ffmpeg.exe")
+    else:
+        notice = "FFmpeg is not bundled.\n"
+    (licenses / "FFMPEG.txt").write_text(notice, newline="\r\n")
     shutil.copyfile(ICON, tree / "overtalk.ico")
     return {"onnxruntime": {name: digest(tree / name) for name in ONNXRUNTIME},
             "vc_runtime": {path.name.lower(): digest(path) for path in vc_runtime},
             "vc_runtime_source": str(redist) if vc_runtime else None,
-            "ffmpeg": {"bundled": bool(ffmpeg), "sha256": digest(ffmpeg) if ffmpeg else None}}
-
-
-FFMPEG_NOTICE = """ffmpeg.exe is an unmodified FFmpeg build (https://ffmpeg.org) that Overtalk
-runs as a separate program to write and convert recordings. FFmpeg is licensed
-under the GNU LGPL 2.1 or later; builds that include GPL components, such as the
-gyan.dev builds Chocolatey installs, are licensed under the GNU GPL 3.0. FFmpeg's
-source code is published at https://ffmpeg.org/download.html and by the build's
-publisher. See https://ffmpeg.org/legal.html.
-"""
+            "ffmpeg": common.ffmpeg_record(ffmpeg, sources)}
 
 
 def nsis_string(text):
@@ -275,11 +271,12 @@ def main():
     args.version = args.version or common.default_version(epoch, args.engine_manifest)
     args.out.mkdir(parents=True, exist_ok=True)
     signer = signing_command(args.display_name)
-    artifacts = []
+    artifacts, sources = [], []
     with tempfile.TemporaryDirectory(prefix="overtalk-package-", dir=args.out.parent) as temporary:
         work = Path(temporary)
         tree = work / args.display_name
         bundled = stage(args, binaries, tree, signer)
+        sources = [args.out / name for name in bundled["ffmpeg"]["source_files"]]
         if "installer" in formats:
             artifacts.append(build_installer(args, tree, args.version, work, signer))
         if "zip" in formats:
@@ -291,7 +288,7 @@ def main():
         "artifacts": {path.name: digest(path) for path in artifacts}})
     record = args.out / f"{args.package}-windows-build-info.json"
     record.write_text(json.dumps(info, indent=2) + "\n", newline="\n")
-    sums = common.write_checksums(args.out, [*artifacts, record], args.sign_key)
+    sums = common.write_checksums(args.out, [*artifacts, *sources, record], args.sign_key)
     for path in [*artifacts, record, sums]:
         print(f"{path}  {path.stat().st_size / 1e6:.1f} MB")
 

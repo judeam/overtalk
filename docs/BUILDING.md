@@ -127,9 +127,12 @@ Linux AppImages include Tauri’s media framework (`bundle.linux.appimage.bundle
 
 ### Verified FFmpeg input
 
-Build scripts no longer download or unpack FFmpeg. Install it through your
-platform's trusted package manager, or verify a publisher's immutable release
-and its independently obtained SHA-256 checksum. Then set both
+Cargo build scripts never download or unpack FFmpeg. On Linux install it through
+your distribution; the Windows and macOS packages bundle the LGPL FFmpeg that
+`packaging/ffmpeg/build.py` compiles from digest-pinned FFmpeg and libopus source
+([packaging/README.md](../packaging/README.md#ffmpeg-on-windows-and-macos)).
+Otherwise verify a publisher's immutable release and its independently obtained
+SHA-256 checksum. Then set both
 `OVERTALK_FFMPEG_PATH` (the executable) and `OVERTALK_FFMPEG_SHA256` before Cargo.
 An absent or mismatched checksum fails the build before execution. The binary
 is copied with a bounded stream and rechecked before bundling.
@@ -141,12 +144,13 @@ is copied with a bounded stream and rechecked before bundling.
 set -a; eval "$(python3 scripts/configure-ffmpeg-build.py)"; set +a
 ```
 
-Use it only for an **already verified** local package. Computing a
-checksum from an untrusted download does not authenticate that download. CI
-uses the platform package manager and records the resulting build input.
-The release packager must include required shared libraries; macOS Homebrew
-binaries are not standalone portable distribution artifacts. The checksum
-changes whenever the package is updated, so run the script again after an update.
+Use it only for an **already verified** binary. Computing a checksum from an
+untrusted download does not authenticate that download. For Windows and macOS, CI
+builds FFmpeg in `.github/workflows/ffmpeg.yml` and passes it with
+`--binary target/ffmpeg-<os>/ffmpeg`; Linux jobs use the distribution package.
+The release packager must include required shared libraries; Homebrew and
+gyan.dev binaries are not standalone, redistributable artifacts. The checksum
+changes whenever the binary is rebuilt, so run the script again afterwards.
 
 ### Isolated inference and media workers
 

@@ -191,5 +191,39 @@ bundled components and signing steps are in
 `.github/workflows/package.yml` builds all three and smoke-tests the packaged
 engine; `release.yml` attaches them to a draft release.
 
+### FFmpeg on Windows and macOS
+
+Both packages bundle an FFmpeg that CI builds from source (`packaging/ffmpeg/`), so
+recording works out of the box and the release can ship the exact source. It is
+FFmpeg 9.0.2 and libopus 1.6.1, compiled from tarballs pinned by SHA-256 in
+`build.py`, linked statically into one `ffmpeg(.exe)` that needs only the
+operating system's own libraries. The licence is the LGPL 2.1 or later: no
+`--enable-gpl`, `--enable-nonfree` or `--enable-version3`. `--disable-autodetect`
+keeps anything installed on the build machine out; FFmpeg's native codecs,
+formats and filters stay at their defaults, plus libopus (clips are Opus in WebM).
+There is no zlib, no network protocol and no libx264 (GPL), so on Windows and
+macOS the screen recorder (`crates/capture-helper`) encodes with FFmpeg's own
+MPEG-4 encoder, which both systems' players open.
+
+```sh
+python packaging/ffmpeg/build.py                       # MSYS2 MINGW64 shell on Windows; writes target/ffmpeg-<os>/
+python packaging/ffmpeg/smoke.py target/ffmpeg-<os>/ffmpeg
+python scripts/configure-ffmpeg-build.py --binary target/ffmpeg-<os>/ffmpeg
+```
+
+`target/ffmpeg-<os>/` holds the binary, `licenses/`, `source/` (the two verified
+tarballs) and `ffmpeg-build.json` (versions, digests, both configure lines, the
+binary's digest). `smoke.py` runs the commands Overtalk issues on synthetic media:
+the AAC mp4 recording, checkpoint joining, every import extension, the privacy
+filter, and the Opus clip. `.github/workflows/ffmpeg.yml` builds, tests and caches
+it on the contents of `build.py` (releases skip the cache, and only `main` saves it); `package.yml` downloads the result. The packagers
+copy the licence texts into `licenses/`, write the versions and the exact
+configure lines into `licenses/FFMPEG.txt`, and put both tarballs in the `dist` folder
+(listed in `SHA256SUMS`), which `release.yml` attaches to the release. Changing a
+version or digest means changing `build.py`, and the digest check there is the only
+trust anchor: when bumping, verify FFmpeg's `.asc` signature
+(key `FCF9 86EA 15E6 E293 A564 4F10 B432 2F04 D676 58D8` from
+`https://ffmpeg.org/ffmpeg-devel.asc`) and libopus's digest against xiph's `SHA256SUMS.txt`.
+
 `overtalk-cli` ships in every package: `overtalk-cli.exe` in the Windows program
 folder and `Overtalk.app/Contents/MacOS/overtalk-cli` on macOS.

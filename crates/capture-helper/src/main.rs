@@ -12,6 +12,13 @@ use std::{
     },
     time::{Duration, Instant},
 };
+// The Windows and macOS packages bundle an LGPL FFmpeg (packaging/ffmpeg/),
+// which cannot include libx264, so they use FFmpeg's own MPEG-4 encoder, which
+// both systems' players open. Linux uses the distribution's FFmpeg.
+#[cfg(any(windows, target_os = "macos"))]
+const ENCODER: &[&str] = &["-c:v", "mpeg4", "-q:v", "5"];
+#[cfg(not(any(windows, target_os = "macos")))]
+const ENCODER: &[&str] = &["-c:v", "libx264", "-preset", "ultrafast", "-crf", "25"];
 struct Pixels {
     width: i32,
     height: i32,
@@ -174,12 +181,9 @@ fn run() -> Result<(), String> {
                 "-an",
                 "-vf",
                 "scale='min(1280,iw)':-2:flags=fast_bilinear",
-                "-c:v",
-                "libx264",
-                "-preset",
-                "ultrafast",
-                "-crf",
-                "25",
+            ])
+            .args(ENCODER)
+            .args([
                 "-threads",
                 "2",
                 "-pix_fmt",
