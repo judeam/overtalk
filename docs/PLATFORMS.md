@@ -84,7 +84,8 @@ an allowlist.
   read-only `/usr`, a seccomp filter (no ptrace, BPF, keyrings, mounts, module
   loading or nested namespaces), no capabilities and no core dumps. GPU workers
   see only the GPU device nodes. Requires the `bubblewrap` package and
-  unprivileged user namespaces ([Ubuntu and AppArmor](#ubuntu-and-apparmor)).
+  unprivileged user namespaces; the `.deb` handles Ubuntu's AppArmor restriction
+  ([Ubuntu and AppArmor](#ubuntu-and-apparmor)).
 - **Windows:** a fresh AppContainer profile per launch with no capabilities, so
   no network. The launcher adds an ACL entry for that container to each granted
   path, including the DLLs beside the program (ONNX Runtime and the Visual C++
@@ -109,35 +110,62 @@ other programs; only the process count is limited (Windows).
 
 Ubuntu 23.10 and later, including 24.04, restrict unprivileged user namespaces
 through AppArmor (`sysctl kernel.apparmor_restrict_unprivileged_userns` is `1`).
-That restriction can stop bubblewrap from creating the worker's namespaces. Workers
-then fail closed: local transcription, local notes and media processing do not start. There are
-two fixes:
+A program without a profile that says `userns,` still gets a namespace but no
+capabilities in it, so bubblewrap stops with `loopback: Failed RTM_NEWADDR:
+Operation not permitted`. Workers then fail closed: with the sandbox down,
+recording (the encoder runs in it), local transcription, local notes, playback and
+media imports do not work.
 
-- An AppArmor profile for `/usr/bin/bwrap` that allows `userns`, in the style of
-  Ubuntu's own profiles for programs that need namespaces. For example, save this
-  as `/etc/apparmor.d/bwrap` and load it with
-  `sudo apparmor_parser -r /etc/apparmor.d/bwrap`:
+**The .deb fixes this.** It ships `/etc/apparmor.d/overtalk-worker`
+([source](../packaging/linux/overtalk-worker.apparmor)), modelled on AppArmor's own
+`bwrap-userns-restrict`, but attached to Overtalk's launcher instead of
+`/usr/bin/bwrap`, so other programs that run bubblewrap are untouched. Three
+profiles, all enforcing:
 
-  ```text
-  abi <abi/4.0>,
-  include <tunables/global>
+| Profile | Applies to | `userns` | Capabilities |
+| --- | --- | --- | --- |
+| `overtalk-worker` | `/usr/lib/overtalk/bin/overtalk-worker` | denied | none needed |
+| `overtalk-worker-bwrap` | `/usr/bin/bwrap` when the launcher runs it (`px`) | allowed | allowed |
+| `overtalk-worker-unpriv` | stacked onto the sandboxed workload | denied | denied |
 
-  profile bwrap /usr/bin/bwrap flags=(unconfined) {
-    userns,
-    include if exists <local/bwrap>
-  }
-  ```
+They allow almost everything else, as Ubuntu's do: AppArmor does not confine the
+files here, bubblewrap does. Why not a simple `userns,` on the launcher with
+`flags=(unconfined)`, which also works: a local user could then run the launcher
+with `LD_PRELOAD` and have the injected code create a user namespace with
+capabilities, which lifts Ubuntu's restriction for everyone. In the enforcing
+profile that code runs in a profile that denies `userns`. The launcher also
+hands `LD_LIBRARY_PATH` to the workload with `--setenv`, not to bubblewrap's own
+environment. Residual risk: any local user can run `overtalk-worker` with a
+policy and program of their choosing and get a namespace in the launcher's fixed
+bubblewrap sandbox, in which the program has no capabilities and cannot nest
+namespaces, as with Ubuntu's `bwrap` profile; it cannot get capabilities that
+way.
 
-  This lets every program that runs bubblewrap create user namespaces.
-- `sudo sysctl kernel.apparmor_restrict_unprivileged_userns=0` (add it to a file in
-  `/etc/sysctl.d/` to keep it after a reboot). This turns off a system-wide
-  hardening for all programs, so prefer the profile.
+The file is a conffile (edit it or add `/etc/apparmor.d/local/overtalk-worker`).
+The package loads it with `apparmor_parser` after installing or upgrading and
+unloads it on removal, only when AppArmor is enabled; elsewhere (Debian without
+AppArmor, containers, an RPM made with alien) it does nothing, and a failed load
+never fails the installation. It `Breaks: apparmor (<< 4.0)`, because older
+parsers do not know the syntax. Kernels without user namespace mediation need no
+profile.
 
-The restriction is confirmed on GitHub's stock Ubuntu 24.04 runner: bubblewrap stops
-with `loopback: Failed RTM_NEWADDR: Operation not permitted`. CI sets the sysctl to
-0 for its test job. The profile has not yet been tried on a stock install, and the
-Linux results above come from a system where unprivileged user namespaces were
-already allowed.
+Not applicable to an AppImage, which cannot install a profile. On a restricted
+host its launcher tests bubblewrap and prints why the sandbox is down. Because
+the recording encoder and the Whisper and Parakeet workers all run in the
+sandbox, the built-in engine does not work there either. Use the `.deb`, or
+lift the restriction for every program:
+`sudo sysctl kernel.apparmor_restrict_unprivileged_userns=0` (put it in a file
+in `/etc/sysctl.d/` to keep it after a reboot). That turns off a system-wide
+hardening, so prefer the `.deb`.
+
+CI proves the profile on GitHub's stock Ubuntu 24.04 runner, with the restriction
+left on (the `package.yml` Linux job): a sandboxed workload fails before the
+install, runs after it from `/usr/lib/overtalk/bin` while a library injected with
+`LD_PRELOAD` is refused a user namespace, fails when the profile is unloaded, and
+the profile is gone after removal. The same copy of the launcher at
+another path stays blocked. Not tested: Ubuntu 24.10 and later (their
+bubblewrap profile may also apply), and Debian 13 (AppArmor is on, but the
+restriction is not).
 
 ## Building the packages
 
@@ -224,6 +252,9 @@ the client but it was not built. Each package's smoke test runs
 - `package.yml` (pushes to `main`, packaging pull requests, weekly, manual):
   builds every package from a clean target folder, then
   - Linux: unpacks the `.deb` and the AppImage and runs the engine smoke test in each;
+    then installs the `.deb` with `apt-get` on the runner, whose AppArmor
+    restriction stays on, and runs a sandboxed worker (`scripts/check-worker-sandbox.py`)
+    with and without the profile, then removes and purges the package;
   - Windows: installs silently, checks the shortcut, the worker's build identity
     and the engine, uninstalls silently and checks nothing is left; then runs the
     engine from the portable zip;

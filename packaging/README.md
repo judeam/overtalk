@@ -24,7 +24,7 @@ The results are written to `target/package-linux/dist/`:
 
 | File | Contents |
 | --- | --- |
-| `overtalk_<version>_amd64.deb` | Installs to `/usr/lib/overtalk/{bin,lib/Sonefold}`, `/usr/bin/overtalk`, `/usr/bin/overtalk-cli`, desktop entry, metainfo, icons, `/usr/share/doc/overtalk/` |
+| `overtalk_<version>_amd64.deb` | Installs to `/usr/lib/overtalk/{bin,lib/Sonefold}`, `/usr/bin/overtalk`, `/usr/bin/overtalk-cli`, desktop entry, metainfo, icons, `/usr/share/doc/overtalk/`, `/etc/apparmor.d/overtalk-worker` |
 | `Overtalk-<version>-x86_64.AppImage` | The same tree under `usr/`, plus the libraries it needs. `Overtalk-….AppImage cli …` runs `overtalk-cli` |
 | `overtalk-build-info.json` | Commit, dirty flag, rustc, binary hashes, Depends, bundled libraries |
 | `SHA256SUMS` (and `SHA256SUMS.asc` when signed) | Checksums of the three files above |
@@ -67,12 +67,14 @@ checkout at packaging time, so build releases from a clean checkout without `--s
 - Local models run in the bubblewrap worker sandbox, so unprivileged user namespaces
   must be available ([BUILDING.md](../docs/BUILDING.md#isolated-inference-and-media-workers)).
   Ubuntu 23.10 and later, including 24.04, restrict them through AppArmor
-  (`kernel.apparmor_restrict_unprivileged_userns=1`), which can stop bubblewrap;
-  workers then fail closed. The fixes are an AppArmor profile for `/usr/bin/bwrap`
-  that allows `userns`, or setting that sysctl to `0`, which weakens a system-wide
-  hardening. The restriction is confirmed on GitHub's stock Ubuntu 24.04 runner
-  ([Platforms](../docs/PLATFORMS.md#ubuntu-and-apparmor)); packages for Ubuntu need
-  to handle it before release.
+  (`kernel.apparmor_restrict_unprivileged_userns=1`). The `.deb` installs
+  `/etc/apparmor.d/overtalk-worker` (from `overtalk-worker.apparmor`), enforcing profiles for the
+  installed `overtalk-worker` alone, where only bubblewrap run by it may use `userns`; `postinst` loads it and
+  `postrm` unloads it, only when AppArmor is enabled. It is a conffile. The AppImage
+  cannot install a profile: on a restricted host `AppRun` prints a warning, and
+  recording and local models stay down until the `.deb` is used or the sysctl is
+  set to `0`. The package workflow installs the `.deb` on Ubuntu 24.04 and checks all
+  of this ([Platforms](../docs/PLATFORMS.md#ubuntu-and-apparmor)).
 
 ### FFmpeg
 

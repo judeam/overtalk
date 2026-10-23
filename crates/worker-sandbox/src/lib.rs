@@ -558,6 +558,12 @@ fn linux(policy: &Policy, program: &Path) -> io::Result<Command> {
     }
     let mut command = Command::new(bwrap);
     safe_environment(&mut command, policy);
+    // bubblewrap creates the user namespace, so a library search path must not
+    // load code into it. The workload still receives the path, through bwrap.
+    if let Some(path) = std::env::var_os("LD_LIBRARY_PATH") {
+        command.env_remove("LD_LIBRARY_PATH");
+        command.arg("--setenv").arg("LD_LIBRARY_PATH").arg(path);
+    }
     command.args([
         "--unshare-all",
         "--unshare-user",

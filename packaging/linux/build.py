@@ -82,12 +82,46 @@ here=$(dirname "$(readlink -f "$0")")
 # `Overtalk.AppImage cli …` is overtalk-cli, for scripts and AI assistants.
 if [ "${1:-}" = cli ]; then shift; exec "$here/usr/bin/overtalk-cli" "$@"; fi
 [ -x /usr/bin/bwrap ] || echo "Overtalk: install bubblewrap; local models run in its sandbox." >&2
+# Ubuntu 23.10+ lets only profiled programs use user namespaces, and an AppImage
+# cannot install a profile. Say so, because the sandbox then fails closed.
+if [ -x /usr/bin/bwrap ] && ! /usr/bin/bwrap --unshare-user --unshare-net --ro-bind / / /bin/true 2>/dev/null; then
+    echo "Overtalk: bubblewrap cannot start its sandbox here (on Ubuntu 23.10 and later, AppArmor restricts user namespaces)." >&2
+    echo "Overtalk: recording, local transcription, local notes, playback and imports need it. Install the .deb, which" >&2
+    echo "Overtalk: ships an AppArmor profile, or run: sudo sysctl kernel.apparmor_restrict_unprivileged_userns=0" >&2
+fi
 [ -x /usr/bin/ffmpeg ] || echo "Overtalk: install ffmpeg; recordings are written with it." >&2
 # The engine links GTK through Tauri but never draws with it. Keep host GTK and
 # GIO plugins, built against the host's libraries, away from the bundled ones.
 unset GTK_MODULES GTK3_MODULES
 export GIO_MODULE_DIR="$here/usr/lib/gio/modules"
 exec "$here/usr/bin/overtalk" "$@"
+"""
+
+
+# Maintainer scripts for the AppArmor profile. This packager writes the .deb by
+# hand, so it carries what dh_apparmor would add: load on install and upgrade,
+# unload on removal, and nothing at all without a running AppArmor (Debian
+# without it, containers, chroots). Failures never fail the installation.
+POSTINST = """#!/bin/sh
+set -e
+profile=/etc/apparmor.d/@NAME@
+if [ "$1" = configure ] && [ -z "${DPKG_ROOT:-}" ] && [ -f "$profile" ] \\
+    && command -v aa-status >/dev/null 2>&1 && command -v apparmor_parser >/dev/null 2>&1 \\
+    && aa-status --enabled >/dev/null 2>&1; then
+    apparmor_parser -r -T -W "$profile" \\
+        || echo "overtalk: could not load $profile; see docs/PLATFORMS.md (Ubuntu and AppArmor)" >&2
+fi
+exit 0
+"""
+POSTRM = """#!/bin/sh
+set -e
+profile=/etc/apparmor.d/@NAME@
+if [ "$1" = remove ] && [ -z "${DPKG_ROOT:-}" ] && [ -f "$profile" ] \\
+    && command -v aa-status >/dev/null 2>&1 && command -v apparmor_parser >/dev/null 2>&1 \\
+    && aa-status --enabled >/dev/null 2>&1; then
+    apparmor_parser -R "$profile" || true
+fi
+exit 0
 """
 
 
@@ -281,6 +315,14 @@ def build_deb(args, tree, version, epoch, work):
         " is Apache-2.0). Third-party notices,\n"
         " including statically linked ONNX Runtime, whisper.cpp and llama.cpp,\n"
         f" are in /usr/share/doc/{args.package}/licenses/.\n")
+    # Lets the worker launcher create user namespaces on Ubuntu 23.10+, where
+    # AppArmor restricts them. The profile is named for the package, so another
+    # edition's package cannot collide with this one.
+    profile_name = f"{args.package}-worker"
+    (root / "etc/apparmor.d").mkdir(parents=True)
+    (root / "etc/apparmor.d" / profile_name).write_text(
+        (HERE / "overtalk-worker.apparmor").read_text()
+        .replace("@NAME@", profile_name).replace("@PROGRAM@", f"/usr/lib/{args.package}/bin/overtalk-worker"))
     executables = sorted((prefix / "bin").iterdir())
     # The window opens its display, input and GL libraries at run time, which
     # dpkg-shlibdeps cannot see; without libxkbcommon-x11 it panics under X11.
@@ -294,6 +336,8 @@ def build_deb(args, tree, version, epoch, work):
         "Maintainer": args.maintainer,
         "Installed-Size": str((size + 1023) // 1024),
         "Depends": depends,
+        # The profile uses the AppArmor 4 syntax; an older parser would fail to load it at boot.
+        "Breaks": "apparmor (<< 4.0)",
         # System audio is captured from PulseAudio monitor sources.
         "Recommends": "pipewire-pulse | pulseaudio",
         "Section": "sound",
@@ -305,6 +349,10 @@ def build_deb(args, tree, version, epoch, work):
                       Provides=", ".join(args.conflicts))
     fields["Description"] = DESCRIPTION
     (root / "DEBIAN").mkdir()
+    (root / "DEBIAN/conffiles").write_text(f"/etc/apparmor.d/{profile_name}\n")
+    for script, text in {"postinst": POSTINST, "postrm": POSTRM}.items():
+        (root / "DEBIAN" / script).write_text(text.replace("@NAME@", profile_name))
+        (root / "DEBIAN" / script).chmod(0o755)
     (root / "DEBIAN/control").write_text("".join(f"{key}: {value}\n" for key, value in fields.items()))
     normalise(root, epoch)
     deb = args.out / f"{args.package}_{version}_amd64.deb"

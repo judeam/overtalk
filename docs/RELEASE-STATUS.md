@@ -11,9 +11,10 @@ from source ([Building](BUILDING.md)).
   and Python test suites pass, Clippy runs with warnings denied, and the pinned
   secret scan finds nothing in the source or its history.
 - **Stock Ubuntu 23.10 and later** restrict unprivileged user namespaces through
-  AppArmor. On GitHub's stock Ubuntu 24.04 runner this stops the bubblewrap worker
-  sandbox, so local models would not run; see [Platforms](PLATFORMS.md). CI lifts
-  the restriction for its tests.
+  AppArmor, which stops the bubblewrap worker sandbox. The `.deb` ships a profile
+  for the worker launcher and the package workflow proves it on GitHub's stock
+  Ubuntu 24.04 runner; the AppImage cannot, and says so at start-up. The `ci.yml`
+  tests still lift the restriction. See [Platforms](PLATFORMS.md#ubuntu-and-apparmor).
 - **Windows and macOS:** CI builds the native app, engine and worker sandbox on
   GitHub's Windows and macOS runners and passes their Rust test suites, including
   the sandbox isolation test. The package workflow builds the Linux, Windows and
@@ -32,8 +33,8 @@ from source ([Building](BUILDING.md)).
 4. **Signing.** Sign in a job that builds nothing, so dependency build scripts never
    run with signing keys available. macOS builds need a Developer ID, the hardened
    runtime and notarisation; Windows builds need an Authenticode certificate.
-5. **Ubuntu packages.** Ship and test an AppArmor profile (or another supported way)
-   so the worker sandbox runs on a stock Ubuntu 24.04 install.
+5. **Ubuntu 24.10 and later.** The 24.04 fix is proven in CI. Try the `.deb` on a stock
+   install of the newest Ubuntu release before publishing; no hosted runner covers it.
 6. **Real hardware.** Record and transcribe on a Windows and a Mac computer; CI
    runners have no microphone or speakers.
 

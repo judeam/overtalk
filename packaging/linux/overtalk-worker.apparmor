@@ -1,0 +1,70 @@
+# AppArmor profiles for Overtalk's worker launcher, modelled on AppArmor's
+# bwrap-userns-restrict.
+#
+# Ubuntu 23.10 and later restrict unprivileged user namespaces
+# (kernel.apparmor_restrict_unprivileged_userns=1): a program may create one only
+# if its profile says `userns,`, and without a profile it loses its capabilities
+# inside it, so bubblewrap fails to configure the sandbox's network namespace.
+#
+# Only bubblewrap, started by the launcher, may create the namespace:
+#   @NAME@         the launcher. It allows everything except `userns`, so code
+#                  injected into it (LD_PRELOAD and the like) cannot make a namespace.
+#   @NAME@-bwrap   /usr/bin/bwrap as run by the launcher. It may create the
+#                  namespace and use capabilities in it, and stacks the
+#                  workload's profile on exec.
+#   @NAME@-unpriv  stacked onto the workload: no capabilities, no new namespaces.
+# The profile is not attached to /usr/bin/bwrap, so other programs that run
+# bubblewrap are unaffected. Site changes go in /etc/apparmor.d/local/@NAME@.
+abi <abi/4.0>,
+
+include <tunables/global>
+
+profile @NAME@ @PROGRAM@ flags=(attach_disconnected,mediate_deleted) {
+  allow file rwlkm /{**,},
+  allow network,
+  allow unix,
+  allow signal,
+  allow ptrace,
+  allow mqueue,
+  allow io_uring,
+  deny userns,
+
+  /usr/bin/bwrap px -> @NAME@-bwrap,
+
+  include if exists <local/@NAME@>
+}
+
+profile @NAME@-bwrap flags=(attach_disconnected,mediate_deleted) {
+  allow capability,
+  allow file rwlkm /{**,},
+  allow network,
+  allow unix,
+  allow signal,
+  allow ptrace,
+  allow mqueue,
+  allow io_uring,
+  allow userns,
+  allow mount,
+  allow umount,
+  allow pivot_root,
+
+  # bubblewrap sets no-new-privs, which allows only a stack on exec.
+  allow pix /** -> &@NAME@-bwrap//&@NAME@-unpriv,
+}
+
+profile @NAME@-unpriv flags=(attach_disconnected,mediate_deleted) {
+  allow file rwlkm /{**,},
+  allow network,
+  allow unix,
+  allow signal,
+  allow ptrace,
+  allow mqueue,
+  allow io_uring,
+  allow mount,
+  allow umount,
+  allow pivot_root,
+  deny userns,
+  deny capability,
+
+  allow pix /** -> &@NAME@-unpriv,
+}

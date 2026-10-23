@@ -120,6 +120,43 @@ jobs:
           done
           grep -q '^  webkit2gtk ' "$image/bundled-libraries/SOURCE-OFFER.txt"
           test -s "$image/bundled-libraries/libgtk-3-0t64.copyright"
+      # GitHub's Ubuntu 24.04 runner restricts unprivileged user namespaces through AppArmor,
+      # like a stock install. The sandbox must start from the installed package with the
+      # restriction left on, fail without the profile, and fail again once the package is removed.
+      - name: Install the .deb and run a sandboxed worker under AppArmor
+        run: |
+          dist="$GITHUB_WORKSPACE/target/package-linux/dist"
+          debs=("$dist"/overtalk_*_amd64.deb)
+          installed=/usr/lib/overtalk/bin/overtalk-worker
+          unprofiled="$RUNNER_TEMP/deb/usr/lib/overtalk/bin/overtalk-worker"
+          check=scripts/check-worker-sandbox.py
+          test "$(sysctl -n kernel.apparmor_restrict_unprivileged_userns)" = 1
+          echo "::group::Before installing: no profile, so the sandbox must be blocked"
+          python -I "$check" --expect-blocked "$unprofiled"
+          echo "::endgroup::"
+          sudo apt-get install -y "${debs[0]}"
+          test "$(sysctl -n kernel.apparmor_restrict_unprivileged_userns)" = 1
+          status=$(sudo aa-status)
+          grep -qx '   overtalk-worker' <<< "$status" || { echo "$status"; echo "::error::postinst did not load the profile"; exit 1; }
+          echo "::group::Installed worker, profile loaded: must run, and injected code must get no user namespace"
+          python -I "$check" --injection-attack "$installed"
+          echo "::endgroup::"
+          echo "::group::Same binary at another path: the profile must not apply"
+          python -I "$check" --expect-blocked "$unprofiled"
+          echo "::endgroup::"
+          echo "::group::Installed worker, profile unloaded: must be blocked"
+          sudo apparmor_parser -R /etc/apparmor.d/overtalk-worker
+          python -I "$check" --expect-blocked "$installed"
+          echo "::endgroup::"
+          echo "::group::Profile reloaded: must run again"
+          sudo apparmor_parser -r -T -W /etc/apparmor.d/overtalk-worker
+          python -I "$check" "$installed"
+          echo "::endgroup::"
+          sudo apt-get remove -y overtalk
+          status=$(sudo aa-status)
+          if grep -q 'overtalk-worker' <<< "$status"; then echo "$status"; echo "::error::postrm left the profile loaded"; exit 1; fi
+          sudo apt-get purge -y overtalk
+          test ! -e /etc/apparmor.d/overtalk-worker
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: overtalk-linux

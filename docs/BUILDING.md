@@ -156,10 +156,11 @@ bubblewrap`) and keep unprivileged user namespaces available. Worker launch fail
 closed if the OS cannot apply isolation. Do not bypass it to troubleshoot models.
 Ubuntu 23.10 and later, including 24.04, restrict unprivileged user namespaces
 through AppArmor (`kernel.apparmor_restrict_unprivileged_userns=1`), which can stop
-bubblewrap; workers then fail closed. The fixes are an AppArmor profile for
-`/usr/bin/bwrap` that allows `userns`, or setting that sysctl to `0`, which weakens
-a system-wide hardening. On GitHub's stock Ubuntu 24.04 runner bubblewrap stops with
-`loopback: Failed RTM_NEWADDR: Operation not permitted`; CI uses the sysctl. See
+bubblewrap; workers then fail closed. The `.deb` ships an AppArmor profile for
+`overtalk-worker` that allows `userns`; for other installs, setting that sysctl to
+`0` works but weakens a system-wide hardening. On GitHub's stock Ubuntu 24.04 runner
+bubblewrap stops with `loopback: Failed RTM_NEWADDR: Operation not permitted`; the
+`ci.yml` tests use the sysctl, the package workflow tests the profile. See
 [Platforms](PLATFORMS.md#ubuntu-and-apparmor).
 Windows uses AppContainer; macOS uses Seatbelt. The CI workflow is configured to
 run the worker's file, environment and network denial probes on all three platforms. See
