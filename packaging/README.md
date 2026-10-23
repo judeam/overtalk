@@ -189,7 +189,8 @@ staged tree, a build record and `SHA256SUMS`. Their layout, prerequisites,
 bundled components and signing steps are in
 [docs/PLATFORMS.md](../docs/PLATFORMS.md#building-the-packages).
 `.github/workflows/package.yml` builds all three and smoke-tests the packaged
-engine; `release.yml` attaches them to a draft release.
+engine; when a version tag is pushed, `release.yml` publishes them on a GitHub
+release with one `SHA256SUMS` and build-provenance attestations.
 
 ### FFmpeg on Windows and macOS
 
