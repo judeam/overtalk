@@ -1,37 +1,50 @@
-name: Draft release
-# Started by hand. Builds and smoke-tests the Linux, Windows and macOS packages
-# (package.yml), then attaches them to a *draft* GitHub release with one
-# combined SHA256SUMS. It never publishes: the owner reviews the draft and
-# publishes it, which is when GitHub creates the tag. Signing uses the owner's
-# secrets when they are set (docs/PLATFORMS.md#signing).
+name: Release
+# Pushing a version tag (v0.1.0, v0.2.0-rc.1; `python scripts/release.py` makes
+# one) builds and smoke-tests the Linux, Windows and macOS packages
+# (package.yml), then publishes them on a GitHub release with one combined
+# SHA256SUMS and build-provenance attestations. Versions below 1.0.0 and
+# suffixed versions are marked as pre-releases. Running it by hand on a tag
+# (`gh workflow run release.yml --ref v0.1.0`) rebuilds that tag's packages and
+# replaces the release's files. Signing uses the owner's secrets when they are
+# set (docs/PLATFORMS.md#signing).
 on:
+  push:
+    tags: ['v[0-9]+.[0-9]+.[0-9]+*']
   workflow_dispatch:
-    inputs:
-      tag:
-        description: Tag for the draft, such as v0.1.0 (created only when the draft is published)
-        required: true
-        type: string
 permissions:
   contents: read
 concurrency:
-  group: release-${{ inputs.tag }}
+  group: release-${{ github.ref_name }}
   cancel-in-progress: false
 jobs:
   version:
-    name: Check the release tag
+    name: Check the tag, versions and changelog
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     outputs:
-      version: ${{ steps.version.outputs.version }}
+      tag: ${{ steps.check.outputs.tag }}
+      version: ${{ steps.check.outputs.version }}
     steps:
-      - id: version
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - id: check
         env:
-          TAG: ${{ inputs.tag }}
+          REF_TYPE: ${{ github.ref_type }}
+          TAG: ${{ github.ref_name }}
         run: |
-          if ! [[ "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.]+)?$ ]]; then
-            echo "::error::Use a tag such as v0.1.0 or v0.2.0-rc.1"
+          if [ "$REF_TYPE" != tag ]; then
+            echo "::error::Run this workflow on a tag: gh workflow run release.yml --ref v0.1.0"
             exit 1
           fi
+          python scripts/release.py --check "$TAG"
+          # Only commits that reached main, where CI validated them, are released.
+          git merge-base --is-ancestor HEAD origin/main || {
+            echo "::error::$TAG is not on main"
+            exit 1
+          }
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
           echo "version=${TAG#v}" >> "$GITHUB_OUTPUT"
 
   package:
@@ -52,14 +65,19 @@ jobs:
       APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
       APPLE_APP_PASSWORD: ${{ secrets.APPLE_APP_PASSWORD }}
 
-  draft:
-    name: Attach the packages to a draft release
+  publish:
+    name: Publish the release
     needs: [version, package]
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     permissions:
-      contents: write # create or update a draft release; this job never publishes one
+      contents: write # create the release and upload its files
+      id-token: write # sign the build-provenance attestations
+      attestations: write # store them with the repository
     steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           pattern: overtalk-*
@@ -70,34 +88,26 @@ jobs:
           find packages -type f ! -name SHA256SUMS ! -name 'SHA256SUMS.*' -exec cp -n {} upload/ \;
           (cd upload && sha256sum -- * > SHA256SUMS)
           cat upload/SHA256SUMS
-      - name: Create or update the draft
+      - uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        with:
+          subject-path: upload/*
+      - name: Write the release notes
+        env:
+          VERSION: ${{ needs.version.outputs.version }}
+        run: python scripts/release.py --notes "$VERSION" --packages upload > notes.md
+      - name: Create the release, or replace the files of an existing one
         env:
           GH_TOKEN: ${{ github.token }}
           REPOSITORY: ${{ github.repository }}
-          TAG: ${{ inputs.tag }}
-          TARGET: ${{ github.sha }}
+          TAG: ${{ needs.version.outputs.tag }}
           VERSION: ${{ needs.version.outputs.version }}
         run: |
-          {
-            echo "Overtalk $VERSION, built from $TARGET by the Draft release workflow."
-            echo
-            echo "- Linux: \`.deb\` (Ubuntu 24.04+, Debian 13+) and AppImage, x86-64-v3 CPUs."
-            echo "- Windows 10/11 x64: per-user installer and portable zip."
-            echo "- macOS 14.2+ (Apple silicon): \`.dmg\`."
-            echo
-            echo "Verify downloads with \`sha256sum -c --ignore-missing SHA256SUMS\`."
-            echo "Check each build record (\`*-build-info.json\`) for its signature state before publishing:"
-            echo "unsigned Windows installers trigger SmartScreen, and ad-hoc signed macOS apps need"
-            echo "System Settings > Privacy & Security > Open Anyway."
-          } > notes.md
-          if draft=$(gh release view "$TAG" --repo "$REPOSITORY" --json isDraft --jq .isDraft 2>/dev/null); then
-            if [ "$draft" != "true" ]; then
-              echo "::error::$TAG is already published; this workflow only prepares drafts"
-              exit 1
-            fi
+          prerelease=()
+          if [[ "$VERSION" == 0.* || "$VERSION" == *-* ]]; then prerelease=(--prerelease); fi
+          if gh release view "$TAG" --repo "$REPOSITORY" > /dev/null 2>&1; then
             gh release upload "$TAG" upload/* --repo "$REPOSITORY" --clobber
-            gh release edit "$TAG" --repo "$REPOSITORY" --draft --target "$TARGET" --notes-file notes.md
+            gh release edit "$TAG" --repo "$REPOSITORY" --notes-file notes.md
           else
-            gh release create "$TAG" upload/* --repo "$REPOSITORY" --draft --target "$TARGET" \
+            gh release create "$TAG" upload/* --repo "$REPOSITORY" --verify-tag "${prerelease[@]}" \
               --title "Overtalk $VERSION" --notes-file notes.md
           fi
