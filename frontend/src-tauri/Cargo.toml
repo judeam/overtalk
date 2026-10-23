@@ -74,7 +74,7 @@ overtalk-voice-memory = { path = "../../crates/voice-memory" }
 notify = "8.2.0"
 overtalk-documents = { path = "../../crates/meeting-documents" }
 overtalk-library-reads = { path = "../../crates/library-reads" }
-rodio = { version = "0.20.1", default-features = false, features = ["symphonia-all"] }
+rodio = { version = "0.23.0", default-features = false, features = ["symphonia-all"] }
 overtalk-protocol = { path = "../../crates/desktop-protocol" }
 sha2 = "0.11"
 age = { version = "0.12.1", default-features = false }
