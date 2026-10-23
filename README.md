@@ -10,7 +10,7 @@
   <a href="#documentation">Documentation</a> ·
   <a href="#contribute">Contribute</a>
 </p>
-<p align="center"><sub>Developer preview 0.1.0 · No binary release yet: build from source · Tested on Linux; Windows and macOS unverified</sub></p>
+<p align="center"><sub>Developer preview 0.1.0 · <a href="https://github.com/judeam/overtalk/releases">Packages for Linux, Windows and macOS</a> · Tested on Linux; Windows and macOS unverified</sub></p>
 
 ![Overtalk's native meeting workspace: speaker lanes above editable notes, with source-linked decisions beside the document.](docs/media/notes.png)
 
@@ -58,7 +58,7 @@ All images use synthetic meetings in an isolated demo profile. The demo shows th
 
 ## Get started
 
-Overtalk is an early developer preview (0.1.0) under active development. **No release has been published yet: build it from source.** **Linux is the tested desktop path**, and its packaging scripts produce a `.deb` and an AppImage. Windows (NSIS installer and portable zip) and macOS 14.2+ (`.app` in a `.dmg`) build, package and smoke-test in CI, but those jobs have not run yet and recording has not been verified on real Windows or Mac hardware; see [platform status](docs/PLATFORMS.md). Do not treat that as a ready-to-install release promise.
+Overtalk is an early developer preview (0.1.0) under active development. **Packages are on the [releases page](https://github.com/judeam/overtalk/releases):** a `.deb` and an AppImage for Linux, an installer and a portable zip for Windows, and a `.dmg` for macOS 14.2+ on Apple silicon. **Linux is the tested desktop path.** The Windows and macOS packages build, install and start in CI, but recording has not been verified on real Windows or Mac hardware and they are not code-signed yet; see [release status](docs/RELEASE-STATUS.md).
 
 | You want to… | Start here |
 | --- | --- |

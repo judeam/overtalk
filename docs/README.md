@@ -21,7 +21,7 @@
 
 ## Reference
 
-- [Release status](RELEASE-STATUS.md): what has been checked for 0.1.0 and what must happen before a binary release.
+- [Release status](RELEASE-STATUS.md): what has been checked for 0.1.0 and what must happen before a stable release.
 - [Codebase map](CODEBASE-MAP.md): which module owns which behavior.
 - [Platforms](PLATFORMS.md): what is verified on Linux, Windows and macOS, install layout, capture, worker isolation and signing.
 - [Local quality baseline](QUALITY_BASELINE.md): the tested model profile and the automatic hardware defaults.

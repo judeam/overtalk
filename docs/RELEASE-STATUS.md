@@ -1,7 +1,8 @@
 # Release status
 
-Overtalk 0.1.0 is a developer preview. No binary has been published: build it
-from source ([Building](BUILDING.md)).
+Overtalk 0.1.0 is a developer preview. Its packages for Linux, Windows and macOS
+are on the [releases page](https://github.com/judeam/overtalk/releases), or build
+it from source ([Building](BUILDING.md)).
 
 ## What has been checked
 
@@ -18,27 +19,25 @@ from source ([Building](BUILDING.md)).
 - **Windows and macOS:** CI builds the native app, engine and worker sandbox on
   GitHub's Windows and macOS runners and passes their Rust test suites, including
   the sandbox isolation test. The package workflow builds the Linux, Windows and
-  macOS packages, and installs the Windows one silently to smoke-test its engine.
+  macOS packages, installs or mounts each one and starts its engine, and runs the
+  bundled FFmpeg through the commands Overtalk issues (`packaging/ffmpeg/smoke.py`).
   Recording has not been tried on real Windows or Mac hardware.
+- **Licences:** every package carries [NOTICE.md](../NOTICE.md) and the licence
+  texts of the Rust crates compiled into it. The AppImage adds the copyright files
+  of the system libraries it bundles and an offer of their source. The Windows and
+  macOS packages bundle an LGPL FFmpeg that CI builds from pinned source
+  (`packaging/ffmpeg/`); each release attaches its two source tarballs.
 
-## Before the first binary release
+## Before a stable release
 
-1. **Third-party notices.** Ship generated license notices for the Rust crates
-   compiled into the binaries, alongside [NOTICE.md](../NOTICE.md).
-2. **FFmpeg on Windows and macOS.** Both packages bundle an LGPL build that CI
-   compiles from pinned FFmpeg 9.0.2 and libopus 1.6.1 source
-   (`packaging/ffmpeg/`), and ship the licences, the exact configure lines and
-   both source tarballs with the release. Still open: the screen recorder asks
-   for libx264, which an LGPL build lacks, so `crates/capture-helper` needs the
-   platform H.264 encoder (and the Windows build has none yet).
-3. **AppImage libraries.** Ship the copyright files of the bundled system libraries
-   and an LGPL source offer.
-4. **Signing.** Sign in a job that builds nothing, so dependency build scripts never
+1. **Signing.** Sign in a job that builds nothing, so dependency build scripts never
    run with signing keys available. macOS builds need a Developer ID, the hardened
-   runtime and notarisation; Windows builds need an Authenticode certificate.
-5. **Ubuntu 24.10 and later.** The 24.04 fix is proven in CI. Try the `.deb` on a stock
-   install of the newest Ubuntu release before publishing; no hosted runner covers it.
-6. **Real hardware.** Record and transcribe on a Windows and a Mac computer; CI
-   runners have no microphone or speakers.
+   runtime and notarisation; Windows builds need an Authenticode certificate. Until
+   then Windows SmartScreen warns, and macOS blocks the first launch until it is
+   allowed in Privacy & Security.
+2. **Ubuntu 24.10 and later.** The 24.04 fix is proven in CI. Try the `.deb` on a
+   stock install of the newest Ubuntu release; no hosted runner covers it.
+3. **Real hardware.** Record and transcribe on a Windows and a Mac computer,
+   including a screen recording; CI runners have no microphone or speakers.
 
 Security problems go through [SECURITY.md](../SECURITY.md), not this page.

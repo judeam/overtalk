@@ -4,7 +4,8 @@
 
 Overtalk began on 30 September 2026 as a fork of the Meetily community edition
 (v0.4.1, MIT). See [where Overtalk comes from](README.md#where-overtalk-comes-from).
-This preview is built from source; Linux is the tested desktop path.
+Packages for Linux, Windows and macOS are attached to the release; Linux is the
+tested desktop path.
 
 **Record and transcribe on your computer**
 - Records the microphone and the call's audio without a meeting bot, and imports
@@ -37,11 +38,12 @@ This preview is built from source; Linux is the tested desktop path.
 **Privacy and packaging**
 - A local usage report, kept on the computer; no telemetry.
 - Optional private AI summaries through Privatemode, encrypted on the computer.
-- Linux packages: `.deb` and AppImage (`packaging/`).
+- Packages: a `.deb` and an AppImage for Linux, an installer and a portable zip for
+  Windows, and a `.dmg` for macOS 14.2+ on Apple silicon (`packaging/`).
 
 **Known limits**
-- Windows and macOS builds are not yet validated on real hardware, and there are no
-  signed installers.
+- The Windows and macOS packages are not yet tried on real hardware or code-signed.
+- The `.deb` is tested on Ubuntu 24.04; newer Ubuntu releases are untested.
 - On real meetings the built-in speech engine misses many words: on the AMI test set
   (16 recorded meetings, 9 hours per condition) its word error rate is 34.8% on a
   headset mix and 38.3% on one table microphone, mostly deletions where people talk
@@ -118,3 +120,20 @@ This preview is built from source; Linux is the tested desktop path.
   - The Rust, npm and Python audits report no known vulnerabilities.
   - With keyring 4, if the Linux Secret Service is unavailable when credentials are
     first needed, they stay unavailable until Overtalk restarts.
+
+**Downloadable packages (23 October 2026)**
+- Pushing a version tag builds, tests and publishes the packages on GitHub Releases
+  with one `SHA256SUMS` file and build-provenance attestations
+  (`.github/workflows/release.yml`); `python scripts/release.py <version>` sets the
+  version and makes the tag.
+- Every package carries the licence texts of the Rust crates compiled into it. The
+  AppImage adds the copyright files of the system libraries it bundles and an offer
+  of their source.
+- The Windows and macOS packages bundle an LGPL FFmpeg 9.0.2 with libopus 1.6.1,
+  built in CI from source pinned by SHA-256. Each release attaches both source
+  tarballs. Without libx264, the screen recorder there writes MPEG-4 video.
+- On Ubuntu 23.10 and later, where AppArmor restricts unprivileged user namespaces,
+  the `.deb` installs an AppArmor profile so the worker sandbox runs. CI checks that
+  code injected into the launcher cannot use the profile's permissions. The
+  AppImage cannot install one and warns at start-up.
+- ctutils 0.4.5 fixes RUSTSEC-2026-0385.
