@@ -24,7 +24,7 @@ import urllib.request
 ROOT = Path(__file__).resolve().parents[2]
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT / "scripts"))
-from native_licenses import stage_licenses  # noqa: E402
+from native_licenses import stage_crate_notices, stage_licenses  # noqa: E402
 from worker_build import verify_binary  # noqa: E402
 
 APP_ID = "io.github.judeam.Overtalk"
@@ -218,6 +218,7 @@ def stage(args, binaries, tree):
     share = tree / "share"
     licenses = share / "licenses" / APP_ID
     stage_licenses(licenses)
+    stage_crate_notices(licenses)
     for source in sorted((HERE / "licenses").iterdir()):
         shutil.copyfile(source, licenses / source.name)
     # whisper.cpp and llama.cpp are compiled into the engine and the helper.
@@ -324,6 +325,52 @@ def bundled_libraries(executables):
     return libraries
 
 
+LIBRARY_NOTICE = """Libraries in this AppImage
+==========================
+
+So that it runs on other distributions, the AppImage carries unmodified shared
+libraries from {system} packages. Each package's copyright file is in this
+folder.
+
+Several are licensed under the GNU LGPL or GPL. Their complete corresponding
+source code is the {system} source package and version listed below, available
+{where}.
+
+For at least three years after we last distribute this AppImage, we will also
+give anyone who asks a copy of that source code, for no more than the cost of
+providing it. Write to hello@overtalk.io and name the AppImage version.
+
+Source packages:
+{sources}
+"""
+
+
+def library_notices(libraries, folder):
+    """Each bundled library's copyright file and the source offer its licence asks for."""
+    folder.mkdir(parents=True)
+    sources = set()
+    for path in sorted(set(libraries.values())):
+        # Merged-/usr systems list some libraries under /lib in the package database.
+        owner = None
+        for candidate in [path, Path(str(path).replace("/usr/lib/", "/lib/", 1))]:
+            found = subprocess.run(["dpkg", "-S", str(candidate)], capture_output=True, text=True)
+            if found.returncode == 0:
+                owner = found.stdout.split(": ", 1)[0]
+                break
+        if not owner:
+            raise SystemExit(f"{path} belongs to no installed package; cannot write its notice")
+        package = owner.split(":")[0]
+        shutil.copyfile(Path("/usr/share/doc") / package / "copyright", folder / f"{package}.copyright")
+        sources.add(tuple(output(["dpkg-query", "-W", "-f", "${source:Package}\t${source:Version}", owner]).split("\t")))
+    release = dict(line.split("=", 1) for line in Path("/etc/os-release").read_text().splitlines() if "=" in line)
+    system = release.get("PRETTY_NAME", "Linux").strip('"')
+    where = ("from https://launchpad.net/ubuntu/+source/<package>/<version> and with\n"
+             "`apt-get source <package>=<version>`" if release.get("ID") == "ubuntu" else
+             "with `apt-get source <package>=<version>`")
+    (folder / "SOURCE-OFFER.txt").write_text(LIBRARY_NOTICE.format(
+        system=system, where=where, sources="\n".join(f"  {name} {version}" for name, version in sorted(sources))))
+
+
 def appimage_runtime(args):
     path = args.appimage_runtime
     if path is None:
@@ -357,6 +404,7 @@ def build_appimage(args, tree, version, epoch, work):
         run(["patchelf", "--set-rpath", "$ORIGIN", target])
     for executable in executables:
         run(["patchelf", "--set-rpath", "$ORIGIN/../lib", executable])
+    library_notices(libraries, usr / "share/licenses" / APP_ID / "bundled-libraries")
     (usr / "lib/gio/modules").mkdir(parents=True)
     (appdir / "AppRun").write_text(APPRUN)
     (appdir / "AppRun").chmod(0o755)

@@ -18,7 +18,7 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
-from native_licenses import stage_licenses  # noqa: E402
+from native_licenses import stage_crate_notices, stage_licenses  # noqa: E402
 
 APP_ID = "io.github.judeam.Overtalk"
 HOMEPAGE = "https://github.com/judeam/overtalk"
@@ -198,6 +198,7 @@ def numeric_version(version, parts=3):
 def stage_all_licenses(licenses):
     """The notices every package ships, plus the native libraries compiled in."""
     stage_licenses(licenses)
+    stage_crate_notices(licenses)
     # ONNX Runtime 1.22.0: linked statically on Linux and macOS, a DLL on Windows.
     for source in sorted((ROOT / "packaging/linux/licenses").iterdir()):
         shutil.copyfile(source, licenses / source.name)

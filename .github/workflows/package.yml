@@ -76,6 +76,10 @@ jobs:
       - uses: dtolnay/rust-toolchain@683b588c487a69d01f6c6ddf40f036ff682cc2c8 # master; the version is set by toolchain
         with:
           toolchain: '1.94.0'
+      # Writes the notices of the Rust crates compiled in (scripts/native_licenses.py).
+      - uses: taiki-e/install-action@a4d3f3f761dcd95cce1b72cb61cb6d1963438177 # v2.87.30
+        with:
+          tool: cargo-about@0.9.2
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: '3.12'
@@ -106,6 +110,16 @@ jobs:
           (cd "$RUNNER_TEMP" && "${images[0]}" --appimage-extract > /dev/null)
           "$RUNNER_TEMP/squashfs-root/AppRun" cli --version
           xvfb-run -a dbus-run-session -- python scripts/check-native-service.py "$RUNNER_TEMP/squashfs-root/usr/bin/sonefold-service"
+      - name: Check both packages carry the third-party notices
+        run: |
+          deb="$RUNNER_TEMP/deb/usr/share/doc/overtalk/licenses"
+          image="$RUNNER_TEMP/squashfs-root/usr/share/licenses/io.github.judeam.Overtalk"
+          for notices in "$deb" "$image"; do
+            grep -q '^  slint ' "$notices/THIRD-PARTY-RUST.txt"
+            grep -q '^MIT License (MIT)$' "$notices/THIRD-PARTY-RUST.txt"
+          done
+          grep -q '^  webkit2gtk ' "$image/bundled-libraries/SOURCE-OFFER.txt"
+          test -s "$image/bundled-libraries/libgtk-3-0t64.copyright"
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: overtalk-linux
@@ -127,6 +141,10 @@ jobs:
       - uses: dtolnay/rust-toolchain@683b588c487a69d01f6c6ddf40f036ff682cc2c8 # master; the version is set by toolchain
         with:
           toolchain: '1.94.0'
+      # Writes the notices of the Rust crates compiled in (scripts/native_licenses.py).
+      - uses: taiki-e/install-action@a4d3f3f761dcd95cce1b72cb61cb6d1963438177 # v2.87.30
+        with:
+          tool: cargo-about@0.9.2
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: '3.12'
@@ -218,6 +236,10 @@ jobs:
       - uses: dtolnay/rust-toolchain@683b588c487a69d01f6c6ddf40f036ff682cc2c8 # master; the version is set by toolchain
         with:
           toolchain: '1.94.0'
+      # Writes the notices of the Rust crates compiled in (scripts/native_licenses.py).
+      - uses: taiki-e/install-action@a4d3f3f761dcd95cce1b72cb61cb6d1963438177 # v2.87.30
+        with:
+          tool: cargo-about@0.9.2
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: '3.12'

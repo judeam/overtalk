@@ -1,0 +1,25 @@
+Rust crates compiled into Overtalk
+==================================
+
+Overtalk's programs are built from the Rust crates listed here. Each crate's
+source code is published on crates.io (https://crates.io) at the version shown,
+including the crates used under the MPL-2.0, which are unmodified. Each licence
+is reproduced once, followed by the crates used under it.
+
+{{#each licenses}}
+--------------------------------------------------------------------------------
+{{{name}}} ({{{id}}})
+
+Used by:
+{{#each used_by}}  {{crate.name}} {{crate.version}}
+{{/each}}
+
+{{{text}}}
+
+{{/each}}
+{{!-- Every crate with its licence expression, after a marker. stage_crate_notices
+uses it to list the Slint crates, whose LicenseRef text cargo-about cannot read,
+and removes it. --}}
+@@CRATES@@
+{{#each crates}}{{package.name}} {{package.version}} | {{license}}
+{{/each}}
