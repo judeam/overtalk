@@ -2,7 +2,7 @@
 # The Apache-2.0 original-checkpoint adapter lives in sonefold_speech/vendor.
 # Do not install qwen-asr: 0.0.6 pins vulnerable dependency versions.
 torch==2.14.1
-transformers==5.20.1
+transformers==5.20.2
 accelerate==1.15.0
 tokenizers>=0.23.1,<0.24
 safetensors>=0.8,<1
